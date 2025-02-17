@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Construction, Terminal, HardHat } from 'lucide-react';
+import { Construction, Terminal, HardHat, PlusCircle } from 'lucide-react';
 import Navigation from '../components/Navigation';
 
 function Challenges() {
@@ -84,6 +84,17 @@ function Challenges() {
             <Terminal className="w-8 h-8 text-primary-blue" />
             <h1 className="text-3xl font-bold">Challenges</h1>
           </div>
+
+          <Link
+            to="/challenges/submit"
+            className="bg-primary-blue text-background px-6 py-2 rounded-lg hover:bg-secondary-blue transition flex items-center space-x-2 mr-4"
+          >
+            <PlusCircle className="w-5 h-5" />
+            <div className="flex flex-col items-start">
+              <span className="text-xs font-semibold">GET RECOGNIZED</span>
+              <span>Submit a Challenge</span>
+            </div>
+          </Link>
 
           <div className="flex items-center space-x-4">
             <div className="relative">
