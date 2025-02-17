@@ -27,6 +27,7 @@ import Pricing from './pages/Pricing';
 import PublicProfile from './pages/Public_Profile';
 import Search from './pages/Search';
 import NotFound from './pages/NotFound';
+import SubmitChallenge from './pages/SubmitChallenge';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path="/challenges" element={<Challenges />} />
           <Route path="/challenges/powershell-logs" element={<PowerShellChallenge />} />
           <Route path="/challenges/miner-on-the-run" element={<MinerOnTheRun />} /> 
+          <Route path="/challenges/submit" element={<SubmitChallenge />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/profile" element={<Profile />} />
