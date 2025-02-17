@@ -80,11 +80,19 @@ function Challenges() {
 
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <Terminal className="w-8 h-8 text-primary-blue" />
-            <h1 className="text-3xl font-bold">Challenges</h1>
+          <div>
+            <div className="flex items-center space-x-4">
+              <Terminal className="w-8 h-8 text-primary-blue" />
+              <h1 className="text-3xl font-bold">Challenges</h1>
+            </div>
+            <p className="mt-4 text-xl text-gray-400 max-w-3xl">
+              Put Your Skills to the Test<br />
+              Step into the role of a cybersecurity investigator and tackle real-world challenges designed to sharpen your defensive expertise. Analyze security incidents, uncover hidden threats, and piece together the story behind cyber attacks using the knowledge you've gained. Are you ready to take on the challenge?
+            </p>
           </div>
+        </div>
 
+        <div className="flex items-center justify-between mb-8">
           <Link
             to="/challenges/submit"
             className="bg-primary-blue text-background px-6 py-2 rounded-lg hover:bg-secondary-blue transition flex items-center space-x-2 mr-4"
