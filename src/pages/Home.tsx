@@ -42,7 +42,7 @@ function Home() {
         </div>
   
         <div className="relative w-full overflow-hidden">
-          <div className="flex items-center space-x-10 animate-marquee">
+          <div className="flex items-center space-x-10 animate-marquee-left">
             {[...companies, ...companies].map((company, index) => (
               <img
                 key={index}
@@ -146,51 +146,20 @@ function Home() {
           </div>
         </div>
 
-        {/* Choose Logo */}
-        <div className="mb-16 reveal transform hover:scale-105 transition-transform duration-300 relative">
+        {/* Main Image with Link */}
+        <Link 
+          to="/learning-paths" 
+          className="mb-16 reveal transform hover:scale-105 transition-transform duration-300 relative w-3/4 md:w-1/2 lg:w-2/5"
+        >
           <div className="absolute inset-0 border-4 border-blue-500 rounded-lg z-0 animate-glow-blue-red"></div>
           <div className="relative z-10 p-2 border-4 border-primary-blue/30 rounded-lg">
             <img 
               src="https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/choose-path.png" 
               alt="Choose Your Path" 
-              className="w-120 h-auto animate-float"
+              className="w-full h-auto rounded-lg shadow-lg animate-float"
             />
           </div>
-        </div>
-
-        {/* Team Selection */}
-        <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto reveal">
-          <Link 
-            to="/learning-paths" 
-            className="group transform hover:scale-105 transition-all duration-300"
-          >
-            <div className="relative overflow-hidden rounded-lg">
-              <img 
-                src="https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/blue-team.png" 
-                alt="Blue Team" 
-                className="w-full h-auto rounded-lg shadow-lg group-hover:shadow-blue-500/50 transition-all duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8">
-                <span className="text-2xl font-bold text-primary-blue">Enter Blue Team Training</span>
-              </div>
-            </div>
-          </Link>
-          <Link 
-            to="/red-team" 
-            className="group transform hover:scale-105 transition-all duration-300"
-          >
-            <div className="relative overflow-hidden rounded-lg">
-              <img 
-                src="https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/red-team.png" 
-                alt="Red Team" 
-                className="w-full h-auto rounded-lg shadow-lg group-hover:shadow-red-500/50 transition-all duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8">
-                <span className="text-2xl font-bold text-primary-red">Explore Red Team Courses</span>
-              </div>
-            </div>
-          </Link>
-        </div>
+        </Link>
       </div>
 
       {/* Features Section */}
@@ -216,6 +185,18 @@ function Home() {
         </div>
       </div>
 
+      {/* Mission Statement */}
+      <div className="py-16 bg-primary-dark/30">
+        <div className="max-w-4xl mx-auto px-4 text-center reveal-scale">
+          <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-primary-blue via-primary-red to-primary-blue bg-clip-text text-transparent animate-gradient">
+            HackTheHackers – Where Practical Training Meets Theory
+          </h2>
+          <p className="text-xl text-gray-300 leading-relaxed animate-fadeIn">
+            Sharpen your cybersecurity skills with real-world, hands-on training. Our guided labs, updated weekly with the latest attack techniques and CVEs, ensure you're always ahead of emerging threats. Learn step by step at your own pace and build the expertise needed to tackle today's cybersecurity challenges with confidence.
+          </p>
+        </div>
+      </div>
+
       {/* Moving Bar */}
       <MovingBar />
 
@@ -223,6 +204,9 @@ function Home() {
       <div className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
+            <p className="text-xl text-gray-400 mb-8">
+              Join thousands of cybersecurity professionals building real-world skills with HackTheHackers.
+            </p>
             <h2 className="text-3xl font-bold mb-4">Choose Your Plan</h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Select the plan that best fits your learning goals. All plans include access to our growing library of content.
@@ -345,6 +329,30 @@ function Home() {
                   "I've gone through several courses, but this one stands out. The Windows security training was top-notch, and the practical exercises gave me real-world experience. I can immediately apply what I learned to my day-to-day job. Will definitely recommend it to my colleagues!",
                 image:
                   "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?fit=crop&w=100&h=100",
+              },
+              {
+                name: "Emily R.",
+                role: "Incident Response Analyst",
+                review:
+                  "The incident response scenarios are incredibly realistic. I appreciate how the platform keeps up with the latest threats and attack techniques. It's helped me develop a much stronger analytical mindset for investigating security incidents.",
+                image:
+                  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?fit=crop&w=100&h=100",
+              },
+              {
+                name: "Michael K.",
+                role: "Threat Hunter",
+                review:
+                  "The threat hunting modules are exceptional. They've helped me understand advanced persistent threats and develop better hunting techniques. The platform's approach to teaching MITRE ATT&CK framework integration is particularly valuable.",
+                image:
+                  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?fit=crop&w=100&h=100",
+              },
+              {
+                name: "Lisa M.",
+                role: "Security Architect",
+                review:
+                  "What sets this platform apart is its comprehensive approach to security architecture. The courses helped me understand how different security controls work together. The hands-on labs for implementing zero trust architecture were especially enlightening.",
+                image:
+                  "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?fit=crop&w=100&h=100",
               }
             ].map((review, index) => (
               <div
