@@ -159,7 +159,7 @@ function MFTChallenge() {
 
           <img
           
-            src="/src/assets/images/Challenges/mft-banner.png"
+            src="/Challenges/mft-banner.png"
             alt="MFT Analysis Challenge Banner"
             className="w-auto max-h-80 object-cover rounded-lg shadow-lg group-hover:scale-105 group-hover:rotate-1 transition-transform duration-300 ease-in-out relative z-10"
           />
