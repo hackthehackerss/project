@@ -20,6 +20,7 @@ function Challenges() {
       difficulty: 'Very Easy',
       category: 'SOC',
       link: '/challenges/powershell-logs',
+      backgroundImage: '/Challenges/powershell-banner2.jpg', // Add this line
     },
     {
       id: 2,
@@ -31,6 +32,7 @@ function Challenges() {
       difficulty: 'Easy',
       category: 'SOC',
       link: '/challenges/miner-on-the-run',
+      backgroundImage: '/Challenges/cryptominer-banner.png', // Add this line
     },
     {
       id: 3,
@@ -42,6 +44,7 @@ function Challenges() {
       difficulty: 'Medium',
       category: 'DFIR',
       link: '/challenges/mft-analysis',
+      backgroundImage: '/Challenges/mft-banner.png', // Add this line
     },
     {
       id: 4,
@@ -66,6 +69,8 @@ function Challenges() {
       link: '#',
     },
   ];
+
+  
 
   // Filter challenges based on search query and active tab
   const filteredChallenges = challenges.filter((challenge) => {
@@ -134,58 +139,65 @@ function Challenges() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredChallenges.map((challenge) => (
-            <Link
-              key={challenge.id}
-              to={challenge.link}
-              className={`${
-                darkMode ? 'bg-primary-dark/30 border-primary-blue/20' : 'bg-white border-gray-200'
-              } rounded-lg p-6 border hover:border-primary-blue hover:scale-105 transition-transform group hover:shadow-lg hover:bg-primary-dark/40 overflow-hidden`}
-            >
-              <challenge.icon className="w-8 h-8 text-primary-blue mb-4 group-hover:text-primary-red transition-colors" />
-              <h3 className="text-xl font-semibold mb-2 group-hover:text-primary-blue transition-colors">
-                {challenge.title}
-              </h3>
-              <p className={`${
-                darkMode ? 'text-gray-400' : 'text-gray-600'
-              } mb-4 group-hover:text-gray-300 transition-colors`}>
-                {challenge.description}
-              </p>
-              {/* Difficulty and Category Tags */}
-              <div className="mt-2 flex gap-2">
-                {challenge.difficulty && (
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    challenge.difficulty === 'Very Easy' ? 'bg-green-500/20 text-green-500' :
-                    challenge.difficulty === 'Easy' ? 'bg-yellow-500/20 text-yellow-500' :
-                    challenge.difficulty === 'Medium' ? 'bg-orange-500/20 text-orange-500' :
-                    challenge.difficulty === 'Hard' ? 'bg-red-500/20 text-red-500' : ''
-                  }`}>
-                    {challenge.difficulty}
-                  </span>
-                )}
-                {challenge.category && (
-                  <span className="text-xs bg-blue-500/20 text-blue-500 px-2 py-1 rounded-full">
-                    {challenge.category}
-                  </span>
-                )}
-              </div>
-              {/* Points and Questions */}
-              {challenge.questions > 0 && (
-                <div className="flex justify-between text-sm mt-4">
-                  <span className="text-primary-blue group-hover:text-primary-red transition-colors">
-                    {challenge.questions} Questions
-                  </span>
-                  <span className="text-primary-red group-hover:text-primary-blue transition-colors">
-                    {challenge.points} Points
-                  </span>
-                </div>
-              )}
-              {/* Progress Bar */}
-              {challenge.questions > 0 && (
-                <div className="mt-4 h-2 bg-gray-700 rounded-full overflow-hidden">
-                  <div className="h-full bg-primary-blue" style={{ width: '30%' }}></div>
-                </div>
-              )}
-            </Link>
+ <Link
+ key={challenge.id}
+ to={challenge.link}
+ className={`relative rounded-lg p-6 border hover:border-primary-blue hover:scale-105 transition-transform group hover:shadow-lg overflow-hidden`}
+ style={{
+   backgroundImage: `url(${challenge.backgroundImage})`,
+   backgroundSize: 'cover',
+   backgroundPosition: 'center',
+ }}
+>
+ {/* Overlay to fade the background image */}
+ <div className="absolute inset-0 bg-black/70 group-hover:bg-black/60 transition-colors"></div>
+
+ {/* Content */}
+ <div className="relative z-10">
+   <challenge.icon className="w-8 h-8 text-primary-blue mb-4 group-hover:text-primary-red transition-colors" />
+   <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-primary-blue transition-colors">
+     {challenge.title}
+   </h3>
+   <p className={`text-gray-200 mb-4 group-hover:text-gray-100 transition-colors`}>
+     {challenge.description}
+   </p>
+   {/* Difficulty and Category Tags */}
+   <div className="mt-2 flex gap-2">
+     {challenge.difficulty && (
+       <span className={`text-xs px-2 py-1 rounded-full ${
+         challenge.difficulty === 'Very Easy' ? 'bg-green-500/20 text-green-500' :
+         challenge.difficulty === 'Easy' ? 'bg-yellow-500/20 text-yellow-500' :
+         challenge.difficulty === 'Medium' ? 'bg-orange-500/20 text-orange-500' :
+         challenge.difficulty === 'Hard' ? 'bg-red-500/20 text-red-500' : ''
+       }`}>
+         {challenge.difficulty}
+       </span>
+     )}
+     {challenge.category && (
+       <span className="text-xs bg-blue-500/20 text-blue-500 px-2 py-1 rounded-full">
+         {challenge.category}
+       </span>
+     )}
+   </div>
+   {/* Points and Questions */}
+   {challenge.questions > 0 && (
+     <div className="flex justify-between text-sm mt-4">
+       <span className="text-primary-blue group-hover:text-primary-red transition-colors">
+         {challenge.questions} Questions
+       </span>
+       <span className="text-primary-red group-hover:text-primary-blue transition-colors">
+         {challenge.points} Points
+       </span>
+     </div>
+   )}
+   {/* Progress Bar */}
+   {challenge.questions > 0 && (
+     <div className="mt-4 h-2 bg-gray-700 rounded-full overflow-hidden">
+       <div className="h-full bg-primary-blue" style={{ width: '30%' }}></div>
+     </div>
+   )}
+ </div>
+</Link>
           ))}
         </div>
       </div>
