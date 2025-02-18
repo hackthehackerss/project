@@ -166,7 +166,7 @@ function CryptoMinerChallenge() {
           <div className="absolute inset-0 rounded-lg bg-primary-blue/40 blur-lg group-hover:opacity-100 opacity-0 transition-opacity duration-300"></div>
 
           <img
-            src="/src/assets/images/Challenges/cryptominer-banner.png"
+            src="/Challenges/cryptominer-banner.png"
             alt="CryptoMiner Challenge Banner"
             className="w-auto max-h-80 object-cover rounded-lg shadow-lg group-hover:scale-105 group-hover:rotate-1 transition-transform duration-300 ease-in-out relative z-10"
           />
