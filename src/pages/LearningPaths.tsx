@@ -40,7 +40,7 @@ function LearningPaths() {
       icon: Shield,
       difficulty: "Beginner",
       access: "Free",
-      image: "/Fundamentals/soc.png",
+      image: "/Learning Paths/cybersecurity-fundamentals.jpeg",
       progress: 0,
       modules: [
         {
@@ -60,7 +60,7 @@ function LearningPaths() {
       icon: Target,
       difficulty: "Intermediate",
       access: "Pro",
-      image: "/Fundamentals/soc.png",
+      image: "/Learning Paths/soc-analyst.jpeg",
       progress: 0,
       modules: [
         {
@@ -76,7 +76,7 @@ function LearningPaths() {
       icon: Network,
       difficulty: "Advanced",
       access: "Pro",
-      image: "/Fundamentals/Responder.png",
+      image: "/Learning Paths/incident-response.jpeg",
       progress: 0,
       modules: [
         {
@@ -92,7 +92,7 @@ function LearningPaths() {
       icon: Bug,
       difficulty: "Intermediate",
       access: "Pro",
-      image: "/Fundamentals/Malware.png",
+      image: "/Learning Paths/malware-analysis.jpeg",
       progress: 0,
       modules: [
         {
@@ -108,7 +108,7 @@ function LearningPaths() {
       icon: Shield,
       difficulty: "Advanced",
       access: "Pro",
-      image: "/Fundamentals/soc.png",
+      image: "/Learning Paths/cysa.jpeg",
       progress: 0,
       modules: [
         {
@@ -127,7 +127,7 @@ function LearningPaths() {
       icon: Sword,
       difficulty: "Beginner",
       access: "Free",
-      image: "/red-team.png",
+      image: "/Learning Paths/pentestbasic.jpeg",
       progress: 0,
       modules: [
         {
@@ -143,7 +143,7 @@ function LearningPaths() {
       icon: Code,
       difficulty: "Intermediate",
       access: "Pro",
-      image: "/red-team.png",
+      image: "/Learning Paths/webexploit.jpeg",
       progress: 0,
       modules: [
         {
@@ -159,7 +159,7 @@ function LearningPaths() {
       icon: Bug,
       difficulty: "Advanced",
       access: "Pro",
-      image: "/red-team.png",
+      image: "/Learning Paths/advancedpt.jpeg",
       progress: 0,
       modules: [
         {
@@ -175,7 +175,7 @@ function LearningPaths() {
       icon: Sword,
       difficulty: "Advanced",
       access: "Pro",
-      image: "/red-team.png",
+      image: "/Learning Paths/oscp.jpeg",
       progress: 0,
       modules: [
         {
@@ -194,7 +194,7 @@ function LearningPaths() {
       icon: Shield,
       difficulty: "Expert",
       access: "Pro",
-      image: "/blue-team.png",
+      image: "/Learning Paths/csir.jpeg",
       duration: "6 months",
       examCost: "$299",
       modules: [
@@ -211,7 +211,7 @@ function LearningPaths() {
       icon: Sword,
       difficulty: "Expert",
       access: "Pro",
-      image: "/red-team.png",
+      image: "/Learning Paths/cehp.jpeg",
       duration: "8 months",
       examCost: "$499",
       modules: [
@@ -330,7 +330,7 @@ function LearningPaths() {
                 to={path.path}
                 className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 overflow-hidden hover:border-primary-blue transition-all hover:scale-105"
               >
-                <div className="relative h-48">
+                <div className="relative h-82">
                   <img
                     src={path.image}
                     alt={path.title}
@@ -397,7 +397,7 @@ function LearningPaths() {
                 to={path.path}
                 className="bg-primary-dark/30 rounded-lg border border-primary-red/20 overflow-hidden hover:border-primary-red transition-all hover:scale-105"
               >
-                <div className="relative h-48">
+                <div className="relative h-82">
                   <img
                     src={path.image}
                     alt={path.title}
@@ -466,7 +466,7 @@ function LearningPaths() {
                   path.theme === 'red' ? 'border-primary-red/20 hover:border-primary-red' : 'border-primary-blue/20 hover:border-primary-blue'
                 } overflow-hidden transition-all hover:scale-105`}
               >
-                <div className="relative h-48">
+                <div className="relative h-82">
                   <img
                     src={path.image}
                     alt={path.title}
