@@ -14,7 +14,7 @@ function LearningPaths() {
       type: 'blue',
       title: 'Blue Team',
       description: 'Focus on defending systems, detecting threats, and responding to incidents. Perfect for aspiring Security Analysts and Incident Responders.',
-      icon: Shield,
+      image: "/Learning Paths/blue-team-page.png", // Add image path
       borderColor: 'border-primary-blue',
       hoverBorderColor: 'hover:border-primary-blue',
       iconColor: 'text-primary-blue',
@@ -24,7 +24,7 @@ function LearningPaths() {
       type: 'red',
       title: 'Red Team',
       description: 'Master offensive security techniques, penetration testing, and vulnerability assessment. Ideal for aspiring Ethical Hackers.',
-      icon: Sword,
+      image: "/Learning Paths/red-team-page.png", // Add image path
       borderColor: 'border-primary-red',
       hoverBorderColor: 'hover:border-primary-red',
       iconColor: 'text-primary-red',
@@ -155,7 +155,7 @@ function LearningPaths() {
     {
       title: "Advanced Exploitation",
       path: "/red-team/advanced-exploitation",
-      description: "Advanced exploitation techniques and methodologies",
+      description: "Advanced exploitation techniques",
       icon: Bug,
       difficulty: "Advanced",
       access: "Pro",
@@ -254,22 +254,28 @@ function LearningPaths() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
-            {pathCards.map((card, index) => (
-              <div
-                key={index}
-                className={`bg-primary-dark/30 rounded-lg p-8 border ${card.borderColor} ${card.hoverBorderColor} ${card.bgHover} transition-all duration-300 cursor-pointer group`}
-              >
-                <div className="flex items-center space-x-4 mb-4">
-                  <card.icon className={`w-12 h-12 ${card.iconColor}`} />
-                  <h2 className="text-2xl font-bold">{card.title}</h2>
-                </div>
-                
-                <p className="text-gray-400 mb-6 min-h-[80px]">
-                  {card.description}
-                </p>
-              </div>
-            ))}
-          </div>
+  {pathCards.map((card, index) => (
+    <div
+      key={index}
+      className={`bg-primary-dark/30 rounded-lg p-8 border ${card.borderColor} ${card.hoverBorderColor} ${card.bgHover} transition-all duration-300 cursor-pointer group flex items-center`}
+    >
+      {/* Image on the side */}
+      <div className="w-48 h-48 flex-shrink-0 mr-6">
+        <img
+          src={card.image}
+          alt={card.title}
+          className="w-full h-full object-contain" // Ensure the image fits
+        />
+      </div>
+
+      {/* Text content */}
+      <div>
+        <h2 className="text-2xl font-bold mb-2">{card.title}</h2>
+        <p className="text-gray-400">{card.description}</p>
+      </div>
+    </div>
+  ))}
+</div>
         </div>
       </div>
 
