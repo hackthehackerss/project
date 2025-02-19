@@ -28,6 +28,7 @@ import PublicProfile from './pages/Public_Profile';
 import Search from './pages/Search';
 import NotFound from './pages/NotFound';
 import SubmitChallenge from './pages/SubmitChallenge';
+import Labs from './pages/Labs';
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/search" element={<Search />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/labs" element={<Labs />} /> 
         </Routes>
       </Router>
     </AuthProvider>
