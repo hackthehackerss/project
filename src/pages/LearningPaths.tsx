@@ -194,7 +194,7 @@ function LearningPaths() {
       icon: Shield,
       difficulty: "Expert",
       access: "Pro",
-      image: "/Learning Paths/csir.jpeg",
+      image: "/Main/logo2.jpeg",
       duration: "6 months",
       examCost: "$299",
       modules: [
@@ -211,7 +211,7 @@ function LearningPaths() {
       icon: Sword,
       difficulty: "Expert",
       access: "Pro",
-      image: "/Learning Paths/cehp.jpeg",
+      image: "/Main/logo2.jpeg",
       duration: "8 months",
       examCost: "$499",
       modules: [
