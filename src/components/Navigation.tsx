@@ -37,18 +37,27 @@ function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
     }
   };
 
-  return (
-    <nav className={`${darkMode ? 'bg-primary-dark border-b border-primary-blue/20' : 'bg-white border-b border-gray-200'} sticky top-0 z-50`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <div className="flex items-center space-x-4">
-             <Link to="/" className="flex items-center space-x-2">
-        <span className="text-xl font-bold">
-        <span className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>Hack</span>
-        <span className="text-primary-red">The</span>
-        <span className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>Hackers</span>
-        </span>
+ return (
+  <nav className={`${darkMode ? 'bg-primary-dark border-b border-primary-blue/20' : 'bg-white border-b border-gray-200'} sticky top-0 z-50`}>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex justify-between h-16 items-center">
+        
+        {/* Left Side - Logo Text */}
+        <div className="flex items-center space-x-4">
+          <Link to="/" className="flex items-center space-x-2">
+            <span className="text-xl font-bold">
+              <span className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>Hack</span>
+              <span className="text-primary-red">The</span>
+              <span className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>Hackers</span>
+            </span>
           </Link>
+        </div>
+
+      </div> {/* Closes flex container */}
+    </div> {/* Closes max-width container */}
+  </nav> 
+);
+
 
 
           <div className="hidden md:flex items-center space-x-8">
