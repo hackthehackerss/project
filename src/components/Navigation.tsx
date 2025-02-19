@@ -43,12 +43,7 @@ function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="logo-glitch">
-                <img 
-                  src={logoShieldImg} 
-                  alt="HackTheHackers Logo" 
-                  className="h-10 w-auto animate-float"
-                />
+              
               </div>
               <span className="text-xl font-bold">
                 <span className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>Hack</span>
@@ -90,8 +85,7 @@ function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
               <Award className="w-5 h-5" />
               <span>Pricing Plans</span>
             </Link>
-
-            <Link 
+              <Link 
               to="/labs" 
               className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-2 transition-colors`}
             >
