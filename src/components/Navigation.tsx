@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Shield, Target, Award, Trophy, Search, Sun, Moon, X } from 'lucide-react';
 import UserProfileButton from './UserProfileButton';
 import { useAuth } from '../contexts/AuthContext';
-import logoShieldImg from '../assets/images/logo-shield.png';
+import logoShieldImg from '/Main/logo-shield.png';
 
 interface NavigationProps {
   darkMode: boolean;
