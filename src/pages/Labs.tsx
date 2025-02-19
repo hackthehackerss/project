@@ -26,7 +26,8 @@ const CTFLabsPage = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-400 mb-8">
-            Sharpen your hacking skills with hands-on Capture The Flag challenges. Exploit vulnerabilities, solve puzzles, and become a better hacker!
+          Put Your Red Team Skills to the Test!<br />
+          Sharpen your ethical hacking skills with hands-on Capture The Flag challenges.<br /> Exploit vulnerabilities, solve complex puzzles, and think like an attacker to enhance your offensive security expertise.<br /> Become a better ethical hacker—one challenge at a time!
           </p>
           <a
             href="#labs"
