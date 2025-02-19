@@ -58,7 +58,6 @@ function Challenges() {
       link: '/challenges/malware-analysis',
     },
     {
-    {
       id: 5,
       title: 'More Challenges Coming Soon',
       description: "We're working on new challenges to test your cybersecurity skills.",
