@@ -91,6 +91,14 @@ function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
               <span>Pricing Plans</span>
             </Link>
 
+            <Link 
+              to="/labs" 
+              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-2 transition-colors`}
+            >
+              <Award className="w-5 h-5" />
+              <span>Labs</span>
+            </Link>
+
             <button 
               onClick={onToggleDarkMode} 
               className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
