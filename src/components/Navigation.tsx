@@ -43,7 +43,6 @@ function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center space-x-4">
              <Link to="/" className="flex items-center space-x-2">
-      <img src={logoShieldImg} alt="Logo" className="w-8 h-8" /> <!-- Add this missing logo -->
         <span className="text-xl font-bold">
         <span className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>Hack</span>
         <span className="text-primary-red">The</span>
