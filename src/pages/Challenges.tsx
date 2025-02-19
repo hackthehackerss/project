@@ -59,6 +59,17 @@ function Challenges() {
     },
     {
       id: 5,
+      title: 'XSS injection Lab',
+      description: 'Preform XSS injection to test your skils',
+      icon: Terminal,
+      Labs: 1,
+      points: 100,
+      difficulty: 'Easy',
+      category: 'web app exploitation',
+      link: '/challenges/xss',
+    },
+    {
+      id: 6,
       title: 'More Challenges Coming Soon',
       description: "We're working on new challenges to test your cybersecurity skills.",
       icon: Construction,
