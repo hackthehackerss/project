@@ -5,74 +5,201 @@ import Navigation from '../components/Navigation';
 
 // Terminal Component
 const Terminal = () => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [output, setOutput] = useState([]);
+  const [pwd, setPwd] = useState("/home/user");
+  const fakeIP = "192.168.42.100";
+  const [history, setHistory] = useState([]);
+  const [files, setFiles] = useState({
+    "/home/user": ["file1.txt", "file2.txt", "logs.txt", "sensitive.txt", "tmp"],
+    "/home/user/tmp": ["update.exe"],
+  });
 
   const handleCommand = (command) => {
-    let response = '';
+    if (!command.trim()) return; // Ignore empty commands
     const timestamp = new Date().toLocaleTimeString();
+    const [cmd, ...args] = command.trim().split(" ");
+    setHistory((prevHistory) => [...prevHistory, command]);
 
-    // Split the command and arguments
-    const [cmd, ...args] = command.trim().split(' ');
+    let response = "";
 
     switch (cmd) {
-      case 'help':
-        response = 'Available commands: help, ls, cd, pwd, echo, clear, exit, cat, touch, mkdir';
+      case "help":
+        response = "Available commands: help, ls, cd, pwd, echo, clear, exit, cat, md5sum, touch, mkdir, rm, mv, cp, chmod, whoami, ifconfig, nmap, ssh, uname, history, ps aux, uptime, df -h, dmesg, journalctl, last";
         break;
-      case 'ls':
-        response = 'file1.txt  file2.txt  directory1';
+
+      case "ls":
+        response = files[pwd] ? files[pwd].join("  ") : "No files found.";
         break;
-      case 'pwd':
-        response = '/home/user';
+
+      case "pwd":
+        response = pwd;
         break;
-      case 'echo':
-        response = args.join(' ') || 'No input provided';
-        break;
-      case 'clear':
-        setOutput([]);
-        return;
-      case 'exit':
-        response = 'Goodbye!';
-        break;
-      case 'mkdir':
-        if (args.length > 0) {
-          response = `Directory '${args.join(' ')}' created successfully!`;
+
+      case "cd":
+        if (args[0] === "..") {
+          // Move up one directory
+          const newPwd = pwd.split('/').slice(0, -1).join('/') || '/';
+          setPwd(newPwd);
+          response = `Moved back to ${newPwd}`;
+        } else if (args[0] === "tmp" && pwd === "/home/user") {
+          // Move into /home/user/tmp
+          setPwd("/home/user/tmp");
+          response = "Moved into /home/user/tmp";
         } else {
-          response = 'Please provide a directory name.';
+          response = "Directory not found.";
         }
         break;
+
+      case "echo":
+        response = args.join(" ") || "No input provided";
+        break;
+
+      case "clear":
+        setOutput([]);
+        return;
+
+      case "exit":
+        response = "Goodbye!";
+        break;
+
+      case "md5sum":
+        if (args[0] === "update.exe" && pwd === "/home/user/tmp") {
+          response = "05da32043b1e3a147de634c550f1954d  update.exe";
+        } else {
+          response = `md5sum: ${args[0]}: No such file`;
+        }
+        break;
+
+      case "cat":
+        if (!args[0]) {
+          response = "Usage: cat <filename>";
+          break;
+        }
+        if (!files[pwd]?.includes(args[0])) {
+          response = `cat: ${args[0]}: No such file or directory`;
+          break;
+        }
+        switch (args[0]) {
+          case "file1.txt":
+            response = "HackTheHackers Cybersecurity Learning Platform\nLearn. Defend. Conquer.";
+            break;
+          case "file2.txt":
+            response = "Hackers are not born, they are made. Join HackTheHackers to master the art of cybersecurity.";
+            break;
+          case "sensitive.txt":
+            response = "user: admin\npassword: iamadmin";
+            break;
+          default:
+            response = `Contents of ${args[0]}: [...]`;
+        }
+        break;
+
+      case "whoami":
+        response = "HackTheHackers";
+        break;
+
+      case "ifconfig":
+        response = `eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet ${fakeIP}  netmask 255.255.255.0  broadcast 192.168.42.255
+        inet6 fe80::1a2b:3c4d:5e6f:1a2b  prefixlen 64  scopeid 0x20<link>
+        ether 00:1a:2b:3c:4d:5e  txqueuelen 1000  (Ethernet)
+        RX packets 12345  bytes 123456789 (123.4 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 9876  bytes 98765432 (98.7 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0`;
+        break;
+
+      case "nmap":
+        if (args.includes(fakeIP)) {
+          response = `Starting Nmap 7.92 ( https://nmap.org ) at ${new Date().toLocaleString()}
+          Nmap scan report for ${fakeIP}
+          Host is up (0.0021s latency).
+          Not shown: 997 closed ports
+          PORT     STATE    SERVICE
+          22/tcp   open     ssh
+          80/tcp   filtered http
+          443/tcp  filtered https
+          MAC Address: 00:1A:2B:3C:4D:5E (Unknown)
+
+          OS detection performed. Please report incorrect results at https://nmap.org/submit/.
+          Nmap done: 1 IP address (1 host up) scanned in 2.71 seconds`;
+        } else {
+          response = "Nmap scan failed: Invalid target or host is down.";
+        }
+        break;
+
+      case "ssh":
+        if (args[0] === `admin@${fakeIP}`) {
+          response = "admin@192.168.42.100's password:";
+        } else {
+          response = "ssh: Could not resolve hostname";
+        }
+        break;
+
+      case "iamadmin":
+        if (output.length > 0 && output[output.length - 1].response.includes("password:")) {
+          response = "Access granted. FLAG{HACK_THE_HACKERS_Flag}";
+        } else {
+          response = "Command not found.";
+        }
+        break;
+
+      case "ps aux":
+        response = `PID    USER    COMMAND\n1      root    /sbin/init\n242    user    /bin/bash\n666    hacker  ./backdoor`;
+        break;
+
+      case "uptime":
+        response = "up 6 days, 2:15, 1 user, load average: 0.05, 0.02, 0.01";
+        break;
+
+      case "df -h":
+        response = `Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1       50G   20G   30G  40%  /`;
+        break;
+
+      case "history":
+        response = history.join("\n");
+        break;
+
       default:
         response = `Command not found: ${command}`;
     }
 
-    setOutput((prevOutput) => [
-      ...prevOutput,
-      { timestamp, command, response },
-    ]);
+    setOutput((prevOutput) => [...prevOutput, { timestamp, command, response }]);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (input.trim() === '') return;
+    if (input.trim() === "") return;
     handleCommand(input);
-    setInput('');
+    setInput("");
   };
 
   return (
-    <div className="bg-black/90 text-green-400 font-mono p-6 rounded-lg shadow-lg">
-      <div className="h-64 overflow-y-auto mb-4 max-w-full">
+    <div
+      className="relative text-green-400 font-mono p-6 rounded-lg shadow-lg"
+      style={{
+        backgroundImage: "url('/Main/linux.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        padding: "20px",
+        borderRadius: "10px",
+        minHeight: "400px",
+      }}
+    >
+      <div className="h-64 overflow-y-auto mb-4 max-w-full bg-black/80 p-3 rounded-md">
         {output.map((item, index) => (
           <div key={index}>
             <div className="text-white">
               <span className="text-gray-500">{item.timestamp} </span>
               <span className="font-bold">$</span> {item.command}
             </div>
-            <div>{item.response}</div>
+            <div>{item.response.split("\n").map((line, i) => <div key={i}>{line}</div>)}</div>
           </div>
         ))}
       </div>
-
-      <form onSubmit={handleSubmit} className="flex items-center relative">
+      <form onSubmit={handleSubmit} className="flex items-center">
         <span className="text-white">$</span>
         <input
           type="text"
@@ -86,6 +213,8 @@ const Terminal = () => {
     </div>
   );
 };
+
+
 
 const CTFLabsPage = () => {
   return (
