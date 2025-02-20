@@ -1,7 +1,91 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Search, Filter } from 'lucide-react';
 import Navigation from '../components/Navigation';
+
+// Terminal Component
+const Terminal = () => {
+  const [input, setInput] = useState('');
+  const [output, setOutput] = useState([]);
+
+  const handleCommand = (command) => {
+    let response = '';
+    const timestamp = new Date().toLocaleTimeString();
+
+    // Split the command and arguments
+    const [cmd, ...args] = command.trim().split(' ');
+
+    switch (cmd) {
+      case 'help':
+        response = 'Available commands: help, ls, cd, pwd, echo, clear, exit, cat, touch, mkdir';
+        break;
+      case 'ls':
+        response = 'file1.txt  file2.txt  directory1';
+        break;
+      case 'pwd':
+        response = '/home/user';
+        break;
+      case 'echo':
+        response = args.join(' ') || 'No input provided';
+        break;
+      case 'clear':
+        setOutput([]);
+        return;
+      case 'exit':
+        response = 'Goodbye!';
+        break;
+      case 'mkdir':
+        if (args.length > 0) {
+          response = `Directory '${args.join(' ')}' created successfully!`;
+        } else {
+          response = 'Please provide a directory name.';
+        }
+        break;
+      default:
+        response = `Command not found: ${command}`;
+    }
+
+    setOutput((prevOutput) => [
+      ...prevOutput,
+      { timestamp, command, response },
+    ]);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (input.trim() === '') return;
+    handleCommand(input);
+    setInput('');
+  };
+
+  return (
+    <div className="bg-black/90 text-green-400 font-mono p-6 rounded-lg shadow-lg">
+      <div className="h-64 overflow-y-auto mb-4 max-w-full">
+        {output.map((item, index) => (
+          <div key={index}>
+            <div className="text-white">
+              <span className="text-gray-500">{item.timestamp} </span>
+              <span className="font-bold">$</span> {item.command}
+            </div>
+            <div>{item.response}</div>
+          </div>
+        ))}
+      </div>
+
+      <form onSubmit={handleSubmit} className="flex items-center relative">
+        <span className="text-white">$</span>
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="bg-transparent border-none text-green-400 ml-2 flex-grow focus:outline-none"
+          autoFocus
+          placeholder="Type a command"
+        />
+      </form>
+    </div>
+  );
+};
 
 const CTFLabsPage = () => {
   return (
@@ -18,7 +102,6 @@ const CTFLabsPage = () => {
               alt="HackTheHackers Logo"
               className="w-16 h-16 mr-4"
             />
-            {/* Custom Title Styling */}
             <h1 className="text-5xl font-bold">
               <span className="text-white">Hack</span>
               <span className="text-red-500">The</span>
@@ -26,8 +109,8 @@ const CTFLabsPage = () => {
             </h1>
           </div>
           <p className="text-xl text-gray-400 mb-8">
-          Put Your Red Team Skills to the Test!<br />
-          Sharpen your ethical hacking skills with hands-on Capture The Flag challenges.<br /> Exploit vulnerabilities, solve complex puzzles, and think like an attacker to enhance your offensive security expertise.<br /> Become a better ethical hacker—one challenge at a time!
+            Put Your Red Team Skills to the Test!<br />
+            Sharpen your ethical hacking skills with hands-on Capture The Flag challenges.<br /> Exploit vulnerabilities, solve complex puzzles, and think like an attacker to enhance your offensive security expertise.<br /> Become a better ethical hacker—one challenge at a time!
           </p>
           <a
             href="#labs"
@@ -44,12 +127,10 @@ const CTFLabsPage = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* CTF Challenge 1 */}
           <div className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 hover:border-primary-blue transition-all transform hover:-translate-y-2 relative overflow-hidden group">
-            {/* Gradient Border Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-
             <div className="p-6 relative">
               <img
-                src="/Main/logo2.jpg" // Add your lab logo here
+                src="/Main/logo2.jpg"
                 alt="Vulnerable Web App"
                 className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg"
               />
@@ -77,12 +158,10 @@ const CTFLabsPage = () => {
 
           {/* CTF Challenge 2 */}
           <div className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 hover:border-primary-blue transition-all transform hover:-translate-y-2 relative overflow-hidden group">
-            {/* Gradient Border Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-
             <div className="p-6 relative">
               <img
-                src="/Main/logo2.jpg" // Add your lab logo here
+                src="/Main/logo2.jpg"
                 alt="Network Penetration Test"
                 className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg"
               />
@@ -110,12 +189,10 @@ const CTFLabsPage = () => {
 
           {/* CTF Challenge 3 */}
           <div className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 hover:border-primary-blue transition-all transform hover:-translate-y-2 relative overflow-hidden group">
-            {/* Gradient Border Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-
             <div className="p-6 relative">
               <img
-                src="/Main/logo2.jpg" // Add your lab logo here
+                src="/Main/logo2.jpg"
                 alt="Privilege Escalation"
                 className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg"
               />
@@ -140,9 +217,13 @@ const CTFLabsPage = () => {
               </a>
             </div>
           </div>
-
-          {/* Add more CTF challenges here */}
         </div>
+      </div>
+
+        {/* Terminal Section */}
+        <div className="max-w-7xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-12">Linux Command Training</h2>
+        <Terminal />
       </div>
 
       {/* Footer */}
