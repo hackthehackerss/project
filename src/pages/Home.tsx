@@ -133,7 +133,7 @@ function Home() {
                   to="/signup"
                   className="bg-primary-red text-white px-8 py-3 rounded-lg hover:bg-secondary-red transition-all transform hover:scale-105 min-w-[200px] font-semibold"
                 >
-                  Get Started Free
+                  Start Learning Now
                 </Link>
                 <Link 
                   to="/signin"
@@ -155,12 +155,50 @@ function Home() {
           <div className="relative z-10 p-2 border-4 border-primary-blue/30 rounded-lg">
             <img 
               src="/Main/choose-path.png" 
-              alt="choose Your Path" 
+              alt="Choose Your Path" 
               className="w-full h-auto rounded-lg shadow-lg animate-float"
             />
           </div>
         </Link>
       </div>
+
+{/* New Section: Get Hands-On Experience */}
+<div className="text-center mb-24 reveal">
+  <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-primary-blue via-primary-red to-primary-blue bg-clip-text text-transparent animate-gradient">
+    Get Hands-On Experience with Challenges & Labs!
+  </h2>
+  <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+    <div className="flex items-center space-x-2">
+      <span className="text-primary-blue">📈</span>
+      <span className="text-lg font-semibold">Compete on the Leaderboard</span>
+    </div>
+    <div className="flex items-center space-x-2">
+      <span className="text-primary-red">🏆</span>
+      <span className="text-lg font-semibold">Earn Badges</span>
+    </div>
+    <div className="flex items-center space-x-2">
+      <span className="text-primary-blue">🚀</span>
+      <span className="text-lg font-semibold">Advance Your Cybersecurity Career</span>
+    </div>
+  </div>
+  <div className="mt-8">
+    {profile ? (
+      <Link 
+        to="/challenges"
+        className="bg-primary-blue text-background px-8 py-3 rounded-lg hover:bg-secondary-blue transition-all transform hover:scale-105 min-w-[200px] font-semibold"
+      >
+        Explore Challenges
+      </Link>
+    ) : (
+      <Link 
+        to="/signup"
+        className="bg-primary-red text-white px-8 py-3 rounded-lg hover:bg-secondary-red transition-all transform hover:scale-105 min-w-[200px] font-semibold"
+      >
+        Get Started Today
+      </Link>
+    )}
+  </div>
+</div>
 
       {/* Features Section */}
       <div className={`${darkMode ? 'bg-primary-dark/50' : 'bg-gray-100'} py-24`}>
@@ -169,7 +207,7 @@ function Home() {
             <div className="text-center p-6 rounded-lg border border-primary-blue/20 hover:border-primary-blue transition reveal-left">
               <Shield className="w-12 h-12 text-primary-blue mx-auto mb-4 animate-pulse-slow" />
               <h3 className="text-xl font-semibold mb-4">Learning Paths</h3>
-              <p className="text-gray-400">Structured courses covering incident response, threat hunting, and security operations.</p>
+              <p className="text-gray-400">Choose your specialization and advance your career</p>
             </div>
             <div className="text-center p-6 rounded-lg border border-primary-red/20 hover:border-primary-red transition reveal">
               <Trophy className="w-12 h-12 text-primary-red mx-auto mb-4 animate-pulse-slow" />
@@ -179,7 +217,7 @@ function Home() {
             <div className="text-center p-6 rounded-lg border border-primary-blue/20 hover:border-primary-blue transition reveal-right">
               <Award className="w-12 h-12 text-primary-blue mx-auto mb-4 animate-pulse-slow" />
               <h3 className="text-xl font-semibold mb-4">Challenges</h3>
-              <p className="text-gray-400">Test your skills with CTF-style challenges and earn badges for your achievements.</p>
+              <p className="text-gray-400">Test your skills with CTF-style challenges and earn badges</p>
             </div>
           </div>
         </div>
@@ -192,13 +230,12 @@ function Home() {
             HackTheHackers – Where Practical Training Meets Theory
           </h2>
           <p className="text-xl text-gray-300 leading-relaxed animate-fadeIn">
-            Sharpen your cybersecurity skills with real-world, hands-on training. Our guided labs, updated weekly with the latest attack techniques and CVEs, ensure you're always ahead of emerging threats. Learn step by step at your own pace and build the expertise needed to tackle today's cybersecurity challenges with confidence.
+            Sharpen your cybersecurity skills with real-world, hands-on training.<br /> Our guided labs, updated weekly with the latest attack techniques and CVEs, ensure you're always ahead of emerging threats.<br />Learn step by step at your own pace and build the expertise needed to tackle today's cybersecurity challenges with confidence.
           </p>
         </div>
       </div>
 
-      {/* Moving Bar */}
-      <MovingBar />
+
 
       {/* Pricing Section */}
       <div className="py-24">
@@ -383,6 +420,9 @@ function Home() {
           </div>
         </div>
       </div>
+
+  {/* Moving Bar */}
+  <MovingBar />
 
       {/* Chatbot */}
       <div className="fixed bottom-8 right-8">
