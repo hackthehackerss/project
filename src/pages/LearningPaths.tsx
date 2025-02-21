@@ -28,6 +28,14 @@ function LearningPaths() {
     };
   }, [searchQuery]);
 
+  // Scroll to section
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Path cards without lock icons
   const pathCards = [
     {
@@ -272,7 +280,7 @@ function LearningPaths() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4 animate-fade-in">
+            <h1 className="text-4xl font-bold mb-4 animate-fade-in title-gradient title-glow">
               Choose Your Path
             </h1>
             <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-black'} animate-fade-in`}>
@@ -294,6 +302,7 @@ function LearningPaths() {
                 } transition-all duration-300 cursor-pointer group hover:scale-105 hover:shadow-lg hover:shadow-${
                   card.type === 'blue' ? 'primary-blue/20' : 'primary-red/20'
                 } overflow-hidden`}
+                onClick={() => scrollToSection(card.type === 'blue' ? 'blue-team-paths' : 'red-team-paths')}
               >
                 {/* Glowing Border */}
                 <div className={`absolute inset-0 rounded-lg border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
@@ -380,7 +389,7 @@ function LearningPaths() {
       {/* Learning Paths Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Blue Team Paths */}
-        <div className="mb-12">
+        <div id="blue-team-paths" className="mb-12">
           <h2 className="text-3xl font-bold mb-8 flex items-center">
             <Shield className="w-8 h-8 text-primary-blue mr-3" />
             Blue Team Learning Paths
@@ -464,7 +473,7 @@ function LearningPaths() {
         </div>
 
         {/* Red Team Paths */}
-        <div className="mb-12">
+        <div id="red-team-paths" className="mb-12">
           <h2 className="text-3xl font-bold mb-8 flex items-center">
             <Sword className="w-8 h-8 text-primary-red mr-3" />
             Red Team Learning Paths
