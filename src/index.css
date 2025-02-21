@@ -236,3 +236,98 @@ body {
   background-size: 200% auto;
   animation: gradient 3s ease infinite;
 }
+
+/* New Enhancements for Red and Blue Team Cards */
+.path-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.path-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+.path-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.path-card:hover::before {
+  opacity: 1;
+  border-color: rgba(0, 240, 255, 0.5);
+}
+
+.path-card.blue::before {
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.path-card.red::before {
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.path-card .icon {
+  transition: transform 0.3s ease;
+}
+
+.path-card:hover .icon {
+  transform: scale(1.1);
+}
+
+/* Glowing Border for Cards */
+.glow-border {
+  position: relative;
+}
+
+.glow-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-border:hover::after {
+  opacity: 1;
+}
+
+/* Fade-in Animation for Titles */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Gradient Background for Cards */
+.card-gradient {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.8), rgba(26, 26, 46, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-gradient:hover {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(26, 26, 46, 0.9));
+  border-color: rgba(0, 240, 255, 0.3);
+}
