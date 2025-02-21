@@ -29,6 +29,7 @@ import Search from './pages/Search';
 import NotFound from './pages/NotFound';
 import SubmitChallenge from './pages/SubmitChallenge';
 import Labs from './pages/Labs';
+import EmailAnalysisChallenge from './pages/EmailAnalysisChallenge'; 
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/labs" element={<Labs />} /> 
+          <Route path="/challenges/email-analysis" element={<EmailAnalysisChallenge />} />
         </Routes>
       </Router>
     </AuthProvider>
