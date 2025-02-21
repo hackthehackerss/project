@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Book, ChevronRight, Shield, Sword, Target, Code, Network, Search, Filter, Award, Bug } from 'lucide-react';
 import Navigation from '../components/Navigation';
 
 function LearningPaths() {
+  const [darkMode, setDarkMode] = useState(true); // Dark mode state
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
   const [selectedAccess, setSelectedAccess] = useState('all');
+  const [visiblePaths, setVisiblePaths] = useState(6); // Pagination
+  const timeoutRef = useRef(null);
+
+  // Debounce search input
+  useEffect(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300); // 300ms debounce delay
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [searchQuery]);
 
   // Path cards without lock icons
   const pathCards = [
@@ -14,7 +34,7 @@ function LearningPaths() {
       type: 'blue',
       title: 'Blue Team',
       description: 'Focus on defending systems, detecting threats, and responding to incidents. Perfect for aspiring Security Analysts and Incident Responders.',
-      image: "/Learning Paths/blue-team-page.png", // Add image path
+      image: "/Learning Paths/blue-team-page.png",
       borderColor: 'border-primary-blue',
       hoverBorderColor: 'hover:border-primary-blue',
       iconColor: 'text-primary-blue',
@@ -24,7 +44,7 @@ function LearningPaths() {
       type: 'red',
       title: 'Red Team',
       description: 'Master offensive security techniques, penetration testing, and vulnerability assessment. Ideal for aspiring Ethical Hackers.',
-      image: "/Learning Paths/red-team-page.png", // Add image path
+      image: "/Learning Paths/red-team-page.png",
       borderColor: 'border-primary-red',
       hoverBorderColor: 'hover:border-primary-red',
       iconColor: 'text-primary-red',
@@ -224,58 +244,55 @@ function LearningPaths() {
     }
   ];
 
-  const filterPaths = (paths: any[]) => {
+  // Filter paths
+  const filterPaths = (paths) => {
     return paths.filter(path => {
-      const matchesSearch = path.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          path.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSearch = path.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+                            path.description.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
       const matchesDifficulty = selectedDifficulty === 'all' || path.difficulty.toLowerCase() === selectedDifficulty.toLowerCase();
       const matchesAccess = selectedAccess === 'all' || path.access.toLowerCase() === selectedAccess.toLowerCase();
-      
       return matchesSearch && matchesDifficulty && matchesAccess;
     });
   };
 
-  const filteredBluePaths = filterPaths(blueTeamPaths);
-  const filteredRedPaths = filterPaths(redTeamPaths);
-  const filteredCertPaths = filterPaths(certificationPaths);
+  const filteredBluePaths = filterPaths(blueTeamPaths).slice(0, visiblePaths);
+  const filteredRedPaths = filterPaths(redTeamPaths).slice(0, visiblePaths);
+  const filteredCertPaths = filterPaths(certificationPaths).slice(0, visiblePaths);
 
   return (
-    <div className="min-h-screen bg-background text-white">
-      <Navigation darkMode={true} onToggleDarkMode={() => {}} />
+    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-background text-white' : 'bg-gray-50 text-gray-900'}`}>
+      <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
 
       {/* Choose Your Path Section */}
       <div className="bg-primary-dark/50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">Choose Your Path</h1>
-            <p className="text-xl text-gray-400">
+            <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-black'}`}>
               Select your specialization and begin your cybersecurity journey
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
-  {pathCards.map((card, index) => (
-    <div
-      key={index}
-      className={`bg-primary-dark/30 rounded-lg p-8 border ${card.borderColor} ${card.hoverBorderColor} ${card.bgHover} transition-all duration-300 cursor-pointer group flex items-center`}
-    >
-      {/* Image on the side */}
-      <div className="w-48 h-48 flex-shrink-0 mr-6">
-        <img
-          src={card.image}
-          alt={card.title}
-          className="w-full h-full object-contain" // Ensure the image fits
-        />
-      </div>
-
-      {/* Text content */}
-      <div>
-        <h2 className="text-2xl font-bold mb-2">{card.title}</h2>
-        <p className="text-gray-400">{card.description}</p>
-      </div>
-    </div>
-  ))}
-</div>
+            {pathCards.map((card, index) => (
+              <div
+                key={index}
+                className={`bg-primary-dark/30 rounded-lg p-8 border ${card.borderColor} ${card.hoverBorderColor} ${card.bgHover} transition-all duration-300 cursor-pointer group flex items-center`}
+              >
+                <div className="w-48 h-48 flex-shrink-0 mr-6">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold mb-2">{card.title}</h2>
+                  <p className="text-gray-400">{card.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -290,7 +307,10 @@ function LearningPaths() {
                 placeholder="Search learning paths..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-background border border-primary-blue/20 rounded-lg focus:outline-none focus:border-primary-blue text-white"
+                className={`w-full pl-10 pr-4 py-2 ${
+                  darkMode ? 'bg-background border-primary-blue/20' : 'bg-white border-gray-200'
+                } border rounded-lg focus:outline-none focus:border-primary-blue text-white`}
+                aria-label="Search learning paths"
               />
             </div>
             <div className="flex items-center space-x-4">
@@ -298,7 +318,9 @@ function LearningPaths() {
               <select
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="bg-background border border-primary-blue/20 rounded-lg px-4 py-2 focus:outline-none focus:border-primary-blue text-white"
+                className={`px-4 py-2 ${
+                  darkMode ? 'bg-background border-primary-blue/20' : 'bg-white border-gray-200'
+                } border rounded-md focus:outline-none focus:border-primary-blue text-white`}
               >
                 <option value="all">All Difficulties</option>
                 <option value="beginner">Beginner</option>
@@ -309,7 +331,9 @@ function LearningPaths() {
               <select
                 value={selectedAccess}
                 onChange={(e) => setSelectedAccess(e.target.value)}
-                className="bg-background border border-primary-blue/20 rounded-lg px-4 py-2 focus:outline-none focus:border-primary-blue text-white"
+                className={`px-4 py-2 ${
+                  darkMode ? 'bg-background border-primary-blue/20' : 'bg-white border-gray-200'
+                } border rounded-md focus:outline-none focus:border-primary-blue text-white`}
               >
                 <option value="all">All Access</option>
                 <option value="free">Free</option>
@@ -330,62 +354,79 @@ function LearningPaths() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredBluePaths.map((path, index) => (
-              <Link
-                key={index}
-                to={path.path}
-                className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 overflow-hidden hover:border-primary-blue transition-all hover:scale-105"
-              >
-                <div className="relative h-82">
-                  <img
-                    src={path.image}
-                    alt={path.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent" />
-                </div>
-                
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <path.icon className="w-6 h-6 text-primary-blue" />
-                    <h3 className="text-xl font-bold">{path.title}</h3>
+            {filteredBluePaths.length > 0 ? (
+              filteredBluePaths.map((path, index) => (
+                <Link
+                  key={index}
+                  to={path.path}
+                  className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 overflow-hidden hover:border-primary-blue transition-all hover:scale-105"
+                >
+                  <div className="relative h-82">
+                    <img
+                      src={path.image}
+                      alt={path.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent" />
                   </div>
-                  <p className="text-gray-400 mb-4">{path.description}</p>
                   
-                  <div className="flex items-center space-x-4 mb-4">
-                    <span className="px-3 py-1 rounded-full bg-primary-blue/10 text-primary-blue text-sm">
-                      {path.difficulty}
-                    </span>
-                    <span className={`px-3 py-1 rounded-full text-sm ${
-                      path.access === 'Free' 
-                        ? 'bg-green-500/10 text-green-500'
-                        : 'bg-primary-red/10 text-primary-red'
-                    }`}>
-                      {path.access}
-                    </span>
-                  </div>
-
-                  {/* Progress Bar */}
-                  <div className="mb-4">
-                    <div className="flex justify-between text-sm text-gray-400 mb-1">
-                      <span>Progress</span>
-                      <span>{path.progress}%</span>
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-2">
+                      <path.icon className="w-6 h-6 text-primary-blue" />
+                      <h3 className="text-xl font-bold">{path.title}</h3>
                     </div>
-                    <div className="w-full h-2 bg-primary-dark rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-primary-blue transition-all duration-300"
-                        style={{ width: `${path.progress}%` }}
-                      />
+                    <p className="text-gray-400 mb-4">{path.description}</p>
+                    
+                    <div className="flex items-center space-x-4 mb-4">
+                      <span className="px-3 py-1 rounded-full bg-primary-blue/10 text-primary-blue text-sm">
+                        {path.difficulty}
+                      </span>
+                      <span className={`px-3 py-1 rounded-full text-sm ${
+                        path.access === 'Free' 
+                          ? 'bg-green-500/10 text-green-500'
+                          : 'bg-primary-red/10 text-primary-red'
+                      }`}>
+                        {path.access}
+                      </span>
                     </div>
-                  </div>
 
-                  <button className="bg-primary-blue text-background px-4 py-2 rounded-md hover:bg-secondary-blue transition flex items-center justify-center w-full">
-                    Start Learning
-                    <ChevronRight className="ml-2 w-4 h-4" />
-                  </button>
-                </div>
-              </Link>
-            ))}
+                    {/* Progress Bar */}
+                    <div className="mb-4">
+                      <div className="flex justify-between text-sm text-gray-400 mb-1">
+                        <span>Progress</span>
+                        <span>{path.progress}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-primary-dark rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-primary-blue transition-all duration-300"
+                          style={{ width: `${path.progress}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <button className="bg-primary-blue text-background px-4 py-2 rounded-md hover:bg-secondary-blue transition flex items-center justify-center w-full">
+                      Start Learning
+                      <ChevronRight className="ml-2 w-4 h-4" />
+                    </button>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-xl text-gray-400 mb-4">No blue team paths found. Try adjusting your filters.</p>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedDifficulty('all');
+                    setSelectedAccess('all');
+                  }}
+                  className="bg-primary-blue text-white px-6 py-2 rounded-lg hover:bg-secondary-blue transition"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -397,62 +438,79 @@ function LearningPaths() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredRedPaths.map((path, index) => (
-              <Link
-                key={index}
-                to={path.path}
-                className="bg-primary-dark/30 rounded-lg border border-primary-red/20 overflow-hidden hover:border-primary-red transition-all hover:scale-105"
-              >
-                <div className="relative h-82">
-                  <img
-                    src={path.image}
-                    alt={path.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent" />
-                </div>
-                
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <path.icon className="w-6 h-6 text-primary-red" />
-                    <h3 className="text-xl font-bold">{path.title}</h3>
+            {filteredRedPaths.length > 0 ? (
+              filteredRedPaths.map((path, index) => (
+                <Link
+                  key={index}
+                  to={path.path}
+                  className="bg-primary-dark/30 rounded-lg border border-primary-red/20 overflow-hidden hover:border-primary-red transition-all hover:scale-105"
+                >
+                  <div className="relative h-82">
+                    <img
+                      src={path.image}
+                      alt={path.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent" />
                   </div>
-                  <p className="text-gray-400 mb-4">{path.description}</p>
                   
-                  <div className="flex items-center space-x-4 mb-4">
-                    <span className="px-3 py-1 rounded-full bg-primary-red/10 text-primary-red text-sm">
-                      {path.difficulty}
-                    </span>
-                    <span className={`px-3 py-1 rounded-full text-sm ${
-                      path.access === 'Free' 
-                        ? 'bg-green-500/10 text-green-500'
-                        : 'bg-primary-red/10 text-primary-red'
-                    }`}>
-                      {path.access}
-                    </span>
-                  </div>
-
-                  {/* Progress Bar */}
-                  <div className="mb-4">
-                    <div className="flex justify-between text-sm text-gray-400 mb-1">
-                      <span>Progress</span>
-                      <span>{path.progress}%</span>
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-2">
+                      <path.icon className="w-6 h-6 text-primary-red" />
+                      <h3 className="text-xl font-bold">{path.title}</h3>
                     </div>
-                    <div className="w-full h-2 bg-primary-dark rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-primary-red transition-all duration-300"
-                        style={{ width: `${path.progress}%` }}
-                      />
+                    <p className="text-gray-400 mb-4">{path.description}</p>
+                    
+                    <div className="flex items-center space-x-4 mb-4">
+                      <span className="px-3 py-1 rounded-full bg-primary-red/10 text-primary-red text-sm">
+                        {path.difficulty}
+                      </span>
+                      <span className={`px-3 py-1 rounded-full text-sm ${
+                        path.access === 'Free' 
+                          ? 'bg-green-500/10 text-green-500'
+                          : 'bg-primary-red/10 text-primary-red'
+                      }`}>
+                        {path.access}
+                      </span>
                     </div>
-                  </div>
 
-                  <button className="bg-primary-red text-background px-4 py-2 rounded-md hover:bg-secondary-red transition flex items-center justify-center w-full">
-                    Start Learning
-                    <ChevronRight className="ml-2 w-4 h-4" />
-                  </button>
-                </div>
-              </Link>
-            ))}
+                    {/* Progress Bar */}
+                    <div className="mb-4">
+                      <div className="flex justify-between text-sm text-gray-400 mb-1">
+                        <span>Progress</span>
+                        <span>{path.progress}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-primary-dark rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-primary-red transition-all duration-300"
+                          style={{ width: `${path.progress}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <button className="bg-primary-red text-background px-4 py-2 rounded-md hover:bg-secondary-red transition flex items-center justify-center w-full">
+                      Start Learning
+                      <ChevronRight className="ml-2 w-4 h-4" />
+                    </button>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-xl text-gray-400 mb-4">No red team paths found. Try adjusting your filters.</p>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedDifficulty('all');
+                    setSelectedAccess('all');
+                  }}
+                  className="bg-primary-red text-white px-6 py-2 rounded-lg hover:bg-secondary-red transition"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -464,74 +522,99 @@ function LearningPaths() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredCertPaths.map((path, index) => (
-              <Link
-                key={index}
-                to={path.path}
-                className={`bg-primary-dark/30 rounded-lg border ${
-                  path.theme === 'red' ? 'border-primary-red/20 hover:border-primary-red' : 'border-primary-blue/20 hover:border-primary-blue'
-                } overflow-hidden transition-all hover:scale-105`}
-              >
-                <div className="relative h-82">
-                  <img
-                    src={path.image}
-                    alt={path.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent" />
-                </div>
-                
-                <div className="p-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <path.icon className={`w-6 h-6 ${path.theme === 'red' ? 'text-primary-red' : 'text-primary-blue'}`} />
-                    <h3 className="text-xl font-bold">{path.title}</h3>
+            {filteredCertPaths.length > 0 ? (
+              filteredCertPaths.map((path, index) => (
+                <Link
+                  key={index}
+                  to={path.path}
+                  className={`bg-primary-dark/30 rounded-lg border ${
+                    path.theme === 'red' ? 'border-primary-red/20 hover:border-primary-red' : 'border-primary-blue/20 hover:border-primary-blue'
+                  } overflow-hidden transition-all hover:scale-105`}
+                >
+                  <div className="relative h-82">
+                    <img
+                      src={path.image}
+                      alt={path.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary-dark to-transparent" />
                   </div>
-                  <p className="text-gray-400 mb-4">{path.description}</p>
                   
-                  <div className="flex items-center space-x-4 mb-4">
-                    <span className={`px-3 py-1 rounded-full text-sm ${
-                      path.theme === 'red' ? 'bg-primary-red/10 text-primary-red' : 'bg-primary-blue/10 text-primary-blue'
-                    }`}>
-                      {path.difficulty}
-                    </span>
-                    <span className={`px-3 py-1 rounded-full text-sm ${
-                      path.theme === 'red' ? 'bg-primary-red/10 text-primary-red' : 'bg-primary-blue/10 text-primary-blue'
-                    }`}>
-                      {path.duration}
-                    </span>
-                  </div>
-
-                  <div className={`mb-4 p-3 ${
-                    path.theme === 'red' ? 'bg-primary-red/5' : 'bg-primary-blue/5'
-                  } rounded-lg border ${
-                    path.theme === 'red' ? 'border-primary-red/10' : 'border-primary-blue/10'
-                  }`}>
-                    <div className="text-sm text-gray-400">
-                      Exam Cost: <span className={`font-semibold ${
-                        path.theme === 'red' ? 'text-primary-red' : 'text-primary-blue'
+                  <div className="p-6">
+                    <div className="flex items-center gap-3 mb-2">
+                      <path.icon className={`w-6 h-6 ${path.theme === 'red' ? 'text-primary-red' : 'text-primary-blue'}`} />
+                      <h3 className="text-xl font-bold">{path.title}</h3>
+                    </div>
+                    <p className="text-gray-400 mb-4">{path.description}</p>
+                    
+                    <div className="flex items-center space-x-4 mb-4">
+                      <span className={`px-3 py-1 rounded-full text-sm ${
+                        path.theme === 'red' ? 'bg-primary-red/10 text-primary-red' : 'bg-primary-blue/10 text-primary-blue'
                       }`}>
-                        {path.examCost}
+                        {path.difficulty}
+                      </span>
+                      <span className={`px-3 py-1 rounded-full text-sm ${
+                        path.theme === 'red' ? 'bg-primary-red/10 text-primary-red' : 'bg-primary-blue/10 text-primary-blue'
+                      }`}>
+                        {path.duration}
                       </span>
                     </div>
-                  </div>
 
-                  <button className={`${
-                    path.theme === 'red' 
-                      ? 'bg-primary-red hover:bg-secondary-red' 
-                      : 'bg-primary-blue hover:bg-secondary-blue'
-                  } text-background px-4 py-2 rounded-md transition flex items-center justify-center w-full`}>
-                    Start Certification
-                    <ChevronRight className="ml-2 w-4 h-4" />
-                  </button>
-                </div>
-              </Link>
-            ))}
+                    <div className={`mb-4 p-3 ${
+                      path.theme === 'red' ? 'bg-primary-red/5' : 'bg-primary-blue/5'
+                    } rounded-lg border ${
+                      path.theme === 'red' ? 'border-primary-red/10' : 'border-primary-blue/10'
+                    }`}>
+                      <div className="text-sm text-gray-400">
+                        Exam Cost: <span className={`font-semibold ${
+                          path.theme === 'red' ? 'text-primary-red' : 'text-primary-blue'
+                        }`}>
+                          {path.examCost}
+                        </span>
+                      </div>
+                    </div>
+
+                    <button className={`${
+                      path.theme === 'red' 
+                        ? 'bg-primary-red hover:bg-secondary-red' 
+                        : 'bg-primary-blue hover:bg-secondary-blue'
+                    } text-background px-4 py-2 rounded-md transition flex items-center justify-center w-full`}>
+                      Start Certification
+                      <ChevronRight className="ml-2 w-4 h-4" />
+                    </button>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-xl text-gray-400 mb-4">No certifications found. Try adjusting your filters.</p>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedDifficulty('all');
+                    setSelectedAccess('all');
+                  }}
+                  className="bg-primary-blue text-white px-6 py-2 rounded-lg hover:bg-secondary-blue transition"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-primary-dark/30 text-white py-8 mt-16 border-t border-primary-blue/20">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className={`${darkMode ? 'text-gray-400' : 'text-black'}`}>
+            © 2025 HackTheHackers. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
 
 export default LearningPaths;
-
