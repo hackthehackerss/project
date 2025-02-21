@@ -1,23 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Construction, Terminal, HardHat, PlusCircle } from 'lucide-react';
+import { PlusCircle } from 'lucide-react';
 import Navigation from '../components/Navigation';
 
 function Challenges() {
   const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
+  const [difficultyFilter, setDifficultyFilter] = useState('All');
+  const [suggestions, setSuggestions] = useState([]);
+  const searchRef = useRef(null);
 
   // Sample challenges data
   const challenges = [
     {
       id: 1,
-      title: 'PowerShell Analysis Challenge',
+      title: 'PowerShell Analysis',
       description: 'Analyze a suspicious PowerShell command and investigate its role in a system compromise.',
-      icon: Terminal,
       questions: 10,
       points: 500,
-      difficulty: 'Very Easy',
+      difficulty: 'Easy',
       category: 'SOC',
       link: '/challenges/powershell-logs',
       backgroundImage: '/Challenges/powershell-banner2.jpg',
@@ -26,10 +28,9 @@ function Challenges() {
       id: 2,
       title: 'Miner On the Run',
       description: 'Investigate an encrypted endpoint and uncover a hidden cryptocurrency mining operation.',
-      icon: HardHat,
       questions: 8,
       points: 600,
-      difficulty: 'Easy',
+      difficulty: 'Medium',
       category: 'SOC',
       link: '/challenges/miner-on-the-run',
       backgroundImage: '/Challenges/cryptominer-banner.png',
@@ -38,7 +39,6 @@ function Challenges() {
       id: 3,
       title: 'Master File Trap',
       description: 'Analyze the Master File Table (MFT) to uncover details of a malware attack.',
-      icon: Terminal,
       questions: 10,
       points: 700,
       difficulty: 'Medium',
@@ -48,20 +48,19 @@ function Challenges() {
     },
     {
       id: 4,
-      title: 'Malware Analysis Challenge (Testing Its empty)',
-      description: 'Analyze a malicious binary and identify its behavior and impact.',
-      icon: Construction,
-      questions: 12,
+      title: 'Phishing Email Analysis',
+      description: 'Analyze a suspicious email to uncover phishing indicators.',
+      questions: 11,
       points: 700,
-      difficulty: 'Medium',
-      category: 'Malware Analysis',
-      link: '/challenges/malware-analysis',
+      difficulty: 'Easy',
+      category: 'SOC',
+      link: '/challenges/email-analysis',
+      backgroundImage: '/Challenges/emailanalysischallenge.png',
     },
     {
       id: 5,
       title: 'More Challenges Coming Soon',
       description: "We're working on new challenges to test your cybersecurity skills.",
-      icon: Construction,
       questions: 0,
       points: 0,
       difficulty: '',
@@ -70,18 +69,41 @@ function Challenges() {
     },
   ];
 
-  // Filter challenges based on search query and active tab
+  // Filter challenges based on search query, active tab, and difficulty
   const filteredChallenges = challenges.filter((challenge) => {
     const matchesSearch = challenge.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTab = activeTab === 'All' || challenge.category === activeTab;
-    return matchesSearch && matchesTab;
+    const matchesDifficulty = difficultyFilter === 'All' || challenge.difficulty === difficultyFilter;
+    return matchesSearch && matchesTab && matchesDifficulty;
   });
+
+  // Handle search input change for autocomplete
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    setSuggestions(
+      challenges.filter((challenge) =>
+        challenge.title.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+  };
+
+  // Close suggestions when clicking outside the search bar
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSuggestions([]);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-background text-white' : 'bg-gray-50 text-gray-900'}`}>
       <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
 
-      {/* Hero Section with Logo and Custom Title */}
+      {/* Hero Section */}
       <div className="bg-primary-dark/50 py-12">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex justify-center items-center mb-6">
@@ -90,16 +112,15 @@ function Challenges() {
               alt="HackTheHackers Logo"
               className="w-16 h-16 mr-4"
             />
-            {/* Custom Title */}
             <h1 className="text-5xl font-bold">
               <span className="text-white">Hack</span>
               <span className="text-red-500">The</span>
               <span className="text-white">Hackers</span>
             </h1>
           </div>
-          <p className="text-xl text-gray-400 mb-1">
-          Put Your Blue Team Skills to the Test!<br />
-          Step into the role of a cybersecurity investigator and tackle real-world challenges designed to sharpen your defensive expertise.<br /> Analyze security incidents, uncover hidden threats, and piece together the story behind cyber attacks using the knowledge you've gained.<br /> Are you ready to take on the challenge?
+          <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-black'} mb-1`}>
+            Put Your Blue Team Skills to the Test!<br />
+            Step into the role of a cybersecurity investigator and tackle real-world challenges designed to sharpen your defensive expertise.<br /> Analyze security incidents, uncover hidden threats, and piece together the story behind cyber attacks using the knowledge you've gained.<br /> Are you ready to take on the challenge?
           </p>
         </div>
       </div>
@@ -109,10 +130,8 @@ function Challenges() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <div className="flex items-center space-x-4">
-              <Terminal className="w-8 h-8 text-primary-blue" />
               <h1 className="text-3xl font-bold">Challenges</h1>
             </div>
-
           </div>
         </div>
 
@@ -129,16 +148,32 @@ function Challenges() {
           </Link>
 
           <div className="flex items-center space-x-4">
-            <div className="relative">
+            <div className="relative" ref={searchRef}>
               <input
                 type="text"
                 placeholder="Search challenges..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
                 className={`pl-10 pr-4 py-2 ${
                   darkMode ? 'bg-primary-dark/30 border-primary-blue/20' : 'bg-white border-gray-200'
                 } border rounded-md focus:outline-none focus:border-primary-blue`}
               />
+              {suggestions.length > 0 && (
+                <div className="absolute z-10 bg-primary-dark/30 border border-primary-blue/20 rounded-md mt-1 w-full">
+                  {suggestions.map((challenge) => (
+                    <div
+                      key={challenge.id}
+                      className="p-2 hover:bg-primary-dark/40 cursor-pointer"
+                      onClick={() => {
+                        setSearchQuery(challenge.title);
+                        setSuggestions([]);
+                      }}
+                    >
+                      {challenge.title}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <select
@@ -153,27 +188,47 @@ function Challenges() {
               <option value="DFIR">DFIR</option>
               <option value="Malware Analysis">Malware Analysis</option>
             </select>
+
+            <select
+              value={difficultyFilter}
+              onChange={(e) => setDifficultyFilter(e.target.value)}
+              className={`px-4 py-2 ${
+                darkMode ? 'bg-primary-dark/30 border-primary-blue/20' : 'bg-white border-gray-200'
+              } border rounded-md focus:outline-none focus:border-primary-blue`}
+            >
+              <option value="All">All Difficulties</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
           </div>
         </div>
 
+        {/* Challenge Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredChallenges.map((challenge) => (
             <Link
               key={challenge.id}
               to={challenge.link}
-              className={`relative rounded-lg p-6 border hover:border-primary-blue hover:scale-105 transition-transform group hover:shadow-lg overflow-hidden`}
+              className={`relative rounded-lg p-6 border hover:border-primary-blue hover:scale-105 transition-transform transform-gpu will-change-transform group hover:shadow-lg overflow-hidden h-64`} // Fixed height
               style={{
                 backgroundImage: `url(${challenge.backgroundImage})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}
             >
-              {/* Overlay to fade the background image */}
+              {/* Overlay */}
               <div className="absolute inset-0 bg-black/70 group-hover:bg-black/60 transition-colors"></div>
 
               {/* Content */}
               <div className="relative z-10">
-                <challenge.icon className="w-8 h-8 text-primary-blue mb-4 group-hover:text-primary-red transition-colors" />
+                {/* Completion Badge (Dynamic based on user progress) */}
+                {/* Replace this with your logic to check if the challenge is completed */}
+                {false && ( // Replace `false` with your logic
+                  <div className="absolute top-2 right-2 bg-green-500/20 text-green-500 text-sm px-3 py-1 rounded-full">
+                    Completed
+                  </div>
+                )}
                 <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-primary-blue transition-colors">
                   {challenge.title}
                 </h3>
@@ -182,21 +237,16 @@ function Challenges() {
                 </p>
                 {/* Difficulty and Category Tags */}
                 <div className="mt-2 flex gap-2">
-                  {challenge.difficulty && (
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      challenge.difficulty === 'Very Easy' ? 'bg-green-500/20 text-green-500' :
-                      challenge.difficulty === 'Easy' ? 'bg-yellow-500/20 text-yellow-500' :
-                      challenge.difficulty === 'Medium' ? 'bg-orange-500/20 text-orange-500' :
-                      challenge.difficulty === 'Hard' ? 'bg-red-500/20 text-red-500' : ''
-                    }`}>
-                      {challenge.difficulty}
-                    </span>
-                  )}
-                  {challenge.category && (
-                    <span className="text-xs bg-blue-500/20 text-blue-500 px-2 py-1 rounded-full">
-                      {challenge.category}
-                    </span>
-                  )}
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    challenge.difficulty === 'Easy' ? 'bg-green-500/20 text-green-500' :
+                    challenge.difficulty === 'Medium' ? 'bg-yellow-500/20 text-yellow-500' :
+                    challenge.difficulty === 'Hard' ? 'bg-red-500/20 text-red-500' : ''
+                  }`}>
+                    {challenge.difficulty}
+                  </span>
+                  <span className="text-xs bg-blue-500/20 text-blue-500 px-2 py-1 rounded-full">
+                    {challenge.category}
+                  </span>
                 </div>
                 {/* Points and Questions */}
                 {challenge.questions > 0 && (
@@ -220,6 +270,15 @@ function Challenges() {
           ))}
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-primary-dark/30 text-white py-8 mt-16 border-t border-primary-blue/20">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className={`${darkMode ? 'text-gray-400' : 'text-black'}`}>
+            © 2025 HackTheHackers. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
