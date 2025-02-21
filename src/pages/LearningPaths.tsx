@@ -38,7 +38,8 @@ function LearningPaths() {
       borderColor: 'border-primary-blue',
       hoverBorderColor: 'hover:border-primary-blue',
       iconColor: 'text-primary-blue',
-      bgHover: 'hover:bg-primary-blue/5'
+      bgHover: 'hover:bg-primary-blue/5',
+      icon: Shield
     },
     {
       type: 'red',
@@ -48,7 +49,8 @@ function LearningPaths() {
       borderColor: 'border-primary-red',
       hoverBorderColor: 'hover:border-primary-red',
       iconColor: 'text-primary-red',
-      bgHover: 'hover:bg-primary-red/5'
+      bgHover: 'hover:bg-primary-red/5',
+      icon: Sword
     }
   ];
 
@@ -264,31 +266,62 @@ function LearningPaths() {
       <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
 
       {/* Choose Your Path Section */}
-      <div className="bg-primary-dark/50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-primary-dark/50 py-16 relative overflow-hidden">
+        {/* Animated Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-blue/10 via-primary-red/10 to-primary-blue/10 animate-gradient-x opacity-50" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Choose Your Path</h1>
-            <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-black'}`}>
+            <h1 className="text-4xl font-bold mb-4 animate-fade-in">
+              Choose Your Path
+            </h1>
+            <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-black'} animate-fade-in`}>
               Select your specialization and begin your cybersecurity journey
             </p>
           </div>
 
+          {/* Red and Blue Team Cards */}
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
             {pathCards.map((card, index) => (
               <div
                 key={index}
-                className={`bg-primary-dark/30 rounded-lg p-8 border ${card.borderColor} ${card.hoverBorderColor} ${card.bgHover} transition-all duration-300 cursor-pointer group flex items-center`}
+                className={`relative bg-primary-dark/30 rounded-lg p-8 border ${
+                  card.borderColor
+                } ${
+                  card.hoverBorderColor
+                } ${
+                  card.bgHover
+                } transition-all duration-300 cursor-pointer group hover:scale-105 hover:shadow-lg hover:shadow-${
+                  card.type === 'blue' ? 'primary-blue/20' : 'primary-red/20'
+                } overflow-hidden`}
               >
-                <div className="w-48 h-48 flex-shrink-0 mr-6">
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">{card.title}</h2>
-                  <p className="text-gray-400">{card.description}</p>
+                {/* Glowing Border */}
+                <div className={`absolute inset-0 rounded-lg border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                  card.type === 'blue' ? 'border-primary-blue/50' : 'border-primary-red/50'
+                }`} />
+
+                {/* Card Content */}
+                <div className="flex items-center">
+                  <div className="w-48 h-48 flex-shrink-0 mr-6">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    {/* Animated Icon */}
+                    <card.icon
+                      className={`w-12 h-12 mb-4 ${
+                        card.iconColor
+                      } transition-transform duration-300 group-hover:scale-110`}
+                    />
+                    {/* Fade-in Title */}
+                    <h2 className="text-2xl font-bold mb-2 animate-fade-in">
+                      {card.title}
+                    </h2>
+                    <p className="text-gray-400">{card.description}</p>
+                  </div>
                 </div>
               </div>
             ))}
