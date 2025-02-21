@@ -154,8 +154,8 @@ function Home() {
           <div className="absolute inset-0 border-4 border-blue-500 rounded-lg z-0 animate-glow-blue-red"></div>
           <div className="relative z-10 p-2 border-4 border-primary-blue/30 rounded-lg">
             <img 
-              src="https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/choose-path.png" 
-              alt="Choose Your Path" 
+              src="/Main/choose-path.png" 
+              alt="choose Your Path" 
               className="w-full h-auto rounded-lg shadow-lg animate-float"
             />
           </div>
