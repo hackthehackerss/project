@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Shield, Target, Award, Trophy, Search, Sun, Moon, X, FlaskConical } from 'lucide-react';
+import { Shield, Target, Award, Trophy, Sun, Moon, FlaskConical } from 'lucide-react';
 import UserProfileButton from './UserProfileButton';
 import { useAuth } from '../contexts/AuthContext';
 import logoShieldImg from '/Main/logo-shield.png';
@@ -13,29 +13,6 @@ interface NavigationProps {
 function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
   const { profile } = useAuth();
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
-  const searchRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setShowSearch(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-      setSearchQuery('');
-      setShowSearch(false);
-    }
-  };
 
   return (
     <nav className={`${darkMode ? 'bg-primary-dark border-b border-primary-blue/20' : 'bg-white border-b border-gray-200'} sticky top-0 z-50`}>
@@ -106,37 +83,6 @@ function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
             >
               {darkMode ? <Sun className="w-6 h-6 text-yellow-400" /> : <Moon className="w-6 h-6 text-gray-700" />}
             </button>
-
-            <div className="relative" ref={searchRef}>
-              {showSearch ? (
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 bg-primary-dark/95 rounded-lg shadow-lg p-2 min-w-[300px]">
-                  <form onSubmit={handleSearch} className="flex items-center">
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search..."
-                      className="w-full px-4 py-2 bg-background border border-primary-blue/20 rounded-l-md focus:outline-none focus:border-primary-blue text-white"
-                      autoFocus
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowSearch(false)}
-                      className="p-2 bg-background border border-l-0 border-primary-blue/20 rounded-r-md text-gray-400 hover:text-white"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </form>
-                </div>
-              ) : (
-                <button 
-                  onClick={() => setShowSearch(true)}
-                  className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} transition-colors`}
-                >
-                  <Search className="w-5 h-5" />
-                </button>
-              )}
-            </div>
 
             {profile ? (
               <UserProfileButton />
