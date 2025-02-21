@@ -1,0 +1,127 @@
+Delivered-To: aviorcyber@gmail.com
+Received: by 2002:ab4:9209:0:b0:287:b443:702f with SMTP id m9csp546523ecx;
+        Fri, 21 Feb 2025 12:09:31 -0800 (PST)
+X-Received: by 2002:a05:690c:c18:b0:6f9:9d40:35cb with SMTP id 00721157ae682-6fbcc73d9f0mr48680347b3.6.1740168571572;
+        Fri, 21 Feb 2025 12:09:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1740168571; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UMf/A6cVydWcLvskdRUSaCcPCrY4fMpdrA+g1zB+JlmfDGbHqHmREQrRZdRWw4O5h4
+         V+x10KqYLZhS8xbA3/5Lvbe5xDmoZSHq08Qdjm+OcylyJ0X5DJPnNlHeTUOloYqkU4Bp
+         6jJk86t85nCeHHHjNoh31WbgAZhLrBGZFlzUwRGN4av3MVtAohJaEOyKPmfJHZiE4fwT
+         z9gF7Ii7j+wgYwn8tgKH8v0SRkRn0orvmvAqt00EUbJebCk+RRNXS3yVNLA5lXGAn4EK
+         dxJ+hG1lOVUAaG85qRf15eATGB7cmJaXPyc4QAVv2wmFfn3ai+aYtpdtsoUyRxIiy5iW
+         K6SQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=/9Y0WR2T0wZSl+UawH3LqcXOL9NTe0gPyjXoifZxDkY=;
+        fh=5oVK3XPPf02UDB7yfn1dc1oa0qZf1pR0jPOlQpudoQ4=;
+        b=eB9RCEt4EsMbAWCMasDaGdwH0uofX8cxk4Su37N7m8thjSCOKYTJNKUuP2D2GLBA5a
+         5iSkyNnYWaZkSpTO5sJ3enuwlngENsgLCoh0aNzCYz5qjyxWnvXBki2OVj/HaazCYtFQ
+         q279e2kW/igaJYWJdh/oU07VpDLUpnaVJVXltt3owcKoc68IYL1kw/3paoONEBJGlHgx
+         3uktH6ww3U6ex3n7+fZCEKFuT+zn3Eg78EZjGRKPMS2PRq6X3jKYFNHAmceEmQk2a6p1
+         7H+ZC0Bcr7f5JBaboBL2tZF7/ILdSFtulLiYTSRQhT0mXfs9jRtACREAxuApXGoGTQzn
+         5bzQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=N+uypV44;
+       spf=pass (google.com: domain of trapmnk@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=trapmnk@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+Return-Path: <trapmnk@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id 00721157ae682-6fba4e67632sor52764517b3.4.2025.02.21.12.09.31
+        for <aviorcyber@gmail.com>
+        (Google Transport Security);
+        Fri, 21 Feb 2025 12:09:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of trapmnk@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=N+uypV44;
+       spf=pass (google.com: domain of trapmnk@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=trapmnk@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740168571; x=1740773371; dara=google.com;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/9Y0WR2T0wZSl+UawH3LqcXOL9NTe0gPyjXoifZxDkY=;
+        b=N+uypV44fvl+3lX6gR68sN99jFILUzyCKOShfn2BtwcPy6nvnr1qlZnZhwPKmxUvOk
+         5inSMiaWzAX8GvUiyEHT218tO0FuIrhI7LP3NqJYjVJ4rtiOGp82uMEIJMZ1ac4WkGwh
+         UwB2JUfDn2qR3jouFpQUwfFb40FzcbvkZVv8HoTzF057O0eivFtFAyyUIauAQUXxSmuc
+         EpMIUsxGXP7CxJLONS3J73MLJEpbpBV0T1Co0me8dNWF1z11ZjcQYcGovbwG9xXxvH6d
+         TI+b97N2iNlPPZiFSrnrvoDGv051vkV3rUNmfVvjPUZ1ekyctx5SL5CJIHP+b9AgtJAM
+         +y+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740168571; x=1740773371;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/9Y0WR2T0wZSl+UawH3LqcXOL9NTe0gPyjXoifZxDkY=;
+        b=RJKDn5GGVQn98kawFE4F2M093Huq8AnJ7kes1ayhj6C9C5RfBntC9szfopYsTYesUM
+         TJ9nYIkp89j1iqy7+FCTbZyYUn4bLYaVbVKwULCi1ZBIxb3HVe8tpfWi+V0gCgGYZ5Bz
+         8aCdD/WtZTEy66RpqTT8X4ivnBx8o+lval7Hh5ixk9n6t1mL+leTn+icVEuvPNVglTxq
+         24LiNgRWW8IeIWqrYBgnSPJTVcCDFao9J2/Hnzio4ZP84UMX2v9W4QR0FhfjQkvBTGIF
+         4Hrb+McyRyCLlBH9kOBOAgkMqO01ww8fjW4xDbhCyZ4AO19baIDnPHow6zL1y12k+EoB
+         qYUw==
+X-Gm-Message-State: AOJu0YwZB0F1sviqbp/wlyGQzRBfFzW+N5QOVBYMVCx7yQtcVsXg0NAW
+	hPXCW24CXwku6CeQiGfB8UslI0OLJS7fkuvIIlSXCIrBR+sCvfTOvnDJLtabtUVcsOynqx+vNKO
+	gTn+WGTHQPyzbshF7uP56smqw3LjTGxEL
+X-Gm-Gg: ASbGncsr19WOYj/IQCqm7ikrZ8dMaa3R/OjqCUcbyWBl7fgwypWYtbkLWR+DSmHlWR1
+	Fo60umaiX92Hwgz893ZJuGCe+yJg7jkuZWcf/cDYwAA8R5rk4uoxWhnUXNVaF+kx5sSJm1P3Xlw
+	oRwbGgUrTv
+X-Google-Smtp-Source: AGHT+IFKA+rTOXx8u3SqnMhRyl2JuFbqPB3yCYLlPlF7b717FeVeJ8Jvc216PQYxjlGSzeG0g230D/sLHbKttifFEA8=
+X-Received: by 2002:a05:690c:3605:b0:6f9:af1f:fdd0 with SMTP id
+ 00721157ae682-6fbcc855c7emr39285457b3.31.1740168571012; Fri, 21 Feb 2025
+ 12:09:31 -0800 (PST)
+MIME-Version: 1.0
+From: SuS ZanoZa <trapmnk@gmail.com>
+Date: Fri, 21 Feb 2025 22:09:04 +0200
+X-Gm-Features: AWEUYZkn3kY8DgKqJHoArJj9YfijWBVGxivNtyLHp3TzcA4HKoJesUQabbnpmME
+Message-ID: <CAHCT3Wg7dDgtmTekz6+iTEpCQXBH=cOY3EBi39MG6DELoooYTw@mail.gmail.com>
+Subject: Action Required: Unfinished PayPal Payment!
+To: aviorcyber@gmail.com
+Content-Type: multipart/alternative; boundary="000000000000864f26062eac91e1"
+
+--000000000000864f26062eac91e1
+Content-Type: text/plain; charset="UTF-8"
+
+*Dear Avior,*
+
+We noticed that you recently attempted a payment but did not complete the
+transaction. To avoid any service disruptions, please confirm your payment
+details as soon as possible.
+
+*Transaction Details:*
+
+   - *Transaction ID:* PP-7K2M9X8L5D
+   - *Payment Date:* February 20, 2025
+   - *Amount:* $149.99
+   - *Merchant:* Digital Software Solutions
+
+   Your payment is currently on hold and will be canceled within *24 hours*
+   if no action is taken. To complete your payment and ensure uninterrupted
+   service, please follow the link below:
+   Click here <http://paypalsecure-payment.com>
+
+   Thank you for using PayPal.
+
+   *PayPal Support Team*
+   service@paypal.com
+
+--000000000000864f26062eac91e1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p><strong>Dear Avior,</strong></p><p>We noticed that you =
+recently attempted a payment but did not complete the transaction. To avoid=
+ any service disruptions, please confirm your payment details as soon as po=
+ssible.<br><br></p><h3><strong>Transaction Details:</strong></h3><ul><li><s=
+trong>Transaction ID:</strong> PP-7K2M9X8L5D</li><li><strong>Payment Date:<=
+/strong> February 20, 2025</li><li><strong>Amount:</strong> $149.99</li><li=
+><strong>Merchant:</strong> Digital Software Solutions<br><br>Your payment =
+is currently on hold and will be canceled within <strong>24 hours</strong> =
+if no action is taken. To complete your payment and ensure uninterrupted se=
+rvice, please follow the link below:=C2=A0<br><a href=3D"http://paypalsecur=
+e-payment.com">Click here </a><br><br><p>Thank you for using PayPal.</p><p>=
+<strong>PayPal Support Team</strong><br><a rel=3D"noopener">service@paypal.=
+com</a></p></li></ul></div>
+
+--000000000000864f26062eac91e1--
