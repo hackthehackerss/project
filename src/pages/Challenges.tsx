@@ -59,13 +59,13 @@ function Challenges() {
     },
     {
       id: 5,
-      title: 'More Challenges Coming Soon',
-      description: "We're working on new challenges to test your cybersecurity skills.",
+      title: '',
       questions: 0,
       points: 0,
       difficulty: '',
       category: '',
       link: '#',
+      backgroundImage: '/Challenges/comingsoon.png',
     },
   ];
 
@@ -100,7 +100,7 @@ function Challenges() {
   }, []);
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-background text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-background text-white' : 'bg-gray-50 text-gray-900'}`}>
       <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
 
       {/* Hero Section */}
