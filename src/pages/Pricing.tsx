@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, Shield, Target, Award, Trophy, Book, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle2, Shield, Target, Award, Trophy , Book, Star, ChevronDown, ChevronUp, FlaskConical } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import Navigation from '../components/Navigation';
 
@@ -16,10 +16,8 @@ function Pricing() {
       price: 0,
       features: [
         'Access to Basic Challenges',
-        'Cybersecurity Fundamentals Course',
-        'Community Forum Access',
-        'Basic Support',
         'Limited Learning Paths',
+        'Basic Support',
         'Public Profile',
         'Basic Achievements'
       ],
@@ -28,17 +26,15 @@ function Pricing() {
     },
     {
       name: 'Pro',
-      price: billingCycle === 'monthly' ? 24.99 : 19.99,
+      price: billingCycle === 'monthly' ? 9.99 : 14.99, // Adjusted prices
+      originalPrice: billingCycle === 'monthly' ? 24.99 : 19.99, // Original prices
       features: [
         'All Basic Features',
         'All Advanced Challenges',
         'All Learning Paths',
         'Priority Support',
         'Certificate of Completion',
-        'Private Discord Access',
-        'Team Collaboration Tools',
         'Advanced Analytics',
-        'Custom Learning Paths',
         'Early Access to New Content'
       ],
       buttonText: 'Subscribe Now',
@@ -49,13 +45,10 @@ function Pricing() {
       price: 'Custom',
       features: [
         'All Pro Features',
-        'Custom Learning Paths',
         'Dedicated Support Manager',
-        'API Access',
         'Advanced Analytics',
         'Custom Reporting',
         'SLA Guarantee',
-        'Onboarding Training',
         'Custom Integrations',
         'Volume Licensing'
       ],
@@ -71,12 +64,12 @@ function Pricing() {
       description: 'Structured courses covering incident response, threat hunting, and security operations.'
     },
     {
-      icon: Target,
+      icon: FlaskConical,
       title: 'Hands-on Labs',
       description: 'Practice in realistic environments with guided exercises and real-world scenarios.'
     },
     {
-      icon: Trophy,
+      icon: Target,
       title: 'Challenges',
       description: 'Test your skills with CTF-style challenges and earn badges for your achievements.'
     },
@@ -86,12 +79,12 @@ function Pricing() {
       description: 'Access a growing library of cybersecurity courses and materials.'
     },
     {
-      icon: Star,
+      icon: Award,
       title: 'Certifications',
       description: 'Earn industry-recognized certifications as you complete courses.'
     },
     {
-      icon: Award,
+      icon: Star,
       title: 'Community',
       description: 'Join a community of cybersecurity professionals and enthusiasts.'
     }
@@ -147,6 +140,13 @@ function Pricing() {
     <div className={`min-h-screen ${darkMode ? 'bg-background text-white' : 'bg-gray-50 text-gray-900'}`}>
       <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
 
+      {/* Sale Banner */}
+      <div className="bg-gradient-to-r from-red-600 to-red-500 text-white py-4 text-center">
+        <p className="text-xl font-bold">
+          🎉 Limited Time Offer: Get <span className="underline">50% Off</span> on Pro Plans! 🎉
+        </p>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
         <div className="text-center mb-16">
@@ -154,22 +154,6 @@ function Pricing() {
           <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
             Select the plan that best fits your learning goals. All plans include access to our growing library of content.
           </p>
-        </div>
-
-        {/* Trust Badges Section */}
-        <div className="my-16 overflow-hidden">
-          <h2 className="text-2xl font-bold text-center mb-8">Trusted by Leading Organizations</h2>
-          <div className="relative w-full h-20 overflow-hidden">
-            <div className="absolute whitespace-nowrap animate-scroll">
-              {trustBadges.map((badge, index) => (
-                <img key={index} src={badge.logo} alt={badge.alt} className="inline-block h-12 mx-8 opacity-80 hover:opacity-100 transition-opacity" />
-              ))}
-              {/* Duplicate logos for seamless scrolling */}
-              {trustBadges.map((badge, index) => (
-                <img key={`duplicate-${index}`} src={badge.logo} alt={badge.alt} className="inline-block h-12 mx-8 opacity-80 hover:opacity-100 transition-opacity" />
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Features Grid */}
@@ -234,11 +218,25 @@ function Pricing() {
                 </div>
               )}
 
+              {/* Sale Badge */}
+              {plan.name === 'Pro' && (
+                <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+                  <span className="bg-red-500 text-white px-4 py-1 rounded-full text-sm uppercase tracking-wide">
+                    50% Off
+                  </span>
+                </div>
+              )}
+
               <h3 className="text-2xl font-semibold mb-4">{plan.name}</h3>
               <div className="mb-6 flex items-baseline">
                 {typeof plan.price === 'number' ? (
                   <>
                     <span className="text-4xl font-bold">${plan.price}</span>
+                    {plan.name === 'Pro' && (
+                      <span className={darkMode ? 'text-gray-400 ml-2 line-through' : 'text-gray-600 ml-2 line-through'}>
+                        ${plan.originalPrice}
+                      </span>
+                    )}
                     <span className={darkMode ? 'text-gray-400 ml-2' : 'text-gray-600 ml-2'}>
                       {plan.price === 0 ? 'Free forever' : `per month, billed ${billingCycle}`}
                     </span>
@@ -286,6 +284,22 @@ function Pricing() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Trust Badges Section (Moved Below FAQ) */}
+        <div className="mt-24 overflow-hidden">
+          <h2 className="text-2xl font-bold text-center mb-8">Trusted by Leading Organizations</h2>
+          <div className="relative w-full h-20 overflow-hidden">
+            <div className="absolute whitespace-nowrap animate-scroll">
+              {trustBadges.map((badge, index) => (
+                <img key={index} src={badge.logo} alt={badge.alt} className="inline-block h-12 mx-8 opacity-80 hover:opacity-100 transition-opacity" />
+              ))}
+              {/* Duplicate logos for seamless scrolling */}
+              {trustBadges.map((badge, index) => (
+                <img key={`duplicate-${index}`} src={badge.logo} alt={badge.alt} className="inline-block h-12 mx-8 opacity-80 hover:opacity-100 transition-opacity" />
+              ))}
+            </div>
           </div>
         </div>
 
