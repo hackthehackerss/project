@@ -26,9 +26,10 @@ function Home() {
       price: 0,
       features: [
         'Access to Basic Challenges',
-        'Cybersecurity Fundamentals Course',
-        'Community Forum Access',
-        'Basic Support'
+        'Limited Learning Paths',
+        'Basic Support',
+        'Public Profile',
+        'Basic Achievements'
       ],
       buttonText: 'Get Started',
       popular: false
@@ -43,7 +44,8 @@ function Home() {
         'All Learning Paths',
         'Priority Support',
         'Certificate of Completion',
-        'Private Discord Access'
+        'Advanced Analytics',
+        'Early Access to New Content'
       ],
       buttonText: 'Subscribe Now',
       popular: true
@@ -53,11 +55,12 @@ function Home() {
       price: 'Custom',
       features: [
         'All Pro Features',
-        'Custom Learning Paths',
         'Dedicated Support Manager',
-        'API Access',
         'Advanced Analytics',
-        'Custom Reporting'
+        'Custom Reporting',
+        'SLA Guarantee',
+        'Custom Integrations',
+        'Volume Licensing'
       ],
       buttonText: 'Contact Sales',
       popular: false
