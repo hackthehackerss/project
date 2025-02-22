@@ -278,6 +278,19 @@ const CTFLabsPage = () => {
     return () => typed.destroy();
   }, []);
 
+  // Scroll to top on page load
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page when the component mounts
+  }, []);
+
+  // Smooth scroll to Labs section
+  const scrollToLabs = () => {
+    const labsSection = document.getElementById("labs");
+    if (labsSection) {
+      labsSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className={`min-h-screen ${darkMode ? "bg-background text-white" : "bg-gray-100 text-black"} font-sans`}>
       {/* Navigation Bar */}
@@ -299,12 +312,12 @@ const CTFLabsPage = () => {
             </h1>
           </div>
           <p id="tagline" className="text-xl text-gray-400 mb-8"></p>
-          <a
-            href="#labs"
+          <button
+            onClick={scrollToLabs}
             className="bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 text-lg font-semibold transition-all"
           >
             Explore Labs
-          </a>
+          </button>
         </div>
       </div>
 
