@@ -19,44 +19,6 @@ function Home() {
     }
   };
 
-  const MovingBar = () => {
-    const companies = [
-      { name: 'Meta', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/meta.png' },
-      { name: 'Cisco', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/cisco.png' },
-      { name: 'Microsoft', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/microsoft.png' },
-      { name: 'Mitre', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/mitre.png' },
-      { name: 'Google', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/google.png' },
-      { name: 'Amazon', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/amazon.png' },
-      { name: 'IBM', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/ibm.png' },
-      { name: 'Palo Alto', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/palo.png' },
-      { name: 'Check Point', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/check.png' },
-      { name: 'Crowdstrike', logo: 'https://cdn.jsdelivr.net/gh/hackthehackerss/site@main/public/logos/cs.png' },
-    ];
-  
-    return (
-      <div className="py-6 overflow-hidden">
-        <div className="text-center mb-4">
-          <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            Trusted by Industry Leaders
-          </h3>
-        </div>
-  
-        <div className="relative w-full overflow-hidden">
-          <div className="flex items-center space-x-10 animate-marquee-left">
-            {[...companies, ...companies].map((company, index) => (
-              <img
-                key={index}
-                src={company.logo}
-                alt={company.name}
-                className="h-16 w-auto md:h-20 opacity-80 hover:opacity-100 transition-opacity"
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   // Pricing plans data
   const plans = [
     {
@@ -106,100 +68,99 @@ function Home() {
       <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
 
       {/* Hero Section */}
-{/* Hero Section */}
-<div className={`relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 ${darkMode ? 'bg-gradient-to-b from-primary-dark to-background' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
-  {/* Main Text */}
-  <div className="mb-12 reveal-scale">
-    <h1 className="text-6xl font-bold mb-6 tracking-tight leading-tight">
-      Your Cybersecurity Journey
-      <br />
-      <span className={`${darkMode ? 'text-primary-blue' : 'text-black'}`}>Starts Here</span>
-    </h1>
-    <h2 className="text-3xl font-semibold mb-8 tracking-wide">
-      Hands-On Training for Real-World Threats
-    </h2>
+      <div className={`relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 ${darkMode ? 'bg-gradient-to-b from-primary-dark to-background' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
+        {/* Main Text */}
+        <div className="mb-12 reveal-scale">
+          <h1 className="text-4xl sm:text-6xl font-bold mb-6 tracking-tight leading-tight">
+            Your Cybersecurity Journey
+            <br />
+            <span className={`${darkMode ? 'text-primary-blue' : 'text-black'}`}>Starts Here</span>
+          </h1>
+          <h2 className="text-xl sm:text-3xl font-semibold mb-8 tracking-wide">
+            Hands-On Training for Real-World Threats
+          </h2>
 
-    {/* Hero CTA Buttons */}
-    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-      {profile ? (
+          {/* Hero CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            {profile ? (
+              <Link 
+                to="/learning-paths"
+                className={`${darkMode ? 'bg-primary-blue' : 'bg-black'} text-white px-8 py-3 rounded-lg ${darkMode ? 'hover:bg-secondary-blue' : 'hover:bg-gray-800'} transition-all transform hover:scale-105 min-w-[200px] font-semibold`}
+              >
+                Continue Learning
+              </Link>
+            ) : (
+              <>
+                <Link 
+                  to="/signup"
+                  className="bg-primary-red text-white px-8 py-3 rounded-lg hover:bg-secondary-red transition-all transform hover:scale-105 min-w-[200px] font-semibold"
+                >
+                  Start Learning Now
+                </Link>
+                <Link 
+                  to="/signin"
+                  className={`${darkMode ? 'bg-primary-blue/10 text-primary-blue' : 'bg-black/10 text-black'} px-8 py-3 rounded-lg ${darkMode ? 'hover:bg-primary-blue/20' : 'hover:bg-black/20'} transition-all min-w-[200px] font-semibold border ${darkMode ? 'border-primary-blue/20' : 'border-black/20'}`}
+                >
+                  Sign In
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Main Image with Link */}
         <Link 
-          to="/learning-paths"
-          className={`${darkMode ? 'bg-primary-blue' : 'bg-black'} text-white px-8 py-3 rounded-lg ${darkMode ? 'hover:bg-secondary-blue' : 'hover:bg-gray-800'} transition-all transform hover:scale-105 min-w-[200px] font-semibold`}
+          to="/learning-paths" 
+          className="mb-16 reveal transform hover:scale-105 transition-transform duration-300 relative w-3/4 md:w-1/2 lg:w-2/5"
         >
-          Continue Learning
+          <div className={`absolute inset-0 border-4 ${darkMode ? 'border-primary-blue' : 'border-black'} rounded-lg z-0 animate-glow-blue-red`}></div>
+          <div className={`relative z-10 p-2 border-4 ${darkMode ? 'border-primary-blue/30' : 'border-black/30'} rounded-lg`}>
+            <img 
+              src="/Main/choose-path.png" 
+              alt="Choose Your Path" 
+              className="w-full h-auto rounded-lg shadow-lg animate-float"
+            />
+          </div>
         </Link>
-      ) : (
-        <>
-          <Link 
-            to="/signup"
-            className="bg-primary-red text-white px-8 py-3 rounded-lg hover:bg-secondary-red transition-all transform hover:scale-105 min-w-[200px] font-semibold"
-          >
-            Start Learning Now
-          </Link>
-          <Link 
-            to="/signin"
-            className={`${darkMode ? 'bg-primary-blue/10 text-primary-blue' : 'bg-black/10 text-black'} px-8 py-3 rounded-lg ${darkMode ? 'hover:bg-primary-blue/20' : 'hover:bg-black/20'} transition-all min-w-[200px] font-semibold border ${darkMode ? 'border-primary-blue/20' : 'border-black/20'}`}
-          >
-            Sign In
-          </Link>
-        </>
-      )}
-    </div>
-  </div>
+      </div>
 
-  {/* Main Image with Link */}
-  <Link 
-    to="/learning-paths" 
-    className="mb-16 reveal transform hover:scale-105 transition-transform duration-300 relative w-3/4 md:w-1/2 lg:w-2/5"
-  >
-    <div className={`absolute inset-0 border-4 ${darkMode ? 'border-primary-blue' : 'border-black'} rounded-lg z-0 animate-glow-blue-red`}></div>
-    <div className={`relative z-10 p-2 border-4 ${darkMode ? 'border-primary-blue/30' : 'border-black/30'} rounded-lg`}>
-      <img 
-        src="/Main/choose-path.png" 
-        alt="Choose Your Path" 
-        className="w-full h-auto rounded-lg shadow-lg animate-float"
-      />
-    </div>
-  </Link>
-</div>
-
-{/* New Section: Get Hands-On Experience */}
-<div className="text-center mb-24 reveal">
-  <h2 className={`text-3xl font-bold mb-6 bg-gradient-to-r ${darkMode ? 'from-primary-blue via-primary-red to-primary-blue' : 'from-black via-primary-red to-black'} bg-clip-text text-transparent animate-gradient`}>
-    Get Hands-On Experience with Challenges & Labs!
-  </h2>
-  <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-    <div className="flex items-center space-x-2">
-      <span className={`${darkMode ? 'text-primary-blue' : 'text-black'}`}>📈</span>
-      <span className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Compete on the Leaderboard</span>
-    </div>
-    <div className="flex items-center space-x-2">
-      <span className="text-primary-red">🏆</span>
-      <span className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Earn Badges</span>
-    </div>
-    <div className="flex items-center space-x-2">
-      <span className={`${darkMode ? 'text-primary-blue' : 'text-black'}`}>🚀</span>
-      <span className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Advance Your Cybersecurity Career</span>
-    </div>
-  </div>
-  <div className="mt-8">
-    {profile ? (
-      <Link 
-        to="/challenges"
-        className={`${darkMode ? 'bg-primary-blue' : 'bg-black'} text-white px-8 py-3 rounded-lg ${darkMode ? 'hover:bg-secondary-blue' : 'hover:bg-gray-800'} transition-all transform hover:scale-105 min-w-[200px] font-semibold`}
-      >
-        Explore Challenges
-      </Link>
-    ) : (
-      <Link 
-        to="/signup"
-        className="bg-primary-red text-white px-8 py-3 rounded-lg hover:bg-secondary-red transition-all transform hover:scale-105 min-w-[200px] font-semibold"
-      >
-        Get Started Today
-      </Link>
-    )}
-  </div>
-</div>
+      {/* New Section: Get Hands-On Experience */}
+      <div className="text-center mb-24 reveal">
+        <h2 className={`text-2xl sm:text-3xl font-bold mb-6 bg-gradient-to-r ${darkMode ? 'from-primary-blue via-primary-red to-primary-blue' : 'from-black via-primary-red to-black'} bg-clip-text text-transparent animate-gradient`}>
+          Get Hands-On Experience with Challenges & Labs!
+        </h2>
+        <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+          <div className="flex items-center space-x-2">
+            <span className={`${darkMode ? 'text-primary-blue' : 'text-black'}`}>📈</span>
+            <span className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Compete on the Leaderboard</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="text-primary-red">🏆</span>
+            <span className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Earn Badges</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className={`${darkMode ? 'text-primary-blue' : 'text-black'}`}>🚀</span>
+            <span className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Advance Your Cybersecurity Career</span>
+          </div>
+        </div>
+        <div className="mt-8">
+          {profile ? (
+            <Link 
+              to="/challenges"
+              className={`${darkMode ? 'bg-primary-blue' : 'bg-black'} text-white px-8 py-3 rounded-lg ${darkMode ? 'hover:bg-secondary-blue' : 'hover:bg-gray-800'} transition-all transform hover:scale-105 min-w-[200px] font-semibold`}
+            >
+              Explore Challenges
+            </Link>
+          ) : (
+            <Link 
+              to="/signup"
+              className="bg-primary-red text-white px-8 py-3 rounded-lg hover:bg-secondary-red transition-all transform hover:scale-105 min-w-[200px] font-semibold"
+            >
+              Get Started Today
+            </Link>
+          )}
+        </div>
+      </div>
 
       {/* Features Section */}
       <div className={`${darkMode ? 'bg-primary-dark/50' : 'bg-gray-100'} py-24`}>
@@ -227,10 +188,10 @@ function Home() {
       {/* Mission Statement */}
       <div className={`py-16 ${darkMode ? 'bg-primary-dark/30' : 'bg-gray-200'}`}>
         <div className="max-w-4xl mx-auto px-4 text-center reveal-scale">
-          <h2 className={`text-3xl font-bold mb-6 bg-gradient-to-r ${darkMode ? 'from-primary-blue via-primary-red to-primary-blue' : 'from-black via-primary-red to-black'} bg-clip-text text-transparent animate-gradient`}>
+          <h2 className={`text-2xl sm:text-3xl font-bold mb-6 bg-gradient-to-r ${darkMode ? 'from-primary-blue via-primary-red to-primary-blue' : 'from-black via-primary-red to-black'} bg-clip-text text-transparent animate-gradient`}>
             HackTheHackers – Where Practical Training Meets Theory
           </h2>
-          <p className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed animate-fadeIn`}>
+          <p className={`text-lg sm:text-xl ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed animate-fadeIn`}>
             Sharpen your cybersecurity skills with real-world, hands-on training.<br /> Our guided labs, updated weekly with the latest attack techniques and CVEs, ensure you're always ahead of emerging threats.<br />Learn step by step at your own pace and build the expertise needed to tackle today's cybersecurity challenges with confidence.
           </p>
         </div>
@@ -240,10 +201,10 @@ function Home() {
       <div className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8`}>
+            <p className={`text-lg sm:text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8`}>
               Join thousands of cybersecurity professionals building real-world skills with HackTheHackers.
             </p>
-            <h2 className={`text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Choose Your Plan</h2>
+            <h2 className={`text-2xl sm:text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Choose Your Plan</h2>
             <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
               Select the plan that best fits your learning goals. All plans include access to our growing library of content.
             </p>
@@ -337,7 +298,7 @@ function Home() {
       {/* User Reviews Section */}
       <div className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className={`text-3xl font-bold mb-16 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+          <h2 className={`text-2xl sm:text-3xl font-bold mb-16 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
             <span className={`${darkMode ? 'text-primary-blue' : 'text-black'}`}>What Our</span> Users Are Saying
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -419,9 +380,6 @@ function Home() {
           </div>
         </div>
       </div>
-
-  {/* Moving Bar */}
-  <MovingBar />
 
       {/* Chatbot */}
       <div className="fixed bottom-8 right-8">
