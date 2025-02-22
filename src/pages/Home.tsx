@@ -35,7 +35,8 @@ function Home() {
     },
     {
       name: 'Pro',
-      price: billingCycle === 'monthly' ? 24.99 : 19.99,
+      price: billingCycle === 'monthly' ? 9.99 : 14.99, // Adjusted prices for 50% off
+      originalPrice: billingCycle === 'monthly' ? 24.99 : 19.99, // Original prices
       features: [
         'All Basic Features',
         'All Advanced Challenges',
@@ -66,6 +67,8 @@ function Home() {
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-background text-white' : 'bg-gray-50 text-gray-900'}`}>
       <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
+
+
 
       {/* Hero Section */}
       <div className={`relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 ${darkMode ? 'bg-gradient-to-b from-primary-dark to-background' : 'bg-gradient-to-b from-gray-50 to-white'}`}>
@@ -108,23 +111,23 @@ function Home() {
           </div>
         </div>
 
-{/* Main Image with Link */}
-<Link 
-  to="/learning-paths" 
-  className="mb-16 reveal transform hover:scale-105 transition-transform duration-300 relative w-3/4 md:w-2/3 lg:w-1/2" // Increased width
->
-  {/* Glowing Border */}
-  <div className={`absolute inset-0 border-4 ${darkMode ? 'border-primary-blue' : 'border-black'} rounded-lg z-0 animate-glow-blue-red`}></div>
-  
-  {/* Image Container */}
-  <div className={`relative z-10 p-2 border-4 ${darkMode ? 'border-primary-blue/30' : 'border-black/30'} rounded-lg overflow-hidden`}>
-    <img 
-      src="/Main/choose-path.png" 
-      alt="Choose Your Path" 
-      className="w-full h-auto rounded-lg shadow-lg animate-float object-contain" // object-contain ensures the image fits
-    />
-  </div>
-</Link>
+        {/* Main Image with Link */}
+        <Link 
+          to="/learning-paths" 
+          className="mb-16 reveal transform hover:scale-105 transition-transform duration-300 relative w-3/4 md:w-2/3 lg:w-1/2"
+        >
+          {/* Glowing Border */}
+          <div className={`absolute inset-0 border-4 ${darkMode ? 'border-primary-blue' : 'border-black'} rounded-lg z-0 animate-glow-blue-red`}></div>
+          
+          {/* Image Container */}
+          <div className={`relative z-10 p-2 border-4 ${darkMode ? 'border-primary-blue/30' : 'border-black/30'} rounded-lg overflow-hidden`}>
+            <img 
+              src="/Main/choose-path.png" 
+              alt="Choose Your Path" 
+              className="w-full h-auto rounded-lg shadow-lg animate-float object-contain"
+            />
+          </div>
+        </Link>
       </div>
 
       {/* New Section: Get Hands-On Experience */}
@@ -200,103 +203,126 @@ function Home() {
         </div>
       </div>
 
-      {/* Pricing Section */}
-      <div className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <p className={`text-lg sm:text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8`}>
-              Join thousands of cybersecurity professionals building real-world skills with HackTheHackers.
-            </p>
-            <h2 className={`text-2xl sm:text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Choose Your Plan</h2>
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
-              Select the plan that best fits your learning goals. All plans include access to our growing library of content.
-            </p>
+{/* Pricing Section */}
+<div className="py-24">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center mb-12">
+      <p className={`text-lg sm:text-xl ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-8`}>
+        Join thousands of cybersecurity professionals building real-world skills with HackTheHackers.
+      </p>
+      <h2 className={`text-2xl sm:text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+        Choose Your Plan
+      </h2>
+      <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
+        Select the plan that best fits your learning goals. All plans include access to our growing library of content.
+      </p>
 
-            {/* Billing Toggle */}
-            <div className="flex justify-center items-center space-x-6 mt-8">
-              <span 
-                className={`cursor-pointer ${billingCycle === 'monthly' ? (darkMode ? 'text-primary-blue' : 'text-black') : (darkMode ? 'text-gray-400' : 'text-gray-600')}`}
-                onClick={() => setBillingCycle('monthly')}
-              >
-                Monthly
-              </span>
-              <div 
-                className={`w-14 h-8 rounded-full p-1 cursor-pointer transition-colors ${
-                  billingCycle === 'annual' ? (darkMode ? 'bg-primary-blue' : 'bg-black') : (darkMode ? 'bg-gray-600' : 'bg-gray-300')
-                }`}
-                onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'annual' : 'monthly')}
-              >
-                <div 
-                  className={`w-6 h-6 bg-white rounded-full transition-transform transform ${
-                    billingCycle === 'annual' ? 'translate-x-6' : ''
-                  }`}
-                />
-              </div>
-              <span 
-                className={`cursor-pointer ${billingCycle === 'annual' ? (darkMode ? 'text-primary-blue' : 'text-black') : (darkMode ? 'text-gray-400' : 'text-gray-600')}`}
-                onClick={() => setBillingCycle('annual')}
-              >
-                Annual (Save 20%)
+      {/* Highlighted Offer */}
+      <div className="mt-8 bg-gradient-to-r from-red-600 to-red-500 text-white py-3 px-6 rounded-lg inline-block">
+        <p className="text-lg font-semibold">
+          🎉 Limited Time Offer: Get <span className="underline">50% Off</span> on Pro Plans! 🎉
+        </p>
+      </div>
+
+      {/* Billing Toggle */}
+      <div className="flex justify-center items-center space-x-6 mt-8">
+        <span 
+          className={`cursor-pointer ${billingCycle === 'monthly' ? (darkMode ? 'text-primary-blue' : 'text-black') : (darkMode ? 'text-gray-400' : 'text-gray-600')}`}
+          onClick={() => setBillingCycle('monthly')}
+        >
+          Monthly
+        </span>
+        <div 
+          className={`w-14 h-8 rounded-full p-1 cursor-pointer transition-colors ${
+            billingCycle === 'annual' ? (darkMode ? 'bg-primary-blue' : 'bg-black') : (darkMode ? 'bg-gray-600' : 'bg-gray-300')
+          }`}
+          onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'annual' : 'monthly')}
+        >
+          <div 
+            className={`w-6 h-6 bg-white rounded-full transition-transform transform ${
+              billingCycle === 'annual' ? 'translate-x-6' : ''
+            }`}
+          />
+        </div>
+        <span 
+          className={`cursor-pointer ${billingCycle === 'annual' ? (darkMode ? 'text-primary-blue' : 'text-black') : (darkMode ? 'text-gray-400' : 'text-gray-600')}`}
+          onClick={() => setBillingCycle('annual')}
+        >
+          Annual (Save 20%)
+        </span>
+      </div>
+    </div>
+
+    <div className="grid md:grid-cols-3 gap-8">
+      {plans.map((plan, index) => (
+        <div
+          key={index}
+          className={`relative ${darkMode ? 'bg-primary-dark/30' : 'bg-white'} rounded-lg p-8 border transition-all duration-300 ${
+            plan.popular 
+              ? (darkMode ? 'border-primary-blue scale-105 shadow-lg shadow-primary-blue/20' : 'border-black scale-105 shadow-lg shadow-black/20') 
+              : (darkMode ? 'border-primary-blue/20 hover:border-primary-blue' : 'border-black/20 hover:border-black')
+          }`}
+        >
+          {plan.popular && (
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <span className={`${darkMode ? 'bg-primary-blue' : 'bg-black'} text-white px-4 py-1 rounded-full text-sm font-semibold`}>
+                Most Popular
               </span>
             </div>
-          </div>
+          )}
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {plans.map((plan, index) => (
-              <div
-                key={index}
-                className={`relative ${darkMode ? 'bg-primary-dark/30' : 'bg-white'} rounded-lg p-8 border transition-all duration-300 ${
-                  plan.popular 
-                    ? (darkMode ? 'border-primary-blue scale-105 shadow-lg shadow-primary-blue/20' : 'border-black scale-105 shadow-lg shadow-black/20') 
-                    : (darkMode ? 'border-primary-blue/20 hover:border-primary-blue' : 'border-black/20 hover:border-black')
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <span className={`${darkMode ? 'bg-primary-blue' : 'bg-black'} text-white px-4 py-1 rounded-full text-sm font-semibold`}>
-                      Most Popular
-                    </span>
-                  </div>
+          {/* Sale Badge for Pro Plan */}
+          {plan.name === 'Pro' && (
+            <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+              <span className="bg-red-500 text-white px-4 py-1 rounded-full text-sm uppercase tracking-wide">
+                50% Off
+              </span>
+            </div>
+          )}
+
+          <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>{plan.name}</h3>
+          <div className="mb-6">
+            {typeof plan.price === 'number' ? (
+              <div className="flex items-baseline">
+                <span className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>${plan.price}</span>
+                {plan.name === 'Pro' && (
+                  <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} ml-2 line-through`}>
+                    ${plan.originalPrice}
+                  </span>
                 )}
-
-                <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>{plan.name}</h3>
-                <div className="mb-6">
-                  {typeof plan.price === 'number' ? (
-                    <div className="flex items-baseline">
-                      <span className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>${plan.price}</span>
-                      <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} ml-2`}>
-                        {plan.price === 0 ? 'Free forever' : `/${billingCycle === 'monthly' ? 'mo' : 'yr'}`}
-                      </span>
-                    </div>
-                  ) : (
-                    <span className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{plan.price}</span>
-                  )}
-                </div>
-
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, i) => (
-                    <li key={i} className={`flex items-center ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                      <CheckCircle2 className={`w-5 h-5 ${darkMode ? 'text-primary-blue' : 'text-black'} mr-2 flex-shrink-0`} />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <button
-                  onClick={() => handleGetStarted(plan.name)}
-                  className={`w-full py-3 rounded-lg transition-colors ${
-                    plan.popular
-                      ? (darkMode ? 'bg-primary-blue text-white hover:bg-secondary-blue' : 'bg-black text-white hover:bg-gray-800')
-                      : (darkMode ? 'border border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-white' : 'border border-black text-black hover:bg-black hover:text-white')
-                  }`}
-                >
-                  {plan.buttonText}
-                </button>
+                <span className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} ml-2`}>
+                  {plan.price === 0 ? 'Free forever' : `/${billingCycle === 'monthly' ? 'mo' : 'yr'}`}
+                </span>
               </div>
-            ))}
+            ) : (
+              <span className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>{plan.price}</span>
+            )}
           </div>
+
+          <ul className="space-y-4 mb-8">
+            {plan.features.map((feature, i) => (
+              <li key={i} className={`flex items-center ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                <CheckCircle2 className={`w-5 h-5 ${darkMode ? 'text-primary-blue' : 'text-black'} mr-2 flex-shrink-0`} />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <button
+            onClick={() => handleGetStarted(plan.name)}
+            className={`w-full py-3 rounded-lg transition-colors ${
+              plan.popular
+                ? (darkMode ? 'bg-primary-blue text-white hover:bg-secondary-blue' : 'bg-black text-white hover:bg-gray-800')
+                : (darkMode ? 'border border-primary-blue text-primary-blue hover:bg-primary-blue hover:text-white' : 'border border-black text-black hover:bg-black hover:text-white')
+            }`}
+          >
+            {plan.buttonText}
+          </button>
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
 
       {/* User Reviews Section */}
       <div className="py-24">
