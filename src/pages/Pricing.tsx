@@ -26,7 +26,7 @@ function Pricing() {
     },
     {
       name: 'Pro',
-      price: billingCycle === 'monthly' ? 9.99 : 14.99, // Adjusted prices
+      price: billingCycle === 'monthly' ? 14.99 : 9.99, // Adjusted prices for 50% off
       originalPrice: billingCycle === 'monthly' ? 24.99 : 19.99, // Original prices
       features: [
         'All Basic Features',
