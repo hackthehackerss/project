@@ -389,7 +389,7 @@ const CTFLabsPage = () => {
                   </span>
                 </div>
                 <a
-                  href={`https://example.com/${lab.title.toLowerCase().replace(/ /g, "-")}`}
+                  href={`/labs/sql.tsx/${lab.title.toLowerCase().replace(/ /g, "-")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all"
