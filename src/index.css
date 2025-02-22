@@ -13,7 +13,11 @@ body {
   position: relative;
   overflow-x: hidden;
 }
-
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 /* Add smooth transitions for search */
 .search-transition-enter {
   opacity: 0;
@@ -347,3 +351,4 @@ body {
 .animate-glow-blue-red {
   animation: glow-blue-red 2s infinite;
 }
+
