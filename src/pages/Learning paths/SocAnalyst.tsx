@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Book, ChevronRight, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Navigation from '../components/Navigation';
 
 function SocAnalyst() {
   const [activeSection, setActiveSection] = useState("soc-overview");
   const [activeSubSection, setActiveSubSection] = useState("");
+  const [quizResults, setQuizResults] = useState({});
 
   useEffect(() => {
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    const observerCallback = (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
@@ -34,75 +34,250 @@ function SocAnalyst() {
       id: "soc-overview",
       title: "SOC Overview",
       content: {
-        introduction: "A Security Operations Center (SOC) is a centralized unit that deals with security issues on an organizational and technical level.",
+        introduction: "A Security Operations Center (SOC) is a centralized unit that deals with security issues on an organizational and technical level. It is the first line of defense against cyber threats.",
         sections: [
           {
             title: "What is a SOC?",
             content: [
-              "A team of security professionals monitoring and defending an organization",
-              "24/7 monitoring and analysis of security alerts",
-              "Incident detection, response, and recovery",
-              "Threat intelligence and vulnerability management"
+              "A SOC is a team of cybersecurity professionals responsible for monitoring, detecting, and responding to security incidents.",
+              "It operates 24/7 to ensure the organization's IT infrastructure is secure.",
+              "Key functions include threat detection, incident response, and vulnerability management."
             ]
           },
           {
-            title: "SOC Analyst Roles",
+            title: "Definition and Purpose",
             content: [
-              "Tier 1: Initial alert triage and basic incident handling",
-              "Tier 2: Advanced incident investigation and response",
-              "Tier 3: Advanced threat hunting and incident response",
-              "SOC Manager: Team leadership and strategy"
+              "The primary purpose of a SOC is to protect an organization's digital assets from cyber threats.",
+              "It provides continuous monitoring, threat intelligence, and incident response capabilities.",
+              "A SOC helps organizations comply with regulatory requirements like GDPR, HIPAA, and PCI-DSS."
             ]
           },
           {
-            title: "Core SOC Functions",
-            subsections: [
-              {
-                title: "Security Monitoring",
-                content: [
-                  "Real-time monitoring of security events",
-                  "Log analysis and correlation",
-                  "Alert triage and investigation",
-                  "Incident detection and response"
-                ]
-              },
-              {
-                title: "Threat Intelligence",
-                content: [
-                  "Collection and analysis of threat data",
-                  "Integration of threat feeds",
-                  "Threat hunting and investigation",
-                  "Intelligence sharing and reporting"
-                ]
-              }
-            ]
-          },
-          {
-            title: "SOC Tools and Technologies",
+            title: "Importance of a SOC in Cybersecurity",
             content: [
-              "SIEM (Security Information and Event Management)",
-              "EDR (Endpoint Detection and Response)",
-              "SOAR (Security Orchestration and Response)",
-              "Threat Intelligence Platforms",
-              "Network Monitoring Tools"
+              "A SOC is critical for maintaining a strong cybersecurity posture.",
+              "It reduces the Mean Time to Detect (MTTD) and Mean Time to Respond (MTTR) to incidents.",
+              "A SOC enhances visibility into security events and helps prevent financial and reputational damage."
+            ]
+          },
+          {
+            title: "Different Types of SOCs",
+            content: [
+              "In-House SOC: Managed internally by a dedicated team.",
+              "Managed SOC: Outsourced to a third-party provider.",
+              "Hybrid SOC: Combines in-house and outsourced services.",
+              "Virtual SOC: Operates remotely using cloud-based tools."
             ]
           }
         ]
       }
     },
     {
-      id: "security-monitoring",
-      title: "Security Monitoring",
+      id: "cyber-threats",
+      title: "Understanding Cyber Threats",
       content: {
-        introduction: "Security monitoring is the continuous observation and analysis of network activities and security controls.",
+        introduction: "Cyber threats are malicious activities aimed at disrupting, damaging, or gaining unauthorized access to systems and data.",
         sections: [
           {
-            title: "SIEM Fundamentals",
+            title: "Phishing and Social Engineering",
             content: [
-              "Log collection and aggregation",
-              "Event correlation and analysis",
-              "Alert generation and management",
-              "Reporting and compliance"
+              "Phishing is a deceptive attack where attackers trick victims into revealing sensitive information.",
+              "Social engineering exploits human psychology to manipulate individuals into divulging confidential data.",
+              "Common techniques include email phishing, spear phishing, whaling, smishing, and vishing."
+            ]
+          },
+          {
+            title: "Malware",
+            content: [
+              "Malware is malicious software designed to infiltrate and damage computer systems.",
+              "Types of malware include viruses, Trojans, ransomware, and rootkits.",
+              "Mitigation strategies include deploying antivirus software and conducting regular system updates."
+            ]
+          },
+          {
+            title: "Advanced Persistent Threats (APTs)",
+            content: [
+              "APTs are long-term, targeted attacks conducted by skilled threat actors.",
+              "They use sophisticated techniques like zero-day exploits and lateral movement.",
+              "Detection requires advanced threat intelligence and behavioral analysis."
+            ]
+          },
+          {
+            title: "Denial-of-Service (DoS) and Distributed Denial-of-Service (DDoS)",
+            content: [
+              "DoS attacks overwhelm a system with traffic, rendering it unavailable.",
+              "DDoS attacks use multiple systems to launch a coordinated attack.",
+              "Mitigation involves deploying firewalls, load balancers, and traffic filtering."
+            ]
+          },
+          {
+            title: "Man-in-the-Middle (MITM) Attacks",
+            content: [
+              "MITM attacks intercept and manipulate communication between two parties.",
+              "Common techniques include ARP spoofing and DNS spoofing.",
+              "Prevention involves using encryption and secure communication protocols."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: "siem",
+      title: "SIEM (Security Information and Event Management)",
+      content: {
+        introduction: "SIEM is a critical tool for SOCs, enabling real-time monitoring, log analysis, and incident response.",
+        sections: [
+          {
+            title: "What is SIEM?",
+            content: [
+              "SIEM collects and analyzes security data from various sources.",
+              "It provides real-time monitoring, threat detection, and incident response capabilities.",
+              "Key features include log management, event correlation, and alerting."
+            ]
+          },
+          {
+            title: "How SIEM Works",
+            content: [
+              "SIEM aggregates logs from network devices, servers, and applications.",
+              "It uses rules and machine learning to detect anomalies and generate alerts.",
+              "SIEM tools provide dashboards and reports for security analysis."
+            ]
+          },
+          {
+            title: "Common SIEM Solutions",
+            content: [
+              "Splunk: A powerful SIEM tool with advanced analytics capabilities.",
+              "QRadar: IBM's SIEM solution with integrated threat intelligence.",
+              "LogRhythm: A user-friendly SIEM platform for mid-sized organizations.",
+              "ELK Stack: An open-source SIEM solution for log analysis.",
+              "Microsoft Sentinel: A cloud-native SIEM with AI-driven threat detection."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: "edr",
+      title: "Endpoint Detection and Response (EDR)",
+      content: {
+        introduction: "EDR solutions provide advanced threat detection and response capabilities for endpoints.",
+        sections: [
+          {
+            title: "Role of EDR in Threat Detection",
+            content: [
+              "EDR monitors endpoints for suspicious activity and provides real-time alerts.",
+              "It enables forensic analysis and incident response.",
+              "EDR tools integrate with SIEM and other security solutions."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: "network-security",
+      title: "Network Security Tools",
+      content: {
+        introduction: "Network security tools are essential for protecting an organization's network infrastructure.",
+        sections: [
+          {
+            title: "Intrusion Detection Systems (IDS) and Intrusion Prevention Systems (IPS)",
+            content: [
+              "IDS monitors network traffic for suspicious activity.",
+              "IPS actively blocks malicious traffic.",
+              "Both tools are critical for detecting and preventing network-based attacks."
+            ]
+          },
+          {
+            title: "Firewalls and Proxies",
+            content: [
+              "Firewalls filter incoming and outgoing traffic based on predefined rules.",
+              "Proxies act as intermediaries between users and the internet, providing additional security."
+            ]
+          },
+          {
+            title: "Network Packet Capture and Analysis",
+            content: [
+              "Tools like Wireshark and Zeek capture and analyze network traffic.",
+              "They help identify anomalies and investigate security incidents."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: "log-analysis",
+      title: "Log Analysis Tools",
+      content: {
+        introduction: "Log analysis is a critical skill for SOC analysts, enabling them to detect and investigate security incidents.",
+        sections: [
+          {
+            title: "Understanding Logs",
+            content: [
+              "Logs record events and activities on systems and networks.",
+              "They provide valuable insights into security incidents."
+            ]
+          },
+          {
+            title: "Windows Event Logs",
+            content: [
+              "Windows Event Viewer records system, security, and application events.",
+              "It is a key tool for investigating Windows-based incidents."
+            ]
+          },
+          {
+            title: "Linux System Logs",
+            content: [
+              "Linux logs are stored in files like /var/log/syslog and /var/log/auth.log.",
+              "They provide information about system and user activities."
+            ]
+          },
+          {
+            title: "Network Logs",
+            content: [
+              "Firewall, IDS/IPS, DNS, and proxy logs provide insights into network activity.",
+              "They are critical for detecting and investigating network-based attacks."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      id: "career-development",
+      title: "Career Development for SOC Analysts",
+      content: {
+        introduction: "Building a successful career as a SOC analyst requires continuous learning and skill development.",
+        sections: [
+          {
+            title: "Certifications",
+            content: [
+              "CompTIA Security+: Foundational cybersecurity knowledge.",
+              "GIAC Security Essentials (GSEC): Hands-on security skills.",
+              "Certified SOC Analyst (CSA): Focused on SOC operations.",
+              "GIAC Certified Incident Handler (GCIH): Incident response expertise."
+            ]
+          },
+          {
+            title: "Building a Resume",
+            content: [
+              "Highlight experience with SIEM, EDR, and forensic tools.",
+              "Showcase certifications and hands-on projects.",
+              "Tailor your resume to the job description."
+            ]
+          },
+          {
+            title: "Common Interview Questions",
+            content: [
+              "Explain the difference between IDS and IPS.",
+              "How would you analyze a phishing email?",
+              "Describe the MITRE ATT&CK framework."
+            ]
+          },
+          {
+            title: "Career Growth Paths",
+            content: [
+              "Incident Responder: Handling active security incidents.",
+              "Threat Hunter: Proactively searching for hidden threats.",
+              "SOC Manager or Security Engineer: Leading teams and designing security infrastructures."
             ]
           }
         ]
@@ -112,6 +287,10 @@ function SocAnalyst() {
 
   const activeContent = sections.find(section => section.id === activeSection)?.content;
   const activeSubSectionContent = activeContent?.sections?.find(s => s.title === activeSubSection);
+
+  const handleQuizSubmit = (moduleId, answers) => {
+    setQuizResults({ ...quizResults, [moduleId]: answers });
+  };
 
   return (
     <div className="min-h-screen bg-background text-white">
@@ -193,30 +372,15 @@ function SocAnalyst() {
                   
                   {activeSubSectionContent.content && (
                     <ul className="list-disc list-inside space-y-2 text-gray-200">
-                      {activeSubSectionContent.content.map((item, i) => {
-                        if (item.includes(':')) {
-                          const [title, ...rest] = item.split(':');
-                          return (
-                            <div key={i} className="mb-4 reveal-right" style={{ animationDelay: `${i * 100}ms` }}>
-                              <span className="font-bold">{title}:</span>
-                              {rest.length > 0 && (
-                                <span className="text-gray-200 hover:text-white transition-colors">
-                                  {rest.join(':')}
-                                </span>
-                              )}
-                            </div>
-                          );
-                        }
-                        return (
-                          <li 
-                            key={i} 
-                            className="reveal-left hover:text-primary-blue transition-colors" 
-                            style={{ animationDelay: `${i * 100}ms` }}
-                          >
-                            {item}
-                          </li>
-                        );
-                      })}
+                      {activeSubSectionContent.content.map((item, i) => (
+                        <li 
+                          key={i} 
+                          className="reveal-left hover:text-primary-blue transition-colors" 
+                          style={{ animationDelay: `${i * 100}ms` }}
+                        >
+                          {item}
+                        </li>
+                      ))}
                     </ul>
                   )}
                   
