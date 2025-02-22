@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Trophy, Medal, Search, Filter, User, Star, 
-  Calendar, Clock, Award, Shield, ArrowUp, ArrowDown 
+  Trophy, Medal, Search, User, Shield, ArrowUp, ArrowDown 
 } from 'lucide-react';
 import { collection, query, orderBy, limit, onSnapshot, where, doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
@@ -173,7 +172,17 @@ function Leaderboard() {
 
         {loading ? (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue mx-auto"></div>
+            <div className="cyber-loading">
+              <div className="cyber-loader">
+                <Shield className="w-12 h-12 text-primary-blue" />
+                <div className="cyber-dots">
+                  <span className="cyber-dot"></span>
+                  <span className="cyber-dot"></span>
+                  <span className="cyber-dot"></span>
+                </div>
+              </div>
+              <p className="mt-4 text-sm text-gray-400">Securing leaderboard data...</p>
+            </div>
           </div>
         ) : (
           <div className="bg-primary-dark/30 rounded-lg border border-primary-blue/20">
