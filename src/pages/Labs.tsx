@@ -266,7 +266,6 @@ const CTFLabsPage = () => {
     return matchesSearch && matchesDifficulty;
   });
 
-  // Typing Effect
   useEffect(() => {
     const typed = new Typed("#tagline", {
       strings: [
@@ -281,12 +280,10 @@ const CTFLabsPage = () => {
     return () => typed.destroy();
   }, []);
 
-  // Scroll to top on page load
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
   }, []);
 
-  // Smooth scroll to Labs section
   const scrollToLabs = () => {
     const labsSection = document.getElementById("labs");
     if (labsSection) {
@@ -296,18 +293,12 @@ const CTFLabsPage = () => {
 
   return (
     <div className={`min-h-screen ${darkMode ? "bg-background text-white" : "bg-gray-100 text-black"} font-sans`}>
-      {/* Navigation Bar */}
       <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
 
-      {/* Hero Section */}
       <div className="relative py-20" style={{ height: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex justify-center items-center mb-6">
-            <img
-              src="/Main/logo-shield.png"
-              alt="HackTheHackers Logo"
-              className="w-16 h-16 mr-4"
-            />
+            <img src="/Main/logo-shield.png" alt="HackTheHackers Logo" className="w-16 h-16 mr-4" />
             <h1 className="text-5xl font-bold">
               <span className={darkMode ? "text-white" : "text-black"}>Hack</span>
               <span className="text-red-500">The</span>
@@ -315,16 +306,12 @@ const CTFLabsPage = () => {
             </h1>
           </div>
           <p id="tagline" className="text-xl text-gray-400 mb-8"></p>
-          <button
-            onClick={scrollToLabs}
-            className="bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 text-lg font-semibold transition-all"
-          >
+          <button onClick={scrollToLabs} className="bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 text-lg font-semibold transition-all">
             Explore Labs
           </button>
         </div>
       </div>
 
-      {/* Labs Section */}
       <div id="labs" className="max-w-7xl mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-center mb-12">Available Labs</h2>
         <div className="flex justify-between mb-8">
@@ -354,53 +341,25 @@ const CTFLabsPage = () => {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
               <div className="p-6 relative">
-                <img
-                  src={lab.image}
-                  alt={lab.title}
-                  className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg"
-                />
+                <img src={lab.image} alt={lab.title} className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg" />
                 <h2 className="text-xl font-semibold mb-3">{lab.title}</h2>
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-600"} mb-4`}>
-                  {lab.description}
-                </p>
+                <p className={`${darkMode ? "text-gray-400" : "text-gray-600"} mb-4`}>{lab.description}</p>
                 <div className="flex items-center mb-4">
                   <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Difficulty:</span>
                   <div className="w-24 h-2 bg-gray-700 rounded-full ml-2">
-                    <div
-                      className={`h-2 ${
-                        lab.difficulty === "easy"
-                          ? "bg-green-500"
-                          : lab.difficulty === "medium"
-                          ? "bg-yellow-500"
-                          : "bg-red-500"
-                      } rounded-full`}
-                      style={{
-                        width:
-                          lab.difficulty === "easy"
-                            ? "40%"
-                            : lab.difficulty === "medium"
-                            ? "60%"
-                            : "80%",
-                      }}
-                    ></div>
+                    <div className={`h-2 ${lab.difficulty === "easy" ? "bg-green-500" : lab.difficulty === "medium" ? "bg-yellow-500" : "bg-red-500"} rounded-full`} style={{ width: lab.difficulty === "easy" ? "40%" : lab.difficulty === "medium" ? "60%" : "80%" }}></div>
                   </div>
-                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} ml-2`}>
-                    {lab.difficulty.charAt(0).toUpperCase() + lab.difficulty.slice(1)}
-                  </span>
+                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} ml-2`}>{lab.difficulty.charAt(0).toUpperCase() + lab.difficulty.slice(1)}</span>
                 </div>
-                <a
-                  href={`/labs/sql.tsx/${lab.title.toLowerCase().replace(/ /g, "-")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all"
-                >
-                  Start Lab
-                </a>
+                <a href={lab.link} className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all">Start Lab</a>
               </div>
             </div>
           ))}
         </div>
       </div>
+    </div>
+  );
+};
 
       {/* Terminal Section */}
       <div className="max-w-7xl mx-auto px-4 py-16">
