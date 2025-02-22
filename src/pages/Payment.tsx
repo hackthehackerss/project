@@ -62,12 +62,6 @@ function Payment() {
     setError(null);
 
     try {
-      // In a real app, you would:
-      // 1. Validate the card details
-      // 2. Send to payment processor (Stripe, etc)
-      // 3. Wait for confirmation
-      // 4. Update user's subscription status
-
       // Simulate payment processing
       await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -98,13 +92,18 @@ function Payment() {
   };
 
   const getPlanDetails = () => {
-    const price = plan === 'pro' 
+    const originalPrice = plan === 'pro' 
       ? billingCycle === 'monthly' ? 24.99 : 19.99
+      : billingCycle === 'monthly' ? 49.99 : 39.99;
+
+    const discountedPrice = plan === 'pro' 
+      ? billingCycle === 'monthly' ? 9.99 : 14.99
       : billingCycle === 'monthly' ? 49.99 : 39.99;
 
     return {
       name: plan === 'pro' ? 'Pro Plan' : 'Enterprise Plan',
-      price: price,
+      originalPrice: originalPrice,
+      discountedPrice: discountedPrice,
       cycle: billingCycle
     };
   };
@@ -268,6 +267,13 @@ function Payment() {
             <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20">
               <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
               
+              {/* Sale Badge */}
+              {plan === 'pro' && (
+                <div className="bg-red-500/10 border border-red-500/20 rounded-md p-2 mb-4 text-center">
+                  <span className="text-sm text-red-500 font-medium">🎉 50% Off Limited Time Offer! 🎉</span>
+                </div>
+              )}
+
               <div className="space-y-4">
                 <div className="flex items-start justify-between">
                   <div>
@@ -276,13 +282,18 @@ function Payment() {
                       Billed {billingCycle}
                     </p>
                   </div>
-                  <p className="font-medium">${planDetails.price}</p>
+                  <div className="text-right">
+                    {plan === 'pro' && (
+                      <p className="text-sm text-gray-400 line-through">${planDetails.originalPrice}</p>
+                    )}
+                    <p className="font-medium">${planDetails.discountedPrice}</p>
+                  </div>
                 </div>
 
                 <div className="border-t border-primary-blue/20 pt-4">
                   <div className="flex justify-between font-semibold">
                     <span>Total</span>
-                    <span>${planDetails.price}</span>
+                    <span>${planDetails.discountedPrice}</span>
                   </div>
                   <p className="text-sm text-gray-400 mt-1">
                     {billingCycle === 'monthly' ? 'per month' : 'per year'}
