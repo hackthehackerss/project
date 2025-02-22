@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Sun, Moon } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download } from 'lucide-react';
 import Confetti from 'react-confetti';
 
 function CryptoMinerChallenge() {
-  const [questions, setQuestions] = useState<Question[]>([
+  const [questions, setQuestions] = useState([
     {
       id: 1,
       text: "What is the first thing the user searched on Google?",
@@ -58,12 +58,10 @@ function CryptoMinerChallenge() {
   const [timeTaken, setTimeTaken] = useState(0);
   const [timerRunning, setTimerRunning] = useState(true);
   const [hintsRemaining, setHintsRemaining] = useState(3);
-  const [darkMode, setDarkMode] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval;
     if (timerRunning) {
       interval = setInterval(() => {
         setTimeTaken((prev) => prev + 1);
@@ -79,7 +77,7 @@ function CryptoMinerChallenge() {
     }
   }, [allQuestionsAnswered]);
 
-  const handleAnswerSubmit = (id: number, answer: string) => {
+  const handleAnswerSubmit = (id, answer) => {
     setQuestions(
       questions.map((q) => {
         if (q.id === id) {
@@ -94,7 +92,7 @@ function CryptoMinerChallenge() {
     );
   };
 
-  const toggleHint = (id: number) => {
+  const toggleHint = (id) => {
     if (hintsRemaining > 0) {
       setQuestions(
         questions.map((q) => {
@@ -125,15 +123,9 @@ function CryptoMinerChallenge() {
     setHintsRemaining(3);
   };
 
-  const calculateProgress = () => {
-    const correctAnswers = questions.filter((q) => q.isCorrect).length;
-    return (correctAnswers / questions.length) * 100;
-  };
-
-  const calculateScore = () => {
-    const correctAnswers = questions.filter((q) => q.isCorrect).length;
-    return correctAnswers * 100 - timeTaken;
-  };
+  const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
+  const totalQuestions = questions.length;
+  const progress = (correctAnswersCount / totalQuestions) * 100;
 
   const handleDownload = () => {
     setIsDownloading(true);
@@ -144,27 +136,23 @@ function CryptoMinerChallenge() {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-background text-white' : 'bg-gray-50 text-gray-900'}`}>
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="fixed top-4 right-4 p-2 bg-primary-dark/30 border border-primary-blue/20 rounded-lg hover:bg-primary-blue/10 transition z-50"
-      >
-        {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-      </button>
-
-      <nav className="bg-primary-dark border-b border-primary-blue/20 py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between">
-          <Link to="/challenges" className="text-primary-blue hover:text-primary-blue/80 flex items-center">
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to Challenges
-          </Link>
+    <div className="min-h-screen bg-background text-white">
+      <nav className="bg-primary-dark border-b border-primary-blue/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
+              <Link to="/challenges" className="text-primary-blue hover:text-primary-blue/80 flex items-center">
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back to Challenges
+              </Link>
+            </div>
+          </div>
         </div>
       </nav>
 
       <div className="flex justify-center mb-12">
         <div className="relative group">
           <div className="absolute inset-0 rounded-lg bg-primary-blue/40 blur-lg group-hover:opacity-100 opacity-0 transition-opacity duration-300"></div>
-
           <img
             src="/Challenges/cryptominer-banner.png"
             alt="CryptoMiner Challenge Banner"
@@ -173,99 +161,41 @@ function CryptoMinerChallenge() {
         </div>
       </div>
 
-      <div className="text-center mb-6">
-        <p className="text-gray-400">
-          Time Taken: {Math.floor(timeTaken / 60)}:{timeTaken % 60 < 10 ? `0${timeTaken % 60}` : timeTaken % 60}
-        </p>
-      </div>
+      <div className="max-w-4xl mx-auto px-4 py-12 -mt-16 relative z-10">
+        <h1 className="text-3xl font-bold mb-8">Miner On The Run</h1>
 
-      <div className="w-full bg-primary-dark/20 h-4 rounded-full mb-6 relative overflow-hidden">
-        <div
-          className="h-4 rounded-full transition-all duration-500 ease-in-out"
-          style={{
-            width: `${calculateProgress()}%`,
-            background: 'linear-gradient(90deg, #4ade80, #3b82f6)',
-            boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)',
-          }}
-        >
-          <div className="text-center text-white text-sm font-semibold absolute inset-0 flex items-center justify-center">
-            {`${Math.round(calculateProgress())}%`}
+        <div className="text-center mb-6">
+          <p className="text-gray-400">
+            Time Taken: {Math.floor(timeTaken / 60)}:{timeTaken % 60 < 10 ? `0${timeTaken % 60}` : timeTaken % 60}
+          </p>
+        </div>
+
+        <div className="mb-6">
+          <div className="text-lg font-semibold mb-2">Progress</div>
+          <div className="w-full bg-primary-dark/20 h-4 rounded-full relative overflow-hidden">
+            <div
+              className="h-4 rounded-full transition-all duration-500 ease-in-out"
+              style={{
+                width: `${progress}%`,
+                background: 'linear-gradient(90deg, #4ade80, #3b82f6)',
+                boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)',
+              }}
+            >
+              <div className="text-center text-white text-sm font-semibold absolute inset-0 flex items-center justify-center">
+                {`${Math.round(progress)}%`}
+              </div>
+            </div>
+          </div>
+          <div className="text-sm mt-2 text-gray-400">
+            {correctAnswersCount} of {totalQuestions} correct
           </div>
         </div>
-      </div>
 
-      <div className="max-w-3xl mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-6 text-center">Miner On The Run</h1>
-
-        <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8 shadow-lg">
-          <h2 className="text-2xl font-semibold mb-4">Challenge Introduction</h2>
-          <p className="text-gray-400 mb-4">
-            The SOC team received an alert about unusual high CPU usage on a workstation. Suspecting a cryptominer, they escalated the case for further investigation.
-          </p>
-          <p className="text-gray-300">
-            <span className="font-semibold text-white">Recommended Tool:</span> We suggest using
-            <span className="font-bold text-white"> FTK Imager</span> to analyze the provided forensic image.
-          </p>
-        </div>
-
-        <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8 shadow-lg">
-          <h2 className="text-2xl font-semibold mb-4">Download Challenge File</h2>
-          <a href="/Miner%20on%20the%20Run.ad1" download onClick={handleDownload}>
-            <button
-              className="bg-blue-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              disabled={isDownloading}
-            >
-              {isDownloading ? "Downloading..." : "Download /Miner on the Run.ad1"}
-            </button>
-          </a>
-        </div>
-
-        <div className="space-y-6">
-          {questions.map((question) => (
-            <div
-              key={question.id}
-              className="bg-primary-dark/40 rounded-lg p-6 border border-primary-blue/20 shadow-lg hover:bg-primary-dark/50 transition-all"
-            >
-              <h3 className="text-lg font-semibold mb-4">{question.text}</h3>
-              <div className="flex items-center space-x-4">
-                <input
-                  type="text"
-                  className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
-                  placeholder="Enter your answer"
-                  onChange={(e) => handleAnswerSubmit(question.id, e.target.value)}
-                />
-                <button
-                  className="text-gray-500 hover:text-gray-400"
-                  onClick={() => toggleHint(question.id)}
-                >
-                  <HelpCircle className="w-5 h-5" />
-                </button>
-                {question.userAnswer && (
-                  question.isCorrect ? (
-                    <CheckCircle2 className="w-6 h-6 text-green-500" />
-                  ) : (
-                    <XCircle className="w-6 h-6 text-red-500" />
-                  )
-                )}
-              </div>
-              {question.showHint && (
-                <div className="mt-4 text-gray-300 italic">{question.hint}</div>
-              )}
-              {question.userAnswer && !question.isCorrect && (
-                <div className="mt-2 text-red-500">Try Again!</div>
-              )}
-              {question.userAnswer && question.isCorrect && (
-                <div className="mt-2 text-green-500">Correct!</div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="text-gray-400 mt-6">
+        <div className="text-gray-400 mb-6">
           Hints Remaining: {hintsRemaining}
         </div>
 
-        <div className="text-center mt-6">
+        <div className="text-center mb-6">
           <button
             onClick={resetChallenge}
             className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-all"
@@ -274,28 +204,101 @@ function CryptoMinerChallenge() {
           </button>
         </div>
 
+        <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8">
+          <h2 className="text-xl font-semibold mb-4">Challenge Introduction</h2>
+          <p className="text-gray-400 mb-6">
+            The SOC team received an alert about unusual high CPU usage on a workstation. Suspecting a cryptominer, they escalated the case for further investigation.
+          </p>
+        </div>
+
+        <div className="text-center mb-8">
+          <a
+            href="/Miner%20on%20the%20Run.ad1"
+            download="Miner on the Run.ad1"
+            onClick={handleDownload}
+            className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center space-x-2"
+          >
+            <Download className="w-5 h-5" />
+            <span>{isDownloading ? "Downloading..." : "Download Miner on the Run.ad1"}</span>
+          </a>
+        </div>
+
+        <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8">
+          <h2 className="text-xl font-semibold mb-4">Suggested Tools</h2>
+          <p className="text-gray-400 mb-4">
+            To analyze the forensic image, you can use the following tools:
+          </p>
+          <ul className="list-disc list-inside text-gray-400">
+            <li>
+              <a
+                href="https://www.exterro.com/ftk-imager"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-blue hover:text-primary-blue/80"
+              >
+                FTK Imager
+              </a>{' '}
+              - A tool for forensic image analysis.
+            </li>
+          </ul>
+        </div>
+
+        <div className="space-y-6">
+          {questions.map((question) => (
+            <div
+              key={question.id}
+              className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:bg-primary-dark/40 hover:border-primary-blue transition-all"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-4">{question.text}</h3>
+                  <div className="flex items-center space-x-4">
+                    <input
+                      type="text"
+                      className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
+                      placeholder="Enter your answer"
+                      onChange={(e) => handleAnswerSubmit(question.id, e.target.value)}
+                    />
+                    <button
+                      className="text-gray-500 hover:text-gray-400"
+                      onClick={() => toggleHint(question.id)}
+                    >
+                      <HelpCircle className="w-5 h-5" />
+                    </button>
+                    {question.userAnswer && (
+                      question.isCorrect ? (
+                        <CheckCircle2 className="w-6 h-6 text-green-500" />
+                      ) : (
+                        <XCircle className="w-6 h-6 text-red-500" />
+                      )
+                    )}
+                  </div>
+                  {question.showHint && (
+                    <div className="mt-4 text-gray-300 italic">{question.hint}</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {allQuestionsAnswered && (
           <>
             <Confetti width={window.innerWidth} height={window.innerHeight} />
-            <div className="mt-8 text-center">
-              <p className="text-xl font-semibold text-green-500">Challenge Completed!</p>
-              <p className="text-gray-400">Your Score: {calculateScore()}</p>
-              <textarea
-                placeholder="Share your feedback..."
-                value={feedback}
-                onChange={(e) => setFeedback(e.target.value)}
-                className="w-full bg-primary-dark/30 border border-primary-blue/20 rounded-lg p-4 mt-4 focus:outline-none focus:border-primary-blue"
-              />
-              <button
-                onClick={() => alert("Thank you for your feedback!")}
-                className="bg-blue-600 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-700 transition-all"
-              >
-                Submit Feedback
-              </button>
+            <div className="mt-8 p-4 bg-green-600 text-white rounded-lg text-center">
+              <p className="text-lg font-semibold">Congratulations!</p>
+              <p>You have completed the challenge with {correctAnswersCount} out of {totalQuestions} correct answers.</p>
             </div>
           </>
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="bg-primary-dark/30 text-white py-8 mt-16 border-t border-primary-blue/20">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-gray-400">© 2025 HackTheHackers. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
