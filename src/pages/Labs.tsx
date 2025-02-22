@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Shield, Search, Filter } from 'lucide-react';
-import Navigation from '../components/Navigation';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Shield, Search, Filter } from "lucide-react";
+import Navigation from "../components/Navigation";
+import Typed from "typed.js";
 
 // Terminal Component
-const Terminal = () => {
+const Terminal = ({ darkMode }) => {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState([]);
   const [pwd, setPwd] = useState("/home/user");
@@ -175,9 +176,22 @@ const Terminal = () => {
     setInput("");
   };
 
+  // Command history navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowUp" && history.length > 0) {
+        setInput(history[history.length - 1]);
+      } else if (e.key === "ArrowDown") {
+        setInput("");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [history]);
+
   return (
     <div
-      className="relative text-green-400 font-mono p-6 rounded-lg shadow-lg"
+      className={`relative ${darkMode ? "text-green-400" : "text-green-800"} font-mono p-6 rounded-lg shadow-lg`}
       style={{
         backgroundImage: "url('/Main/linux.png')",
         backgroundSize: "cover",
@@ -214,16 +228,63 @@ const Terminal = () => {
   );
 };
 
-
-
 const CTFLabsPage = () => {
+  const [darkMode, setDarkMode] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterDifficulty, setFilterDifficulty] = useState("all");
+
+  const labs = [
+    {
+      id: 1,
+      title: "Vulnerable Web App",
+      difficulty: "easy",
+      description: "Exploit common web vulnerabilities like SQL Injection, XSS, and CSRF to capture the flag.",
+      image: "/Main/logo2.jpg",
+    },
+    {
+      id: 2,
+      title: "Network Penetration Test",
+      difficulty: "medium",
+      description: "Perform network penetration testing on a vulnerable machine. Identify and exploit misconfigurations.",
+      image: "/Main/logo2.jpg",
+    },
+    {
+      id: 3,
+      title: "Privilege Escalation",
+      difficulty: "hard",
+      description: "Gain root access by exploiting local privilege escalation vulnerabilities.",
+      image: "/Main/logo2.jpg",
+    },
+  ];
+
+  const filteredLabs = labs.filter((lab) => {
+    const matchesSearch = lab.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesDifficulty = filterDifficulty === "all" || lab.difficulty === filterDifficulty;
+    return matchesSearch && matchesDifficulty;
+  });
+
+  // Typing Effect
+  useEffect(() => {
+    const typed = new Typed("#tagline", {
+      strings: [
+        "Put Your Red Team Skills to the Test!",
+        "Sharpen your ethical hacking skills with hands-on Capture The Flag challenges.",
+        "Become a better ethical hacker—one challenge at a time!",
+      ],
+      typeSpeed: 50,
+      backSpeed: 30,
+      loop: true,
+    });
+    return () => typed.destroy();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background text-white font-sans">
+    <div className={`min-h-screen ${darkMode ? "bg-background text-white" : "bg-gray-100 text-black"} font-sans`}>
       {/* Navigation Bar */}
-      <Navigation darkMode={true} onToggleDarkMode={() => {}} />
+      <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
 
       {/* Hero Section */}
-      <div className="bg-primary-dark/50 py-20">
+      <div className="relative py-20" style={{ height: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex justify-center items-center mb-6">
             <img
@@ -232,15 +293,12 @@ const CTFLabsPage = () => {
               className="w-16 h-16 mr-4"
             />
             <h1 className="text-5xl font-bold">
-              <span className="text-white">Hack</span>
+              <span className={darkMode ? "text-white" : "text-black"}>Hack</span>
               <span className="text-red-500">The</span>
-              <span className="text-white">Hackers</span>
+              <span className={darkMode ? "text-white" : "text-black"}>Hackers</span>
             </h1>
           </div>
-          <p className="text-xl text-gray-400 mb-8">
-            Put Your Red Team Skills to the Test!<br />
-            Sharpen your ethical hacking skills with hands-on Capture The Flag challenges.<br /> Exploit vulnerabilities, solve complex puzzles, and think like an attacker to enhance your offensive security expertise.<br /> Become a better ethical hacker—one challenge at a time!
-          </p>
+          <p id="tagline" className="text-xl text-gray-400 mb-8"></p>
           <a
             href="#labs"
             className="bg-blue-600 text-white py-3 px-8 rounded-lg hover:bg-blue-700 text-lg font-semibold transition-all"
@@ -253,112 +311,91 @@ const CTFLabsPage = () => {
       {/* Labs Section */}
       <div id="labs" className="max-w-7xl mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-center mb-12">Available Labs</h2>
+        <div className="flex justify-between mb-8">
+          <input
+            type="text"
+            placeholder="Search labs..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={`${darkMode ? "bg-primary-dark/30 text-white" : "bg-gray-200 text-black"} p-2 rounded-lg w-64`}
+          />
+          <select
+            value={filterDifficulty}
+            onChange={(e) => setFilterDifficulty(e.target.value)}
+            className={`${darkMode ? "bg-primary-dark/30 text-white" : "bg-gray-200 text-black"} p-2 rounded-lg`}
+          >
+            <option value="all">All Difficulties</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* CTF Challenge 1 */}
-          <div className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 hover:border-primary-blue transition-all transform hover:-translate-y-2 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            <div className="p-6 relative">
-              <img
-                src="/Main/logo2.jpg"
-                alt="Vulnerable Web App"
-                className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg"
-              />
-              <h2 className="text-xl font-semibold mb-3">Vulnerable Web App</h2>
-              <p className="text-gray-400 mb-4">
-                Exploit common web vulnerabilities like SQL Injection, XSS, and CSRF to capture the flag.
-              </p>
-              <div className="flex items-center mb-4">
-                <span className="text-sm text-gray-400">Difficulty:</span>
-                <div className="w-24 h-2 bg-gray-700 rounded-full ml-2">
-                  <div className="h-2 bg-green-500 rounded-full" style={{ width: '40%' }}></div>
+          {filteredLabs.map((lab) => (
+            <div
+              key={lab.id}
+              className={`${darkMode ? "bg-primary-dark/30 border-primary-blue/20" : "bg-white border-gray-200"} rounded-lg border hover:border-primary-blue transition-all transform hover:-translate-y-2 relative overflow-hidden group`}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+              <div className="p-6 relative">
+                <img
+                  src={lab.image}
+                  alt={lab.title}
+                  className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg"
+                />
+                <h2 className="text-xl font-semibold mb-3">{lab.title}</h2>
+                <p className={`${darkMode ? "text-gray-400" : "text-gray-600"} mb-4`}>
+                  {lab.description}
+                </p>
+                <div className="flex items-center mb-4">
+                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Difficulty:</span>
+                  <div className="w-24 h-2 bg-gray-700 rounded-full ml-2">
+                    <div
+                      className={`h-2 ${
+                        lab.difficulty === "easy"
+                          ? "bg-green-500"
+                          : lab.difficulty === "medium"
+                          ? "bg-yellow-500"
+                          : "bg-red-500"
+                      } rounded-full`}
+                      style={{
+                        width:
+                          lab.difficulty === "easy"
+                            ? "40%"
+                            : lab.difficulty === "medium"
+                            ? "60%"
+                            : "80%",
+                      }}
+                    ></div>
+                  </div>
+                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} ml-2`}>
+                    {lab.difficulty.charAt(0).toUpperCase() + lab.difficulty.slice(1)}
+                  </span>
                 </div>
-                <span className="text-sm text-gray-400 ml-2">Easy</span>
+                <a
+                  href={`https://example.com/${lab.title.toLowerCase().replace(/ /g, "-")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all"
+                >
+                  Start Lab
+                </a>
               </div>
-              <a
-                href="https://example.com/vulnerable-web-app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all"
-              >
-                Start Lab
-              </a>
             </div>
-          </div>
-
-          {/* CTF Challenge 2 */}
-          <div className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 hover:border-primary-blue transition-all transform hover:-translate-y-2 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            <div className="p-6 relative">
-              <img
-                src="/Main/logo2.jpg"
-                alt="Network Penetration Test"
-                className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg"
-              />
-              <h2 className="text-xl font-semibold mb-3">Network Penetration Test</h2>
-              <p className="text-gray-400 mb-4">
-                Perform network penetration testing on a vulnerable machine. Identify and exploit misconfigurations.
-              </p>
-              <div className="flex items-center mb-4">
-                <span className="text-sm text-gray-400">Difficulty:</span>
-                <div className="w-24 h-2 bg-gray-700 rounded-full ml-2">
-                  <div className="h-2 bg-yellow-500 rounded-full" style={{ width: '60%' }}></div>
-                </div>
-                <span className="text-sm text-gray-400 ml-2">Medium</span>
-              </div>
-              <a
-                href="https://example.com/network-pt-machine"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all"
-              >
-                Start Lab
-              </a>
-            </div>
-          </div>
-
-          {/* CTF Challenge 3 */}
-          <div className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 hover:border-primary-blue transition-all transform hover:-translate-y-2 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            <div className="p-6 relative">
-              <img
-                src="/Main/logo2.jpg"
-                alt="Privilege Escalation"
-                className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg"
-              />
-              <h2 className="text-xl font-semibold mb-3">Privilege Escalation</h2>
-              <p className="text-gray-400 mb-4">
-                Gain root access by exploiting local privilege escalation vulnerabilities.
-              </p>
-              <div className="flex items-center mb-4">
-                <span className="text-sm text-gray-400">Difficulty:</span>
-                <div className="w-24 h-2 bg-gray-700 rounded-full ml-2">
-                  <div className="h-2 bg-red-500 rounded-full" style={{ width: '80%' }}></div>
-                </div>
-                <span className="text-sm text-gray-400 ml-2">Hard</span>
-              </div>
-              <a
-                href="https://example.com/priv-esc-challenge"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all"
-              >
-                Start Lab
-              </a>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
-        {/* Terminal Section */}
-        <div className="max-w-7xl mx-auto px-4 py-16">
+      {/* Terminal Section */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold text-center mb-12">Linux Command Training</h2>
-        <Terminal />
+        <Terminal darkMode={darkMode} />
       </div>
 
       {/* Footer */}
-      <footer className="bg-primary-dark/30 text-white py-8 mt-16 border-t border-primary-blue/20">
+      <footer className={`${darkMode ? "bg-primary-dark/30 border-primary-blue/20" : "bg-gray-200 border-gray-300"} text-white py-8 mt-16 border-t`}>
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-400">© 2025 HackTheHackers. All rights reserved.</p>
+          <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>© 2025 HackTheHackers. All rights reserved.</p>
         </div>
       </footer>
     </div>
