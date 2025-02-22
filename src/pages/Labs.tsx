@@ -240,7 +240,7 @@ const CTFLabsPage = () => {
       difficulty: "easy",
       description: "Exploit common web vulnerabilities like SQL Injections to capture the flag.",
       image: "/Main/logo2.jpg",
-      route: "/labs/sql",
+      link: "/labs/sql",
     },
     {
       id: 2,
@@ -248,7 +248,7 @@ const CTFLabsPage = () => {
       difficulty: "medium",
       description: "Perform Web penetration testing on a vulnerable machine. Identify and exploit misconfigurations.",
       image: "/Main/logo2.jpg",
-      route: "/labs/sql",
+      link: "/labs/sql",
     },
     {
       id: 3,
@@ -256,7 +256,7 @@ const CTFLabsPage = () => {
       difficulty: "easy",
       description: "Exploit common web vulnerabilities like XSS Injections to capture the flag.",
       image: "/Main/logo2.jpg",
-      route: "/labs/xss",
+      link: "/labs/xss",
     },
   ];
 
