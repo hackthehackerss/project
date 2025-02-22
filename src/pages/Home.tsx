@@ -108,20 +108,23 @@ function Home() {
           </div>
         </div>
 
-        {/* Main Image with Link */}
-        <Link 
-          to="/learning-paths" 
-          className="mb-16 reveal transform hover:scale-105 transition-transform duration-300 relative w-3/4 md:w-1/2 lg:w-2/5"
-        >
-          <div className={`absolute inset-0 border-4 ${darkMode ? 'border-primary-blue' : 'border-black'} rounded-lg z-0 animate-glow-blue-red`}></div>
-          <div className={`relative z-10 p-2 border-4 ${darkMode ? 'border-primary-blue/30' : 'border-black/30'} rounded-lg`}>
-            <img 
-              src="/Main/choose-path.png" 
-              alt="Choose Your Path" 
-              className="w-full h-auto rounded-lg shadow-lg animate-float"
-            />
-          </div>
-        </Link>
+{/* Main Image with Link */}
+<Link 
+  to="/learning-paths" 
+  className="mb-16 reveal transform hover:scale-105 transition-transform duration-300 relative w-3/4 md:w-2/3 lg:w-1/2" // Increased width
+>
+  {/* Glowing Border */}
+  <div className={`absolute inset-0 border-4 ${darkMode ? 'border-primary-blue' : 'border-black'} rounded-lg z-0 animate-glow-blue-red`}></div>
+  
+  {/* Image Container */}
+  <div className={`relative z-10 p-2 border-4 ${darkMode ? 'border-primary-blue/30' : 'border-black/30'} rounded-lg overflow-hidden`}>
+    <img 
+      src="/Main/choose-path.png" 
+      alt="Choose Your Path" 
+      className="w-full h-auto rounded-lg shadow-lg animate-float object-contain" // object-contain ensures the image fits
+    />
+  </div>
+</Link>
       </div>
 
       {/* New Section: Get Hands-On Experience */}
