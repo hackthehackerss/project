@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, ArrowLeft, ThumbsUp } from 'lucide-react';
+import { ChevronRight, ArrowLeft, ThumbsUp, Lightbulb } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';
 
@@ -23,10 +23,12 @@ function SQLLab() {
     "1.1": "flag{sql_injection_basics}",
     "1.2": "flag{detecting_sql_vulnerabilities}",
     "1.3": "flag{retrieving_hidden_data}",
+    "1.4": "flag{subverting_application_logic}",
     "2.1": "flag{subverting_application_logic}",
     "2.2": "flag{union_attacks}"
   };
 
+  // Sections with improved content formatting and special style for code parts
   const sections = [
     {
       id: "1",
@@ -35,67 +37,78 @@ function SQLLab() {
         {
           id: "1.1",
           title: "What is SQL injection (SQLi)?",
-          content: `SQL injection (SQLi) is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. This can allow an attacker to view data that they are not normally able to retrieve. This might include data that belongs to other users, or any other data that the application can access. In many cases, an attacker can modify or delete this data, causing persistent changes to the application's content or behavior.
-
+          content: `SQL injection (SQLi) is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. This can allow an attacker to view data that they are not normally able to retrieve – including data belonging to other users – or any other data that the application can access. In many cases, an attacker can modify or delete this data, causing persistent changes to the application's content or behavior.<br/><br/>
 In some situations, an attacker can escalate a SQL injection attack to compromise the underlying server or other back-end infrastructure. It can also enable them to perform denial-of-service attacks.`
         },
         {
           id: "1.2",
           title: "How to detect SQL injection vulnerabilities",
-          content: `You can detect SQL injection manually using a systematic set of tests against every entry point in the application. To do this, you would typically submit:
-
-• The single quote character (') and look for errors or anomalies.
-• SQL-specific syntax that evaluates to the original value and a different value.
-• Boolean conditions (e.g., OR 1=1 vs. OR 1=2) to detect differences.
-• Payloads designed to trigger time delays.
-• OAST payloads to trigger out-of-band interactions.
-
+          content: `You can detect SQL injection manually by systematically testing every entry point in the application. Typically, you would submit:<br/><br/>
+• The single quote character (<code>'</code>) and look for errors or anomalies.<br/>
+• SQL-specific syntax that evaluates to the original value and then to a different value.<br/>
+• Boolean conditions (e.g., <code>OR 1=1</code> vs. <code>OR 1=2</code>) to detect differences.<br/>
+• Payloads designed to trigger time delays.<br/>
+• OAST payloads to trigger out-of-band interactions.<br/><br/>
 Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
         },
         {
           id: "1.3",
           title: "Retrieving hidden data",
-          content: `Imagine a shopping application that displays products in different categories. When a user clicks on a category (for example, "Gifts"), the browser requests a URL such as:
-https://vulnerable-web.org/products?category=Shoes
-
-This causes the application to execute a SQL query to retrieve product details:
-SELECT * FROM products WHERE category = 'Shoes' AND released = 1
-
-This query returns all products from the "Shoes" category that are marked as released.
-
-If the application is vulnerable to SQL injection, an attacker might modify the URL to:
-https://vulnerable-web.org/products?category=Shoes'--
-
-The query then becomes:
-SELECT * FROM products WHERE category = 'Shoes'--' AND released = 1
-
-Because "--" begins a SQL comment, the condition “AND released = 1” is ignored. As a result, all products—including unreleased ones—are displayed.
-
-An attacker can further exploit this by using:
-https://vulnerable-web.org/products?category=Shoes'+OR+1=1--
-
-Which results in:
-SELECT * FROM products WHERE category = 'Shoes' OR 1=1--' AND released = 1
-
-Since 1=1 is always true, this query returns every product.
-
-Warning: Injecting conditions such as OR 1=1 can be dangerous if the same data is used in multiple queries (for example, in UPDATE or DELETE statements), potentially leading to accidental data loss.
-
+          content: `Imagine a shopping application that displays products in different categories. When a user clicks on a category (for example, "Gifts"), the browser requests a URL such as:<br/><br/>
+<code>https://vulnerable-web.org/products?category=Shoes</code><br/><br/>
+This causes the application to execute a SQL query to retrieve product details:<br/><br/>
+<code>SELECT * FROM products WHERE category = 'Shoes' AND released = 1</code><br/><br/>
+This query returns all products from the "Shoes" category that are marked as released.<br/><br/>
+If the application is vulnerable to SQL injection, an attacker might modify the URL to:<br/><br/>
+<code>https://vulnerable-web.org/products?category=Shoes'--</code><br/><br/>
+The query then becomes:<br/><br/>
+<code>SELECT * FROM products WHERE category = 'Shoes'--' AND released = 1</code><br/><br/>
+Because <code>--</code> starts a comment, the condition “AND released = 1” is ignored, displaying all products—even unreleased ones.<br/><br/>
+An attacker can further use:<br/><br/>
+<code>https://vulnerable-web.org/products?category=Shoes'+OR+1=1--</code><br/><br/>
+Which results in:<br/><br/>
+<code>SELECT * FROM products WHERE category = 'Shoes' OR 1=1--' AND released = 1</code><br/><br/>
+<strong>Warning:</strong> Injecting conditions like <code>OR 1=1</code> can be dangerous if the same data is used in multiple queries (for example, in UPDATE or DELETE statements), potentially leading to data loss.<br/><br/>
 This lab contains a SQL injection vulnerability in the product category filter. To solve the lab, perform a SQL injection attack that causes the application to display one or more unreleased products.`
+        },
+        {
+          id: "1.4",
+          title: "Subverting application logic",
+          content: `Imagine an application that lets users log in with a username and password. If a user submits the username <code>wiener</code> and the password <code>bluecheese</code>, the application checks the credentials by executing the following SQL query:<br/><br/>
+<code>SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'</code><br/><br/>
+If the query returns a user record, the login is successful; otherwise, it is rejected.<br/><br/>
+An attacker can bypass the password check by using the SQL comment sequence <code>--</code> to remove part of the query. For example, submitting the username <code>administrator'--</code> with a blank password results in:<br/><br/>
+<code>SELECT * FROM users WHERE username = 'administrator'--' AND password = ''</code><br/><br/>
+This query returns the record for the administrator user, effectively logging the attacker in as that user.<br/><br/>
+This lab contains a SQL injection vulnerability in the login function. To solve the lab, perform a SQL injection attack that logs in as the administrator user.`
         }
       ]
     },
     {
       id: "2",
-      title: "How to Detect SQL Injection Vulnerabilities",
+      title: "SQL injection UNION attacks",
       subsections: [
-        { id: "2.1", title: "Manual Testing", content: "Manual testing involves checking input fields for vulnerabilities." },
-        { id: "2.2", title: "Automated Tools", content: "Automated tools can quickly detect SQL injection vulnerabilities." }
+        {
+          id: "2.1",
+          title: "Manual Testing",
+          content: `When an application is vulnerable to SQL injection and the results are returned within its responses, you can use the <code>UNION</code> keyword to retrieve data from other tables. This technique is known as a SQL injection UNION attack.<br/><br/>
+The <code>UNION</code> keyword enables you to execute one or more additional <code>SELECT</code> queries and append their results to the original query. For example, a query might return a single result set with two columns, containing values from two different tables.`
+        },
+        {
+          id: "2.2",
+          title: "SQL injection UNION attacks – Continued",
+          content: `For a <code>UNION</code> query to work, two key requirements must be met:<br/><br/>
+1. The individual queries must return the same number of columns.<br/>
+2. The data types in each column must be compatible.<br/><br/>
+To carry out a SQL injection UNION attack, you typically need to determine:<br/><br/>
+• How many columns the original query returns.<br/>
+• Which columns are of a suitable data type to hold the injected query's results.`
+        }
       ]
     }
   ];
 
-  // Array of lab routes; a random one will be chosen when the "Access Lab" button is clicked.
+  // Array of lab routes; a random one will be chosen when "Access Lab" is clicked.
   const labRoutes = [
     "/lab-exercise-1",
     "/lab-exercise-2",
@@ -145,7 +158,7 @@ This lab contains a SQL injection vulnerability in the product category filter. 
     if (activeSubSection === "1.1") return "Look up common SQL injection examples.";
     if (activeSubSection === "1.2") return "Search for the first recorded SQL injection attack.";
     if (activeSubSection === "1.3") return "Modify the category parameter to include '+OR+1=1--' to bypass the released filter.";
-    if (activeSubSection === "2.1") return "Think about manual penetration testing techniques.";
+    if (activeSubSection === "1.4") return "Modify the username parameter, for example: administrator'--";
     if (activeSubSection === "2.2") return "Consider tools like sqlmap for automated testing.";
     return "No hint available.";
   };
@@ -279,27 +292,31 @@ This lab contains a SQL injection vulnerability in the product category filter. 
           {activeSubSection && currentSub && (
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-2xl font-bold mb-4">{currentSub.title}</h1>
-              <p className="text-gray-300 whitespace-pre-line mx-auto" style={{ width: "80%" }}>
-                {currentSub.content}
-              </p>
-
+              <div
+                className="text-gray-300 whitespace-pre-line mx-auto"
+                style={{ width: "80%" }}
+                dangerouslySetInnerHTML={{ __html: currentSub.content }}
+              />
               {/* Hint Block */}
               <div className="mt-6">
                 <button
-                  className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                  className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 inline-flex items-center"
                   onClick={handleShowHint}
                 >
-                  Get a Hint
+                  <Lightbulb className="mr-1" /> Get a Hint
                 </button>
-                {hintMessage && <p className="mt-2 text-gray-300">{hintMessage}</p>}
+                {hintMessage && (
+                  <div className="mt-2 bg-yellow-100 text-yellow-900 p-3 rounded-md text-left">
+                    {hintMessage}
+                  </div>
+                )}
               </div>
-
-              {/* Flag Submission Block at Center-Bottom */}
-              <div className="mt-12">
-                <div className="inline-flex items-center space-x-2">
+              {/* Flag Submission Block */}
+              <div className="mt-12 max-w-lg mx-auto">
+                <div className="flex items-center space-x-2">
                   <input
                     type="text"
-                    className="border border-gray-600 rounded-md px-4 py-2 text-black w-3/4"
+                    className="flex-grow border border-gray-600 rounded-md px-4 py-2 text-black"
                     placeholder="Enter flag here..."
                     value={flagInput}
                     onChange={(e) => setFlagInput(e.target.value)}
@@ -308,12 +325,11 @@ This lab contains a SQL injection vulnerability in the product category filter. 
                     className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700"
                     onClick={handleFlagSubmit}
                   >
-                    Submit Flag
+                    Submit
                   </button>
                 </div>
                 {flagMessage && <p className="mt-2 text-lg">{flagMessage}</p>}
               </div>
-
               {/* Continue Button */}
               <div className="mt-6 text-center">
                 <button
