@@ -20,7 +20,7 @@ function SQLLab() {
 
   // Correct flags keyed by subsection identifiers
   const correctFlags = {
-    "1.1": "flag{sql_injection_basics}",
+    "1.1": "HTH{sql_injection_basics}",
     "1.2": "flag{detecting_sql_vulnerabilities}",
     "1.3": "flag{retrieving_hidden_data}",
     "1.4": "flag{subverting_application_logic}",
@@ -90,7 +90,7 @@ This lab contains a SQL injection vulnerability in the login function. To solve 
       subsections: [
         {
           id: "2.1",
-          title: "Manual Testing",
+          title: "SQL injection UNION attacks",
           content: `When an application is vulnerable to SQL injection and the results are returned within its responses, you can use the <code>UNION</code> keyword to retrieve data from other tables. This technique is known as a SQL injection UNION attack.<br/><br/>
 The <code>UNION</code> keyword enables you to execute one or more additional <code>SELECT</code> queries and append their results to the original query. For example, a query might return a single result set with two columns, containing values from two different tables.`
         },
@@ -103,6 +103,28 @@ The <code>UNION</code> keyword enables you to execute one or more additional <co
 To carry out a SQL injection UNION attack, you typically need to determine:<br/><br/>
 • How many columns the original query returns.<br/>
 • Which columns are of a suitable data type to hold the injected query's results.`
+        },
+        {
+          id: "3",
+          title: "Determining the number of columns required",
+          subsections: [
+            {
+              id: "3.1",
+              title: "Determining the number of columns required",
+              content: `When performing a SQL injection UNION attack, one effective method is to inject a series of <code>ORDER BY</code> clauses, incrementing the column index until an error occurs. For example, if the injection point is within a quoted string in the WHERE clause, you might submit:<br/><br/>
+<code>' ORDER BY 1--</code><br/>
+<code>' ORDER BY 2--</code><br/>
+<code>' ORDER BY 3--</code><br/><br/>
+When the specified column index exceeds the number of columns in the result set, the database returns an error. This error helps you infer the number of columns.<br/><br/>
+Another method involves using <code>UNION SELECT</code> with a series of <code>NULL</code> values, adjusting the number until the query succeeds.`
+            },
+            {
+              id: "3.2",
+              title: "Determining the number of columns via UNION SELECT",
+              content: `This lab contains a SQL injection vulnerability in the product category filter. The results of the query are returned in the application's response, so you can use a UNION attack to retrieve additional data.<br/><br/>
+To solve the lab, determine the number of columns returned by the query by submitting a UNION SELECT payload with an increasing number of <code>NULL</code> values until the error disappears, indicating the correct number of columns.`
+            }
+          ]
         }
       ]
     }
@@ -160,6 +182,10 @@ To carry out a SQL injection UNION attack, you typically need to determine:<br/>
     if (activeSubSection === "1.3") return "Modify the category parameter to include '+OR+1=1--' to bypass the released filter.";
     if (activeSubSection === "1.4") return "Modify the username parameter, for example: administrator'--";
     if (activeSubSection === "2.2") return "Consider tools like sqlmap for automated testing.";
+    if (activeSubSection === "3.1") return "Use ORDER BY clauses or UNION SELECT with NULL values to determine the number of columns.";
+    if (activeSubSection === "3.2") {
+      return "Modify the category parameter to add a UNION SELECT with NULL values. Start with one NULL, then increase until the error disappears and additional content appears.";
+    }
     return "No hint available.";
   };
 
@@ -197,6 +223,17 @@ To carry out a SQL injection UNION attack, you typically need to determine:<br/>
 
   return (
     <div className="min-h-screen bg-background text-white">
+      {/* Inline Styles for Code Tags */}
+      <style>{`
+        code {
+          border: 1px dashed white;
+          padding: 2px 4px;
+          border-radius: 3px;
+          font-family: 'Courier New', Courier, monospace;
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      `}</style>
+
       {/* Navbar */}
       <nav className="bg-primary-dark border-b border-primary-blue/20 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
