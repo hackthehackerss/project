@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Book, ChevronRight, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-function SQL_lab() {
+function SQLLab() {
   const [activeSection, setActiveSection] = useState("");
   const [activeSubSection, setActiveSubSection] = useState("");
   const [quizResults, setQuizResults] = useState({});
@@ -34,15 +34,15 @@ function SQL_lab() {
       id: "1",
       title: "SQL",
       content: {
-        introduction: "SQL",
+        introduction: "Introduction to SQL",
         sections: [
           {
-            title: "123",
-            content: ['aaa']
+            title: "Section 1",
+            content: ['Content for section 1']
           },
           {
-            title: "123",
-            content: ['aaa']
+            title: "Section 2",
+            content: ['Content for section 2']
           }
         ]
       }
@@ -67,9 +67,7 @@ function SQL_lab() {
                 Back to Learning Paths
               </Link>
               <span className="text-xl font-bold animate-fadeIn">
-                <span className="text-white"></span>
-                <span className="text-primary-red"></span>
-                <span className="text-white"></span>
+                <span className="text-white">{activeContent?.introduction}</span>
               </span>
             </div>
           </div>
@@ -81,8 +79,8 @@ function SQL_lab() {
           <div className="flex items-center space-x-4 animate-fadeIn">
             <Book className="w-8 h-8 text-primary-blue animate-pulse-slow" />
             <div>
-              <h1 className="text-2xl font-bold gradient-text"></h1>
-              <p className="text-gray-400 text-sm mt-1"></p>
+              <h1 className="text-2xl font-bold gradient-text">{activeContent?.introduction}</h1>
+              <p className="text-gray-400 text-sm mt-1">{activeSubSectionContent?.content}</p>
               <div className="mt-2 progress-bar"></div>
             </div>
           </div>
@@ -92,7 +90,7 @@ function SQL_lab() {
       <div className="flex">
         <div className="w-64 bg-primary-dark/30 min-h-[calc(100vh-11rem)] border-r border-primary-blue/20 glass-effect">
           <div className="p-4">
-            <h2 className="text-lg font-semibold mb-4 gradient-text"></h2>
+            <h2 className="text-lg font-semibold mb-4 gradient-text">Sections</h2>
             <div className="space-y-2">
               {sections.map((section, index) => (
                 <button
@@ -114,6 +112,14 @@ function SQL_lab() {
         <div className="flex-1 bg-primary-dark/10 py-8 glass-effect">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Content will go here */}
+            {activeSubSectionContent ? (
+              <div className="mt-6">
+                <h2 className="text-xl font-semibold">{activeSubSectionContent.title}</h2>
+                <p>{activeSubSectionContent.content.join(", ")}</p>
+              </div>
+            ) : (
+              <p>Select a section to view content</p>
+            )}
           </div>
         </div>
       </div>
@@ -121,4 +127,4 @@ function SQL_lab() {
   );
 }
 
-export default SQLlab;
+export default SQLLab;
