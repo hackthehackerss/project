@@ -1,131 +1,141 @@
-import React, { useState, useEffect } from 'react';
-import { Book, ChevronRight, ChevronDown, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Book, ChevronRight, ArrowLeft, CheckCircle, XCircle } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+
+const SQL_LAB_SECTIONS = [
+  {
+    id: "1",
+    title: "What is SQL Injection?",
+    subsections: ["Introduction", "Examples", "Risks", "Prevention"],
+    flag: "FLAG-123-SQLI"
+  },
+  {
+    id: "2",
+    title: "Detecting SQL Injection",
+    subsections: ["Manual Testing", "Automated Scanning", "Error-Based Detection"],
+    flag: "FLAG-456-DETECT"
+  },
+  {
+    id: "3",
+    title: "Retrieving Hidden Data",
+    subsections: ["Union-Based Injection", "Boolean-Based Injection", "Time-Based Injection"],
+    flag: "FLAG-789-HIDDEN"
+  },
+  {
+    id: "4",
+    title: "SQL Injection Labs",
+    subsections: ["Try Lab 1", "Try Lab 2", "Try Lab 3"],
+    flag: "FINAL-FLAG-SECURE"
+  }
+];
 
 function SQLLab() {
   const [activeSection, setActiveSection] = useState(null);
   const [activeSubSection, setActiveSubSection] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [userFlag, setUserFlag] = useState("");
+  const [flagStatus, setFlagStatus] = useState(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    );
+  const handleSectionClick = (sectionId) => {
+    setActiveSection(activeSection === sectionId ? null : sectionId);
+    setActiveSubSection(null);
+  };
 
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  const handleSubSectionClick = (subSection) => {
+    setActiveSubSection(subSection);
+  };
 
-    return () => observer.disconnect();
-  }, []);
-
-  const sections = [
-    "What is SQL injection?",
-    "How to detect SQL injection vulnerabilities",
-    "Retrieving hidden data",
-    "Subverting application logic",
-    "SQL injection UNION attacks",
-    "Determining the number of columns required",
-    "Finding columns with a useful data type",
-    "Using a SQL injection UNION attack to retrieve interesting data",
-    "Retrieving multiple values within a single column",
-    "Examining the database",
-    "Blind SQL injection",
-    "Exploiting blind SQL injection by triggering conditional responses",
-    "Error-based SQL injection",
-    "Exploiting blind SQL injection by triggering time delays",
-    "Exploiting blind SQL injection using out-of-band (OAST) techniques",
-    "SQL injection in different contexts",
-    "Second-order SQL injection",
-    "How to prevent SQL injection",
-  ];
-
-  const paragraphs = [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-  ];
-
-  const handleNextPage = () => {
-    if (currentPage < 4) {
-      setCurrentPage(currentPage + 1);
+  const handleFlagSubmit = () => {
+    const correctFlag = SQL_LAB_SECTIONS.find(sec => sec.id === activeSection)?.flag;
+    if (userFlag.trim() === correctFlag) {
+      setFlagStatus("correct");
     } else {
-      const nextSectionIndex = sections.indexOf(activeSection) + 1;
-      if (nextSectionIndex < sections.length) {
-        setActiveSection(sections[nextSectionIndex]);
-        setCurrentPage(1);
-      }
+      setFlagStatus("incorrect");
     }
   };
 
   return (
-    <div className="min-h-screen bg-background text-white">
-      <nav className="bg-primary-dark border-b border-primary-blue/20 glass-effect">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center space-x-4">
-              <Link to="/learning-paths" className="text-primary-blue hover:text-primary-blue/80 flex items-center group">
-                <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-                Back to Learning Paths
-              </Link>
-            </div>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <nav className="bg-gray-800 p-4 flex justify-between items-center">
+        <Link to="/labs" className="text-blue-400 flex items-center hover:text-blue-300">
+          <ArrowLeft className="w-5 h-5 mr-2" /> Back to Labs
+        </Link>
       </nav>
 
-      <div className="flex">
-        <div className="w-64 bg-primary-dark/30 min-h-screen border-r border-primary-blue/20 p-4">
-          <h2 className="text-lg font-semibold mb-4">SQL Injection Topics</h2>
-          <div className="space-y-2">
-            {sections.map((section, index) => (
-              <div key={index}>
-                <button
-                  onClick={() => setActiveSection(section === activeSection ? null : section)}
-                  className="w-full text-left px-4 py-2 rounded-md flex items-center justify-between hover:bg-primary-blue/10 transition-all"
-                >
-                  {section}
-                  {activeSection === section ? <ChevronDown /> : <ChevronRight />}
-                </button>
-                {activeSection === section && (
-                  <div className="ml-4 mt-2 space-y-1">
-                    {[1, 2, 3, 4].map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => { setActiveSubSection(page); setCurrentPage(1); }}
-                        className={`w-full text-left px-3 py-1 rounded-md hover:bg-primary-blue/10 ${activeSubSection === page ? 'bg-primary-blue/20' : ''}`}
-                      >
-                        Page {page}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex-1 bg-primary-dark/10 py-8 px-6">
-          {activeSection && (
-            <div>
-              <h1 className="text-2xl font-bold mb-4">{activeSection} - Page {currentPage}</h1>
-              {paragraphs.map((text, i) => (
-                <p key={i} className="mb-4">{text}</p>
-              ))}
+      <div className="max-w-4xl mx-auto mt-8">
+        <h1 className="text-3xl font-bold mb-4">SQL Injection Lab</h1>
+        <div className="space-y-4">
+          {SQL_LAB_SECTIONS.map(section => (
+            <div key={section.id} className="bg-gray-800 p-4 rounded-lg">
               <button
-                onClick={handleNextPage}
-                className="mt-4 px-4 py-2 bg-primary-blue text-white rounded-md hover:bg-primary-blue/80"
+                className="w-full flex justify-between items-center text-left font-semibold text-lg py-2"
+                onClick={() => handleSectionClick(section.id)}
               >
-                {currentPage < 4 ? 'Next Page' : 'Next Section'}
+                {section.title}
+                <ChevronRight className={`w-5 h-5 transition-transform ${activeSection === section.id ? 'rotate-90' : ''}`} />
               </button>
+              {activeSection === section.id && (
+                <div className="ml-4 mt-2 space-y-2">
+                  {section.subsections.map(sub => (
+                    <button
+                      key={sub}
+                      className={`block w-full text-left px-3 py-2 rounded-md hover:bg-gray-700 transition-all ${activeSubSection === sub ? 'bg-blue-500 text-white' : 'text-gray-300'}`}
+                      onClick={() => handleSubSectionClick(sub)}
+                    >
+                      {sub}
+                    </button>
+                  ))}
+                  {section.id === "4" && (
+                    <button
+                      className="mt-3 w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md"
+                      onClick={() => navigate("/sql-lab-exercises")}
+                    >
+                      Try Lab
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {activeSection && (
+        <div className="max-w-4xl mx-auto mt-6 p-4 bg-gray-800 rounded-lg">
+          <h2 className="text-2xl font-bold mb-2">{activeSubSection || "Select a subsection"}</h2>
+          <p className="text-gray-300 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin luctus velit nec urna convallis, ut sodales purus elementum.</p>
+          <p className="text-gray-300 mb-4">Mauris placerat metus vel libero gravida, in consequat nulla pretium. Sed porttitor arcu eu vehicula vehicula.</p>
+          <p className="text-gray-300 mb-4">Phasellus dictum dolor at risus scelerisque, sit amet tincidunt nulla egestas.</p>
+
+          <h3 className="text-xl font-semibold mt-4">Submit Flag</h3>
+          <input
+            type="text"
+            placeholder="Enter flag here..."
+            className="w-full p-2 mt-2 bg-gray-700 rounded border border-gray-600 text-white"
+            value={userFlag}
+            onChange={(e) => setUserFlag(e.target.value)}
+          />
+          <button
+            className="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md"
+            onClick={handleFlagSubmit}
+          >
+            Submit
+          </button>
+          {flagStatus && (
+            <div className={`mt-3 p-3 rounded-lg text-white ${flagStatus === 'correct' ? 'bg-green-500' : 'bg-red-500'}`}>
+              {flagStatus === "correct" ? (
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 mr-2" /> Correct flag!
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <XCircle className="w-5 h-5 mr-2" /> Incorrect flag, try again.
+                </div>
+              )}
             </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 }
