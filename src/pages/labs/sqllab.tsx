@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Book, ChevronRight, ArrowLeft, ThumbsUp } from 'lucide-react';
+import { ChevronRight, ArrowLeft, ThumbsUp } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';
 
@@ -179,15 +179,21 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
       {/* Top Header: Three-column layout */}
       <div className="bg-primary-dark/20 py-4 px-6">
         <div className="grid grid-cols-3 items-center">
+          {/* Top Left: Like Button */}
           <div className="text-left">
-            <span className="text-green-500 font-bold">Likes: {likesCount}</span>
+            <button onClick={() => handleRating("like")} className="text-green-500 flex items-center">
+              <ThumbsUp className="mr-1" /> Like
+            </button>
+            <div className="mt-1 text-sm font-bold text-green-500">Likes: {likesCount}</div>
           </div>
+          {/* Center: Course Progress */}
           <div className="text-center">
             <h3 className="text-lg font-semibold">Course Progress: {progress}% Completed</h3>
             <div className="w-full bg-gray-500 rounded-full h-2 mt-2">
               <div className="bg-green-500 h-2 rounded-full" style={{ width: `${progress}%` }}></div>
             </div>
           </div>
+          {/* Top Right: Access Lab Button */}
           <div className="text-right">
             <button
               className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
@@ -244,44 +250,45 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
         {/* Main Content Area */}
         <div className="flex-1 bg-primary-dark/10 py-8 px-6">
           {activeSubSection && currentSub && (
-            <div className="max-w-3xl mx-auto">
-              <h1 className="text-2xl font-bold mb-4 text-center">{currentSub.title}</h1>
-              <p className="text-gray-300 whitespace-pre-line text-left">
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="text-2xl font-bold mb-4">{currentSub.title}</h1>
+              <p className="text-gray-300 whitespace-pre-line mx-auto" style={{ width: "80%" }}>
                 {currentSub.content}
               </p>
-              {/* Flex container for Hint & Flag Submission inline */}
-              <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-4">
-                {/* Left: Hint */}
-                <div className="flex-1 text-left">
-                  <button
-                    className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
-                    onClick={handleShowHint}
-                  >
-                    Get a Hint
-                  </button>
-                  {hintMessage && <p className="mt-2 text-gray-300">{hintMessage}</p>}
-                </div>
-                {/* Right: Flag Submission */}
-                <div className="flex-1 text-right">
-                  <div className="inline-flex items-center space-x-2">
-                    <input
-                      type="text"
-                      className="border border-gray-600 rounded-md px-4 py-2 text-black w-full"
-                      placeholder="Enter flag here..."
-                      value={flagInput}
-                      onChange={(e) => setFlagInput(e.target.value)}
-                    />
-                    <button
-                      className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700"
-                      onClick={handleFlagSubmit}
-                    >
-                      Submit Flag
-                    </button>
-                  </div>
-                  {flagMessage && <p className="mt-2 text-lg">{flagMessage}</p>}
-                </div>
+
+              {/* Hint Block */}
+              <div className="mt-6">
+                <button
+                  className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                  onClick={handleShowHint}
+                >
+                  Get a Hint
+                </button>
+                {hintMessage && <p className="mt-2 text-gray-300">{hintMessage}</p>}
               </div>
-              <div className="mt-6 text-center">
+
+              {/* Flag Submission Block at Center-Bottom */}
+              <div className="mt-12">
+                <div className="inline-flex items-center space-x-2">
+                  <input
+                    type="text"
+                    className="border border-gray-600 rounded-md px-4 py-2 text-black w-1/2"
+                    placeholder="Enter flag here..."
+                    value={flagInput}
+                    onChange={(e) => setFlagInput(e.target.value)}
+                  />
+                  <button
+                    className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700"
+                    onClick={handleFlagSubmit}
+                  >
+                    Submit Flag
+                  </button>
+                </div>
+                {flagMessage && <p className="mt-2 text-lg">{flagMessage}</p>}
+              </div>
+
+              {/* Continue Button */}
+              <div className="mt-6">
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
                   onClick={handleContinue}
@@ -290,11 +297,6 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
                 </button>
               </div>
               {showConfetti && <Confetti />}
-              <div className="mt-4 flex justify-center">
-                <button onClick={() => handleRating("like")} className="text-green-500">
-                  <ThumbsUp /> Like
-                </button>
-              </div>
             </div>
           )}
         </div>
