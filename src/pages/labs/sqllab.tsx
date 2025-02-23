@@ -32,25 +32,38 @@ function SQLLab() {
       id: "1",
       title: "What is SQL Injection?",
       subsections: [
-        { id: "1.1", title: "What is SQL injection (SQLi)?", content: "SQL injection (SQLi) is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. This can allow an attacker to view data that they are not normally able to retrieve. This might include data that belongs to other users, or any other data that the application can access. In many cases, an attacker can modify or delete this data, causing persistent changes to the application's content or behavior.
+        {
+          id: "1.1",
+          title: "What is SQL injection (SQLi)?",
+          content: `SQL injection (SQLi) is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. This can allow an attacker to view data that they are not normally able to retrieve. This might include data that belongs to other users, or any other data that the application can access. In many cases, an attacker can modify or delete this data, causing persistent changes to the application's content or behavior.
 
-In some situations, an attacker can escalate a SQL injection attack to compromise the underlying server or other back-end infrastructure. It can also enable them to perform denial-of-service attacks." },
-        { id: "1.2", title: "How to detect SQL injection vulnerabilities", content: "You can detect SQL injection manually using a systematic set of tests against every entry point in the application. To do this, you would typically submit:
+In some situations, an attacker can escalate a SQL injection attack to compromise the underlying server or other back-end infrastructure. It can also enable them to perform denial-of-service attacks.`
+        },
+        {
+          id: "1.2",
+          title: "How to detect SQL injection vulnerabilities",
+          content: `You can detect SQL injection manually using a systematic set of tests against every entry point in the application. To do this, you would typically submit:
 
-The single quote character ' and look for errors or other anomalies.
-Some SQL-specific syntax that evaluates to the base (original) value of the entry point, and to a different value, and look for systematic differences in the application responses.
-Boolean conditions such as OR 1=1 and OR 1=2, and look for differences in the application's responses.
-Payloads designed to trigger time delays when executed within a SQL query, and look for differences in the time taken to respond.
-OAST payloads designed to trigger an out-of-band network interaction when executed within a SQL query, and monitor any resulting interactions.
-Alternatively, you can find the majority of SQL injection vulnerabilities quickly and reliably using Burp Scanner." },
-        { id: "1.3", title: "SQL injection in different parts of the query", content: "Most SQL injection vulnerabilities occur within the WHERE clause of a SELECT query. Most experienced testers are familiar with this type of SQL injection.
+• The single quote character ' and look for errors or other anomalies.
+• Some SQL-specific syntax that evaluates to the base (original) value of the entry point, and to a different value, and look for systematic differences in the application responses.
+• Boolean conditions such as OR 1=1 and OR 1=2, and look for differences in the application's responses.
+• Payloads designed to trigger time delays when executed within a SQL query, and look for differences in the time taken to respond.
+• OAST payloads designed to trigger an out-of-band network interaction when executed within a SQL query, and monitor any resulting interactions.
+
+Alternatively, you can find the majority of SQL injection vulnerabilities quickly and reliably using tools like Burp Scanner.`
+        },
+        {
+          id: "1.3",
+          title: "SQL injection in different parts of the query",
+          content: `Most SQL injection vulnerabilities occur within the WHERE clause of a SELECT query. Most experienced testers are familiar with this type of SQL injection.
 
 However, SQL injection vulnerabilities can occur at any location within the query, and within different query types. Some other common locations where SQL injection arises are:
 
-In UPDATE statements, within the updated values or the WHERE clause.
-In INSERT statements, within the inserted values.
-In SELECT statements, within the table or column name.
-In SELECT statements, within the ORDER BY clause." }
+• In UPDATE statements, within the updated values or the WHERE clause.
+• In INSERT statements, within the inserted values.
+• In SELECT statements, within the table or column name.
+• In SELECT statements, within the ORDER BY clause.`
+        }
       ]
     },
     {
@@ -115,7 +128,6 @@ In SELECT statements, within the ORDER BY clause." }
   };
 
   const getHint = () => {
-    // Return a hint based on the current subsection
     if (activeSubSection === "1.1") return "Look up common SQL injection examples.";
     if (activeSubSection === "1.2") return "Search for the first recorded SQL injection attack.";
     if (activeSubSection === "1.3") return "Recall a major incident involving SQL injection.";
@@ -129,7 +141,6 @@ In SELECT statements, within the ORDER BY clause." }
   };
 
   const handleContinue = () => {
-    // Determine the next subsection or section
     const currentSectionIndex = sections.findIndex(sec => sec.id === activeSection);
     if (currentSectionIndex === -1) return;
     const currentSection = sections[currentSectionIndex];
@@ -137,24 +148,20 @@ In SELECT statements, within the ORDER BY clause." }
     if (currentSubIndex === -1) return;
 
     if (currentSubIndex < currentSection.subsections.length - 1) {
-      // Move to next subsection in the current section
       const nextSubsection = currentSection.subsections[currentSubIndex + 1];
       setActiveSubSection(nextSubsection.id);
     } else {
-      // If no more subsections in current section, check for next section
       if (currentSectionIndex < sections.length - 1) {
         const nextSection = sections[currentSectionIndex + 1];
         setActiveSection(nextSection.id);
         setActiveSubSection(nextSection.subsections[0].id);
       } else {
-        // All content completed; display a completion message as hint
         setHintMessage("You've completed all the content!");
       }
     }
   };
 
   const handleAccessLab = () => {
-    // Randomly pick a lab route and navigate to it
     const randomIndex = Math.floor(Math.random() * labRoutes.length);
     navigate(labRoutes[randomIndex]);
   };
@@ -176,7 +183,7 @@ In SELECT statements, within the ORDER BY clause." }
         </div>
       </nav>
 
-      {/* Top Header: Course Progress, Likes/Dislikes, and Access Lab */}
+      {/* Top Header: Course Progress & Likes/Dislikes */}
       <div className="bg-primary-dark/20 py-4 px-6 text-center">
         <div className="mb-2">
           <h3 className="text-lg font-semibold">Course Progress: {progress}% Completed</h3>
@@ -185,18 +192,8 @@ In SELECT statements, within the ORDER BY clause." }
           </div>
         </div>
         <div className="flex justify-center items-center space-x-4">
-          <div>
-            <span className="text-green-500 font-bold">Likes: {likesCount}</span>
-          </div>
-          <div>
-            <span className="text-red-500 font-bold">Dislikes: {dislikesCount}</span>
-          </div>
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
-            onClick={handleAccessLab}
-          >
-            Access Lab
-          </button>
+          <span className="text-green-500 font-bold">Likes: {likesCount}</span>
+          <span className="text-red-500 font-bold">Dislikes: {dislikesCount}</span>
         </div>
       </div>
 
@@ -235,13 +232,22 @@ In SELECT statements, within the ORDER BY clause." }
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 bg-primary-dark/10 py-8 px-6 text-center">
+        <div className="flex-1 bg-primary-dark/10 py-8 px-6">
           {activeSubSection && (
-            <div>
-              <h1 className="text-2xl font-bold mb-4">
-                {sections.find(sec => sec.id === activeSection)?.subsections.find(sub => sub.id === activeSubSection)?.title}
-              </h1>
-              <p className="text-gray-300">
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="flex justify-between items-center">
+                <h1 className="text-2xl font-bold mb-4">
+                  {sections.find(sec => sec.id === activeSection)?.subsections.find(sub => sub.id === activeSubSection)?.title}
+                </h1>
+                {/* Red Access Lab Button aligned to the right */}
+                <button
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
+                  onClick={handleAccessLab}
+                >
+                  Access Lab
+                </button>
+              </div>
+              <p className="text-gray-300 whitespace-pre-line text-left mx-auto">
                 {sections.find(sec => sec.id === activeSection)?.subsections.find(sub => sub.id === activeSubSection)?.content}
               </p>
 
@@ -250,13 +256,13 @@ In SELECT statements, within the ORDER BY clause." }
                 <h2 className="text-lg font-semibold">Submit Flag</h2>
                 <input
                   type="text"
-                  className="border border-gray-600 rounded-md px-4 py-2 text-black mt-2 w-1/2 mx-auto"
+                  className="border border-gray-600 rounded-md px-4 py-2 text-black mt-2 w-1/2 mx-auto block"
                   placeholder="Enter flag here..."
                   value={flagInput}
                   onChange={(e) => setFlagInput(e.target.value)}
                 />
                 <button
-                  className="mt-2 px-4 py-2 bg-primary-blue text-white rounded-md hover:bg-primary-blue/80"
+                  className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700"
                   onClick={handleFlagSubmit}
                 >
                   Submit Flag
