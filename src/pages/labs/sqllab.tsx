@@ -16,6 +16,7 @@ function SQLLab() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [hintMessage, setHintMessage] = useState("");
   const [likesCount, setLikesCount] = useState(parseInt(localStorage.getItem('likesCount')) || 0);
+  const [hasLiked, setHasLiked] = useState(false);
 
   // Correct flags keyed by subsection identifiers
   const correctFlags = {
@@ -43,7 +44,7 @@ In some situations, an attacker can escalate a SQL injection attack to compromis
           title: "How to detect SQL injection vulnerabilities",
           content: `You can detect SQL injection manually using a systematic set of tests against every entry point in the application. To do this, you would typically submit:
 
-• The single quote character ' and look for errors or anomalies.
+• The single quote character (') and look for errors or anomalies.
 • SQL-specific syntax that evaluates to the original value and a different value.
 • Boolean conditions (e.g., OR 1=1 vs. OR 1=2) to detect differences.
 • Payloads designed to trigger time delays.
@@ -53,13 +54,34 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
         },
         {
           id: "1.3",
-          title: "SQL injection in different parts of the query",
-          content: `Most SQL injection vulnerabilities occur within the WHERE clause of a SELECT query. However, they can also occur in:
+          title: "Retrieving hidden data",
+          content: `Imagine a shopping application that displays products in different categories. When a user clicks on a category (for example, "Gifts"), the browser requests a URL such as:
+https://vulnerable-web.org/products?category=Shoes
 
-• UPDATE statements (in the updated values or WHERE clause)
-• INSERT statements (in the inserted values)
-• SELECT statements (within table or column names)
-• SELECT statements (within the ORDER BY clause)`
+This causes the application to execute a SQL query to retrieve product details:
+SELECT * FROM products WHERE category = 'Shoes' AND released = 1
+
+This query returns all products from the "Shoes" category that are marked as released.
+
+If the application is vulnerable to SQL injection, an attacker might modify the URL to:
+https://vulnerable-web.org/products?category=Shoes'--
+
+The query then becomes:
+SELECT * FROM products WHERE category = 'Shoes'--' AND released = 1
+
+Because "--" begins a SQL comment, the condition “AND released = 1” is ignored. As a result, all products—including unreleased ones—are displayed.
+
+An attacker can further exploit this by using:
+https://vulnerable-web.org/products?category=Shoes'+OR+1=1--
+
+Which results in:
+SELECT * FROM products WHERE category = 'Shoes' OR 1=1--' AND released = 1
+
+Since 1=1 is always true, this query returns every product.
+
+Warning: Injecting conditions such as OR 1=1 can be dangerous if the same data is used in multiple queries (for example, in UPDATE or DELETE statements), potentially leading to accidental data loss.
+
+This lab contains a SQL injection vulnerability in the product category filter. To solve the lab, perform a SQL injection attack that causes the application to display one or more unreleased products.`
         }
       ]
     },
@@ -111,17 +133,18 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
   };
 
   const handleRating = (rating) => {
-    if (rating === "like") {
+    if (rating === "like" && !hasLiked) {
       const newLikes = likesCount + 1;
       setLikesCount(newLikes);
       localStorage.setItem('likesCount', newLikes);
+      setHasLiked(true);
     }
   };
 
   const getHint = () => {
     if (activeSubSection === "1.1") return "Look up common SQL injection examples.";
     if (activeSubSection === "1.2") return "Search for the first recorded SQL injection attack.";
-    if (activeSubSection === "1.3") return "Recall a major incident involving SQL injection.";
+    if (activeSubSection === "1.3") return "Modify the category parameter to include '+OR+1=1--' to bypass the released filter.";
     if (activeSubSection === "2.1") return "Think about manual penetration testing techniques.";
     if (activeSubSection === "2.2") return "Consider tools like sqlmap for automated testing.";
     return "No hint available.";
@@ -162,7 +185,7 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
   return (
     <div className="min-h-screen bg-background text-white">
       {/* Navbar */}
-      <nav className="bg-primary-dark border-b border-primary-blue/20 glass-effect">
+      <nav className="bg-primary-dark border-b border-primary-blue/20 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center space-x-4">
@@ -170,7 +193,7 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
                 <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
                 Back to Labs
               </Link>
-              <span className="text-xl font-bold animate-fadeIn">SQL Injection Course</span>
+              <span className="text-xl font-bold">SQL Injection Course</span>
             </div>
           </div>
         </div>
@@ -181,7 +204,11 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
         <div className="grid grid-cols-3 items-center">
           {/* Top Left: Like Button */}
           <div className="text-left">
-            <button onClick={() => handleRating("like")} className="text-green-500 flex items-center">
+            <button 
+              onClick={() => handleRating("like")} 
+              disabled={hasLiked}
+              className={`text-green-500 flex items-center ${hasLiked ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
               <ThumbsUp className="mr-1" /> Like
             </button>
             <div className="mt-1 text-sm font-bold text-green-500">Likes: {likesCount}</div>
@@ -207,15 +234,15 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
 
       <div className="flex">
         {/* Sidebar with Sections */}
-        <div className="w-64 bg-primary-dark/30 min-h-screen border-r border-primary-blue/20 glass-effect">
+        <div className="w-64 bg-primary-dark/30 min-h-screen border-r border-primary-blue/20 shadow-inner">
           <div className="p-4">
-            <h2 className="text-lg font-semibold mb-4 gradient-text">Sections</h2>
+            <h2 className="text-lg font-semibold mb-4 text-gradient">Sections</h2>
             <div className="space-y-2">
               {sections.map((section) => (
                 <div key={section.id}>
                   <button
                     onClick={() => setActiveSection(section.id)}
-                    className={`w-full text-left px-4 py-2 rounded-md flex items-center justify-between hover-card transition-all ${
+                    className={`w-full text-left px-4 py-2 rounded-md flex items-center justify-between transition-all ${
                       activeSection === section.id ? 'bg-primary-blue/20 text-primary-blue' : 'hover:bg-primary-blue/10'
                     }`}
                   >
@@ -232,8 +259,8 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
                         <button
                           key={sub.id}
                           onClick={() => setActiveSubSection(sub.id)}
-                          className={`block w-full text-left px-4 py-2 text-sm rounded-md hover:bg-primary-blue/10 transition-all ${
-                            activeSubSection === sub.id ? 'bg-primary-blue/20 text-primary-blue' : ''
+                          className={`block w-full text-left px-4 py-2 text-sm rounded-md transition-all ${
+                            activeSubSection === sub.id ? 'bg-primary-blue/20 text-primary-blue' : 'hover:bg-primary-blue/10'
                           }`}
                         >
                           {sub.title}
@@ -272,7 +299,7 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
                 <div className="inline-flex items-center space-x-2">
                   <input
                     type="text"
-                    className="border border-gray-600 rounded-md px-4 py-2 text-black w-1/2"
+                    className="border border-gray-600 rounded-md px-4 py-2 text-black w-3/4"
                     placeholder="Enter flag here..."
                     value={flagInput}
                     onChange={(e) => setFlagInput(e.target.value)}
@@ -288,7 +315,7 @@ Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
               </div>
 
               {/* Continue Button */}
-              <div className="mt-6">
+              <div className="mt-6 text-center">
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
                   onClick={handleContinue}
