@@ -3,9 +3,8 @@ import { Book, ChevronRight, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 function SQLLab() {
-  const [activeSection, setActiveSection] = useState("");
-  const [activeSubSection, setActiveSubSection] = useState("");
-  const [quizResults, setQuizResults] = useState({});
+  const [activeSection, setActiveSection] = useState("1");
+  const [activeSubSection, setActiveSubSection] = useState(0);
 
   useEffect(() => {
     const observerCallback = (entries) => {
@@ -22,7 +21,7 @@ function SQLLab() {
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
-    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    const revealElements = document.querySelectorAll('.reveal');
     
     revealElements.forEach(element => observer.observe(element));
 
@@ -30,31 +29,42 @@ function SQLLab() {
   }, [activeSection, activeSubSection]);
 
   const sections = [
-    {
-      id: "1",
-      title: "SQL",
-      content: {
-        introduction: "Introduction to SQL",
-        sections: [
-          {
-            title: "Section 1",
-            content: ['Content for section 1']
-          },
-          {
-            title: "Section 2",
-            content: ['Content for section 2']
-          }
-        ]
-      }
+    "What is SQL injection?",
+    "How to detect SQL injection vulnerabilities",
+    "Retrieving hidden data",
+    "Subverting application logic",
+    "SQL injection UNION attacks",
+    "Determining the number of columns required",
+    "Finding columns with a useful data type",
+    "Using a SQL injection UNION attack to retrieve interesting data",
+    "Retrieving multiple values within a single column",
+    "Examining the database",
+    "Blind SQL injection",
+    "Exploiting blind SQL injection by triggering conditional responses",
+    "Error-based SQL injection",
+    "Exploiting blind SQL injection by triggering time delays",
+    "Exploiting blind SQL injection using out-of-band (OAST) techniques",
+    "SQL injection in different contexts",
+    "Second-order SQL injection",
+    "How to prevent SQL injection"
+  ].map((title, index) => ({
+    id: (index + 1).toString(),
+    title,
+    content: [
+      "SQL injection is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database.",
+      "It is one of the most common and dangerous vulnerabilities, allowing attackers to view data they shouldn’t be able to retrieve.",
+      "A successful SQL injection attack can lead to unauthorized access, data breaches, and even complete system compromise."
+    ]
+  }));
+
+  const nextSection = () => {
+    const currentIndex = sections.findIndex(s => s.id === activeSection);
+    if (currentIndex < sections.length - 1) {
+      setActiveSection(sections[currentIndex + 1].id);
     }
-  ];
-
-  const activeContent = sections.find(section => section.id === activeSection)?.content;
-  const activeSubSectionContent = activeContent?.sections?.find(s => s.title === activeSubSection);
-
-  const handleQuizSubmit = (moduleId, answers) => {
-    setQuizResults({ ...quizResults, [moduleId]: answers });
   };
+
+  const activeContent = sections.find(section => section.id === activeSection);
 
   return (
     <div className="min-h-screen bg-background text-white">
@@ -66,41 +76,21 @@ function SQLLab() {
                 <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
                 Back to Learning Paths
               </Link>
-              <span className="text-xl font-bold animate-fadeIn">
-                <span className="text-white">{activeContent?.introduction}</span>
-              </span>
             </div>
           </div>
         </div>
       </nav>
 
-      <div className="bg-primary-dark/50 py-8 glass-effect">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center space-x-4 animate-fadeIn">
-            <Book className="w-8 h-8 text-primary-blue animate-pulse-slow" />
-            <div>
-              <h1 className="text-2xl font-bold gradient-text">{activeContent?.introduction}</h1>
-              <p className="text-gray-400 text-sm mt-1">{activeSubSectionContent?.content}</p>
-              <div className="mt-2 progress-bar"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="flex">
         <div className="w-64 bg-primary-dark/30 min-h-[calc(100vh-11rem)] border-r border-primary-blue/20 glass-effect">
           <div className="p-4">
-            <h2 className="text-lg font-semibold mb-4 gradient-text">Sections</h2>
+            <h2 className="text-lg font-semibold mb-4 gradient-text">SQL Injection Topics</h2>
             <div className="space-y-2">
-              {sections.map((section, index) => (
+              {sections.map((section) => (
                 <button
                   key={section.id}
-                  onClick={() => {
-                    setActiveSection(section.id);
-                    setActiveSubSection("");
-                  }}
+                  onClick={() => setActiveSection(section.id)}
                   className={`w-full text-left px-4 py-2 rounded-md flex items-center justify-between hover-card transition-all ${activeSection === section.id ? 'bg-primary-blue/20 text-primary-blue' : 'hover:bg-primary-blue/10'}`}
-                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   {section.title}
                   <ChevronRight className={`w-4 h-4 transform transition-transform ${activeSection === section.id ? 'rotate-90' : ''}`} />
@@ -109,16 +99,22 @@ function SQLLab() {
             </div>
           </div>
         </div>
+
         <div className="flex-1 bg-primary-dark/10 py-8 glass-effect">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Content will go here */}
-            {activeSubSectionContent ? (
-              <div className="mt-6">
-                <h2 className="text-xl font-semibold">{activeSubSectionContent.title}</h2>
-                <p>{activeSubSectionContent.content.join(", ")}</p>
+            {activeContent && (
+              <div>
+                <h1 className="text-2xl font-bold mb-4 gradient-text">{activeContent.title}</h1>
+                {activeContent.content.map((paragraph, index) => (
+                  <p key={index} className="mb-4 text-gray-300">{paragraph}</p>
+                ))}
+                <button
+                  onClick={nextSection}
+                  className="mt-4 px-4 py-2 bg-primary-blue text-white rounded-md hover:bg-primary-blue/80 transition"
+                >
+                  Next Section
+                </button>
               </div>
-            ) : (
-              <p>Select a section to view content</p>
             )}
           </div>
         </div>
