@@ -228,37 +228,7 @@ const Terminal = ({ darkMode }) => {
   );
 };
 
-const CTFLabsPage = () => {
-  const [darkMode, setDarkMode] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filterDifficulty, setFilterDifficulty] = useState("all");
 
-  const labs = [
-    {
-      id: 1,
-      title: "Vulnerable Database",
-      difficulty: "easy",
-      description: "Exploit common web vulnerabilities like SQL Injections to capture the flag.",
-      image: "/Main/logo2.jpg",
-      link: "/labs/sql",
-    },
-    {
-      id: 2,
-      title: "Vulnerable Online Store",
-      difficulty: "medium",
-      description: "Perform Web penetration testing on a vulnerable machine. Identify and exploit misconfigurations.",
-      image: "/Main/logo2.jpg",
-      link: "/labs/sql",
-    },
-    {
-      id: 3,
-      title: "Vulnerable Website",
-      difficulty: "easy",
-      description: "Exploit common web vulnerabilities like XSS Injections to capture the flag.",
-      image: "/Main/logo2.jpg",
-      link: "/labs/xss",
-    },
-  ];
 
   const filteredLabs = labs.filter((lab) => {
     const matchesSearch = lab.title.toLowerCase().includes(searchQuery.toLowerCase());
