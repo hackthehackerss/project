@@ -311,7 +311,7 @@ const CTFLabsPage = () => {
           </button>
         </div>
       </div>
-
+  
      const challenges = [
     {
       id: 1,
