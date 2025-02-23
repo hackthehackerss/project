@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Book, ChevronRight, ArrowLeft, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';
 
 function SQLLab() {
+  const navigate = useNavigate();
+
   // Load saved values from localStorage
   const [activeSection, setActiveSection] = useState(localStorage.getItem('activeSection') || "");
   const [activeSubSection, setActiveSubSection] = useState(localStorage.getItem('activeSubSection') || "");
@@ -12,8 +14,9 @@ function SQLLab() {
   const [flagMessage, setFlagMessage] = useState("");
   const [progress, setProgress] = useState(parseInt(localStorage.getItem('progress')) || 0);
   const [showConfetti, setShowConfetti] = useState(false);
-  const [labRating, setLabRating] = useState(localStorage.getItem('labRating') || null);
   const [hintMessage, setHintMessage] = useState("");
+  const [likesCount, setLikesCount] = useState(parseInt(localStorage.getItem('likesCount')) || 0);
+  const [dislikesCount, setDislikesCount] = useState(parseInt(localStorage.getItem('dislikesCount')) || 0);
 
   // Correct flags keyed by subsection identifiers
   const correctFlags = {
@@ -44,6 +47,13 @@ function SQLLab() {
     }
   ];
 
+  // Array of lab routes; a random one will be chosen when the "Access Lab" button is clicked.
+  const labRoutes = [
+    "/lab-exercise-1",
+    "/lab-exercise-2",
+    "/lab-exercise-3"
+  ];
+
   useEffect(() => {
     // Reset flag message, input, and hint when the subsection changes
     setFlagMessage("");
@@ -57,7 +67,9 @@ function SQLLab() {
     localStorage.setItem('activeSubSection', activeSubSection);
     localStorage.setItem('progress', progress);
     localStorage.setItem('quizResults', JSON.stringify(quizResults));
-  }, [activeSection, activeSubSection, progress, quizResults]);
+    localStorage.setItem('likesCount', likesCount);
+    localStorage.setItem('dislikesCount', dislikesCount);
+  }, [activeSection, activeSubSection, progress, quizResults, likesCount, dislikesCount]);
 
   const handleFlagSubmit = () => {
     if (flagInput === correctFlags[activeSubSection]) {
@@ -75,8 +87,15 @@ function SQLLab() {
   };
 
   const handleRating = (rating) => {
-    setLabRating(rating);
-    localStorage.setItem('labRating', rating);
+    if (rating === "like") {
+      const newLikes = likesCount + 1;
+      setLikesCount(newLikes);
+      localStorage.setItem('likesCount', newLikes);
+    } else if (rating === "dislike") {
+      const newDislikes = dislikesCount + 1;
+      setDislikesCount(newDislikes);
+      localStorage.setItem('dislikesCount', newDislikes);
+    }
   };
 
   const getHint = () => {
@@ -118,8 +137,15 @@ function SQLLab() {
     }
   };
 
+  const handleAccessLab = () => {
+    // Randomly pick a lab route and navigate to it
+    const randomIndex = Math.floor(Math.random() * labRoutes.length);
+    navigate(labRoutes[randomIndex]);
+  };
+
   return (
     <div className="min-h-screen bg-background text-white">
+      {/* Navbar */}
       <nav className="bg-primary-dark border-b border-primary-blue/20 glass-effect">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
@@ -133,6 +159,30 @@ function SQLLab() {
           </div>
         </div>
       </nav>
+
+      {/* Top Header: Course Progress, Likes/Dislikes, and Access Lab */}
+      <div className="bg-primary-dark/20 py-4 px-6 text-center">
+        <div className="mb-2">
+          <h3 className="text-lg font-semibold">Course Progress: {progress}% Completed</h3>
+          <div className="w-full bg-gray-500 rounded-full h-2 mt-2">
+            <div className="bg-green-500 h-2 rounded-full" style={{ width: `${progress}%` }}></div>
+          </div>
+        </div>
+        <div className="flex justify-center items-center space-x-4">
+          <div>
+            <span className="text-green-500 font-bold">Likes: {likesCount}</span>
+          </div>
+          <div>
+            <span className="text-red-500 font-bold">Dislikes: {dislikesCount}</span>
+          </div>
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
+            onClick={handleAccessLab}
+          >
+            Access Lab
+          </button>
+        </div>
+      </div>
 
       <div className="flex">
         {/* Sidebar with Sections */}
@@ -220,15 +270,6 @@ function SQLLab() {
                 <button onClick={() => handleRating("dislike")} className="text-red-500">
                   <ThumbsDown /> Dislike
                 </button>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">Course Progress</h3>
-                <div className="w-full bg-gray-500 rounded-full h-2 mt-2">
-                  <div className="bg-green-500 h-2 rounded-full" style={{ width: `${progress}%` }}></div>
-                </div>
-                <p className="mt-2 text-gray-300">{progress}% Completed</p>
               </div>
 
               {/* Continue Button */}
