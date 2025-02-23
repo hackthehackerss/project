@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Book, ChevronRight, ArrowLeft, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Book, ChevronRight, ArrowLeft, ThumbsUp } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';
 
@@ -16,7 +16,6 @@ function SQLLab() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [hintMessage, setHintMessage] = useState("");
   const [likesCount, setLikesCount] = useState(parseInt(localStorage.getItem('likesCount')) || 0);
-  const [dislikesCount, setDislikesCount] = useState(parseInt(localStorage.getItem('dislikesCount')) || 0);
 
   // Correct flags keyed by subsection identifiers
   const correctFlags = {
@@ -44,18 +43,18 @@ In some situations, an attacker can escalate a SQL injection attack to compromis
           title: "How to detect SQL injection vulnerabilities",
           content: `You can detect SQL injection manually using a systematic set of tests against every entry point in the application. To do this, you would typically submit:
 
-• The single quote character ' and look for errors or other anomalies.
-• SQL-specific syntax that evaluates to the original value and a different value, then compare responses.
+• The single quote character ' and look for errors or anomalies.
+• SQL-specific syntax that evaluates to the original value and a different value.
 • Boolean conditions (e.g., OR 1=1 vs. OR 1=2) to detect differences.
 • Payloads designed to trigger time delays.
-• OAST payloads to trigger out-of-band network interactions.
+• OAST payloads to trigger out-of-band interactions.
 
-Alternatively, you can quickly detect most vulnerabilities using tools like Burp Scanner.`
+Alternatively, tools like Burp Scanner can quickly detect most vulnerabilities.`
         },
         {
           id: "1.3",
           title: "SQL injection in different parts of the query",
-          content: `Most SQL injection vulnerabilities occur within the WHERE clause of a SELECT query. However, they can also occur in other parts such as:
+          content: `Most SQL injection vulnerabilities occur within the WHERE clause of a SELECT query. However, they can also occur in:
 
 • UPDATE statements (in the updated values or WHERE clause)
 • INSERT statements (in the inserted values)
@@ -95,8 +94,7 @@ Alternatively, you can quickly detect most vulnerabilities using tools like Burp
     localStorage.setItem('progress', progress);
     localStorage.setItem('quizResults', JSON.stringify(quizResults));
     localStorage.setItem('likesCount', likesCount);
-    localStorage.setItem('dislikesCount', dislikesCount);
-  }, [activeSection, activeSubSection, progress, quizResults, likesCount, dislikesCount]);
+  }, [activeSection, activeSubSection, progress, quizResults, likesCount]);
 
   const handleFlagSubmit = () => {
     if (flagInput === correctFlags[activeSubSection]) {
@@ -117,10 +115,6 @@ Alternatively, you can quickly detect most vulnerabilities using tools like Burp
       const newLikes = likesCount + 1;
       setLikesCount(newLikes);
       localStorage.setItem('likesCount', newLikes);
-    } else if (rating === "dislike") {
-      const newDislikes = dislikesCount + 1;
-      setDislikesCount(newDislikes);
-      localStorage.setItem('dislikesCount', newDislikes);
     }
   };
 
@@ -187,7 +181,6 @@ Alternatively, you can quickly detect most vulnerabilities using tools like Burp
         <div className="grid grid-cols-3 items-center">
           <div className="text-left">
             <span className="text-green-500 font-bold">Likes: {likesCount}</span>
-            <span className="text-red-500 font-bold ml-4">Dislikes: {dislikesCount}</span>
           </div>
           <div className="text-center">
             <h3 className="text-lg font-semibold">Course Progress: {progress}% Completed</h3>
@@ -197,7 +190,7 @@ Alternatively, you can quickly detect most vulnerabilities using tools like Burp
           </div>
           <div className="text-right">
             <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
+              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
               onClick={handleAccessLab}
             >
               Access Lab
@@ -256,9 +249,10 @@ Alternatively, you can quickly detect most vulnerabilities using tools like Burp
               <p className="text-gray-300 whitespace-pre-line text-left">
                 {currentSub.content}
               </p>
-              {/* Flex container for Hint (left) & Submit Flag (right) */}
-              <div className="flex justify-between mt-6">
-                <div className="w-1/2 text-left">
+              {/* Flex container for Hint & Flag Submission inline */}
+              <div className="flex flex-col md:flex-row items-center justify-between mt-6 gap-4">
+                {/* Left: Hint */}
+                <div className="flex-1 text-left">
                   <button
                     className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
                     onClick={handleShowHint}
@@ -267,21 +261,23 @@ Alternatively, you can quickly detect most vulnerabilities using tools like Burp
                   </button>
                   {hintMessage && <p className="mt-2 text-gray-300">{hintMessage}</p>}
                 </div>
-                <div className="w-1/2 text-right">
-                  <h2 className="text-lg font-semibold">Submit Flag</h2>
-                  <input
-                    type="text"
-                    className="border border-gray-600 rounded-md px-4 py-2 text-black mt-2 w-full"
-                    placeholder="Enter flag here..."
-                    value={flagInput}
-                    onChange={(e) => setFlagInput(e.target.value)}
-                  />
-                  <button
-                    className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700"
-                    onClick={handleFlagSubmit}
-                  >
-                    Submit Flag
-                  </button>
+                {/* Right: Flag Submission */}
+                <div className="flex-1 text-right">
+                  <div className="inline-flex items-center space-x-2">
+                    <input
+                      type="text"
+                      className="border border-gray-600 rounded-md px-4 py-2 text-black w-full"
+                      placeholder="Enter flag here..."
+                      value={flagInput}
+                      onChange={(e) => setFlagInput(e.target.value)}
+                    />
+                    <button
+                      className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700"
+                      onClick={handleFlagSubmit}
+                    >
+                      Submit Flag
+                    </button>
+                  </div>
                   {flagMessage && <p className="mt-2 text-lg">{flagMessage}</p>}
                 </div>
               </div>
@@ -295,11 +291,8 @@ Alternatively, you can quickly detect most vulnerabilities using tools like Burp
               </div>
               {showConfetti && <Confetti />}
               <div className="mt-4 flex justify-center">
-                <button onClick={() => handleRating("like")} className="text-green-500 mr-2">
+                <button onClick={() => handleRating("like")} className="text-green-500">
                   <ThumbsUp /> Like
-                </button>
-                <button onClick={() => handleRating("dislike")} className="text-red-500">
-                  <ThumbsDown /> Dislike
                 </button>
               </div>
             </div>
