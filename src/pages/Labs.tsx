@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Added useNavigate for redirection
 import { Shield, Search, Filter } from "lucide-react";
 import Navigation from "../components/Navigation";
 import Typed from "typed.js";
@@ -232,6 +232,7 @@ const CTFLabsPage = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterDifficulty, setFilterDifficulty] = useState("all");
+  const navigate = useNavigate(); // Added for redirection
 
   const labs = [
     {
@@ -240,6 +241,7 @@ const CTFLabsPage = () => {
       difficulty: "easy",
       description: "Exploit common web vulnerabilities like SQL Injection, XSS, and CSRF to capture the flag.",
       image: "/Main/logo2.jpg",
+      link: "/labs/sqllab", // Added link for redirection
     },
     {
       id: 2,
@@ -385,14 +387,12 @@ const CTFLabsPage = () => {
                     {lab.difficulty.charAt(0).toUpperCase() + lab.difficulty.slice(1)}
                   </span>
                 </div>
-                <a
-                  href={`https://example.com/${lab.title.toLowerCase().replace(/ /g, "-")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => lab.link && navigate(lab.link)} // Added redirection
                   className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all"
                 >
                   Start Lab
-                </a>
+                </button>
               </div>
             </div>
           ))}
