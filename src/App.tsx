@@ -29,9 +29,10 @@ import Search from './pages/Search';
 import NotFound from './pages/NotFound';
 import SubmitChallenge from './pages/SubmitChallenge';
 import Labs from './pages/Labs';
-import SqlLab from './pages/Labs/sql.tsx';
-import XssLab from './pages/Labs/xss.tsx';
 import EmailAnalysisChallenge from './pages/Challenges/EmailAnalysisChallenge'; 
+import BruteforceChallenge from './pages/Challenges/BruteforceChallenge';
+
+
 
 function App() {
   return (
@@ -66,9 +67,9 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/labs" element={<Labs />} /> 
-          <Route path="/labs/sql.tsx" element={<SQLLabs />} /> 
-          <Route path="/labs/xss.tsx" element={<XSSLabs />} /> 
           <Route path="/challenges/email-analysis" element={<EmailAnalysisChallenge />} />
+          <Route path="/challenges/bruteforcechallenge" element={<BruteforceChallenge />} />
+
         </Routes>
       </Router>
     </AuthProvider>
