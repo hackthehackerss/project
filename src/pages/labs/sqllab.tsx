@@ -30,18 +30,6 @@ function SQLLab() {
     "18": "flag{preventing_sql_injection}"
   };
 
-  useEffect(() => {
-    setFlagMessage("");
-  }, [activeSubSection]);
-
-  const handleFlagSubmit = () => {
-    if (flagInput === correctFlags[activeSubSection]) {
-      setFlagMessage("✅ Correct flag!");
-    } else {
-      setFlagMessage("❌ Incorrect flag. Try again!");
-    }
-  };
-
   const sections = [
     {
       id: "1",
@@ -61,6 +49,32 @@ function SQLLab() {
       ]
     }
   ];
+
+  useEffect(() => {
+    setFlagMessage(""); // Reset flag message when the subsection changes
+    setFlagInput(""); // Reset flag input when the subsection changes
+  }, [activeSubSection]);
+
+  const handleFlagSubmit = () => {
+    if (flagInput === correctFlags[activeSubSection]) {
+      setFlagMessage("✅ Correct flag!");
+      setQuizResults((prevResults) => ({
+        ...prevResults,
+        [activeSubSection]: true
+      }));
+    } else {
+      setFlagMessage("❌ Incorrect flag. Try again!");
+    }
+  };
+
+  const handleSectionClick = (sectionId) => {
+    setActiveSection(sectionId);
+    setActiveSubSection(""); // Reset the active subsection when switching sections
+  };
+
+  const handleSubSectionClick = (subsectionId) => {
+    setActiveSubSection(subsectionId);
+  };
 
   return (
     <div className="min-h-screen bg-background text-white">
@@ -86,7 +100,7 @@ function SQLLab() {
               {sections.map((section) => (
                 <div key={section.id}>
                   <button
-                    onClick={() => setActiveSection(section.id)}
+                    onClick={() => handleSectionClick(section.id)}
                     className={`w-full text-left px-4 py-2 rounded-md flex items-center justify-between hover-card transition-all ${activeSection === section.id ? 'bg-primary-blue/20 text-primary-blue' : 'hover:bg-primary-blue/10'}`}
                   >
                     {section.title}
@@ -97,7 +111,7 @@ function SQLLab() {
                       {section.subsections.map((sub) => (
                         <button
                           key={sub.id}
-                          onClick={() => setActiveSubSection(sub.id)}
+                          onClick={() => handleSubSectionClick(sub.id)}
                           className={`block w-full text-left px-4 py-2 text-sm rounded-md hover:bg-primary-blue/10 transition-all ${activeSubSection === sub.id ? 'bg-primary-blue/20 text-primary-blue' : ''}`}
                         >
                           {sub.title}
@@ -134,7 +148,13 @@ function SQLLab() {
                 </button>
                 {flagMessage && <p className="mt-2 text-lg">{flagMessage}</p>}
               </div>
-              
+
+              {/* Quiz Results */}
+              <div className="mt-6">
+                <h2 className="text-lg font-semibold">Quiz Results</h2>
+                <p className="text-gray-300">Correct flags: {Object.keys(quizResults).filter(key => quizResults[key]).length} / {Object.keys(correctFlags).length}</p>
+              </div>
+
               {/* Try Lab */}
               <div className="mt-6">
                 <Link to="/lab-exercise" className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">Try Lab</Link>
