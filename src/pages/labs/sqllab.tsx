@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Book, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Book, ChevronRight, ChevronDown, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 function SQLLab() {
-  const [activeSection, setActiveSection] = useState("1");
-  const [activeSubSection, setActiveSubSection] = useState(0);
+  const [activeSection, setActiveSection] = useState(null);
+  const [activeSubSection, setActiveSubSection] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const observerCallback = (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
-      });
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
 
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    const revealElements = document.querySelectorAll('.reveal');
-    
-    revealElements.forEach(element => observer.observe(element));
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [activeSection, activeSubSection]);
+  }, []);
 
   const sections = [
     "What is SQL injection?",
@@ -46,25 +42,26 @@ function SQLLab() {
     "Exploiting blind SQL injection using out-of-band (OAST) techniques",
     "SQL injection in different contexts",
     "Second-order SQL injection",
-    "How to prevent SQL injection"
-  ].map((title, index) => ({
-    id: (index + 1).toString(),
-    title,
-    content: [
-      "SQL injection is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database.",
-      "It is one of the most common and dangerous vulnerabilities, allowing attackers to view data they shouldn’t be able to retrieve.",
-      "A successful SQL injection attack can lead to unauthorized access, data breaches, and even complete system compromise."
-    ]
-  }));
+    "How to prevent SQL injection",
+  ];
 
-  const nextSection = () => {
-    const currentIndex = sections.findIndex(s => s.id === activeSection);
-    if (currentIndex < sections.length - 1) {
-      setActiveSection(sections[currentIndex + 1].id);
+  const paragraphs = [
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+  ];
+
+  const handleNextPage = () => {
+    if (currentPage < 4) {
+      setCurrentPage(currentPage + 1);
+    } else {
+      const nextSectionIndex = sections.indexOf(activeSection) + 1;
+      if (nextSectionIndex < sections.length) {
+        setActiveSection(sections[nextSectionIndex]);
+        setCurrentPage(1);
+      }
     }
   };
-
-  const activeContent = sections.find(section => section.id === activeSection);
 
   return (
     <div className="min-h-screen bg-background text-white">
@@ -82,41 +79,51 @@ function SQLLab() {
       </nav>
 
       <div className="flex">
-        <div className="w-64 bg-primary-dark/30 min-h-[calc(100vh-11rem)] border-r border-primary-blue/20 glass-effect">
-          <div className="p-4">
-            <h2 className="text-lg font-semibold mb-4 gradient-text">SQL Injection Topics</h2>
-            <div className="space-y-2">
-              {sections.map((section) => (
+        <div className="w-64 bg-primary-dark/30 min-h-screen border-r border-primary-blue/20 p-4">
+          <h2 className="text-lg font-semibold mb-4">SQL Injection Topics</h2>
+          <div className="space-y-2">
+            {sections.map((section, index) => (
+              <div key={index}>
                 <button
-                  key={section.id}
-                  onClick={() => setActiveSection(section.id)}
-                  className={`w-full text-left px-4 py-2 rounded-md flex items-center justify-between hover-card transition-all ${activeSection === section.id ? 'bg-primary-blue/20 text-primary-blue' : 'hover:bg-primary-blue/10'}`}
+                  onClick={() => setActiveSection(section === activeSection ? null : section)}
+                  className="w-full text-left px-4 py-2 rounded-md flex items-center justify-between hover:bg-primary-blue/10 transition-all"
                 >
-                  {section.title}
-                  <ChevronRight className={`w-4 h-4 transform transition-transform ${activeSection === section.id ? 'rotate-90' : ''}`} />
+                  {section}
+                  {activeSection === section ? <ChevronDown /> : <ChevronRight />}
                 </button>
-              ))}
-            </div>
+                {activeSection === section && (
+                  <div className="ml-4 mt-2 space-y-1">
+                    {[1, 2, 3, 4].map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => { setActiveSubSection(page); setCurrentPage(1); }}
+                        className={`w-full text-left px-3 py-1 rounded-md hover:bg-primary-blue/10 ${activeSubSection === page ? 'bg-primary-blue/20' : ''}`}
+                      >
+                        Page {page}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="flex-1 bg-primary-dark/10 py-8 glass-effect">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {activeContent && (
-              <div>
-                <h1 className="text-2xl font-bold mb-4 gradient-text">{activeContent.title}</h1>
-                {activeContent.content.map((paragraph, index) => (
-                  <p key={index} className="mb-4 text-gray-300">{paragraph}</p>
-                ))}
-                <button
-                  onClick={nextSection}
-                  className="mt-4 px-4 py-2 bg-primary-blue text-white rounded-md hover:bg-primary-blue/80 transition"
-                >
-                  Next Section
-                </button>
-              </div>
-            )}
-          </div>
+        <div className="flex-1 bg-primary-dark/10 py-8 px-6">
+          {activeSection && (
+            <div>
+              <h1 className="text-2xl font-bold mb-4">{activeSection} - Page {currentPage}</h1>
+              {paragraphs.map((text, i) => (
+                <p key={i} className="mb-4">{text}</p>
+              ))}
+              <button
+                onClick={handleNextPage}
+                className="mt-4 px-4 py-2 bg-primary-blue text-white rounded-md hover:bg-primary-blue/80"
+              >
+                {currentPage < 4 ? 'Next Page' : 'Next Section'}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
