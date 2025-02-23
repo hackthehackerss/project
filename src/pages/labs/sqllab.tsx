@@ -45,24 +45,22 @@ In some situations, an attacker can escalate a SQL injection attack to compromis
           content: `You can detect SQL injection manually using a systematic set of tests against every entry point in the application. To do this, you would typically submit:
 
 • The single quote character ' and look for errors or other anomalies.
-• Some SQL-specific syntax that evaluates to the base (original) value of the entry point, and to a different value, and look for systematic differences in the application responses.
-• Boolean conditions such as OR 1=1 and OR 1=2, and look for differences in the application's responses.
-• Payloads designed to trigger time delays when executed within a SQL query, and look for differences in the time taken to respond.
-• OAST payloads designed to trigger an out-of-band network interaction when executed within a SQL query, and monitor any resulting interactions.
+• SQL-specific syntax that evaluates to the original value and a different value, then compare responses.
+• Boolean conditions (e.g., OR 1=1 vs. OR 1=2) to detect differences.
+• Payloads designed to trigger time delays.
+• OAST payloads to trigger out-of-band network interactions.
 
-Alternatively, you can find the majority of SQL injection vulnerabilities quickly and reliably using tools like Burp Scanner.`
+Alternatively, you can quickly detect most vulnerabilities using tools like Burp Scanner.`
         },
         {
           id: "1.3",
           title: "SQL injection in different parts of the query",
-          content: `Most SQL injection vulnerabilities occur within the WHERE clause of a SELECT query. Most experienced testers are familiar with this type of SQL injection.
+          content: `Most SQL injection vulnerabilities occur within the WHERE clause of a SELECT query. However, they can also occur in other parts such as:
 
-However, SQL injection vulnerabilities can occur at any location within the query, and within different query types. Some other common locations where SQL injection arises are:
-
-• In UPDATE statements, within the updated values or the WHERE clause.
-• In INSERT statements, within the inserted values.
-• In SELECT statements, within the table or column name.
-• In SELECT statements, within the ORDER BY clause.`
+• UPDATE statements (in the updated values or WHERE clause)
+• INSERT statements (in the inserted values)
+• SELECT statements (within table or column names)
+• SELECT statements (within the ORDER BY clause)`
         }
       ]
     },
@@ -104,9 +102,8 @@ However, SQL injection vulnerabilities can occur at any location within the quer
     if (flagInput === correctFlags[activeSubSection]) {
       setFlagMessage("✅ Correct flag!");
       setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000); // Hide confetti after 3 seconds
+      setTimeout(() => setShowConfetti(false), 3000);
       setQuizResults(prev => ({ ...prev, [activeSubSection]: true }));
-      // Increase progress if this subsection wasn't already completed
       if (!quizResults[activeSubSection]) {
         setProgress(prev => Math.min(prev + 5, 100));
       }
@@ -146,7 +143,6 @@ However, SQL injection vulnerabilities can occur at any location within the quer
     const currentSection = sections[currentSectionIndex];
     const currentSubIndex = currentSection.subsections.findIndex(sub => sub.id === activeSubSection);
     if (currentSubIndex === -1) return;
-
     if (currentSubIndex < currentSection.subsections.length - 1) {
       const nextSubsection = currentSection.subsections[currentSubIndex + 1];
       setActiveSubSection(nextSubsection.id);
@@ -166,6 +162,9 @@ However, SQL injection vulnerabilities can occur at any location within the quer
     navigate(labRoutes[randomIndex]);
   };
 
+  // Retrieve current subsection data for easy access.
+  const currentSub = sections.find(sec => sec.id === activeSection)?.subsections.find(sub => sub.id === activeSubSection);
+
   return (
     <div className="min-h-screen bg-background text-white">
       {/* Navbar */}
@@ -183,17 +182,27 @@ However, SQL injection vulnerabilities can occur at any location within the quer
         </div>
       </nav>
 
-      {/* Top Header: Course Progress & Likes/Dislikes */}
-      <div className="bg-primary-dark/20 py-4 px-6 text-center">
-        <div className="mb-2">
-          <h3 className="text-lg font-semibold">Course Progress: {progress}% Completed</h3>
-          <div className="w-full bg-gray-500 rounded-full h-2 mt-2">
-            <div className="bg-green-500 h-2 rounded-full" style={{ width: `${progress}%` }}></div>
+      {/* Top Header: Three-column layout */}
+      <div className="bg-primary-dark/20 py-4 px-6">
+        <div className="grid grid-cols-3 items-center">
+          <div className="text-left">
+            <span className="text-green-500 font-bold">Likes: {likesCount}</span>
+            <span className="text-red-500 font-bold ml-4">Dislikes: {dislikesCount}</span>
           </div>
-        </div>
-        <div className="flex justify-center items-center space-x-4">
-          <span className="text-green-500 font-bold">Likes: {likesCount}</span>
-          <span className="text-red-500 font-bold">Dislikes: {dislikesCount}</span>
+          <div className="text-center">
+            <h3 className="text-lg font-semibold">Course Progress: {progress}% Completed</h3>
+            <div className="w-full bg-gray-500 rounded-full h-2 mt-2">
+              <div className="bg-green-500 h-2 rounded-full" style={{ width: `${progress}%` }}></div>
+            </div>
+          </div>
+          <div className="text-right">
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
+              onClick={handleAccessLab}
+            >
+              Access Lab
+            </button>
+          </div>
         </div>
       </div>
 
@@ -207,10 +216,16 @@ However, SQL injection vulnerabilities can occur at any location within the quer
                 <div key={section.id}>
                   <button
                     onClick={() => setActiveSection(section.id)}
-                    className={`w-full text-left px-4 py-2 rounded-md flex items-center justify-between hover-card transition-all ${activeSection === section.id ? 'bg-primary-blue/20 text-primary-blue' : 'hover:bg-primary-blue/10'}`}
+                    className={`w-full text-left px-4 py-2 rounded-md flex items-center justify-between hover-card transition-all ${
+                      activeSection === section.id ? 'bg-primary-blue/20 text-primary-blue' : 'hover:bg-primary-blue/10'
+                    }`}
                   >
                     {section.title}
-                    <ChevronRight className={`w-4 h-4 transform transition-transform ${activeSection === section.id ? 'rotate-90' : ''}`} />
+                    <ChevronRight
+                      className={`w-4 h-4 transform transition-transform ${
+                        activeSection === section.id ? 'rotate-90' : ''
+                      }`}
+                    />
                   </button>
                   {activeSection === section.id && (
                     <div className="pl-4">
@@ -218,7 +233,9 @@ However, SQL injection vulnerabilities can occur at any location within the quer
                         <button
                           key={sub.id}
                           onClick={() => setActiveSubSection(sub.id)}
-                          className={`block w-full text-left px-4 py-2 text-sm rounded-md hover:bg-primary-blue/10 transition-all ${activeSubSection === sub.id ? 'bg-primary-blue/20 text-primary-blue' : ''}`}
+                          className={`block w-full text-left px-4 py-2 text-sm rounded-md hover:bg-primary-blue/10 transition-all ${
+                            activeSubSection === sub.id ? 'bg-primary-blue/20 text-primary-blue' : ''
+                          }`}
                         >
                           {sub.title}
                         </button>
@@ -233,74 +250,56 @@ However, SQL injection vulnerabilities can occur at any location within the quer
 
         {/* Main Content Area */}
         <div className="flex-1 bg-primary-dark/10 py-8 px-6">
-          {activeSubSection && (
-            <div className="max-w-3xl mx-auto text-center">
-              <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold mb-4">
-                  {sections.find(sec => sec.id === activeSection)?.subsections.find(sub => sub.id === activeSubSection)?.title}
-                </h1>
-                {/* Red Access Lab Button aligned to the right */}
-                <button
-                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
-                  onClick={handleAccessLab}
-                >
-                  Access Lab
-                </button>
-              </div>
-              <p className="text-gray-300 whitespace-pre-line text-left mx-auto">
-                {sections.find(sec => sec.id === activeSection)?.subsections.find(sub => sub.id === activeSubSection)?.content}
+          {activeSubSection && currentSub && (
+            <div className="max-w-3xl mx-auto">
+              <h1 className="text-2xl font-bold mb-4 text-center">{currentSub.title}</h1>
+              <p className="text-gray-300 whitespace-pre-line text-left">
+                {currentSub.content}
               </p>
-
-              {/* Flag Submission */}
-              <div className="mt-6">
-                <h2 className="text-lg font-semibold">Submit Flag</h2>
-                <input
-                  type="text"
-                  className="border border-gray-600 rounded-md px-4 py-2 text-black mt-2 w-1/2 mx-auto block"
-                  placeholder="Enter flag here..."
-                  value={flagInput}
-                  onChange={(e) => setFlagInput(e.target.value)}
-                />
-                <button
-                  className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700"
-                  onClick={handleFlagSubmit}
-                >
-                  Submit Flag
-                </button>
-                {flagMessage && <p className="mt-2 text-lg">{flagMessage}</p>}
+              {/* Flex container for Hint (left) & Submit Flag (right) */}
+              <div className="flex justify-between mt-6">
+                <div className="w-1/2 text-left">
+                  <button
+                    className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                    onClick={handleShowHint}
+                  >
+                    Get a Hint
+                  </button>
+                  {hintMessage && <p className="mt-2 text-gray-300">{hintMessage}</p>}
+                </div>
+                <div className="w-1/2 text-right">
+                  <h2 className="text-lg font-semibold">Submit Flag</h2>
+                  <input
+                    type="text"
+                    className="border border-gray-600 rounded-md px-4 py-2 text-black mt-2 w-full"
+                    placeholder="Enter flag here..."
+                    value={flagInput}
+                    onChange={(e) => setFlagInput(e.target.value)}
+                  />
+                  <button
+                    className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700"
+                    onClick={handleFlagSubmit}
+                  >
+                    Submit Flag
+                  </button>
+                  {flagMessage && <p className="mt-2 text-lg">{flagMessage}</p>}
+                </div>
               </div>
-
-              {/* Hints */}
-              <div className="mt-4">
-                <button
-                  className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
-                  onClick={handleShowHint}
-                >
-                  Get a Hint
-                </button>
-                {hintMessage && <p className="mt-2 text-gray-300">{hintMessage}</p>}
-              </div>
-
-              {/* Confetti Animation */}
-              {showConfetti && <Confetti />}
-
-              {/* Like/Dislike Buttons */}
-              <div className="mt-4">
-                <button onClick={() => handleRating("like")} className="text-green-500 mr-2">
-                  <ThumbsUp /> Like
-                </button>
-                <button onClick={() => handleRating("dislike")} className="text-red-500">
-                  <ThumbsDown /> Dislike
-                </button>
-              </div>
-
-              {/* Continue Button */}
-              <div className="mt-6">
+              <div className="mt-6 text-center">
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
                   onClick={handleContinue}
                 >
                   Continue
+                </button>
+              </div>
+              {showConfetti && <Confetti />}
+              <div className="mt-4 flex justify-center">
+                <button onClick={() => handleRating("like")} className="text-green-500 mr-2">
+                  <ThumbsUp /> Like
+                </button>
+                <button onClick={() => handleRating("dislike")} className="text-red-500">
+                  <ThumbsDown /> Dislike
                 </button>
               </div>
             </div>
