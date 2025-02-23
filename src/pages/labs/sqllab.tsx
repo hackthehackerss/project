@@ -10,9 +10,9 @@ function SQLLab() {
   const [flagMessage, setFlagMessage] = useState("");
 
   const correctFlags = {
-    "1": "flag{sql_injection_basics}",
-    "2": "flag{detecting_sql_vulnerabilities}",
-    "3": "flag{retrieving_hidden_data}",
+    "1.1": "flag{sql_injection_basics}",
+    "1.2": "flag{detecting_sql_vulnerabilities}",
+    "1.3": "flag{retrieving_hidden_data}",
     "4": "flag{subverting_application_logic}",
     "5": "flag{union_attacks}",
     "6": "flag{finding_column_number}",
