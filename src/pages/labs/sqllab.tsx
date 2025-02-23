@@ -21,8 +21,8 @@ function SQLLab() {
   // Correct flags keyed by subsection identifiers
   const correctFlags = {
     "1.1": "HTH{sql_injection_basics}",
-    "1.2": "flag{detecting_sql_vulnerabilities}",
-    "1.3": "flag{retrieving_hidden_data}",
+    "1.2": "OR 1=1",
+    "1.3": "HTH{retrieving_hi$den_d0ta}",
     "1.4": "flag{subverting_application_logic}",
     "2.1": "flag{subverting_application_logic}",
     "2.2": "flag{union_attacks}"
@@ -69,7 +69,8 @@ An attacker can further use:<br/><br/>
 Which results in:<br/><br/>
 <code>SELECT * FROM products WHERE category = 'Shoes' OR 1=1--' AND released = 1</code><br/><br/>
 <strong>Warning:</strong> Injecting conditions like <code>OR 1=1</code> can be dangerous if the same data is used in multiple queries (for example, in UPDATE or DELETE statements), potentially leading to data loss.<br/><br/>
-This lab contains a SQL injection vulnerability in the product category filter. To solve the lab, perform a SQL injection attack that causes the application to display one or more unreleased products.`
+This lab contains a SQL injection vulnerability in the product category filter. 
+To solve the lab, perform a SQL injection attack that causes the application to display one or more unreleased products.`
         },
         {
           id: "1.4",
@@ -178,7 +179,7 @@ To solve the lab, determine the number of columns returned by the query by submi
 
   const getHint = () => {
     if (activeSubSection === "1.1") return "Look up common SQL injection examples.";
-    if (activeSubSection === "1.2") return "Search for the first recorded SQL injection attack.";
+    if (activeSubSection === "1.2") return "Write a simple OR statement that always returns true.";
     if (activeSubSection === "1.3") return "Modify the category parameter to include '+OR+1=1--' to bypass the released filter.";
     if (activeSubSection === "1.4") return "Modify the username parameter, for example: administrator'--";
     if (activeSubSection === "2.2") return "Consider tools like sqlmap for automated testing.";
