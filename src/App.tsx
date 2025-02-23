@@ -31,7 +31,7 @@ import SubmitChallenge from './pages/SubmitChallenge';
 import Labs from './pages/Labs';
 import EmailAnalysisChallenge from './pages/Challenges/EmailAnalysisChallenge'; 
 import BruteforceChallenge from './pages/Challenges/BruteforceChallenge';
-
+import SqlLab from './pages/labs/sqllab';
 
 
 function App() {
@@ -69,7 +69,8 @@ function App() {
           <Route path="/labs" element={<Labs />} /> 
           <Route path="/challenges/email-analysis" element={<EmailAnalysisChallenge />} />
           <Route path="/challenges/bruteforcechallenge" element={<BruteforceChallenge />} />
-
+          <Route path="/labs/sqllab" element={<SqlLab />} /> 
+          
         </Routes>
       </Router>
     </AuthProvider>
