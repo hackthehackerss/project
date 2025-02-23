@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { PlusCircle } from 'lucide-react';
 import Navigation from '../components/Navigation';
 
-function Challenges() {
+function Labs() {
   const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('All');
   const [difficultyFilter, setDifficultyFilter] = useState('All');
   const [sortBy, setSortBy] = useState('default');
   const [suggestions, setSuggestions] = useState([]);
-  const [visibleChallenges, setVisibleChallenges] = useState(6); // Pagination
+  const [visibleLabs, setVisibleLabs] = useState(6); // Pagination
   const searchRef = useRef(null);
 
   // Sample challenges data
@@ -24,7 +24,7 @@ function Challenges() {
       difficulty: 'Easy',
       category: 'SOC',
       link: '/challenges/powershell-logs',
-      backgroundImage: '/Challenges/powershell-banner2.jpg',
+      backgroundImage: '/Labs/comingsoon.png',
     },
     {
       id: 2,
@@ -35,7 +35,7 @@ function Challenges() {
       difficulty: 'Medium',
       category: 'SOC',
       link: '/challenges/miner-on-the-run',
-      backgroundImage: '/Challenges/cryptominer-banner.png',
+      backgroundImage: '/Labs/comingsoon.png',
     },
     {
       id: 3,
@@ -46,7 +46,7 @@ function Challenges() {
       difficulty: 'Medium',
       category: 'DFIR',
       link: '/challenges/mft-analysis',
-      backgroundImage: '/Challenges/mft-banner.png',
+      backgroundImage: '/Labs/comingsoon.png',
     },
     {
       id: 4,
@@ -57,7 +57,7 @@ function Challenges() {
       difficulty: 'Easy',
       category: 'SOC',
       link: '/challenges/email-analysis',
-      backgroundImage: '/Challenges/emailanalysischallenge.png',
+      backgroundImage: '/Labs/comingsoon.png',
     },
     {
       id: 5,
@@ -67,12 +67,12 @@ function Challenges() {
       difficulty: '',
       category: '',
       link: '#',
-      backgroundImage: '/Challenges/comingsoon.png',
+      backgroundImage: '/Labs/comingsoon.png',
     },
   ];
 
   // Filter challenges based on search query, active tab, and difficulty
-  const filteredChallenges = challenges.filter((challenge) => {
+  const filteredLabs = challenges.filter((challenge) => {
     const matchesSearch = challenge.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTab = activeTab === 'All' || challenge.category === activeTab;
     const matchesDifficulty = difficultyFilter === 'All' || challenge.difficulty === difficultyFilter;
@@ -80,7 +80,7 @@ function Challenges() {
   });
 
   // Sort challenges
-  const sortedChallenges = [...filteredChallenges].sort((a, b) => {
+  const sortedLabs = [...filteredLabs].sort((a, b) => {
     if (sortBy === 'difficulty') {
       const difficultyOrder = { Easy: 1, Medium: 2, Hard: 3 };
       return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
@@ -91,7 +91,7 @@ function Challenges() {
   });
 
   // Pagination: Slice the challenges
-  const displayedChallenges = sortedChallenges.slice(0, visibleChallenges);
+  const displayedLabs = sortedLabs.slice(0, visibleLabs);
 
   // Handle search input change for autocomplete
   const handleSearchChange = (e) => {
@@ -136,33 +136,22 @@ function Challenges() {
             </h1>
           </div>
           <p className={`text-xl ${darkMode ? 'text-gray-400' : 'text-black'} mb-1`}>
-            Put Your Blue Team Skills to the Test!<br />
+            Put Your Red Team Skills to the Test!<br />
             Step into the role of a cybersecurity investigator and tackle real-world challenges designed to sharpen your defensive expertise.<br /> Analyze security incidents, uncover hidden threats, and piece together the story behind cyber attacks using the knowledge you've gained.<br /> Are you ready to take on the challenge?
           </p>
         </div>
       </div>
 
-      {/* Challenges Section */}
+      {/* Labs Section */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
             <div className="flex items-center space-x-4">
-              <h1 className="text-3xl font-bold">Challenges</h1>
+              <h1 className="text-3xl font-bold">Labs</h1>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-between mb-8">
-          <Link
-            to="/challenges/submit"
-            className="bg-primary-blue text-background px-6 py-2 rounded-lg hover:bg-secondary-blue transition flex items-center space-x-2 mr-4"
-          >
-            <PlusCircle className="w-5 h-5" />
-            <div className="flex flex-col items-start">
-              <span className="text-xs font-semibold">GET RECOGNIZED</span>
-              <span>Submit a Challenge</span>
-            </div>
-          </Link>
 
           <div className="flex items-center space-x-4">
             <div className="relative" ref={searchRef}>
@@ -234,10 +223,10 @@ function Challenges() {
           </div>
         </div>
 
-        {/* Challenge Cards */}
+        {/* Labs Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayedChallenges.length > 0 ? (
-            displayedChallenges.map((challenge) => (
+          {displayedLabs.length > 0 ? (
+            displayedLabs.map((challenge) => (
               <Link
                 key={challenge.id}
                 to={challenge.link}
@@ -310,9 +299,9 @@ function Challenges() {
         </div>
 
         {/* Load More Button */}
-        {filteredChallenges.length > visibleChallenges && (
+        {filteredLabs.length > visibleLabs && (
           <button
-            onClick={() => setVisibleChallenges((prev) => prev + 6)}
+            onClick={() => setVisibleLabs((prev) => prev + 6)}
             className="mt-8 bg-primary-blue text-white px-6 py-2 rounded-lg hover:bg-secondary-blue transition"
           >
             Load More
@@ -332,4 +321,4 @@ function Challenges() {
   );
 }
 
-export default Challenges;
+export default Labs;
