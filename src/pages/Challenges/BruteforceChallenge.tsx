@@ -245,7 +245,7 @@ function WebBruteForceChallenge() {
             className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center space-x-2"
           >
             <Download className="w-5 h-5" />
-            <span>Download web_bruteforce.pcap</span>
+            <span>Download Challenge Files</span>
           </a>
         </div>
 
