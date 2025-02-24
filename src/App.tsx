@@ -31,6 +31,7 @@ import SubmitChallenge from './pages/SubmitChallenge';
 import Labs from './pages/Labs';
 import EmailAnalysisChallenge from './pages/Challenges/EmailAnalysisChallenge'; 
 import BruteforceChallenge from './pages/Challenges/BruteforceChallenge';
+import HackedByCaptcha from './pages/Challenges/HackedByCaptcha';
 import SqlLab from './pages/labs/sqllab';
 
 
@@ -69,7 +70,9 @@ function App() {
           <Route path="/labs" element={<Labs />} /> 
           <Route path="/challenges/email-analysis" element={<EmailAnalysisChallenge />} />
           <Route path="/challenges/bruteforcechallenge" element={<BruteforceChallenge />} />
+          <Route path="/challenges/HackedByCaptcha" element={<HackedByCaptcha />} />
           <Route path="/labs/sqllab" element={<SqlLab />} /> 
+          
           
         </Routes>
       </Router>
