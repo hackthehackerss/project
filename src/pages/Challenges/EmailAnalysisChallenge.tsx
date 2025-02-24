@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download, User, Droplet, Trophy } from 'lucide-react';
 import Confetti from 'react-confetti';
 
 function EmailAnalysisChallenge() {
@@ -76,6 +76,9 @@ function EmailAnalysisChallenge() {
   const [timeTaken, setTimeTaken] = useState(0);
   const [timerRunning, setTimerRunning] = useState(true);
   const [hintsRemaining, setHintsRemaining] = useState(3);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -88,11 +91,9 @@ function EmailAnalysisChallenge() {
   }, [timerRunning]);
 
   const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
-  useEffect(() => {
-    if (allQuestionsAnswered) {
-      setTimerRunning(false);
-    }
-  }, [allQuestionsAnswered]);
+  const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
+  const totalQuestions = questions.length;
+  const progress = (correctAnswersCount / totalQuestions) * 100;
 
   const handleAnswerSubmit = (id, answer) => {
     setQuestions(
@@ -138,11 +139,22 @@ function EmailAnalysisChallenge() {
     setTimeTaken(0);
     setTimerRunning(true);
     setHintsRemaining(3);
+    setShowConfetti(false);
+    setShowSuccess(false);
+    setShowError(false);
   };
 
-  const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
-  const totalQuestions = questions.length;
-  const progress = (correctAnswersCount / totalQuestions) * 100;
+  const handleComplete = () => {
+    if (allQuestionsAnswered && correctAnswersCount === totalQuestions) {
+      setShowConfetti(true);
+      setShowSuccess(true);
+      setShowError(false);
+    } else {
+      setShowError(true);
+      setShowConfetti(false);
+      setShowSuccess(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-white">
@@ -227,7 +239,7 @@ function EmailAnalysisChallenge() {
             className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center space-x-2"
           >
             <Download className="w-5 h-5" />
-            <span>Download PhishingEmail.eml</span>
+            <span>Download Challenge files</span>
           </a>
         </div>
 
@@ -301,19 +313,79 @@ function EmailAnalysisChallenge() {
           ))}
         </div>
 
-        {allQuestionsAnswered && (
+        {/* Complete Button */}
+        <div className="max-w-4xl mx-auto px-4 mt-8 text-center">
+          <button
+            onClick={handleComplete}
+            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-all flex items-center justify-center space-x-2"
+          >
+            <CheckCircle2 className="w-5 h-5" />
+            <span>Complete Challenge</span>
+          </button>
+
+          {/* Error Message */}
+          {showError && (
+            <div className="mt-4 p-4 bg-red-600 text-white rounded-lg">
+              <p>Please answer all questions correctly before completing the challenge.</p>
+            </div>
+          )}
+        </div>
+
+        {/* Success Message and Confetti */}
+        {showSuccess && (
           <>
             <Confetti width={window.innerWidth} height={window.innerHeight} />
-            <div className="mt-8 p-4 bg-green-600 text-white rounded-lg text-center">
-              <p className="text-lg font-semibold">Congratulations!</p>
-              <p>You have completed the challenge with {correctAnswersCount} out of {totalQuestions} correct answers.</p>
+            <div className="max-w-4xl mx-auto px-4 mt-8 text-center">
+              <div className="p-4 bg-green-600 text-white rounded-lg">
+                <p className="text-lg font-semibold">Congratulations!</p>
+                <p>You have completed the challenge with {correctAnswersCount} out of {totalQuestions} correct answers.</p>
+              </div>
             </div>
           </>
         )}
+
+        {/* Combined frame for Created by and First Blood */}
+        <div className="max-w-4xl mx-auto px-4 mt-8">
+          <div className="bg-primary-dark/40 p-6 rounded-xl border border-primary-blue/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="flex justify-center space-x-8">
+              {/* Created by section */}
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-primary-blue/10 rounded-full">
+                  <User className="w-6 h-6 text-primary-blue" />
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm">Created by:</p>
+                  <div className="flex items-center space-x-2">
+                    <p className="text-primary-blue hover:text-primary-blue/80 font-semibold">HackTheHackers</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="w-px bg-primary-blue/20 h-12"></div>
+
+              {/* First Blood section */}
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-red-500/10 rounded-full">
+                  <Droplet className="w-6 h-6 text-red-500" />
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm">First Blood:</p>
+                  <div className="flex items-center space-x-2">
+                    <Trophy className="w-5 h-5 text-yellow-500" />
+                    <p className="text-red-500 hover:text-red-400 font-semibold">User</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-{/* Footer */}
-<footer className="bg-primary-dark/30 text-white py-8 mt-16 border-t border-primary-blue/20">
+
+      {/* Footer with Copyright */}
+      <footer className="bg-primary-dark/30 text-white py-8 mt-8 border-t border-primary-blue/20">
         <div className="max-w-7xl mx-auto px-4 text-center">
+          {/* Copyright notice */}
           <p className="text-gray-400">© 2025 HackTheHackers. All rights reserved.</p>
         </div>
       </footer>
