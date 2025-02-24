@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download, User, Droplet, Trophy } from 'lucide-react';
 import Confetti from 'react-confetti';
@@ -10,68 +10,80 @@ function CryptoMinerChallenge() {
       text: "What is the first thing the user searched on Google?",
       answer: "how to get rich",
       hint: "Check the browser history logs for search queries.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 2,
       text: "From which URL was the extension downloaded?",
       answer: "http://chromewebstore.google.com/detail/bitcoin-generator-best-bi/lhahofhogpojbfgcejbohlinmhjaodkn",
       hint: "The Chrome Web Store URL contains the extension ID.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 3,
       text: "What is the name of the suspicious extension?",
       answer: "Bitcoin Generator - Best Bitcoin Miner",
       hint: "The extension name is listed in the browser's installed extensions.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 4,
       text: "What is the ID of the extension?",
       answer: "lhahofhogpojbfgcejbohlinmhjaodkn",
       hint: "Look at the extension's unique identifier in Chrome's extension page.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 5,
       text: "What is the last Bitcoin payment address shown by the extension?",
       answer: "bc1qvwrfc4kkwecw2apvyn42vensftdelepee8gafm",
       hint: "HTML",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 6,
       text: "What is the malicious domain associated with the extension?",
       answer: "bitcoinlive-app.xyz",
       hint: "The miner might communicate with this domain.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 7,
       text: "Which URL is used for miner updates?",
       answer: "https://clients2.google.com/service/update2/crx",
       hint: "Google's update service is being leveraged by the extension.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 8,
       text: "What color is the Bitcoin coin in the extension's logo?",
       answer: "pink",
       hint: "Check the extension's icon for color details.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
   ]);
 
-  const [timeTaken, setTimeTaken] = useState(0);
-  const [timerRunning, setTimerRunning] = useState(true);
   const [hintsRemaining, setHintsRemaining] = useState(3);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
-
-  useEffect(() => {
-    let interval;
-    if (timerRunning) {
-      interval = setInterval(() => {
-        setTimeTaken((prev) => prev + 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [timerRunning]);
 
   const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
   const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
@@ -108,23 +120,6 @@ function CryptoMinerChallenge() {
         })
       );
     }
-  };
-
-  const resetChallenge = () => {
-    setQuestions(
-      questions.map((q) => ({
-        ...q,
-        userAnswer: undefined,
-        isCorrect: undefined,
-        showHint: false,
-      }))
-    );
-    setTimeTaken(0);
-    setTimerRunning(true);
-    setHintsRemaining(3);
-    setShowConfetti(false);
-    setShowSuccess(false);
-    setShowError(false);
   };
 
   const handleComplete = () => {
@@ -176,12 +171,6 @@ function CryptoMinerChallenge() {
       <div className="max-w-4xl mx-auto px-4 py-12 -mt-16 relative z-10">
         <h1 className="text-3xl font-bold mb-8">Miner On The Run</h1>
 
-        <div className="text-center mb-6">
-          <p className="text-gray-400">
-            Time Taken: {Math.floor(timeTaken / 60)}:{timeTaken % 60 < 10 ? `0${timeTaken % 60}` : timeTaken % 60}
-          </p>
-        </div>
-
         <div className="mb-6">
           <div className="text-lg font-semibold mb-2">Progress</div>
           <div className="w-full bg-primary-dark/20 h-4 rounded-full relative overflow-hidden">
@@ -205,15 +194,6 @@ function CryptoMinerChallenge() {
 
         <div className="text-gray-400 mb-6">
           Hints Remaining: {hintsRemaining}
-        </div>
-
-        <div className="text-center mb-6">
-          <button
-            onClick={resetChallenge}
-            className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-all"
-          >
-            Reset Challenge
-          </button>
         </div>
 
         <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8">
@@ -269,15 +249,33 @@ function CryptoMinerChallenge() {
                       type="text"
                       className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
                       placeholder="Enter your answer"
-                      onChange={(e) => handleAnswerSubmit(question.id, e.target.value)}
+                      value={question.userAnswer}
+                      onChange={(e) =>
+                        setQuestions(
+                          questions.map((q) =>
+                            q.id === question.id
+                              ? { ...q, userAnswer: e.target.value }
+                              : q
+                          )
+                        )
+                      }
                     />
                     <button
-                      className="text-gray-500 hover:text-gray-400"
+                      className={`text-gray-500 hover:text-gray-400 transition-all ${
+                        hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
                       onClick={() => toggleHint(question.id)}
+                      disabled={hintsRemaining === 0}
                     >
                       <HelpCircle className="w-5 h-5" />
                     </button>
-                    {question.userAnswer && (
+                    <button
+                      className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+                      onClick={() => handleAnswerSubmit(question.id, question.userAnswer)}
+                    >
+                      Submit
+                    </button>
+                    {question.isCorrect !== undefined && (
                       question.isCorrect ? (
                         <CheckCircle2 className="w-6 h-6 text-green-500" />
                       ) : (
@@ -298,7 +296,7 @@ function CryptoMinerChallenge() {
         <div className="max-w-4xl mx-auto px-4 mt-8 text-center">
           <button
             onClick={handleComplete}
-            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-all flex items-center justify-center space-x-2"
+            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
           >
             <CheckCircle2 className="w-5 h-5" />
             <span>Complete Challenge</span>
