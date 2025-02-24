@@ -72,6 +72,17 @@ function Challenges() {
     },
     {
       id: 6,
+      title: 'Hacked By Captcha',
+      description: 'Analyze a compromised users interaction with a malicious CAPTCHA page.',
+      questions: 12,
+      points: 600,
+      difficulty: 'Easy',
+      category: 'DFIR',
+      link: '/challenges/HackedByCaptcha',
+      backgroundImage: '/Challenges/HackedByCaptcha.png',
+    },
+    {
+      id: 7,
       title: '',
       questions: 0,
       points: 0,
