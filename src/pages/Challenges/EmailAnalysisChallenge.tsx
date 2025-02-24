@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download, User, Droplet, Trophy } from 'lucide-react';
 import Confetti from 'react-confetti';
@@ -10,85 +10,106 @@ function EmailAnalysisChallenge() {
       text: '1. What is the sender\'s email address?',
       answer: 'trapmnk@gmail.com',
       hint: 'Check the "From" field in the email headers.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 2,
       text: '2. What is the recipient\'s email address?',
       answer: 'aviorcyber@gmail.com',
       hint: 'Check the "To" field in the email headers.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 3,
       text: '3. What is the subject line of the email?',
       answer: 'Action Required: Unfinished PayPal Payment!',
       hint: 'Look at the subject line in the email headers.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 4,
       text: '4. What transaction ID is mentioned in the email?',
       answer: 'PP-7K2M9X8L5D',
       hint: 'Search for a transaction ID in the email body.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 5,
       text: '5. Which Google service adds extra authentication headers to the email?',
       answer: 'Gmail',
       hint: 'Look for authentication headers added by Google services.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 6,
       text: '6. Did the SPF authentication pass? (Yes/No)',
       answer: 'Yes',
       hint: 'Check the SPF authentication results in the email headers.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 7,
       text: '7. What domain is used in the phishing link?',
       answer: 'paypalsecure-payment.com',
       hint: 'Inspect the hyperlinks in the email body.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 8,
       text: '8. In the email signature, who does the email claim to be from?',
       answer: 'service@paypal.com',
       hint: 'Look at the email signature at the bottom of the email.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 9,
       text: '9. What is the sending mail server\'s IP address?',
       answer: '209.85.220.41',
       hint: 'Check the "Received" headers for the originating IP address.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 10,
       text: '10. At what time was the email sent?',
       answer: '12:09:31',
       hint: 'Look for the "Date" field in the email headers.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 11,
       text: '11. What type of phishing attack is this?',
       answer: 'Credential Harvesting',
       hint: 'Analyze the email content and links to determine the attack type.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
   ]);
 
-  const [timeTaken, setTimeTaken] = useState(0);
-  const [timerRunning, setTimerRunning] = useState(true);
   const [hintsRemaining, setHintsRemaining] = useState(3);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
-
-  useEffect(() => {
-    let interval;
-    if (timerRunning) {
-      interval = setInterval(() => {
-        setTimeTaken((prev) => prev + 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [timerRunning]);
 
   const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
   const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
@@ -101,7 +122,7 @@ function EmailAnalysisChallenge() {
         if (q.id === id) {
           return {
             ...q,
-            userAnswer: answer.toLowerCase(),
+            userAnswer: answer,
             isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
           };
         }
@@ -125,23 +146,6 @@ function EmailAnalysisChallenge() {
         })
       );
     }
-  };
-
-  const resetChallenge = () => {
-    setQuestions(
-      questions.map((q) => ({
-        ...q,
-        userAnswer: undefined,
-        isCorrect: undefined,
-        showHint: false,
-      }))
-    );
-    setTimeTaken(0);
-    setTimerRunning(true);
-    setHintsRemaining(3);
-    setShowConfetti(false);
-    setShowSuccess(false);
-    setShowError(false);
   };
 
   const handleComplete = () => {
@@ -185,12 +189,6 @@ function EmailAnalysisChallenge() {
       <div className="max-w-4xl mx-auto px-4 py-12 -mt-16 relative z-10">
         <h1 className="text-3xl font-bold mb-8">Phishing Email Analysis Challenge</h1>
 
-        <div className="text-center mb-6">
-          <p className="text-gray-400">
-            Time Taken: {Math.floor(timeTaken / 60)}:{timeTaken % 60 < 10 ? `0${timeTaken % 60}` : timeTaken % 60}
-          </p>
-        </div>
-
         <div className="mb-6">
           <div className="text-lg font-semibold mb-2">Progress</div>
           <div className="w-full bg-primary-dark/20 h-4 rounded-full relative overflow-hidden">
@@ -216,15 +214,6 @@ function EmailAnalysisChallenge() {
           Hints Remaining: {hintsRemaining}
         </div>
 
-        <div className="text-center mb-6">
-          <button
-            onClick={resetChallenge}
-            className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-all"
-          >
-            Reset Challenge
-          </button>
-        </div>
-
         <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8">
           <h2 className="text-xl font-semibold mb-4">Challenge Introduction</h2>
           <p className="text-gray-400 mb-6">
@@ -239,7 +228,7 @@ function EmailAnalysisChallenge() {
             className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center space-x-2"
           >
             <Download className="w-5 h-5" />
-            <span>Download Challenge files</span>
+            <span>Download Challenge Files</span>
           </a>
         </div>
 
@@ -288,15 +277,33 @@ function EmailAnalysisChallenge() {
                       type="text"
                       className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
                       placeholder="Enter your answer"
-                      onChange={(e) => handleAnswerSubmit(question.id, e.target.value)}
+                      value={question.userAnswer}
+                      onChange={(e) =>
+                        setQuestions(
+                          questions.map((q) =>
+                            q.id === question.id
+                              ? { ...q, userAnswer: e.target.value }
+                              : q
+                          )
+                        )
+                      }
                     />
                     <button
-                      className="text-gray-500 hover:text-gray-400"
+                      className={`text-gray-500 hover:text-gray-400 transition-all ${
+                        hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
                       onClick={() => toggleHint(question.id)}
+                      disabled={hintsRemaining === 0}
                     >
                       <HelpCircle className="w-5 h-5" />
                     </button>
-                    {question.userAnswer && (
+                    <button
+                      className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+                      onClick={() => handleAnswerSubmit(question.id, question.userAnswer)}
+                    >
+                      Submit
+                    </button>
+                    {question.isCorrect !== undefined && (
                       question.isCorrect ? (
                         <CheckCircle2 className="w-6 h-6 text-green-500" />
                       ) : (
@@ -317,7 +324,7 @@ function EmailAnalysisChallenge() {
         <div className="max-w-4xl mx-auto px-4 mt-8 text-center">
           <button
             onClick={handleComplete}
-            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-all flex items-center justify-center space-x-2"
+            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
           >
             <CheckCircle2 className="w-5 h-5" />
             <span>Complete Challenge</span>
