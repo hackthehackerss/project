@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download, User, Droplet, Trophy } from 'lucide-react';
 import Confetti from 'react-confetti';
@@ -10,91 +10,115 @@ function WebBruteForceChallenge() {
       text: '1. What is the attacker\'s IP address?',
       answer: '58.216.174.226',
       hint: 'Look for the source IP address in the packets.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 2,
       text: '2. Which country is the attacker from?',
       answer: 'China',
       hint: 'Use a geolocation tool or database to map the IP address to a country.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 3,
       text: '3. What is the target server\'s IP address?',
       answer: '150.147.144.133',
       hint: 'Look for the destination IP address in the packets.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 4,
       text: '4. What is the destination port used for the brute-force attack?',
       answer: '80',
       hint: 'Check the TCP destination port in the packets.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 5,
       text: '5. What is the page targeted by the brute-force attack?',
       answer: '/admin.php',
       hint: 'Look for the HTTP request path in the POST requests.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 6,
       text: '6. What is the HTTP method used in the brute-force attack?',
       answer: 'POST',
       hint: 'Analyze the HTTP requests in the packets.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 7,
       text: '7. What HTTP response status code indicates a successful login?',
       answer: '200',
       hint: 'Look for the server\'s response to the successful login attempt.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 8,
       text: '8. What is the username of the successful login attempt?',
       answer: 'admin',
       hint: 'Find the username in the payload of the successful POST request.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 9,
       text: '9. What was the correct password used?',
       answer: 'ihatehackers',
       hint: 'Find the password in the payload of the successful POST request.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 10,
       text: '10. Which tool did the attacker use?',
       answer: 'Nikto',
       hint: 'Check the User-Agent string in the HTTP requests.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 11,
       text: '11. How many unique usernames were targeted in the brute-force attack?',
       answer: '20',
       hint: `tshark -r web_bruteforce.pcap -Y "tcp.port == 80" -T fields -e tcp.payload | xxd -r -p | grep -i "username=" | awk -F'username=' '{print $2}' | awk -F'&' '{print $1}' | sort | uniq -c"`,
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 12,
       text: '12. What is the Mitre ATT&CK technique ID for brute-force attacks?',
       answer: 'T1110',
       hint: 'Refer to the Mitre ATT&CK framework.',
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
   ]);
 
-  const [timeTaken, setTimeTaken] = useState(0);
-  const [timerRunning, setTimerRunning] = useState(true);
   const [hintsRemaining, setHintsRemaining] = useState(3);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
-
-  useEffect(() => {
-    let interval;
-    if (timerRunning) {
-      interval = setInterval(() => {
-        setTimeTaken((prev) => prev + 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [timerRunning]);
 
   const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
   const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
@@ -107,7 +131,7 @@ function WebBruteForceChallenge() {
         if (q.id === id) {
           return {
             ...q,
-            userAnswer: answer.toLowerCase(),
+            userAnswer: answer,
             isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
           };
         }
@@ -131,23 +155,6 @@ function WebBruteForceChallenge() {
         })
       );
     }
-  };
-
-  const resetChallenge = () => {
-    setQuestions(
-      questions.map((q) => ({
-        ...q,
-        userAnswer: undefined,
-        isCorrect: undefined,
-        showHint: false,
-      }))
-    );
-    setTimeTaken(0);
-    setTimerRunning(true);
-    setHintsRemaining(3);
-    setShowConfetti(false);
-    setShowSuccess(false);
-    setShowError(false);
   };
 
   const handleComplete = () => {
@@ -191,12 +198,6 @@ function WebBruteForceChallenge() {
       <div className="max-w-4xl mx-auto px-4 py-12 -mt-16 relative z-10">
         <h1 className="text-3xl font-bold mb-8">Web Server Brute-Force Detected</h1>
 
-        <div className="text-center mb-6">
-          <p className="text-gray-400">
-            Time Taken: {Math.floor(timeTaken / 60)}:{timeTaken % 60 < 10 ? `0${timeTaken % 60}` : timeTaken % 60}
-          </p>
-        </div>
-
         <div className="mb-6">
           <div className="text-lg font-semibold mb-2">Progress</div>
           <div className="w-full bg-primary-dark/20 h-4 rounded-full relative overflow-hidden">
@@ -220,15 +221,6 @@ function WebBruteForceChallenge() {
 
         <div className="text-gray-400 mb-6">
           Hints Remaining: {hintsRemaining}
-        </div>
-
-        <div className="text-center mb-6">
-          <button
-            onClick={resetChallenge}
-            className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-all"
-          >
-            Reset Challenge
-          </button>
         </div>
 
         <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8">
@@ -294,15 +286,33 @@ function WebBruteForceChallenge() {
                       type="text"
                       className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
                       placeholder="Enter your answer"
-                      onChange={(e) => handleAnswerSubmit(question.id, e.target.value)}
+                      value={question.userAnswer}
+                      onChange={(e) =>
+                        setQuestions(
+                          questions.map((q) =>
+                            q.id === question.id
+                              ? { ...q, userAnswer: e.target.value }
+                              : q
+                          )
+                        )
+                      }
                     />
                     <button
-                      className="text-gray-500 hover:text-gray-400"
+                      className={`text-gray-500 hover:text-gray-400 transition-all ${
+                        hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
                       onClick={() => toggleHint(question.id)}
+                      disabled={hintsRemaining === 0}
                     >
                       <HelpCircle className="w-5 h-5" />
                     </button>
-                    {question.userAnswer && (
+                    <button
+                      className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+                      onClick={() => handleAnswerSubmit(question.id, question.userAnswer)}
+                    >
+                      Submit
+                    </button>
+                    {question.isCorrect !== undefined && (
                       question.isCorrect ? (
                         <CheckCircle2 className="w-6 h-6 text-green-500" />
                       ) : (
@@ -323,7 +333,7 @@ function WebBruteForceChallenge() {
         <div className="max-w-4xl mx-auto px-4 mt-8 text-center">
           <button
             onClick={handleComplete}
-            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-all flex items-center justify-center space-x-2"
+            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
           >
             <CheckCircle2 className="w-5 h-5" />
             <span>Complete Challenge</span>
