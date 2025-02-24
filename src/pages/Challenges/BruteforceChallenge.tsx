@@ -355,18 +355,13 @@ function WebBruteForceChallenge() {
           <div className="bg-primary-dark/40 p-6 rounded-xl border border-primary-blue/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <div className="flex justify-center space-x-8">
               {/* Created by section */}
-              <div className="flex flex-col items-center space-y-3">
+              <div className="flex items-center space-x-4">
                 <div className="p-3 bg-primary-blue/10 rounded-full">
                   <User className="w-6 h-6 text-primary-blue" />
                 </div>
-                <div className="text-center">
+                <div>
                   <p className="text-gray-400 text-sm">Created by:</p>
-                  <div className="flex items-center justify-center space-x-2">
-                    <img
-                      src="/Challenges/HackTheHackersLogo.png"
-                      alt="HackTheHackers Logo"
-                      className="w-6 h-6 rounded-full"
-                    />
+                  <div className="flex items-center space-x-2">
                     <p className="text-primary-blue hover:text-primary-blue/80 font-semibold">HackTheHackers</p>
                   </div>
                 </div>
@@ -376,15 +371,15 @@ function WebBruteForceChallenge() {
               <div className="w-px bg-primary-blue/20 h-12"></div>
 
               {/* First Blood section */}
-              <div className="flex flex-col items-center space-y-3">
+              <div className="flex items-center space-x-4">
                 <div className="p-3 bg-red-500/10 rounded-full">
                   <Droplet className="w-6 h-6 text-red-500" />
                 </div>
-                <div className="text-center">
+                <div>
                   <p className="text-gray-400 text-sm">First Blood:</p>
-                  <div className="flex items-center justify-center space-x-2">
+                  <div className="flex items-center space-x-2">
                     <Trophy className="w-5 h-5 text-yellow-500" />
-                    <p className="text-red-500 hover:text-red-400 font-semibold">user</p>
+                    <p className="text-red-500 hover:text-red-400 font-semibold">User</p>
                   </div>
                 </div>
               </div>
