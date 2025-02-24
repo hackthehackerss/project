@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download, User, Droplet, Trophy } from 'lucide-react';
 import Confetti from 'react-confetti';
@@ -10,79 +10,97 @@ function PowerShellChallenge() {
       text: "1. What encoding method does the script use?",
       answer: "Base64",
       hint: "Look for a common encoding technique often used for obfuscation.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 2,
       text: "2. What is the URL from which the malicious file is downloaded?",
       answer: "http://uhxqin.biz/csgeaivqpodqs/5849b1b61e88f7461064b986a204b9c7_wannacry.exe",
       hint: "The URL is part of the PowerShell command, check for the full string.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 3,
       text: "3. What is the hash of the downloaded malware file?",
       answer: "5849b1b61e88f7461064b986a204b9c7",
       hint: "The hash is often a part of the file's metadata, check the script for it.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 4,
       text: "4. What type of malware is being delivered by this script?",
       answer: "Ransomware",
       hint: "Consider the impact of the encryption process mentioned in the introduction.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 5,
       text: "5. What is the name of the downloaded file?",
       answer: "update_service.exe",
       hint: "The file name is mentioned in the PowerShell command.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 6,
       text: "6. Which PowerShell command is used to download the file?",
       answer: "Invoke-WebRequest -Uri $update -OutFile $destinationPath",
       hint: "Search for the download command within the script.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 7,
       text: "7. Where is the file stored on the system before execution?",
       answer: "TEMP",
       hint: "Check the file path in the command for where the file is stored.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 8,
       text: "8. Which command is used to execute the downloaded file?",
       answer: "Start-Process -FilePath $destinationPath -WindowStyle Hidden",
       hint: "Look for a command that runs an executable file in the script.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 9,
       text: "9. Which method does the script use to maintain persistence?",
       answer: "Startup folder",
       hint: "Persistence is often achieved by placing the file in a location that runs on startup.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
     {
       id: 10,
       text: "10. Which Windows registry key is modified to establish persistence?",
       answer: "HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
       hint: "Persistence is often achieved through Windows registry keys.",
+      showHint: false,
+      userAnswer: '',
+      isCorrect: undefined,
     },
   ]);
 
-  const [timeTaken, setTimeTaken] = useState(0);
-  const [timerRunning, setTimerRunning] = useState(true);
   const [hintsRemaining, setHintsRemaining] = useState(3);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
-
-  useEffect(() => {
-    let interval;
-    if (timerRunning) {
-      interval = setInterval(() => {
-        setTimeTaken((prev) => prev + 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [timerRunning]);
 
   const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
   const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
@@ -119,23 +137,6 @@ function PowerShellChallenge() {
         })
       );
     }
-  };
-
-  const resetChallenge = () => {
-    setQuestions(
-      questions.map((q) => ({
-        ...q,
-        userAnswer: undefined,
-        isCorrect: undefined,
-        showHint: false,
-      }))
-    );
-    setTimeTaken(0);
-    setTimerRunning(true);
-    setHintsRemaining(3);
-    setShowConfetti(false);
-    setShowSuccess(false);
-    setShowError(false);
   };
 
   const handleComplete = () => {
@@ -179,12 +180,6 @@ function PowerShellChallenge() {
       <div className="max-w-4xl mx-auto px-4 py-12 -mt-16 relative z-10">
         <h1 className="text-3xl font-bold mb-8">PowerShell Analysis Challenge</h1>
 
-        <div className="text-center mb-6">
-          <p className="text-gray-400">
-            Time Taken: {Math.floor(timeTaken / 60)}:{timeTaken % 60 < 10 ? `0${timeTaken % 60}` : timeTaken % 60}
-          </p>
-        </div>
-
         <div className="mb-6">
           <div className="text-lg font-semibold mb-2">Progress</div>
           <div className="w-full bg-primary-dark/20 h-4 rounded-full relative overflow-hidden">
@@ -208,15 +203,6 @@ function PowerShellChallenge() {
 
         <div className="text-gray-400 mb-6">
           Hints Remaining: {hintsRemaining}
-        </div>
-
-        <div className="text-center mb-6">
-          <button
-            onClick={resetChallenge}
-            className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-all"
-          >
-            Reset Challenge
-          </button>
         </div>
 
         <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8">
@@ -248,15 +234,33 @@ function PowerShellChallenge() {
                       type="text"
                       className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
                       placeholder="Enter your answer"
-                      onChange={(e) => handleAnswerSubmit(question.id, e.target.value)}
+                      value={question.userAnswer}
+                      onChange={(e) =>
+                        setQuestions(
+                          questions.map((q) =>
+                            q.id === question.id
+                              ? { ...q, userAnswer: e.target.value }
+                              : q
+                          )
+                        )
+                      }
                     />
                     <button
-                      className="text-gray-500 hover:text-gray-400"
+                      className={`text-gray-500 hover:text-gray-400 transition-all ${
+                        hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
                       onClick={() => toggleHint(question.id)}
+                      disabled={hintsRemaining === 0}
                     >
                       <HelpCircle className="w-5 h-5" />
                     </button>
-                    {question.userAnswer && (
+                    <button
+                      className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+                      onClick={() => handleAnswerSubmit(question.id, question.userAnswer)}
+                    >
+                      Submit
+                    </button>
+                    {question.isCorrect !== undefined && (
                       question.isCorrect ? (
                         <CheckCircle2 className="w-6 h-6 text-green-500" />
                       ) : (
@@ -277,7 +281,7 @@ function PowerShellChallenge() {
         <div className="max-w-4xl mx-auto px-4 mt-8 text-center">
           <button
             onClick={handleComplete}
-            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition-all flex items-center justify-center space-x-2"
+            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
           >
             <CheckCircle2 className="w-5 h-5" />
             <span>Complete Challenge</span>
