@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download, User, Trophy, Zap } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download, User, Droplet, Trophy } from 'lucide-react';
 import Confetti from 'react-confetti';
 
 function HackedByCaptcha() {
@@ -250,7 +250,7 @@ function HackedByCaptcha() {
             className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center space-x-2"
           >
             <Download className="w-5 h-5" />
-            <span>Download Challenge files</span>
+            <span>Download Challenge Files</span>
           </a>
         </div>
 
@@ -360,18 +360,14 @@ function HackedByCaptcha() {
           <div className="bg-primary-dark/40 p-6 rounded-xl border border-primary-blue/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <div className="flex justify-center space-x-8">
               {/* Created by section */}
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-4">
                 <div className="p-3 bg-primary-blue/10 rounded-full">
                   <User className="w-6 h-6 text-primary-blue" />
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Created by:</p>
                   <div className="flex items-center space-x-2">
-                    <img
-                      src="/Challenges/HackTheHackersLogo.png"
-                      alt="HackTheHackers Logo"
-                      className="w-6 h-6 rounded-full"
-                    />
+
                     <p className="text-primary-blue hover:text-primary-blue/80 font-semibold">HackTheHackers</p>
                   </div>
                 </div>
@@ -381,9 +377,9 @@ function HackedByCaptcha() {
               <div className="w-px bg-primary-blue/20 h-12"></div>
 
               {/* First Blood section */}
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-4">
                 <div className="p-3 bg-red-500/10 rounded-full">
-                  <Zap className="w-6 h-6 text-red-500" />
+                  <Droplet className="w-6 h-6 text-red-500" />
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">First Blood:</p>
