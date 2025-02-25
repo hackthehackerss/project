@@ -184,7 +184,7 @@ function LearningPaths() {
     },
     {
       title: "Offensive VBA Scripting",
-      path: "/red-team/vba-scripting",
+      path: "/vba-scripting",
       description: "Create your first Office document macro and discover how to weaponize and exploit hidden functionalities within Office document properties.",
       icon: Bug,
       difficulty: "Advanced",
