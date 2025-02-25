@@ -33,6 +33,7 @@ import EmailAnalysisChallenge from './pages/Challenges/EmailAnalysisChallenge';
 import BruteforceChallenge from './pages/Challenges/BruteforceChallenge';
 import HackedByCaptcha from './pages/Challenges/HackedByCaptcha';
 import SqlLab from './pages/labs/sqllab';
+import VbaScripting from './pages/red-team/vba-scripting';
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
           <Route path="/challenges/bruteforcechallenge" element={<BruteforceChallenge />} />
           <Route path="/challenges/HackedByCaptcha" element={<HackedByCaptcha />} />
           <Route path="/labs/sqllab" element={<SqlLab />} /> 
+           <Route path="/red-team/vba-scripting" element={<VbaScripting />} /> 
           
           
         </Routes>
