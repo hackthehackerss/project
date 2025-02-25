@@ -73,7 +73,7 @@ function App() {
           <Route path="/challenges/bruteforcechallenge" element={<BruteforceChallenge />} />
           <Route path="/challenges/HackedByCaptcha" element={<HackedByCaptcha />} />
           <Route path="/labs/sqllab" element={<SqlLab />} /> 
-           <Route path="/red-team/vba-scripting" element={<VbaScripting />} /> 
+          <Route path="/vba-scripting" element={<VbaScripting />} /> 
           
           
         </Routes>
