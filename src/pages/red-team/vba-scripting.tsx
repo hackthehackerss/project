@@ -73,7 +73,7 @@ End Sub`}
                 src="https://manage.offsec.com/app/uploads/2022/06/image6-1.png"
                 alt="VBA Scripting Example"
               />,
-              "This script presents a message box displaying the content of the document's "Subject" property. To ensure the script functions correctly, input must be provided in the document's "Subject" field. To do this, right-click the macro-enabled document, select "Properties," navigate to the "Details" tab, and enter your desired input in the "Subject" field. ",
+              "This script presents a message box displaying the content of the document's 'Subject' property. To ensure the script functions correctly, input must be provided in the document's "Subject" field. To do this, right-click the macro-enabled document, select "Properties," navigate to the "Details" tab, and enter your desired input in the "Subject" field. ",
               <ImageBlock
                 key="img5"
                 src="https://manage.offsec.com/app/uploads/2022/06/image6-1.png"
