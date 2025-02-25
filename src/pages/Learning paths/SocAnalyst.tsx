@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Book, ArrowLeft, ChevronDown, ChevronRight } from 'lucide-react';
+import { Book, ArrowLeft, ChevronDown, ChevronRight, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Navigation from "../../components/Navigation";
 
 function SocAnalystCourse() {
   // New course structure based on your syllabus.
-  // Each module (denoted by *) contains sections (denoted by -),
-  // each section has a title and a summary (editable placeholder).
+  // Each module contains sections (with title and summary) and a quiz.
   const course = [
     {
       id: "module1",
@@ -565,6 +565,9 @@ function SocAnalystCourse() {
   const [quizAnswers, setQuizAnswers] = useState({});
   const [quizScore, setQuizScore] = useState(null);
 
+  // State to track completed modules (quiz finished)
+  const [completedModules, setCompletedModules] = useState(Array(course.length).fill(false));
+
   // Left sidebar dropdown state for each module (open/closed)
   const [openModules, setOpenModules] = useState(Array(course.length).fill(false));
 
@@ -616,6 +619,12 @@ function SocAnalystCourse() {
       }
     });
     setQuizScore(score);
+    // Mark the current module as completed after quiz submission.
+    setCompletedModules((prev) => {
+      const newArr = [...prev];
+      newArr[currentModuleIndex] = true;
+      return newArr;
+    });
   };
 
   // Next Page Navigation:
@@ -636,11 +645,7 @@ function SocAnalystCourse() {
         setCurrentSectionIndex(0);
         setInQuiz(false);
         // Update the dropdown state: close all modules, then open the new one.
-        setOpenModules(
-          Array(course.length)
-            .fill(false)
-            .map((_, idx) => idx === newModuleIndex)
-        );
+        setOpenModules(Array(course.length).fill(false).map((_, idx) => idx === newModuleIndex));
       } else {
         alert("Congratulations! You have completed the course.");
       }
@@ -648,33 +653,26 @@ function SocAnalystCourse() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-white">
-      {/* Navigation Bar */}
-      <nav className="bg-primary-dark border-b border-primary-blue/20 glass-effect">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center space-x-4">
-              <Link
-                to="/learning-paths"
-                className="text-primary-blue hover:text-primary-blue/80 flex items-center group"
-              >
-                <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-                Back to Learning Paths
-              </Link>
-              <span className="text-xl font-bold">
-                <span className="text-white">Hack</span>
-                <span className="text-primary-red">The</span>
-                <span className="text-white">Hackers</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="flex flex-col min-h-screen bg-white dark:bg-background text-gray-900 dark:text-white">
+      {/* Full Navigation Bar */}
+      <div className="bg-gray-100 dark:bg-primary-dark">
+        <Navigation />
+      </div>
 
       {/* Main Content Area */}
       <div className="flex flex-1">
-        {/* Left Sidebar: Course Modules as Dropdowns */}
-        <aside className="w-64 bg-primary-dark/30 border-r border-primary-blue/20 glass-effect p-4">
+        {/* Left Sidebar */}
+        <aside className="w-64 bg-gray-100 dark:bg-primary-dark/30 border-r border-primary-blue/20 glass-effect p-4">
+          {/* Back to Learning Paths Link */}
+          <div className="mb-6">
+            <Link
+              to="/learning-paths"
+              className="flex items-center text-primary-blue hover:text-primary-blue/80"
+            >
+              <ArrowLeft className="w-5 h-5 mr-2" />
+              Back to Learning Paths
+            </Link>
+          </div>
           <h2 className="text-lg font-semibold mb-4 gradient-text">Course Modules</h2>
           {course.map((module, mIndex) => (
             <div key={module.id} className="mb-4">
@@ -685,6 +683,9 @@ function SocAnalystCourse() {
                 <span className={`${mIndex === currentModuleIndex ? 'text-primary-blue font-bold' : ''}`}>
                   {module.title}
                 </span>
+                {completedModules[mIndex] && (
+                  <Check className="w-4 h-4 text-green-500 inline ml-2" />
+                )}
                 {openModules[mIndex] ? <ChevronDown /> : <ChevronRight />}
               </button>
               {openModules[mIndex] && (
@@ -697,13 +698,7 @@ function SocAnalystCourse() {
                           setCurrentSectionIndex(sIndex);
                           setInQuiz(false);
                         }}
-                        className={`w-full text-left px-4 py-1 rounded-md hover:bg-primary-blue/10 transition ${
-                          mIndex === currentModuleIndex &&
-                          sIndex === currentSectionIndex &&
-                          !inQuiz
-                            ? 'bg-primary-blue/20 text-primary-blue'
-                            : ''
-                        }`}
+                        className="w-full text-left px-4 py-1 rounded-md hover:bg-primary-blue/10 transition"
                       >
                         {sec.title}
                       </button>
@@ -715,11 +710,7 @@ function SocAnalystCourse() {
                         setCurrentModuleIndex(mIndex);
                         setInQuiz(true);
                       }}
-                      className={`w-full text-left px-4 py-1 rounded-md hover:bg-primary-blue/10 transition ${
-                        mIndex === currentModuleIndex && inQuiz
-                          ? 'bg-primary-blue/20 text-primary-blue'
-                          : ''
-                      }`}
+                      className="w-full text-left px-4 py-1 rounded-md hover:bg-primary-blue/10 transition"
                     >
                       Quiz
                     </button>
@@ -731,14 +722,13 @@ function SocAnalystCourse() {
         </aside>
 
         {/* Main Course Content */}
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-8 bg-white dark:bg-background">
           <header className="mb-8">
             <div className="flex items-center space-x-4">
               <Book className="w-8 h-8 text-primary-blue animate-pulse-slow" />
               <div>
                 <h1 className="text-2xl font-bold gradient-text">SOC Analyst Course</h1>
                 <p className="text-gray-400 text-sm">
-                  Master Security Operations Center processes and tools
                 </p>
               </div>
             </div>
@@ -760,7 +750,7 @@ function SocAnalystCourse() {
                 </div>
               </div>
             ) : (
-              <div className="bg-primary-dark/40 p-6 rounded shadow-lg reveal-scale">
+              <div className="bg-gray-100 dark:bg-primary-dark/40 p-6 rounded shadow-lg reveal-scale">
                 <h3 className="text-2xl font-bold mb-4">Quiz: {currentModule.title}</h3>
                 {quizScore === null ? (
                   <>
@@ -819,7 +809,7 @@ function SocAnalystCourse() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-primary-dark/30 text-white py-8 border-t border-primary-blue/20">
+      <footer className="bg-gray-100 dark:bg-primary-dark/30 text-gray-900 dark:text-white py-8 border-t border-primary-blue/20">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <p className="text-gray-400">© 2025 HackTheHackers. All rights reserved.</p>
         </div>
