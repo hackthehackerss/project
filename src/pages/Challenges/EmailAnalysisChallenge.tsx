@@ -1,13 +1,93 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2, XCircle, HelpCircle, Download, User, Droplet, Trophy } from 'lucide-react';
+import {
+  ArrowLeft,
+  CheckCircle2,
+  XCircle,
+  HelpCircle,
+  Download,
+  User,
+  Droplet,
+  Trophy,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
 import Confetti from 'react-confetti';
+import { motion } from 'framer-motion';
+
+// Reusable QuestionCard Component with fade/scale effect when answered correctly
+const QuestionCard = ({
+  question,
+  hintsRemaining,
+  onAnswerChange,
+  onSubmit,
+  onToggleHint,
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 1, scale: 1 }}
+      animate={{
+        opacity: question.isCorrect === true ? 0.5 : 1,
+        scale: question.isCorrect === true ? 0.98 : 1,
+      }}
+      transition={{ duration: 0.5 }}
+      className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:bg-primary-dark/40 hover:border-primary-blue transition-all"
+    >
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold mb-4">{question.text}</h3>
+          <div className="flex items-center space-x-4">
+            <input
+              type="text"
+              className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
+              placeholder="Enter your answer"
+              value={question.userAnswer}
+              onChange={(e) => onAnswerChange(question.id, e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !question.isCorrect) {
+                  onSubmit(question.id, question.userAnswer);
+                }
+              }}
+              disabled={question.isCorrect === true}
+            />
+            <button
+              className={`text-gray-500 hover:text-gray-400 transition-all ${
+                hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              onClick={() => onToggleHint(question.id)}
+              disabled={question.isCorrect === true || hintsRemaining === 0}
+            >
+              <HelpCircle className="w-5 h-5" />
+            </button>
+            {!question.isCorrect && (
+              <button
+                className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+                onClick={() => onSubmit(question.id, question.userAnswer)}
+              >
+                Submit
+              </button>
+            )}
+            {question.isCorrect !== undefined &&
+              (question.isCorrect ? (
+                <CheckCircle2 className="w-6 h-6 text-green-500" />
+              ) : (
+                <XCircle className="w-6 h-6 text-red-500" />
+              ))}
+          </div>
+          {question.showHint && (
+            <div className="mt-4 text-gray-300 italic">{question.hint}</div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 function EmailAnalysisChallenge() {
   const [questions, setQuestions] = useState([
     {
       id: 1,
-      text: '1. What is the sender\'s email address?',
+      text: "1. What is the sender's email address?",
       answer: 'trapmnk@gmail.com',
       hint: 'Check the "From" field in the email headers.',
       showHint: false,
@@ -16,7 +96,7 @@ function EmailAnalysisChallenge() {
     },
     {
       id: 2,
-      text: '2. What is the recipient\'s email address?',
+      text: "2. What is the recipient's email address?",
       answer: 'aviorcyber@gmail.com',
       hint: 'Check the "To" field in the email headers.',
       showHint: false,
@@ -43,7 +123,7 @@ function EmailAnalysisChallenge() {
     },
     {
       id: 5,
-      text: '5. Which Google service adds extra authentication headers to the email?',
+      text: "5. Which Google service adds extra authentication headers to the email?",
       answer: 'Gmail',
       hint: 'Look for authentication headers added by Google services.',
       showHint: false,
@@ -79,7 +159,7 @@ function EmailAnalysisChallenge() {
     },
     {
       id: 9,
-      text: '9. What is the sending mail server\'s IP address?',
+      text: "9. What is the sending mail server's IP address?",
       answer: '209.85.220.41',
       hint: 'Check the "Received" headers for the originating IP address.',
       showHint: false,
@@ -110,12 +190,21 @@ function EmailAnalysisChallenge() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [questionsVisible, setQuestionsVisible] = useState(false);
 
   const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
   const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
   const totalQuestions = questions.length;
   const progress = (correctAnswersCount / totalQuestions) * 100;
 
+  // Update the answer as the user types
+  const handleAnswerChange = (id, value) => {
+    setQuestions(
+      questions.map((q) => (q.id === id ? { ...q, userAnswer: value } : q))
+    );
+  };
+
+  // Submit the answer and check correctness
   const handleAnswerSubmit = (id, answer) => {
     setQuestions(
       questions.map((q) => {
@@ -131,16 +220,14 @@ function EmailAnalysisChallenge() {
     );
   };
 
+  // Toggle the hint and decrement available hints if not already shown
   const toggleHint = (id) => {
     if (hintsRemaining > 0) {
       setQuestions(
         questions.map((q) => {
           if (q.id === id && !q.showHint) {
             setHintsRemaining(hintsRemaining - 1);
-            return {
-              ...q,
-              showHint: true,
-            };
+            return { ...q, showHint: true };
           }
           return q;
         })
@@ -153,6 +240,7 @@ function EmailAnalysisChallenge() {
       setShowConfetti(true);
       setShowSuccess(true);
       setShowError(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setShowError(true);
       setShowConfetti(false);
@@ -161,21 +249,36 @@ function EmailAnalysisChallenge() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-white">
-      <nav className="bg-primary-dark border-b border-primary-blue/20">
+    <div className="min-h-screen bg-background text-white font-sans">
+      {/* Sticky Header */}
+      <motion.nav
+        className="sticky top-0 z-50 bg-primary-dark border-b border-primary-blue/20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center space-x-4">
-              <Link to="/challenges" className="text-primary-blue hover:text-primary-blue/80 flex items-center">
+              <Link
+                to="/challenges"
+                className="text-primary-blue hover:text-primary-blue/80 flex items-center"
+              >
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Back to Challenges
               </Link>
             </div>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
-      <div className="flex justify-center mb-12">
+      {/* Banner */}
+      <motion.div
+        className="flex justify-center mb-12"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="relative group">
           <div className="absolute inset-0 rounded-lg bg-primary-blue/40 blur-lg group-hover:opacity-100 opacity-0 transition-opacity duration-300"></div>
           <img
@@ -184,12 +287,25 @@ function EmailAnalysisChallenge() {
             className="w-auto max-h-80 object-cover rounded-lg shadow-lg group-hover:scale-105 group-hover:rotate-1 transition-transform duration-300 ease-in-out relative z-10"
           />
         </div>
-      </div>
+      </motion.div>
 
       <div className="max-w-4xl mx-auto px-4 py-12 -mt-16 relative z-10">
-        <h1 className="text-3xl font-bold mb-8">Phishing Email Analysis Challenge</h1>
+        <motion.h1
+          className="text-3xl font-bold mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Phishing Email Analysis Challenge
+        </motion.h1>
 
-        <div className="mb-6">
+        {/* Progress Section */}
+        <motion.div
+          className="mb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="text-lg font-semibold mb-2">Progress</div>
           <div className="w-full bg-primary-dark/20 h-4 rounded-full relative overflow-hidden">
             <div
@@ -208,20 +324,38 @@ function EmailAnalysisChallenge() {
           <div className="text-sm mt-2 text-gray-400">
             {correctAnswersCount} of {totalQuestions} correct
           </div>
-        </div>
+        </motion.div>
 
-        <div className="text-gray-400 mb-6">
+        {/* Hints Remaining */}
+        <motion.div
+          className="text-gray-400 mb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           Hints Remaining: {hintsRemaining}
-        </div>
+        </motion.div>
 
-        <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8">
+        {/* Challenge Introduction */}
+        <motion.div
+          className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h2 className="text-xl font-semibold mb-4">Challenge Introduction</h2>
           <p className="text-gray-400 mb-6">
             An employee has reported a suspicious email claiming to be from PayPal. Your task is to analyze the email headers and body to assess its legitimacy and identify key phishing indicators.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="text-center mb-8">
+        {/* Download Challenge Files */}
+        <motion.div
+          className="text-center mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <a
             href="/Challenges/PhishingEmail.eml"
             download="PhishingEmail.eml"
@@ -230,9 +364,15 @@ function EmailAnalysisChallenge() {
             <Download className="w-5 h-5" />
             <span>Download Challenge Files</span>
           </a>
-        </div>
+        </motion.div>
 
-        <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8">
+        {/* Suggested Tools */}
+        <motion.div
+          className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h2 className="text-xl font-semibold mb-4">Suggested Tools</h2>
           <p className="text-gray-400 mb-4">
             To analyze the email, you can use the following tools:
@@ -261,67 +401,67 @@ function EmailAnalysisChallenge() {
               - A tool for parsing email headers.
             </li>
           </ul>
-        </div>
+        </motion.div>
 
-        <div className="space-y-6">
-          {questions.map((question) => (
-            <div
-              key={question.id}
-              className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:bg-primary-dark/40 hover:border-primary-blue transition-all"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-4">{question.text}</h3>
-                  <div className="flex items-center space-x-4">
-                    <input
-                      type="text"
-                      className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
-                      placeholder="Enter your answer"
-                      value={question.userAnswer}
-                      onChange={(e) =>
-                        setQuestions(
-                          questions.map((q) =>
-                            q.id === question.id
-                              ? { ...q, userAnswer: e.target.value }
-                              : q
-                          )
-                        )
-                      }
-                    />
-                    <button
-                      className={`text-gray-500 hover:text-gray-400 transition-all ${
-                        hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
-                      }`}
-                      onClick={() => toggleHint(question.id)}
-                      disabled={hintsRemaining === 0}
-                    >
-                      <HelpCircle className="w-5 h-5" />
-                    </button>
-                    <button
-                      className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
-                      onClick={() => handleAnswerSubmit(question.id, question.userAnswer)}
-                    >
-                      Submit
-                    </button>
-                    {question.isCorrect !== undefined && (
-                      question.isCorrect ? (
-                        <CheckCircle2 className="w-6 h-6 text-green-500" />
-                      ) : (
-                        <XCircle className="w-6 h-6 text-red-500" />
-                      )
-                    )}
-                  </div>
-                  {question.showHint && (
-                    <div className="mt-4 text-gray-300 italic">{question.hint}</div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Writeups Section */}
+        <motion.div
+          className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-xl font-semibold mb-4">Writeups</h2>
+          <p className="text-gray-400">Coming Soon.</p>
+        </motion.div>
+
+        {/* Questions Dropdown Tab */}
+        <motion.div
+          className="mb-6 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div
+            onClick={() => setQuestionsVisible(!questionsVisible)}
+            className="cursor-pointer border border-gray-600 rounded-lg px-4 py-2 flex items-center justify-center mx-auto hover:bg-gray-700 transition-all"
+          >
+            <span className="mr-2">Questions</span>
+            {questionsVisible ? (
+              <ChevronUp className="w-5 h-5" />
+            ) : (
+              <ChevronDown className="w-5 h-5" />
+            )}
+          </div>
+        </motion.div>
+
+        {/* Questions Section */}
+        {questionsVisible && (
+          <motion.div
+            className="space-y-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            {questions.map((question) => (
+              <QuestionCard
+                key={question.id}
+                question={question}
+                hintsRemaining={hintsRemaining}
+                onAnswerChange={handleAnswerChange}
+                onSubmit={handleAnswerSubmit}
+                onToggleHint={toggleHint}
+              />
+            ))}
+          </motion.div>
+        )}
 
         {/* Complete Button */}
-        <div className="max-w-4xl mx-auto px-4 mt-8 text-center">
+        <motion.div
+          className="max-w-4xl mx-auto px-4 mt-8 text-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <button
             onClick={handleComplete}
             className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
@@ -329,30 +469,40 @@ function EmailAnalysisChallenge() {
             <CheckCircle2 className="w-5 h-5" />
             <span>Complete Challenge</span>
           </button>
-
-          {/* Error Message */}
           {showError && (
             <div className="mt-4 p-4 bg-red-600 text-white rounded-lg">
               <p>Please answer all questions correctly before completing the challenge.</p>
             </div>
           )}
-        </div>
+        </motion.div>
 
         {/* Success Message and Confetti */}
         {showSuccess && (
           <>
             <Confetti width={window.innerWidth} height={window.innerHeight} />
-            <div className="max-w-4xl mx-auto px-4 mt-8 text-center">
+            <motion.div
+              className="max-w-4xl mx-auto px-4 mt-8 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
               <div className="p-4 bg-green-600 text-white rounded-lg">
                 <p className="text-lg font-semibold">Congratulations!</p>
-                <p>You have completed the challenge with {correctAnswersCount} out of {totalQuestions} correct answers.</p>
+                <p>
+                  You have completed the challenge with {correctAnswersCount} out of {totalQuestions} correct answers.
+                </p>
               </div>
-            </div>
+            </motion.div>
           </>
         )}
 
         {/* Combined frame for Created by and First Blood */}
-        <div className="max-w-4xl mx-auto px-4 mt-8">
+        <motion.div
+          className="max-w-4xl mx-auto px-4 mt-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="bg-primary-dark/40 p-6 rounded-xl border border-primary-blue/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <div className="flex justify-center space-x-8">
               {/* Created by section */}
@@ -386,13 +536,12 @@ function EmailAnalysisChallenge() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Footer with Copyright */}
-      <footer className="bg-primary-dark/30 text-white py-8 mt-8 border-t border-primary-blue/20">
+      {/* Footer */}
+      <footer className="bg-primary-dark/30 text-white py-8 border-t border-primary-blue/20">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          {/* Copyright notice */}
           <p className="text-gray-400">© 2025 HackTheHackers. All rights reserved.</p>
         </div>
       </footer>
