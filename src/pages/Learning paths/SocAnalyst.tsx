@@ -1,308 +1,667 @@
 import React, { useState, useEffect } from 'react';
-import { Book, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Book, ArrowLeft, ChevronDown, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-function SocAnalyst() {
-  const [activeSection, setActiveSection] = useState("soc-overview");
-  const [activeSubSection, setActiveSubSection] = useState("");
-  const [quizResults, setQuizResults] = useState({});
-
-  useEffect(() => {
-    const observerCallback = (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
+function SocAnalystCourse() {
+  // New course structure based on your syllabus.
+  // Each module (denoted by *) contains sections (denoted by -),
+  // each section has a title and a summary (editable placeholder).
+  const course = [
+    {
+      id: "module1",
+      title: "Security Operations",
+      sections: [
+        {
+          title: "Preparation and Prevention",
+          summary: "Short summary for Preparation and Prevention. Edit content here."
+        },
+        {
+          title: "Monitoring and Investigation",
+          summary: "Short summary for Monitoring and Investigation. Edit content here."
+        },
+        {
+          title: "A day In the life SOC",
+          summary: "Short summary for A day In the life SOC. Edit content here."
         }
-      });
-    };
-
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-    
-    revealElements.forEach(element => observer.observe(element));
-
-    return () => observer.disconnect();
-  }, [activeSection, activeSubSection]);
-
-  const sections = [
-    {
-      id: "soc-overview",
-      title: "SOC Overview",
-      content: {
-        introduction: "A Security Operations Center (SOC) is a centralized unit that deals with security issues on an organizational and technical level. It is the first line of defense against cyber threats.",
-        sections: [
+      ],
+      quiz: {
+        questions: [
           {
-            title: "What is a SOC?",
-            content: [
-              "A SOC is a team of cybersecurity professionals responsible for monitoring, detecting, and responding to security incidents.",
-              "It operates 24/7 to ensure the organization's IT infrastructure is secure.",
-              "Key functions include threat detection, incident response, and vulnerability management."
-            ]
-          },
-          {
-            title: "Definition and Purpose",
-            content: [
-              "The primary purpose of a SOC is to protect an organization's digital assets from cyber threats.",
-              "It provides continuous monitoring, threat intelligence, and incident response capabilities.",
-              "A SOC helps organizations comply with regulatory requirements like GDPR, HIPAA, and PCI-DSS."
-            ]
-          },
-          {
-            title: "Importance of a SOC in Cybersecurity",
-            content: [
-              "A SOC is critical for maintaining a strong cybersecurity posture.",
-              "It reduces the Mean Time to Detect (MTTD) and Mean Time to Respond (MTTR) to incidents.",
-              "A SOC enhances visibility into security events and helps prevent financial and reputational damage."
-            ]
-          },
-          {
-            title: "Different Types of SOCs",
-            content: [
-              "In-House SOC: Managed internally by a dedicated team.",
-              "Managed SOC: Outsourced to a third-party provider.",
-              "Hybrid SOC: Combines in-house and outsourced services.",
-              "Virtual SOC: Operates remotely using cloud-based tools."
-            ]
+            id: 1,
+            question: "What does SOC stand for?",
+            options: [
+              "Security Operations Center",
+              "System Operations Center",
+              "Security Optimization Center",
+              "System Optimization Center"
+            ],
+            correctAnswer: "Security Operations Center"
           }
         ]
       }
     },
     {
-      id: "cyber-threats",
-      title: "Understanding Cyber Threats",
-      content: {
-        introduction: "Cyber threats are malicious activities aimed at disrupting, damaging, or gaining unauthorized access to systems and data.",
-        sections: [
+      id: "module2",
+      title: "Cyber Kill Chain",
+      sections: [
+        {
+          title: "Introduction",
+          summary: "Short summary for Introduction to the Cyber Kill Chain. Edit content here."
+        },
+        {
+          title: "Reconnaissance",
+          summary: "Short summary for Reconnaissance phase. Edit content here."
+        },
+        {
+          title: "Weaponization",
+          summary: "Short summary for Weaponization. Edit content here."
+        },
+        {
+          title: "Delivery",
+          summary: "Short summary for Delivery. Edit content here."
+        },
+        {
+          title: "Exploitation",
+          summary: "Short summary for Exploitation. Edit content here."
+        },
+        {
+          title: "Installation",
+          summary: "Short summary for Installation. Edit content here."
+        },
+        {
+          title: "Command & Control",
+          summary: "Short summary for Command & Control. Edit content here."
+        },
+        {
+          title: "Actions on Objectives (Exfiltration)",
+          summary: "Short summary for Actions on Objectives. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
           {
-            title: "Phishing and Social Engineering",
-            content: [
-              "Phishing is a deceptive attack where attackers trick victims into revealing sensitive information.",
-              "Social engineering exploits human psychology to manipulate individuals into divulging confidential data.",
-              "Common techniques include email phishing, spear phishing, whaling, smishing, and vishing."
-            ]
-          },
-          {
-            title: "Malware",
-            content: [
-              "Malware is malicious software designed to infiltrate and damage computer systems.",
-              "Types of malware include viruses, Trojans, ransomware, and rootkits.",
-              "Mitigation strategies include deploying antivirus software and conducting regular system updates."
-            ]
-          },
-          {
-            title: "Advanced Persistent Threats (APTs)",
-            content: [
-              "APTs are long-term, targeted attacks conducted by skilled threat actors.",
-              "They use sophisticated techniques like zero-day exploits and lateral movement.",
-              "Detection requires advanced threat intelligence and behavioral analysis."
-            ]
-          },
-          {
-            title: "Denial-of-Service (DoS) and Distributed Denial-of-Service (DDoS)",
-            content: [
-              "DoS attacks overwhelm a system with traffic, rendering it unavailable.",
-              "DDoS attacks use multiple systems to launch a coordinated attack.",
-              "Mitigation involves deploying firewalls, load balancers, and traffic filtering."
-            ]
-          },
-          {
-            title: "Man-in-the-Middle (MITM) Attacks",
-            content: [
-              "MITM attacks intercept and manipulate communication between two parties.",
-              "Common techniques include ARP spoofing and DNS spoofing.",
-              "Prevention involves using encryption and secure communication protocols."
-            ]
+            id: 1,
+            question: "Which stage comes first in the Cyber Kill Chain?",
+            options: [
+              "Reconnaissance",
+              "Delivery",
+              "Exploitation",
+              "Installation"
+            ],
+            correctAnswer: "Reconnaissance"
           }
         ]
       }
     },
     {
-      id: "siem",
-      title: "SIEM (Security Information and Event Management)",
-      content: {
-        introduction: "SIEM is a critical tool for SOCs, enabling real-time monitoring, log analysis, and incident response.",
-        sections: [
+      id: "module3",
+      title: "MITRE ATT&CK",
+      sections: [
+        {
+          title: "What is the MITRE ATT&CK framework",
+          summary: "Short summary for what is the MITRE ATT&CK framework. Edit content here."
+        },
+        {
+          title: "MITRE ATT&CK Matrix",
+          summary: "Short summary for the MITRE ATT&CK Matrix. Edit content here."
+        },
+        {
+          title: "MITRE ATT&CK for Cloud Matrix",
+          summary: "Short summary for MITRE ATT&CK for Cloud Matrix. Edit content here."
+        },
+        {
+          title: "MITRE ATT&CK tactics",
+          summary: "Short summary for MITRE ATT&CK tactics. Edit content here."
+        },
+        {
+          title: "MITRE ATT&CK techniques",
+          summary: "Short summary for MITRE ATT&CK techniques. Edit content here."
+        },
+        {
+          title: "MITRE ATT&CK vs. the Cyber Kill Chain",
+          summary: "Short summary comparing MITRE ATT&CK with the Cyber Kill Chain. Edit content here."
+        },
+        {
+          title: "How Do You Use the MITRE ATT&CK Matrix",
+          summary: "Short summary on how to use the MITRE ATT&CK Matrix. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
           {
-            title: "What is SIEM?",
-            content: [
-              "SIEM collects and analyzes security data from various sources.",
-              "It provides real-time monitoring, threat detection, and incident response capabilities.",
-              "Key features include log management, event correlation, and alerting."
-            ]
-          },
-          {
-            title: "How SIEM Works",
-            content: [
-              "SIEM aggregates logs from network devices, servers, and applications.",
-              "It uses rules and machine learning to detect anomalies and generate alerts.",
-              "SIEM tools provide dashboards and reports for security analysis."
-            ]
-          },
-          {
-            title: "Common SIEM Solutions",
-            content: [
-              "Splunk: A powerful SIEM tool with advanced analytics capabilities.",
-              "QRadar: IBM's SIEM solution with integrated threat intelligence.",
-              "LogRhythm: A user-friendly SIEM platform for mid-sized organizations.",
-              "ELK Stack: An open-source SIEM solution for log analysis.",
-              "Microsoft Sentinel: A cloud-native SIEM with AI-driven threat detection."
-            ]
+            id: 1,
+            question: "What is the purpose of the MITRE ATT&CK framework?",
+            options: [
+              "To model adversary behavior",
+              "To design firewalls",
+              "To develop software",
+              "To manage networks"
+            ],
+            correctAnswer: "To model adversary behavior"
           }
         ]
       }
     },
     {
-      id: "edr",
-      title: "Endpoint Detection and Response (EDR)",
-      content: {
-        introduction: "EDR solutions provide advanced threat detection and response capabilities for endpoints.",
-        sections: [
+      id: "module4",
+      title: "Pyramid Of Pain",
+      sections: [
+        {
+          title: "What is the Pyramid of Pain",
+          summary: (
+            <>
+              <img
+                src="/Learning Paths/SOC/Pyramid.png"
+                alt="Pyramid of Pain"
+                className="my-4 w-full max-w-md mx-auto"
+              />
+              <p>Short summary for the Pyramid Of Pain. Edit content here.</p>
+            </>
+          )
+        },
+        {
+          title: "Hash values",
+          summary: "Short summary for Hash values. Edit content here."
+        },
+        {
+          title: "IP addresses",
+          summary: "Short summary for IP addresses. Edit content here."
+        },
+        {
+          title: "Domain names",
+          summary: "Short summary for Domain names. Edit content here."
+        },
+        {
+          title: "Network Artifacts",
+          summary: "Short summary for Network Artifacts. Edit content here."
+        },
+        {
+          title: "Host Artifacts",
+          summary: "Short summary for Host Artifacts. Edit content here."
+        },
+        {
+          title: "Tools",
+          summary: "Short summary for Tools. Edit content here."
+        },
+        {
+          title: "Tactics, Techniques and Procedures (TTPs)",
+          summary: "Short summary for Tactics, Techniques and Procedures. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
           {
-            title: "Role of EDR in Threat Detection",
-            content: [
-              "EDR monitors endpoints for suspicious activity and provides real-time alerts.",
-              "It enables forensic analysis and incident response.",
-              "EDR tools integrate with SIEM and other security solutions."
-            ]
+            id: 1,
+            question: "What does the Pyramid of Pain illustrate?",
+            options: [
+              "The difficulty in eliminating certain threat indicators",
+              "A network topology",
+              "A layered firewall design",
+              "An encryption algorithm"
+            ],
+            correctAnswer: "The difficulty in eliminating certain threat indicators"
           }
         ]
       }
     },
     {
-      id: "network-security",
-      title: "Network Security Tools",
-      content: {
-        introduction: "Network security tools are essential for protecting an organization's network infrastructure.",
-        sections: [
+      id: "module5",
+      title: "Phishing Emails",
+      sections: [
+        {
+          title: "Phishing Analysis Fundamentals",
+          summary: "Short summary for Phishing Analysis Fundamentals. Edit content here."
+        },
+        {
+          title: "Basics",
+          summary: "Short summary for Basics. Edit content here."
+        },
+        {
+          title: "Email Header",
+          summary: "Short summary for Email Header analysis. Edit content here."
+        },
+        {
+          title: "Analysis And Tools",
+          summary: "Short summary for Analysis and Tools used in phishing. Edit content here."
+        },
+        {
+          title: "Phishing challenge",
+          summary: "Short summary for the Phishing challenge. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
           {
-            title: "Intrusion Detection Systems (IDS) and Intrusion Prevention Systems (IPS)",
-            content: [
-              "IDS monitors network traffic for suspicious activity.",
-              "IPS actively blocks malicious traffic.",
-              "Both tools are critical for detecting and preventing network-based attacks."
-            ]
-          },
-          {
-            title: "Firewalls and Proxies",
-            content: [
-              "Firewalls filter incoming and outgoing traffic based on predefined rules.",
-              "Proxies act as intermediaries between users and the internet, providing additional security."
-            ]
-          },
-          {
-            title: "Network Packet Capture and Analysis",
-            content: [
-              "Tools like Wireshark and Zeek capture and analyze network traffic.",
-              "They help identify anomalies and investigate security incidents."
-            ]
+            id: 1,
+            question: "What is one key element in phishing email analysis?",
+            options: [
+              "Examining the email header",
+              "Designing graphics",
+              "Writing code",
+              "Configuring routers"
+            ],
+            correctAnswer: "Examining the email header"
           }
         ]
       }
     },
     {
-      id: "log-analysis",
-      title: "Log Analysis Tools",
-      content: {
-        introduction: "Log analysis is a critical skill for SOC analysts, enabling them to detect and investigate security incidents.",
-        sections: [
+      id: "module6",
+      title: "SIEM",
+      sections: [
+        {
+          title: "SIEM Introduction",
+          summary: "Short summary for SIEM Introduction. Edit content here."
+        },
+        {
+          title: "Popular SIEM Tools",
+          summary: "Short summary for Popular SIEM Tools. Edit content here."
+        },
+        {
+          title: "Core Components of a SIEM",
+          summary: "Short summary for Core Components of a SIEM. Edit content here."
+        },
+        {
+          title: "Investigating with SIEM",
+          summary: "Short summary for Investigating with SIEM. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
           {
-            title: "Understanding Logs",
-            content: [
-              "Logs record events and activities on systems and networks.",
-              "They provide valuable insights into security incidents."
-            ]
-          },
-          {
-            title: "Windows Event Logs",
-            content: [
-              "Windows Event Viewer records system, security, and application events.",
-              "It is a key tool for investigating Windows-based incidents."
-            ]
-          },
-          {
-            title: "Linux System Logs",
-            content: [
-              "Linux logs are stored in files like /var/log/syslog and /var/log/auth.log.",
-              "They provide information about system and user activities."
-            ]
-          },
-          {
-            title: "Network Logs",
-            content: [
-              "Firewall, IDS/IPS, DNS, and proxy logs provide insights into network activity.",
-              "They are critical for detecting and investigating network-based attacks."
-            ]
+            id: 1,
+            question: "Which is a core function of SIEM?",
+            options: [
+              "Log aggregation and correlation",
+              "Graphic design",
+              "Email marketing",
+              "Video streaming"
+            ],
+            correctAnswer: "Log aggregation and correlation"
           }
         ]
       }
     },
     {
-      id: "career-development",
-      title: "Career Development for SOC Analysts",
-      content: {
-        introduction: "Building a successful career as a SOC analyst requires continuous learning and skill development.",
-        sections: [
+      id: "module7",
+      title: "Network Security",
+      sections: [
+        {
+          title: "Traffic Analysis",
+          summary: "Short summary for Traffic Analysis. Edit content here."
+        },
+        {
+          title: "Firewall",
+          summary: "Short summary for Firewall. Edit content here."
+        },
+        {
+          title: "IDS/IPS",
+          summary: "Short summary for IDS/IPS. Edit content here."
+        },
+        {
+          title: "WAF",
+          summary: "Short summary for WAF. Edit content here."
+        },
+        {
+          title: "Web",
+          summary: "Short summary for Web security. Edit content here."
+        },
+        {
+          title: "DNS",
+          summary: "Short summary for DNS security. Edit content here."
+        },
+        {
+          title: "Wireshark Basic",
+          summary: "Short summary for Wireshark Basic. Edit content here."
+        },
+        {
+          title: "Wireshark Traffic Analysis",
+          summary: "Short summary for Wireshark Traffic Analysis. Edit content here."
+        },
+        {
+          title: "Challenge",
+          summary: "Short summary for the Network Security Challenge. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
           {
-            title: "Certifications",
-            content: [
-              "CompTIA Security+: Foundational cybersecurity knowledge.",
-              "GIAC Security Essentials (GSEC): Hands-on security skills.",
-              "Certified SOC Analyst (CSA): Focused on SOC operations.",
-              "GIAC Certified Incident Handler (GCIH): Incident response expertise."
-            ]
-          },
+            id: 1,
+            question: "Which tool is most commonly used for network traffic analysis?",
+            options: [
+              "Wireshark",
+              "Photoshop",
+              "Excel",
+              "WordPress"
+            ],
+            correctAnswer: "Wireshark"
+          }
+        ]
+      }
+    },
+    {
+      id: "module8",
+      title: "Endpoint Security",
+      sections: [
+        {
+          title: "Intro to Endpoint Security",
+          summary: "Short summary for Introduction to Endpoint Security. Edit content here."
+        },
+        {
+          title: "Windows processes",
+          summary: "Short summary for Windows processes. Edit content here."
+        },
+        {
+          title: "Sysinternals",
+          summary: "Short summary for Sysinternals. Edit content here."
+        },
+        {
+          title: "Windows event log",
+          summary: "Short summary for Windows event log analysis. Edit content here."
+        },
+        {
+          title: "Sysmon",
+          summary: "Short summary for Sysmon. Edit content here."
+        },
+        {
+          title: "Challenge",
+          summary: "Short summary for the Endpoint Security Challenge. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
           {
-            title: "Building a Resume",
-            content: [
-              "Highlight experience with SIEM, EDR, and forensic tools.",
-              "Showcase certifications and hands-on projects.",
-              "Tailor your resume to the job description."
-            ]
-          },
+            id: 1,
+            question: "What is a key aspect of endpoint security?",
+            options: [
+              "Monitoring system processes",
+              "Designing websites",
+              "Social media management",
+              "Graphic design"
+            ],
+            correctAnswer: "Monitoring system processes"
+          }
+        ]
+      }
+    },
+    {
+      id: "module9",
+      title: "Brute Force Attacks",
+      sections: [
+        {
+          title: "Introduction to Brute Force Attacks",
+          summary: "Short summary for Introduction to Brute Force Attacks. Edit content here."
+        },
+        {
+          title: "How Brute Force Attacks Work",
+          summary: "Short summary for How Brute Force Attacks Work. Edit content here."
+        },
+        {
+          title: "Detecting Brute Force Attacks",
+          summary: "Short summary for Detecting Brute Force Attacks. Edit content here."
+        },
+        {
+          title: "Mitigation and Prevention",
+          summary: "Short summary for Mitigation and Prevention of Brute Force Attacks. Edit content here."
+        },
+        {
+          title: "Challenge",
+          summary: "Short summary for the Brute Force Attacks Challenge. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
           {
-            title: "Common Interview Questions",
-            content: [
-              "Explain the difference between IDS and IPS.",
-              "How would you analyze a phishing email?",
-              "Describe the MITRE ATT&CK framework."
-            ]
-          },
+            id: 1,
+            question: "What is the primary concern with brute force attacks?",
+            options: [
+              "Unauthorized access through repeated attempts",
+              "Poor web design",
+              "Slow internet speed",
+              "Excessive file sizes"
+            ],
+            correctAnswer: "Unauthorized access through repeated attempts"
+          }
+        ]
+      }
+    },
+    {
+      id: "module10",
+      title: "Virustotal for SOC",
+      sections: [
+        {
+          title: "Importance of VirusTotal in SOC operations",
+          summary: "Short summary for the Importance of VirusTotal in SOC operations. Edit content here."
+        },
+        {
+          title: "File Analysis",
+          summary: "Short summary for File Analysis using VirusTotal. Edit content here."
+        },
+        {
+          title: "URL and Domain Analysis",
+          summary: "Short summary for URL and Domain Analysis using VirusTotal. Edit content here."
+        },
+        {
+          title: "IP Address Analysis",
+          summary: "Short summary for IP Address Analysis using VirusTotal. Edit content here."
+        },
+        {
+          title: "Advanced Features",
+          summary: "Short summary for the Advanced Features of VirusTotal. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
           {
-            title: "Career Growth Paths",
-            content: [
-              "Incident Responder: Handling active security incidents.",
-              "Threat Hunter: Proactively searching for hidden threats.",
-              "SOC Manager or Security Engineer: Leading teams and designing security infrastructures."
-            ]
+            id: 1,
+            question: "What does VirusTotal help analyze?",
+            options: [
+              "Files, URLs, and IP addresses",
+              "Graphic designs",
+              "Stock prices",
+              "Weather data"
+            ],
+            correctAnswer: "Files, URLs, and IP addresses"
+          }
+        ]
+      }
+    },
+    {
+      id: "module11",
+      title: "Anyrun for SOC",
+      sections: [
+        {
+          title: "Introduction to AnyRun",
+          summary: "Short summary for Introduction to AnyRun. Edit content here."
+        },
+        {
+          title: "AnyRun in the SOC Workflow",
+          summary: "Short summary for how AnyRun fits into the SOC workflow. Edit content here."
+        },
+        {
+          title: "File Analysis",
+          summary: "Short summary for File Analysis using AnyRun. Edit content here."
+        },
+        {
+          title: "URL Analysis",
+          summary: "Short summary for URL Analysis using AnyRun. Edit content here."
+        },
+        {
+          title: "Report Generation",
+          summary: "Short summary for Report Generation using AnyRun. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
+          {
+            id: 1,
+            question: "What is the primary use of AnyRun in a SOC?",
+            options: [
+              "Dynamic malware analysis",
+              "Graphic design",
+              "Database management",
+              "Social media monitoring"
+            ],
+            correctAnswer: "Dynamic malware analysis"
+          }
+        ]
+      }
+    },
+    {
+      id: "module12",
+      title: "Simulating a SOC Environment at Home",
+      sections: [
+        {
+          title: "Objectives",
+          summary: "Short summary for the objectives of simulating a SOC at home. Edit content here."
+        },
+        {
+          title: "Install windows 10",
+          summary: "Short summary for installing Windows 10. Edit content here."
+        },
+        {
+          title: "Install Sysmon",
+          summary: "Short summary for installing Sysmon. Edit content here."
+        },
+        {
+          title: "Install Wazuh",
+          summary: "Short summary for installing Wazuh. Edit content here."
+        },
+        {
+          title: "Install TheHive",
+          summary: "Short summary for installing TheHive. Edit content here."
+        },
+        {
+          title: "Simulate attack",
+          summary: "Short summary for simulating an attack. Edit content here."
+        },
+        {
+          title: "Rule Creation",
+          summary: "Short summary for rule creation in a simulated SOC. Edit content here."
+        }
+      ],
+      quiz: {
+        questions: [
+          {
+            id: 1,
+            question: "What is one objective of simulating a SOC at home?",
+            options: [
+              "Gaining hands-on experience with security tools",
+              "Designing a website",
+              "Creating social media content",
+              "Editing videos"
+            ],
+            correctAnswer: "Gaining hands-on experience with security tools"
           }
         ]
       }
     }
   ];
 
-  const activeContent = sections.find(section => section.id === activeSection)?.content;
-  const activeSubSectionContent = activeContent?.sections?.find(s => s.title === activeSubSection);
+  // State: which module, which section within that module, and whether we're in quiz mode.
+  const [currentModuleIndex, setCurrentModuleIndex] = useState(0);
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+  const [inQuiz, setInQuiz] = useState(false);
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [quizScore, setQuizScore] = useState(null);
 
-  const handleQuizSubmit = (moduleId, answers) => {
-    setQuizResults({ ...quizResults, [moduleId]: answers });
+  // Left sidebar dropdown state for each module (open/closed)
+  const [openModules, setOpenModules] = useState(Array(course.length).fill(false));
+
+  // Toggle dropdown for a module.
+  const toggleModule = (index) => {
+    setOpenModules((prev) =>
+      prev.map((open, idx) => (idx === index ? !open : open))
+    );
+  };
+
+  const currentModule = course[currentModuleIndex];
+  const totalSections = currentModule.sections.length;
+
+  // Reset quiz state when module, section, or quiz view changes.
+  useEffect(() => {
+    setQuizAnswers({});
+    setQuizScore(null);
+  }, [currentModuleIndex, currentSectionIndex, inQuiz]);
+
+  // Optional: Intersection Observer for animations.
+  useEffect(() => {
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    };
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const revealElements = document.querySelectorAll(
+      '.reveal, .reveal-left, .reveal-right, .reveal-scale'
+    );
+    revealElements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, [currentModuleIndex, currentSectionIndex, inQuiz]);
+
+  // Handle quiz answer changes.
+  const handleQuizChange = (questionId, answer) => {
+    setQuizAnswers((prev) => ({ ...prev, [questionId]: answer }));
+  };
+
+  const handleQuizSubmit = (e) => {
+    e.preventDefault();
+    let score = 0;
+    currentModule.quiz.questions.forEach((q) => {
+      if (quizAnswers[q.id] === q.correctAnswer) {
+        score++;
+      }
+    });
+    setQuizScore(score);
+  };
+
+  // Next Page Navigation:
+  // - If not in quiz mode, go through sections then switch to quiz.
+  // - In quiz mode, allow user to continue without forcing quiz submission.
+  // Additionally, when moving to a new module, update the openModules so the previous module closes and the new module opens.
+  const handleNextPage = () => {
+    if (!inQuiz) {
+      if (currentSectionIndex < totalSections - 1) {
+        setCurrentSectionIndex(currentSectionIndex + 1);
+      } else {
+        setInQuiz(true);
+      }
+    } else {
+      if (currentModuleIndex < course.length - 1) {
+        const newModuleIndex = currentModuleIndex + 1;
+        setCurrentModuleIndex(newModuleIndex);
+        setCurrentSectionIndex(0);
+        setInQuiz(false);
+        // Update the dropdown state: close all modules, then open the new one.
+        setOpenModules(
+          Array(course.length)
+            .fill(false)
+            .map((_, idx) => idx === newModuleIndex)
+        );
+      } else {
+        alert("Congratulations! You have completed the course.");
+      }
+    }
   };
 
   return (
-    <div className="min-h-screen bg-background text-white">
+    <div className="flex flex-col min-h-screen bg-background text-white">
+      {/* Navigation Bar */}
       <nav className="bg-primary-dark border-b border-primary-blue/20 glass-effect">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center space-x-4">
-              <Link to="/learning-paths" className="text-primary-blue hover:text-primary-blue/80 flex items-center group">
+              <Link
+                to="/learning-paths"
+                className="text-primary-blue hover:text-primary-blue/80 flex items-center group"
+              >
                 <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
                 Back to Learning Paths
               </Link>
-              <span className="text-xl font-bold animate-fadeIn">
+              <span className="text-xl font-bold">
                 <span className="text-white">Hack</span>
                 <span className="text-primary-red">The</span>
                 <span className="text-white">Hackers</span>
@@ -312,134 +671,161 @@ function SocAnalyst() {
         </div>
       </nav>
 
-      <div className="bg-primary-dark/50 py-8 glass-effect">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center space-x-4 animate-fadeIn">
-            <Book className="w-8 h-8 text-primary-blue animate-pulse-slow" />
-            <div>
-              <h1 className="text-2xl font-bold gradient-text">SOC Analyst</h1>
-              <p className="text-gray-400 text-sm mt-1">Master Security Operations Center processes and tools</p>
-              <div className="mt-2 progress-bar"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex">
-        <div className="w-64 bg-primary-dark/30 min-h-[calc(100vh-11rem)] border-r border-primary-blue/20 glass-effect">
-          <div className="p-4">
-            <h2 className="text-lg font-semibold mb-4 gradient-text">Course Sections</h2>
-            <div className="space-y-2">
-              {sections.map((section, index) => (
-                <button
-                  key={section.id}
-                  onClick={() => {
-                    setActiveSection(section.id);
-                    setActiveSubSection("");
-                  }}
-                  className={`w-full text-left px-4 py-2 rounded-md flex items-center justify-between hover-card transition-all ${
-                    activeSection === section.id
-                      ? 'bg-primary-blue/20 text-primary-blue'
-                      : 'hover:bg-primary-blue/10'
-                  }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  {section.title}
-                  <ChevronRight className={`w-4 h-4 transform transition-transform ${
-                    activeSection === section.id ? 'rotate-90' : ''
-                  }`} />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-1 p-8">
-          {activeContent && (
-            <div className="space-y-8">
-              {!activeSubSection && (
-                <>
-                  <h1 className="text-3xl font-bold text-primary-blue mb-4 reveal-scale">
-                    {sections.find(s => s.id === activeSection)?.title}
-                  </h1>
-                  <p className="text-lg mb-8 whitespace-pre-line reveal">{activeContent.introduction}</p>
-                </>
-              )}
-              
-              {activeSubSection && activeSubSectionContent && (
-                <div className="space-y-6">
-                  <h2 className="text-2xl font-bold gradient-text reveal">{activeSubSectionContent.title}</h2>
-                  
-                  {activeSubSectionContent.content && (
-                    <ul className="list-disc list-inside space-y-2 text-gray-200">
-                      {activeSubSectionContent.content.map((item, i) => (
-                        <li 
-                          key={i} 
-                          className="reveal-left hover:text-primary-blue transition-colors" 
-                          style={{ animationDelay: `${i * 100}ms` }}
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  
-                  {activeSubSectionContent.subsections && (
-                    <div className="space-y-6">
-                      {activeSubSectionContent.subsections.map((subsection, si) => (
-                        <div 
-                          key={si} 
-                          className="space-y-2 reveal"
-                          style={{ animationDelay: `${si * 100}ms` }}
-                        >
-                          <h3 className="text-xl font-bold">{subsection.title}</h3>
-                          <ul className="list-disc list-inside space-y-2 text-gray-200">
-                            {subsection.content.map((item, i) => (
-                              <li 
-                                key={i}
-                                className="hover:text-primary-blue transition-colors reveal-left"
-                                style={{ animationDelay: `${(si * 4 + i) * 100}ms` }}
-                              >
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+      {/* Main Content Area */}
+      <div className="flex flex-1">
+        {/* Left Sidebar: Course Modules as Dropdowns */}
+        <aside className="w-64 bg-primary-dark/30 border-r border-primary-blue/20 glass-effect p-4">
+          <h2 className="text-lg font-semibold mb-4 gradient-text">Course Modules</h2>
+          {course.map((module, mIndex) => (
+            <div key={module.id} className="mb-4">
+              <button
+                onClick={() => toggleModule(mIndex)}
+                className="w-full flex justify-between items-center px-4 py-2 rounded-md hover:bg-primary-blue/10 transition"
+              >
+                <span className={`${mIndex === currentModuleIndex ? 'text-primary-blue font-bold' : ''}`}>
+                  {module.title}
+                </span>
+                {openModules[mIndex] ? <ChevronDown /> : <ChevronRight />}
+              </button>
+              {openModules[mIndex] && (
+                <ul className="mt-2 ml-4 space-y-1">
+                  {module.sections.map((sec, sIndex) => (
+                    <li key={sIndex}>
+                      <button
+                        onClick={() => {
+                          setCurrentModuleIndex(mIndex);
+                          setCurrentSectionIndex(sIndex);
+                          setInQuiz(false);
+                        }}
+                        className={`w-full text-left px-4 py-1 rounded-md hover:bg-primary-blue/10 transition ${
+                          mIndex === currentModuleIndex &&
+                          sIndex === currentSectionIndex &&
+                          !inQuiz
+                            ? 'bg-primary-blue/20 text-primary-blue'
+                            : ''
+                        }`}
+                      >
+                        {sec.title}
+                      </button>
+                    </li>
+                  ))}
+                  <li>
+                    <button
+                      onClick={() => {
+                        setCurrentModuleIndex(mIndex);
+                        setInQuiz(true);
+                      }}
+                      className={`w-full text-left px-4 py-1 rounded-md hover:bg-primary-blue/10 transition ${
+                        mIndex === currentModuleIndex && inQuiz
+                          ? 'bg-primary-blue/20 text-primary-blue'
+                          : ''
+                      }`}
+                    >
+                      Quiz
+                    </button>
+                  </li>
+                </ul>
               )}
             </div>
-          )}
-        </div>
+          ))}
+        </aside>
 
-        {activeContent?.sections && activeContent.sections.length > 0 && (
-          <div className="w-64 bg-primary-dark/30 min-h-[calc(100vh-11rem)] border-l border-primary-blue/20 glass-effect">
-            <div className="p-4">
-              <h2 className="text-lg font-semibold mb-4 gradient-text">Module Sections</h2>
-              <div className="space-y-2">
-                {activeContent.sections.map((section, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveSubSection(section.title)}
-                    className={`w-full text-left px-4 py-2 rounded-md hover-card transition-all ${
-                      activeSubSection === section.title
-                        ? 'bg-primary-blue/20 text-primary-blue'
-                        : 'hover:bg-primary-blue/10'
-                    }`}
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    {section.title}
-                  </button>
-                ))}
+        {/* Main Course Content */}
+        <main className="flex-1 p-8">
+          <header className="mb-8">
+            <div className="flex items-center space-x-4">
+              <Book className="w-8 h-8 text-primary-blue animate-pulse-slow" />
+              <div>
+                <h1 className="text-2xl font-bold gradient-text">SOC Analyst Course</h1>
+                <p className="text-gray-400 text-sm">
+                  Master Security Operations Center processes and tools
+                </p>
               </div>
             </div>
+          </header>
+
+          <div className="space-y-8">
+            <h2 className="text-3xl font-bold mb-4 reveal-scale">
+              {currentModule.title}
+            </h2>
+
+            {/* Display Section Content or Quiz */}
+            {!inQuiz ? (
+              <div className="reveal">
+                <h3 className="text-2xl font-bold mb-4">
+                  {currentModule.sections[currentSectionIndex].title}
+                </h3>
+                <div className="text-lg whitespace-pre-line">
+                  {currentModule.sections[currentSectionIndex].summary}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-primary-dark/40 p-6 rounded shadow-lg reveal-scale">
+                <h3 className="text-2xl font-bold mb-4">Quiz: {currentModule.title}</h3>
+                {quizScore === null ? (
+                  <>
+                    <form onSubmit={handleQuizSubmit}>
+                      {currentModule.quiz.questions.map((q, index) => (
+                        <div key={q.id} className="mb-6">
+                          <p className="mb-2">
+                            {index + 1}. {q.question}
+                          </p>
+                          <div className="space-y-2">
+                            {q.options.map((option, idx) => (
+                              <label key={idx} className="block">
+                                <input
+                                  type="radio"
+                                  name={`question-${q.id}`}
+                                  value={option}
+                                  checked={quizAnswers[q.id] === option}
+                                  onChange={() => handleQuizChange(q.id, option)}
+                                  className="mr-2"
+                                />
+                                {option}
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                      <button type="submit" className="px-4 py-2 bg-primary-blue text-white rounded hover:bg-primary-blue/80 transition">
+                        Submit Quiz
+                      </button>
+                    </form>
+                    <p className="mt-4 italic text-sm">
+                      You may also skip this quiz and continue by clicking Next Page.
+                    </p>
+                  </>
+                ) : (
+                  <div className="p-4 bg-primary-blue/20 rounded">
+                    <h4 className="text-xl font-bold">
+                      Your Score: {quizScore} / {currentModule.quiz.questions.length}
+                    </h4>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-        )}
+
+          {/* Next Page Navigation */}
+          <div className="mt-12 flex justify-end">
+            <button
+              onClick={handleNextPage}
+              className="px-4 py-2 bg-primary-blue text-white rounded hover:bg-primary-blue/80 transition"
+            >
+              Next Page
+            </button>
+          </div>
+        </main>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-primary-dark/30 text-white py-8 border-t border-primary-blue/20">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-gray-400">© 2025 HackTheHackers. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
 
-export default SocAnalyst;
+export default SocAnalystCourse;
