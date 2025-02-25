@@ -183,18 +183,18 @@ function LearningPaths() {
       ]
     },
     {
-      title: "Advanced Exploitation",
-      path: "/red-team/advanced-exploitation",
-      description: "Advanced exploitation techniques",
+      title: "Offensive VBA Scripting",
+      path: "/red-team/vba-scripting",
+      description: "Create your first Office document macro and discover how to weaponize and exploit hidden functionalities within Office document properties.",
       icon: Bug,
       difficulty: "Advanced",
-      access: "Pro",
+      access: "Free",
       image: "/Learning Paths/advancedpt.jpeg",
       progress: 0,
       modules: [
         {
           title: "Advanced Techniques",
-          topics: ["Buffer Overflows", "Shellcoding", "Privilege Escalation", "Post Exploitation"]
+          topics: ["Macro developing", "Shellcoding", "Initial Access", "Exploit Office"]
         }
       ]
     },
