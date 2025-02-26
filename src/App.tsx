@@ -76,9 +76,9 @@ function App() {
           <Route path="/challenges/HackedByCaptcha" element={<HackedByCaptcha />} />
           <Route path="/labs/sqllab" element={<SqlLab />} /> 
           <Route path="/vba-scripting" element={<VbaScripting />} /> 
-          <Route path="/labs/sqllab" element={<LABexercise01 />} /> 
-          <Route path="/labs/sqllab" element={<LABexercise02 />} /> 
-          <Route path="/labs/sqllab" element={<LABexercise03 />} /> 
+          <Route path="/labs/sqllab/lab-exercise01" element={<LABexercise01 />} /> 
+          <Route path="/labs/sqllab/lab-exercise02" element={<LABexercise02 />} /> 
+          <Route path="/labs/sqllab/lab-exercise03" element={<LABexercise03 />} /> 
           
           
         </Routes>
