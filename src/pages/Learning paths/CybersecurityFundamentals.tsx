@@ -27,22 +27,422 @@ const course: Module[] = [
     id: "module1",
     title: "What is Cybersecurity",
     sections: [
-      { title: "The ABCs of Cybersecurity", summary: "Edit summary for The ABCs of Cybersecurity." },
-      { title: "Why Cybersecurity is Important", summary: "Edit summary for Why Cybersecurity is Important." },
-      { title: "The Evolving Threat Landscape", summary: "Edit summary for The Evolving Threat Landscape." },
-      { title: "Cybersecurity Frameworks and Standards", summary: "Edit summary for Cybersecurity Frameworks and Standards." },
-      { title: "Emerging Trends in Cybersecurity", summary: "Edit summary for Emerging Trends in Cybersecurity." },
+      {
+        title: "The ABCs of Cybersecurity",
+        summary: (
+          
+          <>
+                    <img
+  src="/Learning Paths/Fundamentals/ABC.png"
+  alt="ABC"
+  className="max-w-xl w-full h-auto border border-gray-300 rounded-lg p-2 shadow-md mx-auto"
+/> <p className="mt-4"></p>
+            <p><strong>A is for Authentication &amp; Access Control</strong></p>
+            <p>
+              In cybersecurity, one of the first concepts you’ll encounter is authentication—the process of verifying someone’s identity. Think of it as showing your ID at the door. Whether it’s a password, fingerprint scan, or multi-factor authentication (MFA), authentication ensures that only authorized individuals can access sensitive systems.
+            </p>
+            <p>
+              But it doesn’t stop there. Access control takes it a step further by determining what you’re allowed to do once you’re inside. For example, while authentication might grant you entry to a company’s network, access control dictates which files you can view, edit, or share.
+            </p>
+            <p>
+            <p className="mt-2"></p>
+              <strong>Why it matters:</strong> Weak or stolen credentials are among the most common ways hackers breach systems. Understanding and implementing strong authentication and access control measures are essential for building secure systems and protecting sensitive information.
+            </p>
+            <p className="mt-2"></p>
+            <p><strong>B is for Backups &amp; Data Security</strong></p>
+            <p>
+              Cybersecurity isn’t just about keeping hackers out—it’s also about safeguarding the integrity and availability of your data. This is where backups come into play. Backups are copies of your critical data that you can rely on in case of emergencies, such as cyberattacks, accidental deletions, or hardware failures. However, backups are only useful if they’ve been tested and proven reliable for restoration.
+            </p>
+            <p>
+              Beyond backups, data security involves encrypting your data (scrambling it so unauthorized users can’t read it) and storing it securely. This ensures that even if data is intercepted, it remains unusable to cybercriminals.
+            </p>
+            <p>
+            <p className="mt-2"></p>
+              <strong>Why it matters:</strong> No system is completely foolproof. Strong backups and robust data security practices ensure that you can recover quickly and minimize damage in the event of a breach or data loss.
+            </p>
+            <p className="mt-2"></p>
+            <p><strong>C is for Cloud Security &amp; Cyber Hygiene</strong></p>
+            <p>
+              As more organizations transition to the cloud, understanding cloud security is critical. Cloud security focuses on protecting the data, applications, and services stored in the cloud from unauthorized access, attacks, and loss. Beginners should familiarize themselves with the shared responsibility model, which outlines what the cloud provider secures versus what you’re responsible for protecting.
+            </p>
+            <p>
+              Equally important is cyber hygiene—a set of practices and habits that help keep your devices and information secure. Think of it as washing your hands in the digital world. Cyber hygiene includes keeping software up to date, using strong passwords, enabling MFA, and regularly scanning systems for vulnerabilities.
+            </p>
+            <p>
+            <p className="mt-2"></p>
+              <strong>Why it matters:</strong> While cloud services offer immense power and flexibility, they’re not immune to risks. Prioritizing cloud security and maintaining good cyber hygiene are key to protecting sensitive data and maintaining a secure online environment.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Why Cybersecurity is Important",
+        summary: (
+          <>
+<img
+  src="/Learning Paths/Fundamentals/securityimportant.png"
+  alt="Important Security"
+  className="max-w-xl w-full h-auto border border-gray-300 rounded-lg p-2 shadow-md mx-auto"
+/>
+
+<p className="mt-4"></p>
+            <h2 className="text-xl font-bold mb-2">What is Cybersecurity?</h2>
+            <p>
+              Cybersecurity is the practice of protecting devices, systems, networks,
+              and data from malicious electronic attacks carried out by hackers,
+              spammers, and cybercriminals. While some aspects of cybersecurity may
+              involve proactive measures, the primary focus for most professionals is
+              on defending digital assets—ranging from computers and smartphones to
+              networks and databases—against unauthorized access, damage, or theft.
+            </p>
+      
+            <p className="mt-4">
+              In the media, cybersecurity is often used as a broad term to describe
+              protection against various forms of cybercrime, from identity theft to
+              sophisticated digital weapons. While these descriptions are accurate,
+              they often fail to convey the depth and complexity of cybersecurity,
+              especially for those without a technical background or experience in the
+              field.
+            </p>
+      
+            <p className="mt-4">
+              The consequences of a cyberattack extend far beyond the immediate loss
+              of confidential data. For businesses, a breach can damage customer
+              trust, tarnish reputations, and even result in significant legal and
+              financial repercussions. As technology continues to evolve—from
+              self-driving cars to smart home devices—the risks associated with
+              cybercrime grow more severe, making robust cybersecurity measures more
+              critical than ever.
+            </p>
+      
+            <h3 className="text-lg font-semibold mt-6 mb-2">What Are Cyberattacks?</h3>
+            <p>
+              A cyberattack is a deliberate and malicious attempt to gain unauthorized
+              access to computer systems, networks, or data. According to IBM, the
+              goals of such attacks can vary widely, including stealing sensitive
+              information, exposing private data, altering or destroying systems, or
+              disrupting operations.
+            </p>
+      
+            <p className="mt-4">
+              Cyberattacks can be motivated by a range of factors, including financial
+              gain, political agendas, or personal revenge. As noted by cybersecurity
+              expert Royster, “While there are many reasons behind cyberattacks,
+              financial gain is often the primary driver, as attackers can potentially
+              make significant profits from these exploits.”
+            </p>
+      
+            <h3 className="text-lg font-semibold mt-6 mb-2">
+              Who is Behind Cyberattacks?
+            </h3>
+            <p>
+              Cyberattacks against organizations can originate from a variety of
+              sources, broadly categorized as outsider threats and insider threats.
+            </p>
+      
+            <h4 className="font-semibold mt-4">Outsider Threats (External Threats):</h4>
+            <p>
+              These attacks come from individuals or groups outside the organization.
+              Common sources include:
+            </p>
+            <ul className="list-disc list-inside mt-2">
+              <li>
+                <strong>Organized Crime Groups:</strong> Sophisticated networks that
+                target businesses for financial gain.
+              </li>
+              <li>
+                <strong>Professional Hackers:</strong> Skilled individuals or groups
+                hired to breach systems for profit or espionage.
+              </li>
+              <li>
+                <strong>Amateur Hackers:</strong> Less experienced individuals who may
+                use pre-made tools to exploit vulnerabilities.
+              </li>
+            </ul>
+      
+            <h4 className="font-semibold mt-4">Insider Threats (Internal Threats):</h4>
+            <p>
+              These threats come from within the organization and involve individuals
+              who have authorized access to systems or data. Insider threats can be
+              intentional or accidental and include:
+            </p>
+            <ul className="list-disc list-inside mt-2">
+              <li>
+                <strong>Careless Employees:</strong> Individuals who inadvertently
+                compromise security by neglecting protocols, such as using weak
+                passwords or falling for phishing scams.
+              </li>
+              <li>
+                <strong>Disgruntled Employees:</strong> Current or former staff
+                members who deliberately misuse their access to harm the organization.
+              </li>
+              <li>
+                <strong>Business Partners or Clients:</strong> Third parties with
+                system access who may abuse their privileges, either intentionally or
+                unintentionally.
+              </li>
+            </ul>
+      
+            <h3 className="text-lg font-semibold mt-6 mb-2">Why It Matters</h3>
+            <p>
+              Understanding the nature of cyberattacks and the motivations behind them
+              is crucial for building effective defenses. Whether the threat comes
+              from an external hacker or a trusted insider, organizations must
+              implement comprehensive cybersecurity strategies to protect their
+              assets, maintain customer trust, and avoid legal and financial
+              consequences. As cyber threats continue to evolve, staying informed and
+              proactive is key to staying secure in an increasingly digital world.
+            </p>
+          </>
+        )
+      },
+      
+      {
+        title: "The Evolving Threat Landscape",
+        summary: (
+          <>
+          <img
+  src="/Learning Paths/Fundamentals/The Evolving Threat Landscape.png"
+  alt="Important Security"
+  className="max-w-xl w-full h-auto border border-gray-300 rounded-lg p-2 shadow-md mx-auto"
+/>
+<p className="mt-6"></p>
+     
+            <p>
+              The cybersecurity threat landscape is in a constant state of flux, with new and increasingly sophisticated threats emerging regularly. Staying ahead of these challenges requires vigilance and adaptability. Here are some key trends shaping the cybersecurity landscape this year:
+            </p>
+      
+            <h3 className="mt-4 font-bold">Increasing Sophistication of Cyberattacks</h3>
+            <p>
+              Cyberattacks are becoming more advanced, leveraging cutting-edge technologies like Artificial Intelligence (AI) and machine learning (ML) to automate attacks, evade detection, and exploit vulnerabilities at scale. Attackers are also using these tools to craft highly targeted phishing campaigns, making it harder for traditional security measures to keep up.
+            </p>
+      
+            <h3 className="mt-4 font-bold">Rise of Ransomware Attacks</h3>
+            <p>
+              Ransomware remains one of the most significant threats to businesses. Attackers encrypt critical data and demand hefty ransoms for its release, often causing severe financial losses, operational disruptions, and reputational damage. The rise of Ransomware-as-a-Service (RaaS) has made these attacks more accessible to less-skilled criminals, increasing their frequency and impact.
+            </p>
+      
+            <h3 className="mt-4 font-bold">Growing Threat of Insider Attacks</h3>
+            <p>
+              Insider threats—whether intentional or accidental—are on the rise. Employees, contractors, or partners with access to sensitive data can inadvertently or deliberately cause harm. These attacks are particularly challenging to detect and prevent, as they often come from trusted individuals with legitimate access to systems.
+            </p>
+      
+            <h3 className="mt-4 font-bold">Expanding Attack Surface with IoT Devices</h3>
+            <p>
+              The proliferation of Internet of Things (IoT) devices has significantly expanded the attack surface for cybercriminals. Many IoT devices lack robust security measures, making them easy targets for exploitation. Once compromised, these devices can serve as entry points into larger networks, posing a serious risk to organizations.
+            </p>
+      
+            <h3 className="mt-4 font-bold">Staying Ahead of Cybersecurity Threats</h3>
+            <p>
+              To effectively navigate the evolving threat landscape, businesses must adopt a proactive and holistic approach to cybersecurity. Here are key strategies to consider:
+            </p>
+      
+            <h4 className="mt-4 font-semibold">Conduct Regular Risk Assessments</h4>
+            <p>
+              Regular risk assessments are critical for identifying and mitigating potential vulnerabilities. By thoroughly analyzing your systems, data, and processes, you can uncover weak points and implement targeted measures to address them before they are exploited.
+            </p>
+      
+            <h4 className="mt-4 font-semibold">Implement a Comprehensive Cybersecurity Framework</h4>
+            <p>
+              A robust cybersecurity framework is essential for managing risks effectively. This framework should include a combination of technical controls (e.g., firewalls, encryption), administrative controls (e.g., policies, procedures), and physical controls (e.g., access restrictions). Establishing clear incident response plans also minimizes damage in the event of a breach.
+            </p>
+      
+            <h4 className="mt-4 font-semibold">Invest in Employee Training and Awareness</h4>
+            <p>
+              Employees are often the first line of defense against cyber threats. Regular training and awareness programs empower your workforce to recognize and respond to potential risks, such as phishing attempts or suspicious activities. Building a strong cybersecurity culture ensures security is a shared responsibility across the organization.
+            </p>
+      
+            <h4 className="mt-4 font-semibold">Stay Informed About Emerging Threats</h4>
+            <p>
+              The cybersecurity landscape evolves rapidly. Staying informed about the latest trends and vulnerabilities allows you to adapt your defenses and implement proactive measures to protect your business.
+            </p>
+      
+            <h3 className="mt-4 font-bold">Conclusion</h3>
+            <p>
+              The cybersecurity threat landscape is dynamic and increasingly complex, requiring businesses to remain vigilant and proactive. A comprehensive approach—encompassing regular risk assessments, robust frameworks, employee training, and continuous vigilance—is essential for long-term resilience.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Cybersecurity Frameworks and Standards",
+        summary: (
+          <>
+                    <img
+  src="/Learning Paths/Fundamentals/NIST.png"
+  alt="Important Security"
+  className="max-w-3xl w-full h-auto border border-gray-300 rounded-lg p-2 shadow-md "
+/>
+<p className="mt-6"></p>
+            <h2 className="text-xl font-bold mb-2">
+              What Are Cybersecurity Frameworks, and Why Are They Necessary?
+            </h2>
+            <p>
+              A cybersecurity framework is a structured set of policies, practices, and procedures designed to establish and maintain an effective cybersecurity posture. These frameworks provide organizations with the guidance needed to identify, assess, and manage risks that could lead to data breaches, system outages, or other disruptions. By offering a systematic approach to cybersecurity, frameworks help organizations protect their critical assets and ensure operational resilience.
+            </p>
+            <p className="mt-4">
+              Cybersecurity frameworks are essential because they enable organizations to:
+            </p>
+            <ul className="list-disc list-inside mt-2">
+              <li>
+                <strong>Evaluate Current Security Practices:</strong> Identify strengths and weaknesses in existing security measures.
+              </li>
+              <li>
+                <strong>Address Gaps in Protection:</strong> Implement targeted safeguards to mitigate vulnerabilities.
+              </li>
+              <li>
+                <strong>Align Security with Business Goals:</strong> Ensure cybersecurity strategies support the organization’s specific needs and objectives.
+              </li>
+            </ul>
+            <p className="mt-4">
+              For managed service providers (MSPs) looking to integrate a cybersecurity framework into their operations, resources like <em>Building a Framework for MSP Success</em> can provide a solid starting point.
+            </p>
+            <h3 className="mt-6 font-bold">Key Cybersecurity Frameworks to Consider</h3>
+            <p>
+              The field of information security is vast and ever-evolving, encompassing a wide range of technologies, frameworks, and best practices. The choice of framework depends on factors such as industry, organizational size, and operational scope. Below are some of the most widely adopted cybersecurity frameworks:
+            </p>
+            <ol className="list-decimal list-inside mt-2">
+              <li>
+                <strong>NIST Cybersecurity Framework:</strong> Developed by the National Institute of Standards and Technology (NIST), this framework helps organizations manage and reduce cybersecurity risks. Originally created in 2014 for federal agencies, it has become a global standard built around five core functions: Identify, Protect, Detect, Respond, and Recover. In February 2024, NIST released Version 2.0 with enhanced governance and supply chain security.
+              </li>
+              <li className="mt-2">
+                <strong>ISO 27001 and ISO 27002:</strong> These standards provide a comprehensive approach to information security management. ISO 27001 establishes an Information Security Management System (ISMS), while ISO 27002 offers detailed guidance on cybersecurity controls, ensuring organizations protect sensitive data and meet regulatory requirements.
+              </li>
+              <li className="mt-2">
+                <strong>CIS Controls:</strong> The Center for Internet Security (CIS) Controls framework offers a prioritized set of best practices—organized into Basic, Foundational, and Organizational controls—to help organizations defend against cyber threats.
+              </li>
+              <li className="mt-2">
+                <strong>SOC2:</strong> This auditing standard is used to assess the security, availability, processing integrity, confidentiality, and privacy of a company’s systems and services. SOC2 is widely adopted by cloud service providers to demonstrate high security and operational standards.
+              </li>
+              <li className="mt-2">
+                <strong>PCI-DSS:</strong> Developed by a council of major payment processors, PCI-DSS protects customer payment card data with 12 key requirements, including strong access controls, encryption, and regular network monitoring. PCI-DSS Version 4.0 became mandatory in March 2024, introducing MFA for added security.
+              </li>
+            </ol>
+            <h3 className="mt-6 font-bold">Conclusion</h3>
+            <p>
+              Cybersecurity frameworks are indispensable tools for organizations seeking to protect their assets, comply with regulations, and build resilience against evolving threats. Whether you choose the NIST Cybersecurity Framework, ISO 27001, CIS Controls, SOC2, or PCI-DSS, adopting a structured approach to cybersecurity ensures that your organization is well-equipped to navigate the complexities of the digital landscape. Leveraging these frameworks not only mitigates risks but also fosters trust with customers and stakeholders in an interconnected world.
+            </p>
+          </>
+        )
+      }
+      
+     
     ],
     quiz: {
       questions: [
         {
           id: 1,
-          question: "Placeholder: What is Cybersecurity?",
-          options: ["Answer A", "Answer B", "Answer C", "Answer D"],
-          correctAnswer: "Answer A"
+          question: "In the ABCs of Cybersecurity, what does the letter 'A' represent?",
+          options: [
+            "Authentication & Access Control",
+            "Antivirus & Analysis",
+            "Automation & Algorithms",
+            "Administration & Auditing"
+          ],
+          correctAnswer: "Authentication & Access Control"
+        },
+        {
+          id: 2,
+          question: "Why is strong authentication important in cybersecurity?",
+          options: [
+            "It prevents unauthorized access by verifying identity",
+            "It speeds up network performance",
+            "It reduces hardware costs",
+            "It improves software usability"
+          ],
+          correctAnswer: "It prevents unauthorized access by verifying identity"
+        },
+        {
+          id: 3,
+          question: "Why is cybersecurity important for businesses?",
+          options: [
+            "It prevents data breaches and protects a company’s reputation",
+            "It lowers operational costs immediately",
+            "It eliminates the need for employee training",
+            "It speeds up product development"
+          ],
+          correctAnswer: "It prevents data breaches and protects a company’s reputation"
+        },
+        {
+          id: 4,
+          question: "Which of the following is a major consequence of a cyberattack?",
+          options: [
+            "Loss of customer trust",
+            "Increase in employee salaries",
+            "Improved system performance",
+            "Faster website load times"
+          ],
+          correctAnswer: "Loss of customer trust"
+        },
+        {
+          id: 5,
+          question: "What is one key trend in the evolving threat landscape?",
+          options: [
+            "Increasing sophistication of cyberattacks with AI and ML",
+            "Decreasing frequency of attacks",
+            "Simpler phishing methods",
+            "Lower risks for small businesses"
+          ],
+          correctAnswer: "Increasing sophistication of cyberattacks with AI and ML"
+        },
+        {
+          id: 6,
+          question: "Which emerging threat is highlighted in the evolving threat landscape?",
+          options: [
+            "Rise of ransomware attacks",
+            "Elimination of malware",
+            "Universal patching of vulnerabilities",
+            "Decreased insider threats"
+          ],
+          correctAnswer: "Rise of ransomware attacks"
+        },
+        {
+          id: 7,
+          question: "Which framework is built around the five functions: Identify, Protect, Detect, Respond, and Recover?",
+          options: [
+            "NIST Cybersecurity Framework",
+            "ISO 27001",
+            "CIS Controls",
+            "SOC2"
+          ],
+          correctAnswer: "NIST Cybersecurity Framework"
+        },
+        {
+          id: 8,
+          question: "What is the primary purpose of a cybersecurity framework?",
+          options: [
+            "To provide guidance for managing cybersecurity risks",
+            "To design new hardware",
+            "To automate marketing campaigns",
+            "To improve website aesthetics"
+          ],
+          correctAnswer: "To provide guidance for managing cybersecurity risks"
+        },
+        {
+          id: 9,
+          question: "Which benefit is provided by using a cybersecurity framework?",
+          options: [
+            "Evaluate current security practices",
+            "Eliminate the need for backups",
+            "Guarantee 100% protection",
+            "Automatically fix vulnerabilities"
+          ],
+          correctAnswer: "Evaluate current security practices"
+        },
+        {
+          id: 10,
+          question: "What does 'operational resilience' mean in the context of cybersecurity frameworks?",
+          options: [
+            "The ability to maintain critical operations during and after a cyberattack",
+            "Faster internet connectivity",
+            "Enhanced graphic performance",
+            "Automated email responses"
+          ],
+          correctAnswer: "The ability to maintain critical operations during and after a cyberattack"
         }
       ]
     }
+    
   },
   {
     id: "module2",
@@ -269,10 +669,40 @@ const course: Module[] = [
     quiz: {
       questions: [
         {
-          id: 1,
-          question: "Placeholder: Which career requires forensic analysis?",
-          options: ["SOC Analyst", "Penetration Tester", "Digital Forensics Analyst", "Security Engineer"],
-          correctAnswer: "Digital Forensics Analyst"
+          "id": 1,
+          "question": "Which role is responsible for monitoring and analyzing security alerts from SIEM tools?",
+          "options": ["Security Engineer", "SOC Analyst", "Incident Responder", "Penetration Tester"],
+          "correctAnswer": "SOC Analyst"
+        },
+        {
+          "id": 2,
+          "question": "Which role focuses on reverse-engineering malware to understand its behavior?",
+          "options": ["Malware Analyst", "Digital Forensics Analyst", "Security Engineer", "Incident Responder"],
+          "correctAnswer": "Malware Analyst"
+        },
+        {
+          "id": 3,
+          "question": "Which role is responsible for designing and implementing security controls to protect an organization's infrastructure?",
+          "options": ["Security Engineer", "Penetration Tester", "SOC Analyst", "Digital Forensics Analyst"],
+          "correctAnswer": "Security Engineer"
+        },
+        {
+          "id": 4,
+          "question": "Which role involves simulating cyberattacks to identify vulnerabilities in systems and networks?",
+          "options": ["Penetration Tester", "SOC Analyst", "Incident Responder", "Malware Analyst"],
+          "correctAnswer": "Penetration Tester"
+        },
+        {
+          "id": 5,
+          "question": "Which role is responsible for handling and mitigating cybersecurity incidents?",
+          "options": ["Incident Responder", "SOC Analyst", "Security Engineer", "Digital Forensics Analyst"],
+          "correctAnswer": "Incident Responder"
+        },
+        {
+          "id": 6,
+          "question": "Which role investigates cybercrimes by analyzing digital evidence and preparing forensic reports?",
+          "options": ["Digital Forensics Analyst", "Malware Analyst", "Penetration Tester", "Security Engineer"],
+          "correctAnswer": "Digital Forensics Analyst"
         }
       ]
     }
@@ -665,9 +1095,7 @@ const CybersecurityFundamentals: React.FC = () => {
                         Submit Quiz
                       </button>
                     </form>
-                    <p className="mt-4 italic text-sm">
-                      You may also skip this quiz and continue by clicking Next Page.
-                    </p>
+                 
                   </>
                 ) : (
                   <div className="p-4 bg-primary-blue/20 rounded">
