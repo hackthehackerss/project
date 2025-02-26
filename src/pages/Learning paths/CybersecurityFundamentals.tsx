@@ -1415,17 +1415,403 @@ const course: Module[] = [
     id: "module5",
     title: "Linux Fundamentals",
     sections: [
-      { title: "Introduction to Linux", summary: "Edit summary for Introduction to Linux." },
-      { title: "History and evolution of Linux", summary: "Edit summary for History and evolution of Linux." },
-      { title: "Linux Directory Structure", summary: "Edit summary for Linux Directory Structure." },
-      { title: "Understanding permission levels", summary: "Edit summary for Understanding permission levels." },
-      { title: "Linux Command Line", summary: "Edit summary for Linux Command Line." },
-      { title: "Introduction to shell scripting", summary: "Edit summary for Introduction to shell scripting." },
-      { title: "Writing and executing simple scripts", summary: "Edit summary for Writing and executing simple scripts." },
-      { title: "Variables, loops, and conditionals in Bash", summary: "Edit summary for Variables, loops, and conditionals in Bash." },
-      { title: "Automating tasks with scripts", summary: "Edit summary for Automating tasks with scripts." },
-      { title: "User Accounts and Permissions", summary: "Edit summary for User Accounts and Permissions." },
-      
+      {
+        title: "Introduction to Linux",
+        summary: (
+          <>
+            <p><strong>What is Linux?</strong></p>
+            <p>
+              Linux is an open-source, Unix-like operating system built around the Linux kernel. Known for its stability, flexibility, and security, Linux is widely used in servers, desktops, embedded systems, and cloud infrastructures. Unlike proprietary operating systems, Linux is developed and maintained by a community of contributors around the globe.
+            </p>
+            <p>
+              One of the hallmarks of Linux is its modularity. Users can choose from a wide variety of distributions (or distros), each tailored to different needs. Some distros are optimized for security and enterprise use (e.g., Red Hat Enterprise Linux, CentOS), while others focus on ease-of-use for home users (e.g., Ubuntu, Linux Mint).
+            </p>
+            <p>
+              <strong>Key Advantages:</strong> Open-source nature, customizable interface, robust security, and extensive community support. With thousands of software packages available through repositories, Linux offers a versatile ecosystem for developers and system administrators alike.
+            </p>
+            <p>
+              <strong>Examples:</strong> Running a web server using Apache or Nginx on Linux; developing software using open-source tools such as GCC and Vim; using package managers like <code>apt</code> (Debian/Ubuntu) or <code>yum</code>/<code>dnf</code> (CentOS/Fedora) to install applications.
+            </p>
+            <p>
+              Overall, Linux is not just an operating system—it's a platform for innovation, a tool for education, and the backbone of modern internet infrastructure.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "History and Evolution of Linux",
+        summary: (
+          <>
+            <p><strong>The Beginnings</strong></p>
+            <p>
+              The roots of Linux lie in the early days of Unix. In 1969, AT&T’s Bell Labs developed Unix, a multitasking, multiuser system that influenced many later operating systems.
+            </p>
+            <p>
+              In the early 1980s, Richard Stallman launched the GNU Project to create a free Unix-like operating system. While GNU provided many essential tools, it lacked a kernel.
+            </p>
+            <p>
+              In 1991, Linus Torvalds, a Finnish computer science student, released the first version of the Linux kernel. Combined with GNU utilities, this led to the first fully functional GNU/Linux system.
+            </p>
+            <p><strong>Milestones in Linux Evolution</strong></p>
+            <ul>
+              <li>
+                <strong>1991:</strong> Linus Torvalds releases Linux 0.01; initial public distribution.
+              </li>
+              <li>
+                <strong>1992:</strong> Linux becomes free software under the GNU General Public License (GPL), paving the way for community contributions.
+              </li>
+              <li>
+                <strong>Late 1990s:</strong> Linux gains popularity in server environments with distributions like Red Hat and Debian emerging.
+              </li>
+              <li>
+                <strong>2000s:</strong> Linux enters the enterprise space and becomes the foundation of many web servers and data centers.
+              </li>
+              <li>
+                <strong>Today:</strong> Linux powers a vast range of devices—from smartphones (via Android) to supercomputers and cloud platforms.
+              </li>
+            </ul>
+            <p>
+              <strong>Real-World Impact:</strong> Linux has revolutionized the way we build and manage IT systems. It has democratized access to technology, fostered innovation in the software industry, and remains a critical component in cybersecurity and server management.
+            </p>
+            <p>
+              With ongoing development and a vibrant open-source community, Linux continues to evolve and adapt to new technologies, ensuring its relevance in the modern computing landscape.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Linux Directory Structure",
+        summary: (
+          <>
+            <p><strong>The Filesystem Hierarchy Standard (FHS)</strong></p>
+            <p>
+              Linux organizes its files and directories following the Filesystem Hierarchy Standard (FHS), which defines a standard directory layout. This ensures consistency across distributions and makes it easier for administrators and users to navigate the system.
+            </p>
+            <p>
+              At the top is the root directory, denoted by <code>/</code>. From here, the filesystem branches into several standard directories:
+            </p>
+            <ul>
+              <li>
+                <strong>/bin</strong>: Essential binary executables required during booting and for basic system functionality.
+              </li>
+              <li>
+                <strong>/sbin</strong>: System binaries for administrative tasks.
+              </li>
+              <li>
+                <strong>/etc</strong>: Configuration files for system and application settings.
+              </li>
+              <li>
+                <strong>/home</strong>: User home directories where personal files and settings are stored.
+              </li>
+              <li>
+                <strong>/var</strong>: Variable data like logs, databases, and spool files.
+              </li>
+              <li>
+                <strong>/usr</strong>: Secondary hierarchy for user utilities and applications.
+              </li>
+              <li>
+                <strong>/tmp</strong>: Temporary files that may be cleared upon system reboot.
+              </li>
+              <li>
+                <strong>/dev</strong>: Device files representing hardware components.
+              </li>
+              <li>
+                <strong>/proc</strong>: Virtual filesystem providing process and kernel information.
+              </li>
+            </ul>
+            <p>
+              <strong>Examples:</strong> Running <code>ls /</code> in a terminal displays the root directories. Viewing <code>cat /etc/os-release</code> reveals details about the Linux distribution.
+            </p>
+            <p>
+              Understanding the Linux directory structure is essential for system troubleshooting, administration, and security audits. It allows administrators to quickly locate configuration files, log files, and system binaries.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Understanding Permission Levels",
+        summary: (
+          <>
+            <p><strong>File and Directory Permissions</strong></p>
+            <p>
+              Linux employs a robust permission model to control access to files and directories. Every file has associated permissions that define who can read, write, or execute it. These permissions are represented for the file owner, the group, and others.
+            </p>
+            <p>
+              <strong>Example of Permission Display:</strong> Running <code>ls -l file.txt</code> might output:
+            </p>
+            <pre>{`-rw-r--r-- 1 alice staff 1234 Mar 01 10:30 file.txt`}</pre>
+            <p>
+              Here, <code>rw-</code> (owner), <code>r--</code> (group), and <code>r--</code> (others) indicate the permission sets.
+            </p>
+            <p><strong>Changing Permissions</strong></p>
+            <p>
+              The <code>chmod</code> command adjusts permissions. For example:
+            </p>
+            <pre>{`chmod 755 script.sh`}</pre>
+            <p>
+              This command sets the permissions to <code>rwxr-xr-x</code>, allowing the owner to read, write, and execute, while the group and others can only read and execute.
+            </p>
+            <p>
+              Additionally, the <code>chown</code> command changes file ownership:
+            </p>
+            <pre>{`chown bob:developers file.txt`}</pre>
+            <p>
+              These commands are vital for enforcing the principle of least privilege, reducing the risk of unauthorized modifications.
+            </p>
+            <p>
+              <strong>Advanced Permission Concepts:</strong> Beyond basic permissions, Linux supports Access Control Lists (ACLs) for more granular control. ACLs allow administrators to specify permissions for individual users or groups beyond the traditional user/group/other model.
+            </p>
+            <p>
+              Properly understanding and managing permissions is essential for system security and operational integrity.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Linux Command Line",
+        summary: (
+          <>
+            <p><strong>Why the Command Line?</strong></p>
+            <p>
+              The Linux command line is a powerful interface that allows users to execute commands, manage files, and control system operations efficiently. It is favored by system administrators and cybersecurity professionals for its speed, flexibility, and automation capabilities.
+            </p>
+            <p><strong>Basic Commands and Navigation</strong></p>
+            <p>
+              Here are some essential commands with examples:
+            </p>
+            <ul>
+              <li>
+                <strong>pwd</strong>: Prints the current working directory.
+                <br /><code>pwd</code>
+              </li>
+              <li>
+                <strong>ls</strong>: Lists directory contents.
+                <br /><code>ls -l /home</code>
+              </li>
+              <li>
+                <strong>cd</strong>: Changes the current directory.
+                <br /><code>cd /var/log</code>
+              </li>
+              <li>
+                <strong>touch</strong>: Creates an empty file.
+                <br /><code>touch newfile.txt</code>
+              </li>
+              <li>
+                <strong>rm</strong>: Removes files.
+                <br /><code>rm oldfile.txt</code>
+              </li>
+            </ul>
+            <p>
+              <strong>Advanced Techniques:</strong> Linux supports piping and redirection:
+            </p>
+            <ul>
+              <li>
+                <strong>Pipes:</strong> Use the pipe (<code>|</code>) to send the output of one command to another.
+                <br /><code>ls -l | grep '^d'</code> – Lists only directories.
+              </li>
+              <li>
+                <strong>Redirection:</strong> Redirect output to a file with <code>&gt;</code>.
+                <br /><code>df -h &gt; disk_usage.txt</code> – Saves disk usage information to a file.
+              </li>
+              <li>
+                <strong>Chaining Commands:</strong> Execute multiple commands using <code>&amp;&amp;</code>.
+                <br /><code>cd /tmp && ls</code> – Changes directory and lists its contents.
+              </li>
+            </ul>
+            <p>
+              Mastery of the Linux command line enables rapid troubleshooting, automation, and efficient system management.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Introduction to Shell Scripting",
+        summary: (
+          <>
+            <p><strong>What is Shell Scripting?</strong></p>
+            <p>
+              Shell scripting is the process of writing a series of commands in a file to automate tasks on Linux. These scripts are executed by a shell—commonly Bash—which interprets the commands.
+            </p>
+            <p>
+              <strong>Benefits:</strong> Automating repetitive tasks, scheduling maintenance, and simplifying complex procedures. Shell scripts can combine multiple commands, use variables, and include logic such as loops and conditionals.
+            </p>
+            <p>
+              <strong>Example: A Simple Hello World Script</strong>
+            </p>
+            <pre>{`#!/bin/bash
+  # This script prints Hello, World!
+  echo "Hello, World!"`}</pre>
+            <p>
+              Save this code in a file (e.g., <code>hello.sh</code>), then make it executable with <code>chmod +x hello.sh</code> and run it using <code>./hello.sh</code>.
+            </p>
+            <p>
+              Shell scripting is an essential skill for Linux administrators and cybersecurity experts alike, as it allows for rapid prototyping and automation of complex workflows.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Writing and Executing Simple Scripts",
+        summary: (
+          <>
+            <p><strong>Getting Started with Script Writing</strong></p>
+            <p>
+              Writing scripts involves creating a plain text file with a series of Linux commands and saving it with a <code>.sh</code> extension. The first line, called the shebang (<code>#!/bin/bash</code>), tells the system which interpreter to use.
+            </p>
+            <p>
+              <strong>Example Script: Greeting the User</strong>
+            </p>
+            <pre>{`#!/bin/bash
+  echo "Enter your name:"
+  read username
+  echo "Welcome, $username!"`}</pre>
+            <p>
+              To run the script, first change its permissions:
+            </p>
+            <pre>{`chmod +x greet.sh`}</pre>
+            <p>
+              Then execute it:
+            </p>
+            <pre>{`./greet.sh`}</pre>
+            <p>
+              <strong>Script Execution Best Practices:</strong> Always include comments to explain code sections. Test scripts in a safe environment before deployment.
+            </p>
+            <p>
+              As you gain confidence, you can begin to incorporate more complex constructs such as loops and conditionals to create robust automation tasks.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Variables, Loops, and Conditionals in Bash",
+        summary: (
+          <>
+            <p><strong>Using Variables in Bash</strong></p>
+            <p>
+              Variables in Bash allow you to store data for later use. They are declared without a type:
+            </p>
+            <pre>{`#!/bin/bash
+  # Assign a value to a variable
+  greeting="Hello"
+  name="Alice"
+  echo "$greeting, $name!"`}</pre>
+            <p><strong>Conditional Statements</strong></p>
+            <p>
+              Conditionals let you execute code based on conditions. The basic syntax uses <code>if</code>, <code>then</code>, and <code>fi</code>:
+            </p>
+            <pre>{`#!/bin/bash
+  x=10
+  if [ $x -gt 5 ]; then
+    echo "x is greater than 5"
+  else
+    echo "x is not greater than 5"
+  fi`}</pre>
+            <p><strong>Loops in Bash</strong></p>
+            <p>
+              Loops allow repetitive execution of commands:
+            </p>
+            <ul>
+              <li>
+                <strong>For Loop:</strong>
+                <pre>{`#!/bin/bash
+  for i in {1..5}; do
+    echo "Iteration $i"
+  done`}</pre>
+              </li>
+              <li>
+                <strong>While Loop:</strong>
+                <pre>{`#!/bin/bash
+  count=1
+  while [ $count -le 5 ]; do
+    echo "Count: $count"
+    ((count++))
+  done`}</pre>
+              </li>
+            </ul>
+            <p>
+              These scripting fundamentals form the basis for more advanced automation and are critical for creating dynamic, responsive scripts.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Automating Tasks with Scripts",
+        summary: (
+          <>
+            <p><strong>Automation Overview</strong></p>
+            <p>
+              Automation in Linux is often achieved through shell scripts scheduled with cron jobs. This allows system administrators to run maintenance tasks, backups, or monitoring scripts automatically.
+            </p>
+            <p>
+              <strong>Creating a Cron Job:</strong> Edit your cron table by executing <code>crontab -e</code>. For example, to run a backup script every day at 2 AM, add:
+            </p>
+            <pre>{`0 2 * * * /home/user/backup.sh`}</pre>
+            <p>
+              <strong>Example: Automated Backup Script</strong>
+            </p>
+            <pre>{`#!/bin/bash
+  # backup.sh - A simple backup script
+  src="/home/user/data"
+  dest="/mnt/backup/data_$(date +%F)"
+  mkdir -p "$dest"
+  cp -r "$src" "$dest"
+  echo "Backup completed on $(date)" >> /home/user/backup.log`}</pre>
+            <p>
+              This script creates a dated backup of a data directory and logs the operation.
+            </p>
+            <p>
+              <strong>Real-World Uses:</strong> Automate system updates, log rotations, database backups, and security scans. The flexibility of Bash scripting combined with cron scheduling makes it a powerful tool for streamlining administrative tasks.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "User Accounts and Permissions",
+        summary: (
+          <>
+            <p><strong>Managing Users and Groups</strong></p>
+            <p>
+              In Linux, user account management is crucial for system security. Users are assigned to groups to control access to resources.
+            </p>
+            <p>
+              <strong>Common Commands:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>useradd</strong>: Creates a new user.
+                <br /><code>sudo useradd -m newuser</code>
+              </li>
+              <li>
+                <strong>passwd</strong>: Sets or changes a user’s password.
+                <br /><code>sudo passwd newuser</code>
+              </li>
+              <li>
+                <strong>groupadd</strong>: Creates a new group.
+                <br /><code>sudo groupadd developers</code>
+              </li>
+              <li>
+                <strong>usermod</strong>: Modifies a user’s group memberships.
+                <br /><code>sudo usermod -aG developers newuser</code>
+              </li>
+              <li>
+                <strong>groups</strong>: Displays group membership.
+                <br /><code>groups newuser</code>
+              </li>
+            </ul>
+            <p>
+              <strong>File Ownership and Permissions:</strong> Use <code>chown</code> to change ownership and <code>chmod</code> to adjust permissions. For example:
+            </p>
+            <pre>{`sudo chown newuser:developers file.txt
+  chmod 644 file.txt`}</pre>
+            <p>
+              These commands ensure that only authorized users can modify critical files and directories.
+            </p>
+            <p>
+              <strong>Best Practices:</strong> Regularly audit user accounts and permissions, disable unused accounts, and use tools like <code>sudo</code> to restrict administrative access. A strong user management policy is a cornerstone of system security.
+            </p>
+          </>
+        )
+      }
     ],
     quiz: {
       questions: [
@@ -1442,14 +1828,256 @@ const course: Module[] = [
     id: "module6",
     title: "Networking Fundamentals",
     sections: [
-      { title: "Introduction to Networking", summary: "Edit summary for Introduction to Networking." },
-      { title: "Network Devices", summary: "Edit summary for Network Devices." },
-      { title: "OSI Model", summary: "Edit summary for OSI Model." },
-      { title: "TCP/IP Model", summary: "Edit summary for TCP/IP Model." },
-      { title: "IP Addressing and Subnetting", summary: "Edit summary for IP Addressing and Subnetting." },
-      { title: "Network Protocols and Services", summary: "Edit summary for Network Protocols and Services." },
-      { title: "Network Monitoring and Analysis", summary: "Edit summary for Network Monitoring and Analysis." },
-      
+      {
+        title: "Introduction to Networking",
+        summary: (
+          <>
+            <p><strong>Overview of Networking</strong></p>
+            <p>
+              Networking is the backbone of modern communication, connecting computers, devices, and systems to exchange data efficiently and securely. It encompasses everything from local area networks (LANs) in small offices to wide area networks (WANs) that span the globe. Networks enable resource sharing, collaboration, and the functioning of the internet.
+            </p>
+            <p>
+              Modern networks are built upon both hardware and software components. The hardware includes cables, switches, routers, and wireless access points, while software comprises protocols and operating systems that manage data transmission. The synergy between these elements allows for seamless communication, whether you're streaming video, browsing a website, or conducting a secure financial transaction.
+            </p>
+            <p>
+              <strong>Key Concepts in Networking:</strong>
+            </p>
+            <ul>
+              <li><strong>Data Transmission:</strong> The process of sending information from one point to another.</li>
+              <li><strong>Protocols:</strong> Sets of rules that dictate how data is formatted and transmitted (e.g., TCP/IP, HTTP, DNS).</li>
+              <li><strong>Topology:</strong> The arrangement of network devices (e.g., star, mesh, bus).</li>
+              <li><strong>Bandwidth and Latency:</strong> Measures of data transfer capacity and delay, respectively.</li>
+            </ul>
+            <p>
+              <strong>Examples:</strong> Setting up a home network with a wireless router, configuring a LAN in an office environment, or establishing VPN connections for remote work.
+            </p>
+            <p>
+              A strong foundation in networking is essential for anyone in IT or cybersecurity, as many attacks target network vulnerabilities. Understanding how networks function and interconnect helps in both designing robust infrastructures and identifying potential security gaps.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Network Devices",
+        summary: (
+          <>
+            <p><strong>Introduction to Network Devices</strong></p>
+            <p>
+              Network devices are the physical components that form and manage the connections between systems in a network. They perform tasks such as data transmission, routing, switching, and security enforcement. Without these devices, the complex interconnectivity we rely on would not be possible.
+            </p>
+            <p>
+              <strong>Common Network Devices and Their Functions:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Router:</strong> Directs data packets between different networks based on routing tables. Example: A home router that connects a local network to the internet.
+              </li>
+              <li>
+                <strong>Switch:</strong> Connects multiple devices within a network, efficiently directing data only to the intended recipient. Example: An Ethernet switch in an office.
+              </li>
+              <li>
+                <strong>Hub:</strong> A simple device that broadcasts incoming data to all connected ports (largely outdated due to inefficiency).
+              </li>
+              <li>
+                <strong>Firewall:</strong> Monitors and controls incoming and outgoing traffic based on security rules. Example: A hardware firewall protecting a corporate network.
+              </li>
+              <li>
+                <strong>Modem:</strong> Converts signals between digital data and analog signals for communication over telephone lines or cable systems.
+              </li>
+              <li>
+                <strong>Access Point (AP):</strong> Provides wireless connectivity to network devices. Example: A Wi-Fi access point in a public library.
+              </li>
+            </ul>
+            <p>
+              <strong>Real-World Application:</strong> In an enterprise environment, routers and switches work in tandem to direct traffic, while firewalls and intrusion detection systems safeguard against external attacks. Understanding these devices is crucial for configuring and maintaining secure networks.
+            </p>
+            <p>
+              Knowing how each device functions and interacts with others allows network and security professionals to optimize performance, troubleshoot issues, and implement effective security measures.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "OSI Model",
+        summary: (
+          <>
+            <p><strong>The OSI Model: A Layered Framework</strong></p>
+            <p>
+              The Open Systems Interconnection (OSI) model is a conceptual framework used to understand and design networks. It divides the network communication process into seven distinct layers, each responsible for a specific function.
+            </p>
+            <p>
+              <strong>The Seven Layers of the OSI Model:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Layer 1 – Physical:</strong> Concerns the hardware transmission of raw bit streams over a physical medium. Examples include cables, switches, and network cards.
+              </li>
+              <li>
+                <strong>Layer 2 – Data Link:</strong> Responsible for node-to-node data transfer and error detection. Uses MAC addresses for communication.
+              </li>
+              <li>
+                <strong>Layer 3 – Network:</strong> Handles logical addressing and routing. IP addresses operate at this layer.
+              </li>
+              <li>
+                <strong>Layer 4 – Transport:</strong> Ensures reliable data transfer using protocols like TCP and UDP.
+              </li>
+              <li>
+                <strong>Layer 5 – Session:</strong> Manages sessions between applications, establishing, maintaining, and terminating connections.
+              </li>
+              <li>
+                <strong>Layer 6 – Presentation:</strong> Transforms data into a format that can be understood by the application layer, including encryption and compression.
+              </li>
+              <li>
+                <strong>Layer 7 – Application:</strong> Provides network services directly to applications, such as email, file transfer, and web browsing.
+              </li>
+            </ul>
+            <p>
+              <strong>Example in Practice:</strong> When you access a website, your browser (Layer 7) sends an HTTP request. The data is encapsulated in a TCP segment (Layer 4), which is then packaged into an IP packet (Layer 3). As the packet travels through the network, each layer adds or strips its header information until the data reaches the destination, where the process is reversed.
+            </p>
+            <p>
+              The OSI model is a fundamental tool for diagnosing network issues, as it allows administrators to pinpoint which layer is experiencing problems—be it a faulty cable (Physical) or an IP addressing error (Network).
+            </p>
+          </>
+        )
+      },
+      {
+        title: "TCP/IP Model",
+        summary: (
+          <>
+            <p><strong>The TCP/IP Model: Practical Networking</strong></p>
+            <p>
+              The TCP/IP model is the standard framework for modern network communications and underpins the internet. While it shares similarities with the OSI model, it consists of four layers that focus on practical implementation.
+            </p>
+            <p>
+              <strong>Layers of the TCP/IP Model:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Application Layer:</strong> Encompasses protocols for high-level services such as HTTP, FTP, SMTP, and DNS.
+              </li>
+              <li>
+                <strong>Transport Layer:</strong> Manages end-to-end communication using TCP (for reliable connections) or UDP (for faster, connectionless communication).
+              </li>
+              <li>
+                <strong>Internet Layer:</strong> Handles logical addressing and routing using IP. It determines how data packets travel across networks.
+              </li>
+              <li>
+                <strong>Link Layer:</strong> Combines the functions of the OSI model’s Physical and Data Link layers, dealing with hardware transmission.
+              </li>
+            </ul>
+            <p>
+              <strong>Example:</strong> Sending an email involves the application layer (SMTP), transport layer (TCP), internet layer (IP addressing and routing), and link layer (Ethernet or Wi-Fi). Each layer plays a specific role in ensuring that the email is delivered accurately and securely.
+            </p>
+            <p>
+              The TCP/IP model’s simplicity and direct alignment with real-world implementations make it indispensable for network configuration, troubleshooting, and security analysis.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "IP Addressing and Subnetting",
+        summary: (
+          <>
+            <p><strong>Understanding IP Addressing</strong></p>
+            <p>
+              IP addresses are numerical labels assigned to devices on a network, enabling them to communicate with one another. There are two primary types of IP addresses: IPv4 and IPv6. IPv4 addresses are 32-bit numbers, commonly expressed in dotted-decimal notation (e.g., 192.168.1.1), while IPv6 addresses are 128-bit numbers written in hexadecimal.
+            </p>
+            <p>
+              <strong>IPv4 Example:</strong> <code>192.168.0.1</code> – Suitable for most local networks, but limited to approximately 4.3 billion unique addresses.
+            </p>
+            <p>
+              <strong>IPv6 Example:</strong> <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code> – Provides a vastly larger address space and is essential as the internet continues to grow.
+            </p>
+            <p><strong>Subnetting:</strong></p>
+            <p>
+              Subnetting divides a large IP network into smaller, more manageable sub-networks (subnets). This improves network performance and security by limiting broadcast domains and segmenting traffic.
+            </p>
+            <p>
+              <strong>Example of Subnetting:</strong> Consider a network <code>192.168.1.0/24</code>. By borrowing bits from the host portion, you can create multiple subnets, such as <code>192.168.1.0/26</code>, each with a smaller range of IP addresses. Tools like <code>ipcalc</code> help calculate subnet boundaries.
+            </p>
+            <p>
+              Proper IP addressing and subnetting are critical for network design, as they ensure efficient use of IP address space and reduce potential network congestion.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Network Protocols and Services",
+        summary: (
+          <>
+            <p><strong>Understanding Network Protocols</strong></p>
+            <p>
+              Network protocols are the standardized rules that govern communication between devices on a network. They ensure that data is transmitted in a consistent and reliable manner, regardless of hardware or software differences.
+            </p>
+            <p>
+              <strong>Common Protocols and Their Functions:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>HTTP/HTTPS:</strong> Protocols used for transmitting web pages. HTTPS adds encryption for secure browsing.
+              </li>
+              <li>
+                <strong>FTP/SFTP:</strong> Used for file transfers. SFTP encrypts the data to ensure secure transfers.
+              </li>
+              <li>
+                <strong>DNS:</strong> Translates human-friendly domain names (e.g., www.example.com) into IP addresses.
+              </li>
+              <li>
+                <strong>DHCP:</strong> Dynamically assigns IP addresses to devices on a network, simplifying network management.
+              </li>
+              <li>
+                <strong>SMTP/POP3/IMAP:</strong> Protocols for sending and retrieving email.
+              </li>
+              <li>
+                <strong>SNMP:</strong> Simple Network Management Protocol, used for monitoring network devices.
+              </li>
+            </ul>
+            <p>
+              <strong>Real-World Applications:</strong> A web server uses HTTPS to provide secure access to websites, while a DNS server resolves domain names for internet browsing. DHCP servers automatically manage IP address allocation in corporate networks.
+            </p>
+            <p>
+              Understanding these protocols and services is essential for network troubleshooting, performance optimization, and security implementation.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Network Monitoring and Analysis",
+        summary: (
+          <>
+            <p><strong>The Role of Network Monitoring</strong></p>
+            <p>
+              Network monitoring involves continuously tracking network performance, traffic patterns, and potential security threats. This practice is vital for maintaining network health, ensuring optimal performance, and detecting malicious activity before it escalates.
+            </p>
+            <p>
+              <strong>Key Tools and Techniques:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Wireshark:</strong> A graphical packet analyzer that captures and displays network traffic in real time. Example: Using Wireshark to inspect HTTP requests and detect anomalies.
+              </li>
+              <li>
+                <strong>tcpdump:</strong> A command-line packet analyzer for capturing traffic on network interfaces.
+                <br /><code>sudo tcpdump -i eth0</code> – Captures live traffic on the <code>eth0</code> interface.
+              </li>
+              <li>
+                <strong>Netstat:</strong> Displays active network connections, routing tables, and interface statistics.
+                <br /><code>netstat -an</code> – Lists active TCP/UDP connections.
+              </li>
+              <li>
+                <strong>Nmap:</strong> A network scanner used to discover hosts and services on a network.
+                <br /><code>nmap -sS 192.168.1.0/24</code> – Performs a stealth scan on a subnet.
+              </li>
+            </ul>
+            <p>
+              <strong>Analysis and Troubleshooting:</strong> By monitoring network traffic, administrators can identify bottlenecks, detect unauthorized access, and troubleshoot connectivity issues. For example, a sudden surge in broadcast traffic might indicate a misconfigured device causing a network storm.
+            </p>
+            <p>
+              Continuous network monitoring is a cornerstone of proactive cybersecurity, allowing for rapid response to potential intrusions and system failures.
+            </p>
+          </>
+        )
+      }
     ],
     quiz: {
       questions: [
@@ -1466,12 +2094,276 @@ const course: Module[] = [
     id: "module7",
     title: "Cryptography Basics",
     sections: [
-      { title: "Introduction to Cryptography", summary: "Edit summary for Introduction to Cryptography." },
-      { title: "Types of Cryptography", summary: "Edit summary for Types of Cryptography." },
-      { title: "Plaintext to Ciphertext", summary: "Edit summary for Plaintext to Ciphertext." },
-      { title: "What is a hash?", summary: "Edit summary for What is a hash?" },
-      { title: "Decoding/encoding", summary: "Edit summary for Decoding/encoding." },
-      { title: "Cryptographic Attacks", summary: "Edit summary for Cryptographic Attacks." },
+      {
+        title: "Introduction to Cryptography",
+        summary: (
+          <>
+            <p><strong>What is Cryptography?</strong></p>
+            <p>
+              Cryptography is the art and science of secure communication. It involves transforming information in such a way that only intended recipients can understand it, even if the data is intercepted. From the earliest recorded history—with simple substitution ciphers used by ancient civilizations—to modern-day encryption standards that secure online transactions, cryptography plays a pivotal role in protecting data integrity, confidentiality, and authenticity.
+            </p>
+            <p>
+              At its core, cryptography is about converting readable data, known as plaintext, into an unreadable format, called ciphertext, using algorithms and keys. This process ensures that even if data is exposed, it remains useless without the proper key to decrypt it.
+            </p>
+            <p>
+              Historically, cryptographic methods ranged from simple techniques like the Caesar cipher—a method that shifts letters by a fixed number—to complex algorithms such as the Advanced Encryption Standard (AES) used today. Modern cryptography not only secures communications but also underpins essential technologies like digital signatures, blockchain, and secure online transactions.
+            </p>
+            <p>
+              <strong>Examples:</strong> 
+            </p>
+            <ul>
+              <li>
+                <strong>Caesar Cipher:</strong> One of the simplest encryption techniques where each letter in the plaintext is shifted a fixed number of positions down the alphabet. For instance, a shift of 3 turns “HELLO” into “KHOOR.”
+              </li>
+              <li>
+                <strong>Modern Applications:</strong> HTTPS uses TLS (Transport Layer Security) to encrypt communications between your browser and web servers. Digital wallets use cryptographic methods to secure transactions.
+              </li>
+            </ul>
+            <p>
+              As cyber threats continue to evolve, understanding cryptography becomes essential for securing digital communications, safeguarding data, and ensuring trust in online interactions.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Types of Cryptography",
+        summary: (
+          <>
+            <p><strong>Overview of Cryptographic Methods</strong></p>
+            <p>
+              Cryptography can be broadly classified into several types based on the techniques and key management approaches used. The three main categories are symmetric cryptography, asymmetric cryptography, and cryptographic hash functions.
+            </p>
+            <p>
+              <strong>Symmetric Cryptography:</strong> Uses the same key for both encryption and decryption. It is generally faster and more efficient for encrypting large amounts of data.
+            </p>
+            <ul>
+              <li>
+                <strong>AES (Advanced Encryption Standard):</strong> Widely used in government and industry; it supports key sizes of 128, 192, and 256 bits.
+              </li>
+              <li>
+                <strong>DES (Data Encryption Standard):</strong> An older standard with a 56-bit key, now largely replaced due to vulnerabilities.
+              </li>
+            </ul>
+            <p>
+              <strong>Asymmetric Cryptography:</strong> Utilizes a pair of keys—a public key and a private key. Data encrypted with one key can only be decrypted with the other, making it ideal for secure key exchange and digital signatures.
+            </p>
+            <ul>
+              <li>
+                <strong>RSA:</strong> One of the most common asymmetric algorithms; used for secure data transmission and digital signatures.
+              </li>
+              <li>
+                <strong>ECC (Elliptic Curve Cryptography):</strong> Provides similar security to RSA with smaller key sizes, making it efficient for mobile devices and constrained environments.
+              </li>
+            </ul>
+            <p>
+              <strong>Cryptographic Hash Functions:</strong> Generate a fixed-size string (a hash) from input data. Hash functions are designed to be one-way, meaning it is computationally infeasible to reverse the process.
+            </p>
+            <ul>
+              <li>
+                <strong>MD5:</strong> Once widely used but now considered insecure due to vulnerabilities.
+              </li>
+              <li>
+                <strong>SHA-256:</strong> Part of the Secure Hash Algorithm family, used in many security applications including SSL/TLS and cryptocurrencies.
+              </li>
+            </ul>
+            <p>
+              <strong>Hybrid Cryptosystems:</strong> Combine both symmetric and asymmetric techniques. For example, in a secure web connection, asymmetric encryption is used to exchange a symmetric session key that then encrypts the bulk of the data.
+            </p>
+            <p>
+              Each type of cryptography serves a specific purpose and comes with its own strengths and limitations. Understanding these differences is crucial for selecting the appropriate method for securing various types of data.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Plaintext to Ciphertext",
+        summary: (
+          <>
+            <p><strong>Encryption Process: Converting Plaintext to Ciphertext</strong></p>
+            <p>
+              The fundamental process of encryption transforms readable plaintext into unreadable ciphertext. This process involves an encryption algorithm and a secret key. The algorithm defines the mathematical operations applied to the plaintext, while the key controls the transformation.
+            </p>
+            <p>
+              <strong>Steps in the Encryption Process:</strong>
+            </p>
+            <ol>
+              <li>
+                <strong>Input Plaintext:</strong> The original readable message or data.
+              </li>
+              <li>
+                <strong>Encryption Algorithm:</strong> The method used to scramble the plaintext. This can be a simple substitution cipher or a complex algorithm like AES.
+              </li>
+              <li>
+                <strong>Key Application:</strong> A key (or keys, in the case of asymmetric cryptography) is applied during the encryption process.
+              </li>
+              <li>
+                <strong>Output Ciphertext:</strong> The resulting encrypted data that is unintelligible without the correct decryption key.
+              </li>
+            </ol>
+            <p>
+              <strong>Example: Caesar Cipher</strong>
+            </p>
+            <p>
+              Consider a simple Caesar cipher with a shift of 3:
+            </p>
+            <pre>{`Plaintext: HELLO
+  Shift: 3
+  Ciphertext: KHOOR`}</pre>
+            <p>
+              Although a Caesar cipher is not secure by modern standards, it illustrates the basic concept of shifting plaintext into ciphertext.
+            </p>
+            <p>
+              <strong>Example: AES Encryption</strong>
+            </p>
+            <p>
+              In modern cryptography, AES encrypts data in blocks using keys of 128, 192, or 256 bits. For instance, encrypting a message with AES-256 might involve:
+            </p>
+            <pre>{`plaintext: "Sensitive Data"
+  key: "a_secure_random_256_bit_key"
+  ciphertext: [binary data, represented in hex: 3f7a9e...]
+  `}</pre>
+            <p>
+              The ciphertext appears as a random series of bytes and is unreadable without the proper key.
+            </p>
+            <p>
+              Understanding the transformation from plaintext to ciphertext is essential for grasping how encryption protects data confidentiality in transit and at rest.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "What is a hash?",
+        summary: (
+          <>
+            <p><strong>Understanding Cryptographic Hash Functions</strong></p>
+            <p>
+              A cryptographic hash function takes an input (or 'message') and returns a fixed-size string of bytes. The output, commonly known as the hash value or digest, is unique to each unique input. Hash functions are designed to be one-way, meaning it is computationally infeasible to retrieve the original input from its hash value.
+            </p>
+            <p>
+              <strong>Key Properties of a Good Hash Function:</strong>
+            </p>
+            <ul>
+              <li><strong>Deterministic:</strong> The same input always produces the same hash.</li>
+              <li><strong>Pre-image Resistance:</strong> Given a hash value, it should be computationally infeasible to reverse-engineer the original input.</li>
+              <li><strong>Collision Resistance:</strong> It should be extremely unlikely that two different inputs produce the same hash.</li>
+              <li><strong>Fast Computation:</strong> Hash functions should quickly compute the hash for any given input.</li>
+            </ul>
+            <p>
+              <strong>Examples:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>MD5:</strong> Produces a 128-bit hash value. While historically popular, vulnerabilities have made MD5 unsuitable for security-sensitive applications.
+              </li>
+              <li>
+                <strong>SHA-1:</strong> Produces a 160-bit hash but has known collision weaknesses.
+              </li>
+              <li>
+                <strong>SHA-256:</strong> Part of the SHA-2 family, generating a 256-bit hash, and widely used in modern applications for its security and robustness.
+              </li>
+            </ul>
+            <p>
+              <strong>Real-World Applications:</strong> Hash functions are essential in verifying data integrity (e.g., file checksums), securely storing passwords (through salted hashes), and underpinning blockchain technologies.
+            </p>
+            <p>
+              In summary, cryptographic hashes play a critical role in ensuring data integrity and authenticity in many security protocols.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Decoding/Encoding",
+        summary: (
+          <>
+            <p><strong>Understanding Encoding vs. Encryption</strong></p>
+            <p>
+              While encoding and encryption both transform data, their purposes differ significantly. Encoding converts data into a different format using publicly available methods so that it can be easily reversed. Its primary goal is data integrity and compatibility, not secrecy.
+            </p>
+            <p>
+              <strong>Common Encoding Schemes:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Base64 Encoding:</strong> Transforms binary data into ASCII text. For example, the string "Hello" becomes "SGVsbG8=".
+              </li>
+              <li>
+                <strong>URL Encoding:</strong> Converts characters into a format that can be transmitted over the Internet. For instance, a space character is encoded as <code>%20</code>.
+              </li>
+            </ul>
+            <p>
+              <strong>Decoding:</strong> The reverse process, where encoded data is transformed back into its original format. In Base64, decoding "SGVsbG8=" returns "Hello".
+            </p>
+            <p>
+              <strong>Encryption vs. Encoding:</strong> Unlike encoding, encryption uses a secret key to transform data, making it unreadable without decryption. Encoding is reversible without a key.
+            </p>
+            <p>
+              <strong>Examples:</strong> 
+            </p>
+            <ul>
+              <li>
+                <strong>Base64:</strong> 
+                <br /><code>echo "Hello" | base64</code> outputs <code>SGVsbG8=</code>.
+                <br /><code>echo "SGVsbG8=" | base64 --decode</code> returns <code>Hello</code>.
+              </li>
+              <li>
+                <strong>URL Encoding:</strong> 
+                <br />Using JavaScript’s <code>encodeURIComponent("Hello World!")</code> results in <code>Hello%20World%21</code>.
+              </li>
+            </ul>
+            <p>
+              In summary, understanding the differences between encoding and encryption—and knowing when to use each—is fundamental for data transmission, storage, and security in digital communications.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Cryptographic Attacks",
+        summary: (
+          <>
+            <p><strong>Overview of Cryptographic Attacks</strong></p>
+            <p>
+              Despite the strength of modern cryptographic algorithms, attackers continually develop methods to undermine security. Cryptographic attacks target weaknesses in encryption algorithms, key management, or implementation errors.
+            </p>
+            <p>
+              <strong>Common Types of Cryptographic Attacks:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Brute Force Attack:</strong> Attempts every possible key until the correct one is found. While effective against weak keys, modern encryption with long keys makes brute force computationally impractical.
+              </li>
+              <li>
+                <strong>Dictionary Attack:</strong> Uses precomputed tables of likely keys or passwords. Often mitigated by employing strong, complex passwords.
+              </li>
+              <li>
+                <strong>Man-in-the-Middle (MitM) Attack:</strong> Intercepts communications between two parties to capture or alter data. Protocols like TLS are designed to prevent these attacks.
+              </li>
+              <li>
+                <strong>Side-Channel Attack:</strong> Exploits physical implementations of cryptography, such as timing information, power consumption, or electromagnetic leaks.
+              </li>
+              <li>
+                <strong>Chosen Plaintext/Ciphertext Attack:</strong> The attacker obtains ciphertexts for chosen plaintexts (or vice versa) in order to deduce the encryption key or algorithm weaknesses.
+              </li>
+            </ul>
+            <p>
+              <strong>Examples and Mitigations:</strong> 
+            </p>
+            <ul>
+              <li>
+                <strong>Brute Force Example:</strong> An attacker attempting all key combinations on a 56-bit key (as in old DES) can succeed; modern standards like AES-256 render this approach unfeasible.
+              </li>
+              <li>
+                <strong>Side-Channel Example:</strong> Analyzing the power consumption of a cryptographic device to deduce the key. Countermeasures include implementing constant-time algorithms and shielding.
+              </li>
+            </ul>
+            <p>
+              Effective cryptography involves not only designing robust algorithms but also ensuring secure implementation and key management practices. Regular audits, updated protocols, and awareness of emerging attack techniques are essential for maintaining a secure cryptographic environment.
+            </p>
+            <p>
+              In summary, by understanding common cryptographic attacks and their mitigations, security professionals can better safeguard sensitive information and design systems that resist evolving threats.
+            </p>
+          </>
+        )
+      }
     ],
     quiz: {
       questions: [
@@ -1488,16 +2380,312 @@ const course: Module[] = [
     id: "module8",
     title: "Web Application Security",
     sections: [
-      { title: "What is the Web?", summary: "Edit summary for What is the Web?" },
-      { title: "HTTP/HTTPS Protocol", summary: "Edit summary for HTTP/HTTPS Protocol." },
-      { title: "DNS (Domain Name System)", summary: "Edit summary for DNS (Domain Name System)." },
-      { title: "How a Web Page Loads", summary: "Edit summary for How a Web Page Loads." },
-      { title: "Cookies and Sessions", summary: "Edit summary for Cookies and Sessions." },
-      { title: "Security in Web Communication", summary: "Edit summary for Security in Web Communication." },
-      { title: "What is Web Application Security?", summary: "Edit summary for What is Web Application Security?" },
-      { title: "Common Web Application Threats", summary: "Edit summary for Common Web Application Threats." },
-      { title: "Secure Coding Practices", summary: "Edit summary for Secure Coding Practices." },
-      { title: "Web Application Security Tools", summary: "Edit summary for Web Application Security Tools." },
+      {
+        title: "What is the Web?",
+        summary: (
+          <>
+            <p><strong>Understanding the World Wide Web</strong></p>
+            <p>
+              The Web, or World Wide Web (WWW), is a vast collection of interconnected documents and resources accessed via the Internet. It is built on open standards and protocols that enable seamless communication between different systems and devices. Rather than being the Internet itself, the Web is a service running on top of it—allowing users to access websites, multimedia content, and interactive web applications through their browsers.
+            </p>
+            <p>
+              At its foundation, the Web employs a client–server model. Web browsers (clients) request resources from web servers, which host content and applications. Over the years, the Web has evolved from static HTML pages to dynamic, interactive applications that power everything from social media to online banking.
+            </p>
+            <p>
+              <strong>Examples and Applications:</strong>
+            </p>
+            <ul>
+              <li><strong>Static Websites:</strong> Basic sites built with HTML and CSS that display fixed content.</li>
+              <li><strong>Dynamic Web Applications:</strong> Platforms such as e-commerce sites or social networks that use server-side scripting (like PHP, Node.js, or Python) to generate content dynamically.</li>
+              <li><strong>APIs and Web Services:</strong> RESTful services that allow various applications to communicate over HTTP and exchange data in formats like JSON or XML.</li>
+            </ul>
+            <p>
+              The Web has revolutionized how we access information, communicate, and conduct business. Its continuous evolution drives innovation in multimedia, interactive design, and internet technologies.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "HTTP/HTTPS Protocol",
+        summary: (
+          <>
+            <p><strong>Overview of HTTP and HTTPS</strong></p>
+            <p>
+              HTTP (Hypertext Transfer Protocol) is the foundation for data communication on the Web. It works using a request–response model, where a client sends a request and the server returns the corresponding response—often in the form of HTML pages, images, or other resources.
+            </p>
+            <p>
+              HTTPS (HTTP Secure) is the secure version of HTTP. By employing Transport Layer Security (TLS) or its predecessor, Secure Sockets Layer (SSL), HTTPS encrypts the data exchanged between the client and server. This encryption is essential for protecting sensitive information from eavesdroppers and man-in-the-middle attacks.
+            </p>
+            <p>
+              <strong>Key Differences:</strong>
+            </p>
+            <ul>
+              <li><strong>Encryption:</strong> HTTPS encrypts the data; HTTP sends it as plaintext.</li>
+              <li><strong>Authentication:</strong> HTTPS uses digital certificates to verify server identities, reducing the risk of spoofing and interception.</li>
+              <li><strong>Ports:</strong> HTTP typically uses port 80, while HTTPS uses port 443.</li>
+            </ul>
+            <p>
+              <strong>Examples:</strong>
+            </p>
+            <ul>
+              <li>Visiting <code>http://example.com</code> vs. <code>https://example.com</code> in your browser.</li>
+              <li>Using command-line tools:
+                <br /><code>curl -I http://example.com</code>
+                <br />versus
+                <br /><code>curl -I https://example.com</code>
+              </li>
+            </ul>
+            <p>
+              In today’s security-conscious environment, HTTPS has become the standard, especially for applications that handle user credentials, payment data, or any sensitive information.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "DNS (Domain Name System)",
+        summary: (
+          <>
+            <p><strong>Understanding DNS</strong></p>
+            <p>
+              The Domain Name System (DNS) functions as the Internet’s phonebook, translating human-friendly domain names (e.g., <code>www.example.com</code>) into machine-friendly IP addresses (e.g., 192.0.2.1). This process is essential for routing traffic to the correct destination.
+            </p>
+            <p>
+              DNS operates hierarchically with root servers at the top, followed by top-level domain (TLD) servers, and then authoritative name servers that store specific domain records.
+            </p>
+            <p>
+              <strong>Examples and Tools:</strong>
+            </p>
+            <ul>
+              <li>Run <code>nslookup www.google.com</code> or <code>dig example.com</code> in your terminal to see the IP address and DNS details of a domain.</li>
+              <li>DNS caching on local machines speeds up subsequent requests for the same domain.</li>
+            </ul>
+            <p>
+              Correct DNS configuration is vital for both performance and security, helping prevent issues such as domain hijacking or phishing.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "How a Web Page Loads",
+        summary: (
+          <>
+            <p><strong>The Web Page Loading Process</strong></p>
+            <p>
+              Loading a web page is a multi-step process that begins when a user enters a URL in a browser and ends when the page is fully rendered on the screen. This process involves DNS resolution, establishing TCP connections, sending HTTP/HTTPS requests, and finally, rendering the page content.
+            </p>
+            <p>
+              <strong>Step-by-Step Process:</strong>
+            </p>
+            <ol>
+              <li><strong>DNS Lookup:</strong> The browser resolves the domain name to an IP address.</li>
+              <li><strong>TCP Connection:</strong> A TCP connection is established through a three-way handshake.</li>
+              <li><strong>HTTP/HTTPS Request:</strong> The browser sends a request for the web page.</li>
+              <li><strong>Server Response:</strong> The server processes the request and returns the HTML content along with other resources.</li>
+              <li><strong>Resource Loading:</strong> The browser parses the HTML and loads additional resources such as CSS, JavaScript, images, and fonts.</li>
+              <li><strong>Rendering:</strong> The browser constructs the Document Object Model (DOM) and renders the page for display.</li>
+            </ol>
+            <p>
+              <strong>Examples and Tools:</strong>
+            </p>
+            <ul>
+              <li>Open your browser’s Developer Tools (F12) and inspect the Network tab to view each request and response as a page loads.</li>
+              <li>Use <code>curl -I https://www.example.com</code> from the command line to view HTTP headers and status codes.</li>
+            </ul>
+            <p>
+              Understanding these steps is crucial for diagnosing performance issues, optimizing load times, and ensuring a smooth user experience.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Cookies and Sessions",
+        summary: (
+          <>
+            <p><strong>What are Cookies and Sessions?</strong></p>
+            <p>
+              Cookies are small text files stored by your web browser that remember information about your interactions with a website. They are used to maintain state, store user preferences, and track session data. Sessions, managed on the server side, are often identified by a session ID stored in a cookie.
+            </p>
+            <p>
+              When a user visits a website, the server may set a cookie, which the browser stores and sends back with every subsequent request. This helps the server identify returning users and maintain their session state.
+            </p>
+            <p>
+              <strong>Examples:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Setting a Cookie in PHP:</strong>
+                <br /><code>{'<?php echo htmlspecialchars("setcookie(\'user\', \'Alice\', time() + 3600);"); ?>'}</code>
+              </li>
+              <li>
+                <strong>Reading Cookies in JavaScript:</strong>
+                <br /><code>document.cookie</code>
+              </li>
+              <li>
+                <strong>Session Management Example (Node.js with Express):</strong>
+                <br /><code>{`app.use(session({ secret: 'your_secret_key', resave: false, saveUninitialized: true }));`}</code>
+              </li>
+            </ul>
+            <p>
+              Cookies and sessions are vital for providing personalized user experiences and for managing login states. However, they must be handled securely to prevent attacks like session hijacking.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Security in Web Communication",
+        summary: (
+          <>
+            <p><strong>Securing Data in Transit</strong></p>
+            <p>
+              Securing web communication is critical to protect data from interception and tampering. HTTPS is the main protocol used to secure data transmissions by encrypting the connection between the client and server.
+            </p>
+            <p>
+              <strong>How HTTPS Secures Communication:</strong>
+            </p>
+            <ul>
+              <li><strong>Certificate Exchange:</strong> The server presents a digital certificate to verify its identity.</li>
+              <li><strong>Key Exchange:</strong> A secure symmetric key is negotiated for the session.</li>
+              <li><strong>Encrypted Transmission:</strong> All data exchanged during the session is encrypted using this key.</li>
+            </ul>
+            <p>
+              <strong>Examples and Testing:</strong>
+            </p>
+            <ul>
+              <li>Click the padlock icon in your browser’s address bar to view certificate details.</li>
+              <li>Run <code>curl -I https://www.example.com</code> to verify HTTPS response headers.</li>
+              <li>Implement HSTS (HTTP Strict Transport Security) to ensure browsers use HTTPS for future requests.</li>
+            </ul>
+            <p>
+              These measures work together to ensure that sensitive information, such as login credentials or financial data, is transmitted securely across the internet.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "What is Web Application Security?",
+        summary: (
+          <>
+            <p><strong>Defining Web Application Security</strong></p>
+            <p>
+              Web application security focuses on protecting websites, web applications, and APIs from cyber threats. This field involves implementing secure coding practices, performing vulnerability assessments, and deploying tools that detect and mitigate attacks.
+            </p>
+            <p>
+              Security in web applications is critical for protecting user data, maintaining service availability, and ensuring the integrity of the application. It covers areas such as authentication, authorization, input validation, and secure session management.
+            </p>
+            <p>
+              <strong>Examples of Security Measures:</strong>
+            </p>
+            <ul>
+              <li>Input validation to prevent SQL injection attacks.</li>
+              <li>Using Content Security Policy (CSP) headers to mitigate cross-site scripting (XSS).</li>
+              <li>Enforcing secure session management to prevent session hijacking.</li>
+            </ul>
+            <p>
+              Web application security is an ongoing process that requires regular updates and continuous monitoring to defend against evolving threats.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Common Web Application Threats",
+        summary: (
+          <>
+            <p><strong>Overview of Threats</strong></p>
+            <p>
+              Web applications face a variety of threats that can compromise both data and functionality. Being familiar with these threats is essential for developing effective defenses.
+            </p>
+            <p>
+              <strong>Major Threats Include:</strong>
+            </p>
+            <ul>
+              <li><strong>Cross-Site Scripting (XSS):</strong> Attackers inject malicious scripts into webpages, which then execute in the browser of unsuspecting users.</li>
+              <li><strong>SQL Injection:</strong> Malicious SQL queries are inserted into input fields, potentially exposing or modifying database information.</li>
+              <li><strong>Cross-Site Request Forgery (CSRF):</strong> Forces an authenticated user’s browser to perform unwanted actions on a trusted site.</li>
+              <li><strong>Clickjacking:</strong> Tricks users into clicking on concealed elements, thereby exposing sensitive information or performing unintended actions.</li>
+              <li><strong>Remote Code Execution (RCE):</strong> Exploits vulnerabilities that allow attackers to execute arbitrary code on the server.</li>
+            </ul>
+            <p>
+              <strong>Examples:</strong>
+            </p>
+            <ul>
+              <li>An XSS attack could inject a script to steal a user's session cookie.</li>
+              <li>SQL injection may be used to dump an entire user database if inputs are not sanitized.</li>
+              <li>CSRF can force actions such as unauthorized fund transfers.</li>
+            </ul>
+            <p>
+              Understanding these threats helps security professionals design better defenses and implement robust security measures to safeguard web applications.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Secure Coding Practices",
+        summary: (
+          <>
+            <p><strong>Developing Secure Web Applications</strong></p>
+            <p>
+              Secure coding practices are fundamental to defending web applications against common threats. Developers must adopt a proactive approach to security throughout the entire development lifecycle—beginning with proper design and continuing through coding, testing, and deployment.
+            </p>
+            <p>
+              <strong>Key Practices Include:</strong>
+            </p>
+            <ul>
+              <li><strong>Input Validation and Sanitization:</strong> Ensure that all user inputs are validated and sanitized before processing.</li>
+              <li><strong>Output Encoding:</strong> Encode data before rendering it to a webpage to prevent XSS attacks.</li>
+              <li><strong>Authentication and Authorization:</strong> Implement strong authentication mechanisms and ensure that users have access only to the resources they need.</li>
+              <li><strong>Session Management:</strong> Use secure, HTTP-only cookies and implement session timeouts to protect session data.</li>
+              <li><strong>Error Handling:</strong> Avoid exposing detailed error messages that could provide attackers with insight into the system.</li>
+            </ul>
+            <p>
+              <strong>Examples:</strong>
+            </p>
+            <ul>
+              <li>In PHP, encode output using <code>htmlspecialchars()</code>:
+                <br /><code>{'<?php echo htmlspecialchars($user_input, ENT_QUOTES, "UTF-8"); ?>'}</code>
+              </li>
+              <li>Use prepared statements in SQL to prevent injection attacks:
+                <br /><code>stmt = db.prepare("SELECT * FROM users WHERE username = ?");</code>
+              </li>
+              <li>Implement strict Content Security Policy (CSP) headers in JavaScript to mitigate XSS risks.</li>
+            </ul>
+            <p>
+              Secure coding is not a one-time effort—it requires continuous code reviews, vulnerability assessments, and adherence to industry best practices to ensure that applications remain secure over time.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Web Application Security Tools",
+        summary: (
+          <>
+            <p><strong>Introduction to Security Tools</strong></p>
+            <p>
+              Web application security tools are designed to help developers and security professionals identify vulnerabilities, assess the overall security posture, and remediate weaknesses before they can be exploited. These tools range from automated scanners to full-featured penetration testing suites.
+            </p>
+            <p>
+              <strong>Popular Tools Include:</strong>
+            </p>
+            <ul>
+              <li><strong>OWASP ZAP:</strong> An open-source web application security scanner that can automatically find vulnerabilities in web applications.</li>
+              <li><strong>Burp Suite:</strong> A comprehensive platform for testing web application security, including features for intercepting, scanning, and manipulating web traffic.</li>
+              <li><strong>Nikto:</strong> A command-line tool that scans web servers for known vulnerabilities and misconfigurations.</li>
+              <li><strong>Wapiti:</strong> An open-source tool that conducts “black-box” scans to detect security issues in web applications.</li>
+              <li><strong>Acunetix:</strong> A commercial vulnerability scanner that provides detailed assessments and remediation guidance for web applications.</li>
+            </ul>
+            <p>
+              <strong>Usage Examples:</strong>
+            </p>
+            <ul>
+              <li>Run OWASP ZAP in daemon mode with: <code>zap.sh -daemon -port 8080</code></li>
+              <li>Configure Burp Suite as a proxy to capture and analyze browser traffic.</li>
+              <li>Scan a website with Nikto: <code>nikto -h http://www.example.com</code></li>
+            </ul>
+            <p>
+              Regular use of these tools—ideally integrated into a CI/CD pipeline—ensures that web applications remain secure through continuous testing and prompt remediation of discovered vulnerabilities.
+            </p>
+          </>
+        )
+      }
     ],
     quiz: {
       questions: [
@@ -1514,9 +2702,138 @@ const course: Module[] = [
     id: "module9",
     title: "Security Tools and Technologies",
     sections: [
-      { title: "Firewalls and IDS/IPS", summary: "Edit summary for Firewalls and IDS/IPS." },
-      { title: "Endpoint Detection and Response", summary: "Edit summary for Endpoint Detection and Response." },
-      { title: "Vulnerability Scanners", summary: "Edit summary for Vulnerability Scanners." },
+      {
+        title: "Firewalls and IDS/IPS",
+        summary: (
+          <>
+            <p><strong>Overview of Firewalls and IDS/IPS</strong></p>
+            <p>
+              Firewalls and Intrusion Detection/Prevention Systems (IDS/IPS) are foundational components in network security. They serve as the first line of defense by filtering traffic, monitoring network activities, and preventing unauthorized access. While firewalls primarily block or allow traffic based on preconfigured rules, IDS/IPS solutions focus on detecting and sometimes preventing anomalous or malicious activities.
+            </p>
+            <p><strong>Firewalls</strong></p>
+            <p>
+              Firewalls act as gatekeepers between trusted internal networks and untrusted external networks (such as the Internet). They can be implemented as hardware, software, or a combination of both. The most common types include:
+            </p>
+            <ul>
+              <li>
+                <strong>Network Firewalls:</strong> Typically deployed at the perimeter of a network, these devices inspect incoming and outgoing traffic based on IP addresses, port numbers, and protocols. Examples include Cisco ASA, Palo Alto Networks, and Fortinet.
+              </li>
+              <li>
+                <strong>Host-based Firewalls:</strong> Installed directly on an endpoint (such as a server or workstation), these firewalls provide an additional layer of defense by filtering traffic to and from the specific device. Windows Defender Firewall and iptables on Linux are common examples.
+              </li>
+            </ul>
+            <p>
+              Firewalls can be configured with granular policies that allow only specific traffic to pass through. For example, an organization might only allow HTTP/HTTPS traffic (ports 80/443) from the Internet while blocking all other ports.
+            </p>
+            <p><strong>Intrusion Detection and Prevention Systems (IDS/IPS)</strong></p>
+            <p>
+              IDS and IPS are designed to detect, alert, and even block potential threats. They monitor network traffic for signatures or unusual behaviors that indicate a possible security breach.
+            </p>
+            <ul>
+              <li>
+                <strong>Signature-Based Detection:</strong> Compares network traffic against a database of known attack patterns. Tools like Snort and Suricata are well-known for signature-based detection.
+              </li>
+              <li>
+                <strong>Anomaly-Based Detection:</strong> Establishes a baseline of normal behavior and flags deviations from this norm. This method is useful for detecting zero-day attacks.
+              </li>
+              <li>
+                <strong>Prevention Capabilities:</strong> Some systems (IPS) can automatically block malicious traffic once an intrusion is detected, whereas IDS typically only alert administrators.
+              </li>
+            </ul>
+            <p>
+              <strong>Real-World Example:</strong> A company might deploy a Cisco ASA firewall at its network perimeter to block unauthorized external traffic while using Snort as an IDS to monitor internal traffic for signs of compromise. Alerts from Snort can then be correlated with firewall logs for deeper analysis.
+            </p>
+            <p>
+              Together, firewalls and IDS/IPS form a multi-layered defense strategy that helps secure networks by preventing attacks at the perimeter and detecting suspicious activities internally.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Endpoint Detection and Response",
+        summary: (
+          <>
+            <p><strong>Introduction to Endpoint Detection and Response (EDR)</strong></p>
+            <p>
+              Endpoint Detection and Response (EDR) solutions are designed to continuously monitor endpoints—such as workstations, laptops, and servers—for signs of malicious activity. Unlike traditional antivirus software, EDR tools offer advanced behavioral analysis, real-time threat detection, and automated response capabilities.
+            </p>
+            <p>
+              <strong>Key Capabilities of EDR:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Continuous Monitoring:</strong> EDR systems monitor endpoints in real time to detect anomalies and suspicious behavior.
+              </li>
+              <li>
+                <strong>Threat Detection:</strong> Uses machine learning and behavioral analytics to identify known and unknown threats.
+              </li>
+              <li>
+                <strong>Automated Response:</strong> Some EDR platforms can automatically isolate compromised endpoints, terminate malicious processes, or roll back harmful changes.
+              </li>
+              <li>
+                <strong>Forensic Analysis:</strong> EDR tools collect and store detailed endpoint data to assist with incident investigations.
+              </li>
+            </ul>
+            <p>
+              <strong>Popular EDR Solutions:</strong> Examples include CrowdStrike Falcon, Carbon Black, SentinelOne, and Microsoft Defender ATP. These platforms integrate with Security Information and Event Management (SIEM) systems to provide a centralized view of endpoint security.
+            </p>
+            <p>
+              <strong>Example Scenario:</strong> Imagine a scenario where an employee unknowingly downloads a malicious file. An EDR solution immediately detects unusual behavior (such as unexpected process execution or network connections), alerts the security team, and isolates the endpoint from the network—all while logging critical forensic data for further investigation.
+            </p>
+            <p>
+              EDR systems not only improve the speed and accuracy of threat detection but also reduce the impact of breaches by automating response processes. They are an essential tool for modern cybersecurity strategies.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Vulnerability Scanners",
+        summary: (
+          <>
+            <p><strong>Understanding Vulnerability Scanners</strong></p>
+            <p>
+              Vulnerability scanners are automated tools used to identify security weaknesses in systems, networks, and applications. They scan for known vulnerabilities, misconfigurations, and compliance issues, providing detailed reports that can guide remediation efforts.
+            </p>
+            <p>
+              <strong>How Vulnerability Scanners Work:</strong> These tools typically work by probing systems using a database of known vulnerabilities. They check for missing patches, insecure configurations, default passwords, and other common issues.
+            </p>
+            <p>
+              <strong>Common Vulnerability Scanning Tools:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Nessus:</strong> One of the most widely used commercial vulnerability scanners that offers comprehensive scanning capabilities for networks, operating systems, and applications.
+              </li>
+              <li>
+                <strong>OpenVAS:</strong> An open-source vulnerability scanning solution that provides extensive network scanning and vulnerability assessment.
+              </li>
+              <li>
+                <strong>Qualys:</strong> A cloud-based platform offering vulnerability management, continuous monitoring, and compliance solutions.
+              </li>
+              <li>
+                <strong>Rapid7 Nexpose:</strong> A vulnerability management solution that scans, prioritizes, and helps remediate security risks.
+              </li>
+            </ul>
+            <p>
+              <strong>Examples and Practical Use Cases:</strong>
+            </p>
+            <ul>
+              <li>
+                Running a network scan with Nessus might reveal outdated software or unpatched vulnerabilities on servers and workstations.
+              </li>
+              <li>
+                OpenVAS can be set up to perform regular scans of an organization’s network, generating detailed reports that highlight vulnerabilities and provide remediation recommendations.
+              </li>
+              <li>
+                Integration with a vulnerability management system allows organizations to schedule scans, track remediation progress, and ensure compliance with industry standards.
+              </li>
+            </ul>
+            <p>
+              Vulnerability scanners are an essential part of proactive security management. By regularly scanning systems and networks, organizations can identify weaknesses before attackers exploit them, thereby reducing the overall risk of a security breach.
+            </p>
+          </>
+        )
+      }
     ],
     quiz: {
       questions: [
@@ -1533,11 +2850,211 @@ const course: Module[] = [
     id: "module10",
     title: "Social Engineering and Human Factors",
     sections: [
-      { title: "What is Social Engineering?", summary: "Edit summary for What is Social Engineering?" },
-      { title: "Types of Social Engineering Attacks", summary: "Edit summary for Types of Social Engineering Attacks." },
-      { title: "Psychological Principles Behind Social Engineering", summary: "Edit summary for Psychological Principles Behind Social Engineering." },
-      { title: "Real-World Examples of Social Engineering", summary: "Edit summary for Real-World Examples of Social Engineering." },
-      { title: "Defending Against Social Engineering", summary: "Edit summary for Defending Against Social Engineering." },
+      {
+        title: "What is Social Engineering?",
+        summary: (
+          <>
+            <p><strong>Defining Social Engineering</strong></p>
+            <p>
+              Social engineering is the art of manipulating people into divulging confidential information or performing actions that compromise security. Unlike traditional hacking, which exploits technical vulnerabilities, social engineering targets the human element. It exploits trust, curiosity, fear, or a sense of urgency to trick individuals into giving up passwords, financial data, or access to systems.
+            </p>
+            <p>
+              This form of attack leverages psychological tactics rather than relying solely on technical vulnerabilities. Social engineers often use pretexts or fabricated scenarios to gain the victim’s trust, making it easier to extract sensitive information.
+            </p>
+            <p>
+              <strong>Key Characteristics:</strong>
+            </p>
+            <ul>
+              <li>Exploits human psychology rather than system vulnerabilities.</li>
+              <li>Relies on persuasion, deception, and manipulation.</li>
+              <li>Often involves impersonation or fabricated scenarios.</li>
+            </ul>
+            <p>
+              <strong>Examples:</strong> 
+            </p>
+            <ul>
+              <li>A phishing email that appears to come from a trusted bank, urging the recipient to verify account details.</li>
+              <li>A phone call from someone pretending to be from IT support, asking for a user’s login credentials.</li>
+              <li>An in-person impersonation where an attacker tailgates into a secure area by pretending to be a delivery person.</li>
+            </ul>
+            <p>
+              Understanding social engineering is crucial because even the most sophisticated technical defenses can be undermined by a well-crafted manipulation of human behavior.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Types of Social Engineering Attacks",
+        summary: (
+          <>
+            <p><strong>Common Methods of Social Engineering</strong></p>
+            <p>
+              Social engineering attacks come in many forms, each designed to exploit different human vulnerabilities. Attackers choose their methods based on the target, the desired outcome, and the context of the attack.
+            </p>
+            <p>
+              <strong>Major Types Include:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Phishing:</strong> Mass-distributed fraudulent emails or messages designed to trick recipients into clicking on malicious links or providing sensitive information.
+                <br /><em>Example:</em> An email that appears to be from a reputable company asking you to update your password via a fake website.
+              </li>
+              <li>
+                <strong>Spear Phishing:</strong> Targeted phishing attacks aimed at specific individuals or organizations. The messages are tailored to the recipient, often referencing personal details.
+                <br /><em>Example:</em> An email to a company executive that appears to come from the CEO, requesting a confidential report.
+              </li>
+              <li>
+                <strong>Pretexting:</strong> The attacker creates a fabricated scenario to obtain personal information. This often involves posing as a trusted authority or familiar entity.
+                <br /><em>Example:</em> A fraudster posing as a bank official calling to confirm account details.
+              </li>
+              <li>
+                <strong>Baiting:</strong> Entices victims with the promise of something valuable, such as free software or a prize, to lure them into a trap.
+                <br /><em>Example:</em> Leaving a USB drive labeled “Confidential” in a public place, knowing someone will pick it up and plug it into their computer.
+              </li>
+              <li>
+                <strong>Tailgating (or Piggybacking):</strong> An attacker physically follows someone into a secure area by exploiting human courtesy.
+                <br /><em>Example:</em> An unauthorized person holding the door open for employees entering a building.
+              </li>
+              <li>
+                <strong>Quid Pro Quo:</strong> An attacker offers something in return for information, such as technical support in exchange for login credentials.
+                <br /><em>Example:</em> A scammer calling employees, offering free software upgrades, and asking for personal details in return.
+              </li>
+            </ul>
+            <p>
+              Each type of attack relies on different techniques and scenarios, but they all exploit basic human traits like trust, fear, and greed. Recognizing these methods is the first step in protecting against them.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Psychological Principles Behind Social Engineering",
+        summary: (
+          <>
+            <p><strong>The Human Element in Security</strong></p>
+            <p>
+              Social engineering attacks are successful because they leverage fundamental psychological principles. By understanding these principles, security professionals can better design training programs and countermeasures.
+            </p>
+            <p>
+              <strong>Key Psychological Tactics:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Authority:</strong> People are more likely to comply with requests from figures of authority.
+                <br /><em>Example:</em> An attacker posing as a high-ranking executive demanding immediate action.
+              </li>
+              <li>
+                <strong>Reciprocity:</strong> The social norm of returning favors. An attacker might offer a small gift or favor to lower the victim’s guard.
+                <br /><em>Example:</em> A scammer providing seemingly helpful information before asking for personal details.
+              </li>
+              <li>
+                <strong>Scarcity:</strong> People are more inclined to act when they believe a resource is limited.
+                <br /><em>Example:</em> A phishing email stating that a limited-time offer will expire soon, pressuring the recipient to act quickly.
+              </li>
+              <li>
+                <strong>Social Proof:</strong> Individuals often look to others for cues on how to behave, especially in uncertain situations.
+                <br /><em>Example:</em> An attacker might reference a recent security breach that affected many users, implying that everyone is at risk.
+              </li>
+              <li>
+                <strong>Consistency and Commitment:</strong> Once people commit to something, they are more likely to continue in that direction.
+                <br /><em>Example:</em> An attacker may start with a small request and gradually escalate to more sensitive information.
+              </li>
+              <li>
+                <strong>Liking:</strong> People are more likely to be influenced by those they find attractive or similar to themselves.
+                <br /><em>Example:</em> A social engineer might build rapport through shared interests or compliments before making a request.
+              </li>
+              <li>
+                <strong>Urgency/Fear:</strong> Creating a sense of urgency or fear can prompt individuals to bypass normal security protocols.
+                <br /><em>Example:</em> An email warning of immediate account suspension if actions are not taken.
+              </li>
+            </ul>
+            <p>
+              By exploiting these psychological triggers, social engineers can bypass technical controls and manipulate even well-trained individuals. Recognizing these tactics is essential for developing effective security awareness programs.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Real-World Examples of Social Engineering",
+        summary: (
+          <>
+            <p><strong>Case Studies and Real-World Incidents</strong></p>
+            <p>
+              Real-world examples of social engineering demonstrate how these attacks can compromise security despite robust technical defenses. These incidents highlight the importance of combining technical controls with effective human training.
+            </p>
+            <p>
+              <strong>Notable Examples:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>The Kevin Mitnick Story:</strong> One of the most famous social engineering cases, where famed hacker Kevin Mitnick used phone calls, impersonation, and pretexting to gain access to confidential systems.
+              </li>
+              <li>
+                <strong>Phishing Campaigns:</strong> Large-scale phishing attacks have targeted millions of users, often disguised as messages from banks, tech companies, or even government agencies. For example, emails urging recipients to reset their passwords on a fake login page.
+              </li>
+              <li>
+                <strong>CEO Fraud (Business Email Compromise):</strong> Attackers impersonate company executives to trick employees into transferring funds or revealing sensitive data. Such attacks have led to multi-million-dollar losses in several high-profile cases.
+              </li>
+              <li>
+                <strong>Physical Social Engineering:</strong> In some instances, attackers have gained physical access to secure facilities by tailgating—following an employee through a secure door by pretending to be a delivery person.
+              </li>
+              <li>
+                <strong>Tech Support Scams:</strong> Scammers call individuals claiming to be from reputable tech companies, convincing victims to grant remote access to their computers or pay for unnecessary support services.
+              </li>
+            </ul>
+            <p>
+              These examples illustrate that social engineering is not confined to the digital realm; it also exploits physical and psychological vulnerabilities to breach security.
+            </p>
+          </>
+        )
+      },
+      {
+        title: "Defending Against Social Engineering",
+        summary: (
+          <>
+            <p><strong>Strategies for Prevention and Response</strong></p>
+            <p>
+              Defending against social engineering requires a multi-layered approach that combines technical controls, employee training, and robust policies. Awareness is the first line of defense.
+            </p>
+            <p>
+              <strong>Key Defensive Measures:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Security Awareness Training:</strong> Regular training sessions help employees recognize and respond appropriately to social engineering attempts. Simulated phishing campaigns can be used to test and reinforce training.
+              </li>
+              <li>
+                <strong>Verification Procedures:</strong> Encourage employees to verify requests through separate communication channels. For example, a phone call or direct message to a supervisor before sharing sensitive information.
+              </li>
+              <li>
+                <strong>Multi-Factor Authentication (MFA):</strong> Even if an attacker obtains a password through social engineering, MFA provides an additional layer of security.
+              </li>
+              <li>
+                <strong>Clear Security Policies:</strong> Establish policies that outline acceptable behaviors, reporting procedures, and consequences for security breaches. Regularly update these policies as threats evolve.
+              </li>
+              <li>
+                <strong>Incident Response Plans:</strong> Develop and maintain a response plan that includes steps to follow if a social engineering attack is suspected or confirmed.
+              </li>
+            </ul>
+            <p>
+              <strong>Examples of Best Practices:</strong>
+            </p>
+            <ul>
+              <li>
+                Conducting periodic simulated phishing tests to gauge employee awareness and measure training effectiveness.
+              </li>
+              <li>
+                Implementing strict call-back procedures in organizations where financial transactions are approved via phone.
+              </li>
+              <li>
+                Using technology solutions, such as email filtering and anti-spoofing measures, to reduce the number of phishing attempts reaching employees.
+              </li>
+            </ul>
+            <p>
+              By combining these strategies, organizations can build a resilient defense against social engineering attacks. Continuous training, regular testing, and robust verification processes are essential to minimize the risk posed by human factors in security.
+            </p>
+          </>
+        )
+      }
     ],
     quiz: {
       questions: [
