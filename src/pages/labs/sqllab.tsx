@@ -1,7 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, ArrowLeft, ThumbsUp, Lightbulb } from 'lucide-react';
+import { ChevronRight, ArrowLeft, ThumbsUp, Lightbulb, CheckCircle2, XCircle, HelpCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';
+import { motion } from 'framer-motion';
+
+// Reusable QuestionCard Component for quizzes
+const QuestionCard = ({ question, hintsRemaining, onAnswerChange, onSubmit, onToggleHint }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 1, scale: 1 }}
+      animate={{
+        opacity: question.isCorrect === true ? 0.5 : 1,
+        scale: question.isCorrect === true ? 0.98 : 1,
+      }}
+      transition={{ duration: 0.5 }}
+      className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:bg-primary-dark/40 hover:border-primary-blue transition-all"
+    >
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold mb-4">
+            {question.id}. {question.text}
+          </h3>
+          <div className="flex items-center space-x-4">
+            <input
+              type="text"
+              className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
+              placeholder="Enter your answer"
+              value={question.userAnswer}
+              onChange={(e) => onAnswerChange(question.id, e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && question.isCorrect !== true) {
+                  onSubmit(question.id, question.userAnswer);
+                }
+              }}
+              disabled={question.isCorrect === true}
+            />
+            <button
+              className={`text-gray-500 hover:text-gray-400 transition-all ${hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              onClick={() => onToggleHint(question.id)}
+              disabled={question.isCorrect === true || hintsRemaining === 0}
+            >
+              <HelpCircle className="w-5 h-5" />
+            </button>
+            {question.isCorrect !== true && (
+              <button
+                className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+                onClick={() => onSubmit(question.id, question.userAnswer)}
+              >
+                Submit
+              </button>
+            )}
+            {question.isCorrect !== undefined &&
+              (question.isCorrect ? (
+                <CheckCircle2 className="w-6 h-6 text-green-500" />
+              ) : (
+                <XCircle className="w-6 h-6 text-red-500" />
+              ))}
+          </div>
+          {question.showHint && (
+            <div className="mt-4 text-gray-300 italic">{question.hint}</div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 function SQLLab() {
   const navigate = useNavigate();
@@ -18,6 +81,14 @@ function SQLLab() {
   const [likesCount, setLikesCount] = useState(parseInt(localStorage.getItem('likesCount')) || 0);
   const [hasLiked, setHasLiked] = useState(false);
 
+  // --- Quiz System States ---
+  const [quizQuestions, setQuizQuestions] = useState([]);
+  const [quizVisible, setQuizVisible] = useState(false);
+  const [quizHintsRemaining, setQuizHintsRemaining] = useState(3);
+  const [quizShowConfetti, setQuizShowConfetti] = useState(false);
+  const [quizShowSuccess, setQuizShowSuccess] = useState(false);
+  const [quizShowError, setQuizShowError] = useState(false);
+
   // Correct flags keyed by subsection identifiers
   const correctFlags = {
     "1.1": "HTH{sql_injection_basics}",
@@ -28,7 +99,8 @@ function SQLLab() {
     "2.2": "flag{union_attacks}"
   };
 
-  // Sections with improved content formatting and special style for code parts
+  // Sections with content and (for some) quiz questions.
+  // For pages where you want a specific lab route, add a labRoute property.
   const sections = [
     {
       id: "1",
@@ -38,7 +110,28 @@ function SQLLab() {
           id: "1.1",
           title: "What is SQL injection (SQLi)?",
           content: `SQL injection (SQLi) is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. This can allow an attacker to view data that they are not normally able to retrieve – including data belonging to other users – or any other data that the application can access. In many cases, an attacker can modify or delete this data, causing persistent changes to the application's content or behavior.<br/><br/>
-In some situations, an attacker can escalate a SQL injection attack to compromise the underlying server or other back-end infrastructure. It can also enable them to perform denial-of-service attacks.`
+In some situations, an attacker can escalate a SQL injection attack to compromise the underlying server or other back-end infrastructure. It can also enable them to perform denial-of-service attacks.`,
+          // Quiz questions for this subsection
+          quiz: [
+            {
+              id: 1,
+              text: "What is SQL Injection?",
+              answer: "a web security vulnerability",
+              hint: "Think about unauthorized access."
+            },
+            {
+              id: 2,
+              text: "How can SQL Injection affect a web application?",
+              answer: "it can allow unauthorized data access",
+              hint: "Consider data breaches."
+            },
+            {
+              id: 3,
+              text: "What are potential consequences of a successful SQL Injection attack?",
+              answer: "data loss",
+              hint: "Data loss or unauthorized access."
+            }
+          ]
         },
         {
           id: "1.2",
@@ -81,7 +174,9 @@ If the query returns a user record, the login is successful; otherwise, it is re
 An attacker can bypass the password check by using the SQL comment sequence <code>--</code> to remove part of the query. For example, submitting the username <code>administrator'--</code> with a blank password results in:<br/><br/>
 <code>SELECT * FROM users WHERE username = 'administrator'--' AND password = ''</code><br/><br/>
 This query returns the record for the administrator user, effectively logging the attacker in as that user.<br/><br/>
-This lab contains a SQL injection vulnerability in the login function. To solve the lab, perform a SQL injection attack that logs in as the administrator user.`
+This lab contains a SQL injection vulnerability in the login function. To solve the lab, perform a SQL injection attack that logs in as the administrator user.`,
+          // Specific lab route for this page
+          labRoute: "/lab-admin-login"
         }
       ]
     },
@@ -103,7 +198,9 @@ The <code>UNION</code> keyword enables you to execute one or more additional <co
 2. The data types in each column must be compatible.<br/><br/>
 To carry out a SQL injection UNION attack, you typically need to determine:<br/><br/>
 • How many columns the original query returns.<br/>
-• Which columns are of a suitable data type to hold the injected query's results.`
+• Which columns are of a suitable data type to hold the injected query's results.`,
+          // Specific lab route example for this page (optional)
+          labRoute: "/lab-union-attack"
         },
         {
           id: "3",
@@ -131,13 +228,6 @@ To solve the lab, determine the number of columns returned by the query by submi
     }
   ];
 
-  // Array of lab routes; a random one will be chosen when "Access Lab" is clicked.
-  const labRoutes = [
-    "/lab-exercise-1",
-    "/lab-exercise-2",
-    "/lab-exercise-3"
-  ];
-
   useEffect(() => {
     // Reset flag message, input, and hint when the subsection changes
     setFlagMessage("");
@@ -154,6 +244,7 @@ To solve the lab, determine the number of columns returned by the query by submi
     localStorage.setItem('likesCount', likesCount);
   }, [activeSection, activeSubSection, progress, quizResults, likesCount]);
 
+  // --- Flag Submission ---
   const handleFlagSubmit = () => {
     if (flagInput === correctFlags[activeSubSection]) {
       setFlagMessage("✅ Correct flag!");
@@ -185,7 +276,7 @@ To solve the lab, determine the number of columns returned by the query by submi
     if (activeSubSection === "2.2") return "Consider tools like sqlmap for automated testing.";
     if (activeSubSection === "3.1") return "Use ORDER BY clauses or UNION SELECT with NULL values to determine the number of columns.";
     if (activeSubSection === "3.2") {
-      return "Modify the category parameter to add a UNION SELECT with NULL values. Start with one NULL, then increase until the error disappears and additional content appears.";
+      return "Modify the category parameter to add a UNION SELECT with NULL values. Start with one NULL, then increase until the error disappears.";
     }
     return "No hint available.";
   };
@@ -214,13 +305,65 @@ To solve the lab, determine the number of columns returned by the query by submi
     }
   };
 
-  const handleAccessLab = () => {
-    const randomIndex = Math.floor(Math.random() * labRoutes.length);
-    navigate(labRoutes[randomIndex]);
+  // --- Quiz System Handlers ---
+  // When the current subsection changes, initialize quiz state if a quiz exists.
+  const currentSub = sections.find(sec => sec.id === activeSection)?.subsections.find(sub => sub.id === activeSubSection);
+  useEffect(() => {
+    if (currentSub && currentSub.quiz) {
+      const initializedQuiz = currentSub.quiz.map(q => ({
+        ...q,
+        userAnswer: '',
+        isCorrect: undefined,
+        showHint: false
+      }));
+      setQuizQuestions(initializedQuiz);
+    } else {
+      setQuizQuestions([]);
+    }
+    setQuizVisible(false);
+    setQuizHintsRemaining(3);
+    setQuizShowSuccess(false);
+    setQuizShowError(false);
+  }, [activeSubSection, currentSub]);
+
+  const handleQuizAnswerChange = (id, value) => {
+    setQuizQuestions(quizQuestions.map(q => q.id === id ? { ...q, userAnswer: value } : q));
   };
 
-  // Retrieve current subsection data for easy access.
-  const currentSub = sections.find(sec => sec.id === activeSection)?.subsections.find(sub => sub.id === activeSubSection);
+  const handleQuizSubmit = (id, answer) => {
+    setQuizQuestions(quizQuestions.map(q => {
+      if (q.id === id) {
+        return { ...q, userAnswer: answer, isCorrect: answer.toLowerCase() === q.answer.toLowerCase() };
+      }
+      return q;
+    }));
+  };
+
+  const handleQuizToggleHint = (id) => {
+    if (quizHintsRemaining > 0) {
+      setQuizQuestions(quizQuestions.map(q => {
+        if (q.id === id && !q.showHint) {
+          setQuizHintsRemaining(quizHintsRemaining - 1);
+          return { ...q, showHint: true };
+        }
+        return q;
+      }));
+    }
+  };
+
+  const handleQuizComplete = () => {
+    const allAnswered = quizQuestions.every(q => q.isCorrect !== undefined);
+    const correctCount = quizQuestions.filter(q => q.isCorrect).length;
+    if (allAnswered && correctCount === quizQuestions.length) {
+      setQuizShowConfetti(true);
+      setQuizShowSuccess(true);
+      setQuizShowError(false);
+    } else {
+      setQuizShowError(true);
+      setQuizShowConfetti(false);
+      setQuizShowSuccess(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-white">
@@ -245,6 +388,17 @@ To solve the lab, determine the number of columns returned by the query by submi
                 Back to Labs
               </Link>
               <span className="text-xl font-bold">SQL Injection Course</span>
+            </div>
+            {/* Conditionally render the Access Lab button if the current subsection has a labRoute */}
+            <div className="text-right">
+              {currentSub && currentSub.labRoute && (
+                <button
+                  className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
+                  onClick={() => navigate(currentSub.labRoute)}
+                >
+                  Access Lab
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -271,15 +425,8 @@ To solve the lab, determine the number of columns returned by the query by submi
               <div className="bg-green-500 h-2 rounded-full" style={{ width: `${progress}%` }}></div>
             </div>
           </div>
-          {/* Top Right: Access Lab Button */}
-          <div className="text-right">
-            <button
-              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
-              onClick={handleAccessLab}
-            >
-              Access Lab
-            </button>
-          </div>
+          {/* Top Right: (Access Lab button now moved to the navbar if applicable) */}
+          <div className="text-right"></div>
         </div>
       </div>
 
@@ -377,6 +524,52 @@ To solve the lab, determine the number of columns returned by the query by submi
                   Continue
                 </button>
               </div>
+              {/* --- Quiz Section --- */}
+              {currentSub.quiz && (
+                <div className="mt-8">
+                  <button
+                    className="px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-700"
+                    onClick={() => setQuizVisible(!quizVisible)}
+                  >
+                    {quizVisible ? "Hide Quiz" : "Take Quiz"}
+                  </button>
+                </div>
+              )}
+              {quizVisible && quizQuestions.length > 0 && (
+                <div className="mt-4 space-y-4">
+                  {quizQuestions.map((q) => (
+                    <QuestionCard
+                      key={q.id}
+                      question={q}
+                      hintsRemaining={quizHintsRemaining}
+                      onAnswerChange={handleQuizAnswerChange}
+                      onSubmit={handleQuizSubmit}
+                      onToggleHint={handleQuizToggleHint}
+                    />
+                  ))}
+                  <div className="text-center mt-4">
+                    <button
+                      className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                      onClick={handleQuizComplete}
+                    >
+                      Complete Quiz
+                    </button>
+                    {quizShowError && (
+                      <div className="mt-2 bg-red-600 text-white p-3 rounded-md">
+                        Please answer all questions correctly before completing the quiz.
+                      </div>
+                    )}
+                  </div>
+                  {quizShowSuccess && (
+                    <div className="mt-4 text-center">
+                      <div className="p-4 bg-green-600 text-white rounded-md">
+                        Congratulations! You have completed the quiz successfully.
+                      </div>
+                      {quizShowConfetti && <Confetti />}
+                    </div>
+                  )}
+                </div>
+              )}
               {showConfetti && <Confetti />}
             </div>
           )}
