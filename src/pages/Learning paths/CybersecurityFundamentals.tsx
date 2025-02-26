@@ -711,23 +711,306 @@ const course: Module[] = [
     id: "module3",
     title: "The CIA Triad",
     sections: [
-      { title: "Confidentiality", summary: "Edit summary for Confidentiality." },
-      { title: "Integrity", summary: "Edit summary for Integrity." },
-      { title: "Availability", summary: "Edit summary for Availability." },
-      { title: "Quiz", summary: "Quiz placeholder" }
+      {
+        title: "What Is The CIA Triad?",
+        summary: (
+          <>
+                    <img
+  src="/Learning Paths/Fundamentals/The CIA Triad.png"
+  alt="Important Security"
+  className="max-w-xl w-full h-auto border border-gray-300 rounded-lg p-2 shadow-md mx-auto"
+/>
+            <p><strong>What Is The CIA Triad?</strong></p>
+            <p>
+              The CIA Triad—comprising Confidentiality, Integrity, and Availability—is a cornerstone model in information security. It serves as a blueprint for designing, evaluating, and strengthening security systems. By breaking down security into these three core principles, organizations can better identify vulnerabilities, implement targeted solutions, and build a robust defense against cyber threats. When all three elements are effectively addressed, an organization’s security posture becomes resilient, capable of safeguarding critical assets and maintaining operational continuity.
+            </p>
+            <p>
+              But why is the CIA Triad so widely adopted, and how can it be uniquely applied to modern cybersecurity challenges? Let’s explore its components, their significance, and how they can be tailored to address evolving threats.
+            </p>
+            <p className="mt-2"></p>
+            <p><strong>Why the CIA Triad Matters</strong></p>
+            <p>
+              The CIA Triad is not just a theoretical concept; it’s a practical framework that guides decision-making in cybersecurity. It provides a high-level checklist for evaluating security policies, tools, and incident responses.
+            </p>
+            <ul>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Holistic Security:</strong> It ensures that no critical aspect of security is overlooked. A system that excels in confidentiality but fails in availability is incomplete.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Incident Analysis:</strong> After a security breach, the triad helps dissect what went wrong. For instance, was confidentiality breached, or was availability disrupted? This analysis informs better future defenses.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Proactive Defense:</strong> By focusing on the triad, organizations can anticipate attacker motives and disrupt the Cyber Kill Chain—the step-by-step process attackers use to execute breaches.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Employee Training:</strong> It simplifies cybersecurity concepts, making it easier to train employees on protecting sensitive data and systems.
+              </li>
+            </ul>
+          </>
+        )
+      },
+      {
+        title: "Confidentiality",
+        summary: (
+          <>
+           
+            <p><strong>Confidentiality: Keeping Secrets Safe</strong></p>
+            <p>
+              Confidentiality ensures that sensitive information is accessible only to authorized individuals. It’s about controlling who can view, share, or modify data. In a world where data breaches are rampant, maintaining confidentiality is critical to protecting trade secrets, customer information, and intellectual property.
+            </p>
+            <p className="mt-2"></p>
+            <p><strong>Threats to Confidentiality:</strong></p>
+            <ul>
+              <li>
+                <strong>Cyberattacks:</strong> Techniques like man-in-the-middle (MITM) attacks, phishing, or credential theft aim to steal or expose sensitive data.
+              </li>
+              <li>
+                <strong>Human Error:</strong> Weak passwords, accidental data sharing, or improper encryption can lead to unintended exposure.
+              </li>
+              <li>
+                <strong>Insider Threats:</strong> Employees with malicious intent or poor security practices can compromise confidentiality.
+              </li>
+            </ul>
+            <p><strong>Unique Strategies for Confidentiality:</strong></p>
+            <ul>
+              <li>
+                <strong>Data Classification:</strong> Label data based on sensitivity (e.g., public, internal, confidential) and enforce access controls accordingly.
+              </li>
+              <li>
+                <strong>Zero Trust Architecture:</strong> Assume no user or device is inherently trustworthy. Verify every access request, even from within the network.
+              </li>
+              <li>
+                <strong>Homomorphic Encryption:</strong> Process encrypted data without decrypting it, ensuring confidentiality even during computation.
+              </li>
+            </ul>
+          </>
+        )
+      },
+      {
+        title: "Integrity",
+        summary: (
+          <>
+           
+            <p><strong>Integrity: Ensuring Trustworthy Data</strong></p>
+            <p>
+              Integrity ensures that data remains accurate, consistent, and unaltered throughout its lifecycle. Whether it’s financial records, customer databases, or website content, tampered data can lead to mistrust, financial losses, and reputational damage.
+            </p>
+            <p className="mt-2"></p>
+            <p><strong>Threats to Integrity:</strong></p>
+            <ul>
+              <li>
+                <strong>Cyberattacks:</strong> Hackers may alter data to mislead, sabotage, or extort an organization.
+              </li>
+              <li>
+                <strong>System Errors:</strong> Software bugs or hardware malfunctions can corrupt data.
+              </li>
+              <li>
+                <strong>Human Error:</strong> Accidental changes or deletions can compromise data reliability.
+              </li>
+            </ul>
+            <p className="mt-2"></p>
+            <p><strong>Unique Strategies for Integrity:</strong></p>
+            <ul>
+              <li>
+                <strong>Blockchain Technology:</strong> Use decentralized ledgers to create immutable records of transactions or data changes.
+              </li>
+              <li>
+                <strong>Digital Signatures:</strong> Verify the authenticity and integrity of documents or communications.
+              </li>
+              <li>
+                <strong>Checksums and Hashing:</strong> Detect unauthorized changes by comparing hash values before and after data transmission or storage.
+              </li>
+            </ul>
+          </>
+        )
+      },
+      {
+        title: "Availability",
+        summary: (
+          <>
+         
+            <p><strong>Availability: Ensuring Access When Needed</strong></p>
+            <p>
+              Availability ensures that systems, data, and services are accessible to authorized users when required. Downtime, whether caused by cyberattacks, hardware failures, or natural disasters, can cripple operations and erode customer trust.
+            </p>
+            <p className="mt-2"></p>
+            <p><strong>Threats to Availability:</strong></p>
+            <ul>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Denial-of-Service (DoS) Attacks:</strong> Overwhelm systems to make them unavailable to legitimate users.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Ransomware:</strong> Encrypt data or systems, rendering them inaccessible until a ransom is paid.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Hardware Failures:</strong> Servers, storage devices, or network equipment can fail, disrupting operations.
+              </li>
+            </ul>
+            <p className="mt-2"></p>
+            <p><strong>Unique Strategies for Availability:</strong></p>
+            <ul>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Edge Computing:</strong> Distribute computing resources closer to users to reduce latency and improve resilience.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>AI-Driven Monitoring:</strong> Use machine learning to predict and prevent potential system failures or attacks.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Immutable Backups:</strong> Store backups in a way that prevents tampering, ensuring quick recovery after an attack.
+              </li>
+            </ul>
+          </>
+        )
+      },
+      {
+        title: "Beyond the Basics",
+        summary: (
+          <>
+        
+            <p><strong>When to Use the CIA Triad</strong></p>
+            <ul>
+              <li>
+              <p className="mt-2"></p>
+                <strong>System Design:</strong> Build security into new systems from the ground up.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Incident Response:</strong> Analyze breaches to identify which pillar was compromised and how.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Compliance:</strong> Align security practices with regulations like GDPR, HIPAA, or PCI-DSS.
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Employee Training:</strong> Teach staff to think in terms of confidentiality, integrity, and availability when handling data.
+              </li>
+            </ul>
+            <p className="mt-2"></p>
+            <p><strong>Beyond the Basics: Making the CIA Triad Unique</strong></p>
+            <p>
+              
+              While the CIA Triad is a well-established model, its application can be tailored to address modern challenges:
+            </p>
+            <ul>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Adapt to Emerging Technologies:</strong> As organizations adopt cloud computing, IoT, and AI, the triad must evolve. For example:
+                <ul>
+                  <li>
+                  <p className="mt-2"></p>
+                    <strong>Confidentiality:</strong> Encrypt data in transit and at rest, even in multi-cloud environments.
+                  </li>
+                  <li>
+                  <p className="mt-2"></p>
+                    <strong>Integrity:</strong> Use AI to detect anomalies in data patterns that may indicate tampering.
+                  </li>
+                  <li>
+                  <p className="mt-2"></p>
+                    <strong>Availability:</strong> Leverage cloud redundancy to ensure uninterrupted access.
+                  </li>
+                </ul>
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Focus on Human-Centric Security:</strong> Recognize that humans are often the weakest link. Implement:
+                <ul>
+                  <li>
+                    <strong>Behavioral Analytics:</strong> Monitor user activity to detect unusual behavior.
+                  </li>
+                  <li>
+                    <strong>Gamified Training:</strong> Make cybersecurity training engaging and memorable.
+                  </li>
+                </ul>
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Integrate with Threat Intelligence:</strong> Use real-time threat data to prioritize efforts. For example:
+                <ul>
+                  <li>
+                    If ransomware attacks are on the rise, focus on availability and backup strategies.
+                  </li>
+                  <li>
+                    If phishing campaigns target your industry, emphasize confidentiality and employee awareness.
+                  </li>
+                </ul>
+              </li>
+              <li>
+              <p className="mt-2"></p>
+                <strong>Leverage Automation:</strong> 
+                <p className="mt-2"></p>Automate routine tasks like patch management, access control, and incident response to ensure consistency and reduce human error.
+              </li>
+            </ul>
+            <p className="mt-4"></p>
+            <p><strong>Conclusion</strong></p>
+            <p>
+              The CIA Triad is more than just a theoretical framework—it’s a dynamic tool that adapts to the ever-changing cybersecurity landscape. By focusing on confidentiality, integrity, and availability, organizations can build a multi-layered defense that not only protects against current threats but also anticipates future challenges. Whether you’re designing a new system, responding to an incident, or training your team, the CIA Triad provides a clear, actionable roadmap for achieving robust security. In a world where data is the new currency, the CIA Triad ensures that your organization’s most valuable assets remain secure, trustworthy, and accessible.
+            </p>
+          </>
+        )
+      }
     ],
     quiz: {
       questions: [
         {
           id: 1,
-          question: "Placeholder: What does the CIA Triad stand for?",
+          question: "Which component of the CIA Triad ensures that data is accessible to authorized users when needed?",
+          options: ["Confidentiality", "Integrity", "Availability", "Authentication"],
+          correctAnswer: "Availability"
+        },
+        {
+          id: 2,
+          question: "What is the primary goal of confidentiality in the CIA Triad?",
           options: [
-            "Confidentiality, Integrity, Availability",
-            "Control, Integrity, Accuracy",
-            "Confidentiality, Innovation, Adaptability",
-            "None of the above"
+            "Ensuring data accuracy",
+            "Preventing unauthorized access to data",
+            "Ensuring data is always available",
+            "Detecting data tampering"
           ],
-          correctAnswer: "Confidentiality, Integrity, Availability"
+          correctAnswer: "Preventing unauthorized access to data"
+        },
+        {
+          id: 3,
+          question: "Which of the following is a strategy to ensure data integrity?",
+          options: [
+            "Data Classification",
+            "Blockchain Technology",
+            "Edge Computing",
+            "Homomorphic Encryption"
+          ],
+          correctAnswer: "Blockchain Technology"
+        },
+        {
+          id: 4,
+          question: "What is a common threat to availability?",
+          options: [
+            "Phishing Attacks",
+            "Ransomware",
+            "Data Classification Errors",
+            "Weak Passwords"
+          ],
+          correctAnswer: "Ransomware"
+        },
+        {
+          id: 5,
+          question: "Which of the following is NOT part of the CIA Triad?",
+          options: [
+            "Confidentiality",
+            "Integrity",
+            "Availability",
+            "Authentication"
+          ],
+          correctAnswer: "Authentication"
         }
       ]
     }
