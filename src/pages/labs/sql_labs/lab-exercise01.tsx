@@ -11,4 +11,4 @@ const LabExercise01: React.FC = () => {
   );
 };
 
-export default LabExercise01;
+export default LABexercise01;
