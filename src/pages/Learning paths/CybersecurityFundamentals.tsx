@@ -52,9 +52,19 @@ const course: Module[] = [
         title: "Security Operations Center (SOC) Analyst",
         summary: (
           <>
+            <img
+  src="/Learning Paths/Fundamentals/soc.png"
+  alt="SOC"
+  className="w-80 border border-gray-300 rounded-lg p-2 shadow-md"
+/>
+           <p className="mt-4"></p>
             <p><strong>Job Description:</strong></p>
+            <p className="mt-1">
             <p>SOC Analysts are the first line of defense against cyber threats. They monitor security alerts, investigate potential incidents, and respond to cyberattacks in real time. They work in a Security Operations Center (SOC), analyzing logs and network traffic to detect malicious activity.</p>
+            </p>
+            <p className="mt-2"></p>
             <p><strong>Key Responsibilities:</strong></p>
+            <p className="mt-2"></p>
             <ul>
               <li>Monitor and analyze security alerts from SIEM tools.</li>
               <li>Investigate suspicious activities and escalate threats.</li>
@@ -62,7 +72,9 @@ const course: Module[] = [
               <li>Perform threat intelligence analysis.</li>
               <li>Conduct vulnerability assessments.</li>
             </ul>
+            <p className="mt-2"></p>
             <p><strong>Required Skills:</strong></p>
+            <p className="mt-2"></p>
             <ul>
               <li>Knowledge of SIEM tools (Splunk, ELK, etc.).</li>
               <li>Familiarity with Windows, Linux, and networking fundamentals.</li>
@@ -76,16 +88,25 @@ const course: Module[] = [
         title: "Security Engineer",
         summary: (
           <>
+          <img
+  src="/Learning Paths/Fundamentals/Engineer.png"
+  alt="SOC"
+  className="w-80 border border-gray-300 rounded-lg p-2 shadow-md"
+/> <p className="mt-4"></p>
             <p><strong>Job Description:</strong></p>
+           
             <p>Security Engineers design, implement, and maintain security controls to protect an organization’s infrastructure. They focus on strengthening defenses to prevent cyber threats.</p>
+            <p className="mt-2"></p>
             <p><strong>Key Responsibilities:</strong></p>
             <ul>
+              
               <li>Develop and implement security policies and procedures.</li>
               <li>Configure and manage firewalls, IDS/IPS, and endpoint security solutions.</li>
               <li>Collaborate with cross-functional teams for secure development and deployment.</li>
               <li>Automate security processes to improve efficiency and response times.</li>
               <li>Conduct security training for employees.</li>
             </ul>
+            <p className="mt-2"></p>
             <p><strong>Required Skills:</strong></p>
             <ul>
               <li>Strong understanding of networking and system administration.</li>
@@ -100,8 +121,15 @@ const course: Module[] = [
         title: "Incident Responder",
         summary: (
           <>
+                 <img
+  src="/Learning Paths/Fundamentals/Responder.png"
+  alt="SOC"
+  className="w-80 border border-gray-300 rounded-lg p-2 shadow-md"
+/> <p className="mt-4"></p>
+
             <p><strong>Job Description:</strong></p>
             <p>Incident Responders handle cybersecurity incidents, mitigating damage and preventing recurrence. They work to identify, contain, and remediate cyberattacks.</p>
+            <p className="mt-2"></p>
             <p><strong>Key Responsibilities:</strong></p>
             <ul>
               <li>Analyze and contain security incidents.</li>
@@ -110,6 +138,7 @@ const course: Module[] = [
               <li>Work with SOC analysts to investigate threats.</li>
               <li>Provide recommendations for security improvements.</li>
             </ul>
+            <p className="mt-2"></p>
             <p><strong>Required Skills:</strong></p>
             <ul>
               <li>Proficiency in digital forensics and malware analysis.</li>
@@ -124,8 +153,14 @@ const course: Module[] = [
         title: "Digital Forensics Analyst",
         summary: (
           <>
+                           <img
+  src="/Learning Paths/Fundamentals/Forensics.png"
+  alt="SOC"
+  className="w-80 border border-gray-300 rounded-lg p-2 shadow-md"
+/> <p className="mt-4"></p>
             <p><strong>Job Description:</strong></p>
             <p>Digital Forensics Analysts investigate cybercrimes by analyzing digital evidence. They work on legal cases, corporate investigations, and incident response teams.</p>
+            <p className="mt-2"></p>
             <p><strong>Key Responsibilities:</strong></p>
             <ul>
               <li>Collect and analyze digital evidence from computers, servers, and mobile devices.</li>
@@ -134,6 +169,7 @@ const course: Module[] = [
               <li>Use forensic tools such as Autopsy, EnCase, and FTK.</li>
               <li>Maintain the integrity and chain of custody of evidence.</li>
             </ul>
+            <p className="mt-2"></p>
             <p><strong>Required Skills:</strong></p>
             <ul>
               <li>Deep knowledge of file systems and operating systems.</li>
@@ -148,8 +184,14 @@ const course: Module[] = [
         title: "Malware Analyst",
         summary: (
           <>
+                                     <img
+  src="/Learning Paths/Fundamentals/Malware.png"
+  alt="SOC"
+  className="w-80 border border-gray-300 rounded-lg p-2 shadow-md"
+/> <p className="mt-4"></p>
             <p><strong>Job Description:</strong></p>
             <p>Malware Analysts study malicious software to understand how it works and how to defend against it. They reverse-engineer malware to uncover its purpose and mitigate threats.</p>
+            <p className="mt-2"></p>
             <p><strong>Key Responsibilities:</strong></p>
             <ul>
               <li>Analyze malware samples using dynamic and static analysis techniques.</li>
@@ -158,6 +200,7 @@ const course: Module[] = [
               <li>Research emerging threats and document findings.</li>
               <li>Collaborate with incident responders and threat intelligence teams.</li>
             </ul>
+            <p className="mt-2"></p>
             <p><strong>Required Skills:</strong></p>
             <ul>
               <li>Proficiency in assembly language and reverse engineering.</li>
@@ -172,8 +215,14 @@ const course: Module[] = [
         title: "Penetration Tester",
         summary: (
           <>
+                                               <img
+  src="/Learning Paths/Fundamentals/PTester.png"
+  alt="SOC"
+  className="w-80 border border-gray-300 rounded-lg p-2 shadow-md"
+/> <p className="mt-4"></p>
             <p><strong>Job Description:</strong></p>
             <p>Penetration Testers (ethical hackers) simulate cyberattacks to identify security weaknesses in systems, networks, and applications.</p>
+            <p className="mt-2"></p>
             <p><strong>Key Responsibilities:</strong></p>
             <ul>
               <li>Conduct vulnerability assessments and penetration tests.</li>
@@ -182,6 +231,7 @@ const course: Module[] = [
               <li>Write detailed reports on findings.</li>
               <li>Keep up with the latest hacking techniques and tools.</li>
             </ul>
+            <p className="mt-2"></p>
             <p><strong>Required Skills:</strong></p>
             <ul>
               <li>Strong understanding of networking, web applications, and operating systems.</li>
@@ -196,14 +246,21 @@ const course: Module[] = [
         title: "Career Growth Opportunities",
         summary: (
           <>
+                                                         <img
+  src="/Learning Paths/Fundamentals/career.png"
+  alt="SOC"
+  className="w-80 border border-gray-300 rounded-lg p-2 shadow-md"
+/> <p className="mt-4"></p>
             <p>Cybersecurity offers numerous opportunities for career advancement. Professionals can start in entry-level roles and progress to specialized or leadership positions such as:</p>
             <ul>
+            <p className="mt-2"></p>
               <li>Security Architect: Designs security frameworks and ensures overall security posture.</li>
               <li>Threat Hunter: Proactively searches for hidden threats within an organization.</li>
               <li>Chief Information Security Officer (CISO): Leads an organization’s cybersecurity strategy and teams.</li>
               <li>Red Team vs. Blue Team Specialist: Focuses on offensive (Red) or defensive (Blue) security strategies.</li>
               <li>Cybersecurity Consultant: Provides security expertise to various organizations.</li>
             </ul>
+            <p className="mt-2"></p>
             <p>With continuous learning, certifications (CISSP, OSCP, GIAC, etc.), and hands-on experience, professionals can shape their careers based on their interests and skills.</p>
           </>
         )
