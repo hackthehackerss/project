@@ -1,6 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Home, AlertTriangle, ArrowLeft, Search } from 'lucide-react';
-import Navigation from '../components/Navigation';
+const LABexercise02 = () => {
+  return (
+    <div>
+      <h1>LAB Exercise 01</h1>
+      {/* Add your content here */}
+    </div>
+  );
+};
 
 export default LABexercise02;
