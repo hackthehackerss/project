@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { 
-  ArrowLeft, Trophy, Star, Target, Award, Shield, Clock, 
+  ArrowLeft, Trophy, Star, Target, Award, Shield, Flame, 
   User, MapPin, Globe, Twitter, Github, Crown, Zap, 
   Calendar, Mail, MessageSquare, Share2
 } from 'lucide-react';
@@ -380,9 +380,16 @@ function PublicProfile() {
               <div className="text-xs text-gray-500">{stats.totalPoints?.toLocaleString() || 0} Points</div>
             </div>
             <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
-              <Clock className="w-8 h-8 text-primary-blue mb-2" />
+              <Flame className="w-8 h-8 text-yellow-500 mb-2" />
               <div className="text-2xl font-bold">{stats.streakDays || 0}</div>
               <div className="text-sm text-gray-400">Day Streak</div>
+              <div className="text-xs text-gray-500 group relative">
+                <span className="cursor-help">Streak rewards</span>
+                <div className="absolute bottom-full left-0 mb-2 w-48 bg-primary-dark/90 text-white text-xs rounded-lg py-2 px-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-50">
+                  <p className="text-green-400">Get 500 points - 10 day streak</p>
+                  <p className="text-green-400">Get 1000 points - 50 day streak</p>
+                </div>
+              </div>
             </div>
           </div>
         )}
