@@ -22,7 +22,7 @@ function PublicProfile() {
   const [error, setError] = useState<string | null>(null);
   const [badges, setBadges] = useState<any[]>([]);
   const [activityLog, setActivityLog] = useState<any[]>([]);
-  const { getUserBadges } = useBadges();
+  const { getUserBadges, generateShareUrl } = useBadges();
   const [darkMode] = useState(true);
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactMessage, setContactMessage] = useState('');
@@ -50,45 +50,125 @@ function PublicProfile() {
         }
 
         const profileDoc = querySnapshot.docs[0];
-        const profileData = { id: profileDoc.id, ...profileDoc.data() } as UserProfile;
+        const profileData = { 
+          id: profileDoc.id, 
+          ...profileDoc.data(),
+          // Ensure these fields exist to prevent undefined errors
+          fullName: profileDoc.data().fullName || '',
+          username: profileDoc.data().username || '',
+          createdAt: profileDoc.data().createdAt || new Date().toISOString()
+        } as UserProfile;
+        
         setProfile(profileData);
 
-        // Get user stats
-        const statsDoc = await getDoc(doc(db, 'user_stats', profileData.id));
-        if (statsDoc.exists()) {
-          setStats({ id: statsDoc.id, ...statsDoc.data() } as UserStats);
+        // Get user stats with error handling
+        try {
+          const statsDoc = await getDoc(doc(db, 'user_stats', profileData.id));
+          if (statsDoc.exists()) {
+            const statsData = statsDoc.data();
+            setStats({ 
+              id: statsDoc.id, 
+              ...statsData,
+              // Ensure these fields exist with defaults
+              xp: statsData.xp || 0,
+              level: statsData.level || 1,
+              rank: statsData.rank || 0,
+              challengesCompleted: statsData.challengesCompleted || 0,
+              totalPoints: statsData.totalPoints || 0,
+              streakDays: statsData.streakDays || 0,
+              lastActiveAt: statsData.lastActiveAt || new Date().toISOString()
+            } as UserStats);
+          } else {
+            // Create default stats object if none exists
+            setStats({
+              id: profileData.id,
+              xp: 0,
+              level: 1,
+              rank: 0,
+              challengesCompleted: 0,
+              totalPoints: 0,
+              streakDays: 0,
+              lastActiveAt: new Date().toISOString(),
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            });
+          }
+        } catch (err) {
+          console.error('Error fetching user stats:', err);
+          // Set default stats on error
+          setStats({
+            id: profileData.id,
+            xp: 0,
+            level: 1,
+            rank: 0,
+            challengesCompleted: 0,
+            totalPoints: 0,
+            streakDays: 0,
+            lastActiveAt: new Date().toISOString(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          });
         }
 
-        // Get user badges
-        const userBadges = await getUserBadges(profileData.id);
-        setBadges(userBadges);
+        // Get user badges with error handling
+        try {
+          if (typeof getUserBadges === 'function') {
+            const userBadges = await getUserBadges(profileData.id);
+            setBadges(Array.isArray(userBadges) ? userBadges : []);
+          } else {
+            console.warn('getUserBadges is not a function');
+            setBadges([]);
+          }
+        } catch (err) {
+          console.error('Error fetching badges:', err);
+          setBadges([]);
+        }
 
-        // Get activity log
-        const activityRef = collection(db, 'user_activity_log');
-        const activityQuery = query(
-          activityRef,
-          where('userId', '==', profileData.id),
-          orderBy('createdAt', 'desc'),
-          limit(10)
-        );
-        const activitySnapshot = await getDocs(activityQuery);
-        setActivityLog(activitySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })));
+        // Get activity log with error handling
+        try {
+          const activityRef = collection(db, 'user_activity_log');
+          const activityQuery = query(
+            activityRef,
+            where('userId', '==', profileData.id),
+            orderBy('createdAt', 'desc'),
+            limit(10)
+          );
+          const activitySnapshot = await getDocs(activityQuery);
+          const activities = activitySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            // Ensure required fields exist
+            activityType: doc.data().activityType || 'unknown',
+            description: doc.data().description || 'Activity',
+            xpEarned: doc.data().xpEarned || 0,
+            pointsEarned: doc.data().pointsEarned || 0,
+            createdAt: doc.data().createdAt || new Date().toISOString()
+          }));
+          setActivityLog(activities);
+        } catch (err) {
+          console.error('Error fetching activity log:', err);
+          setActivityLog([]);
+        }
 
-        setLoading(false);
       } catch (err) {
         console.error('Error loading profile:', err);
         setError('Error loading profile');
+      } finally {
+        // Always set loading to false, even if there's an error
         setLoading(false);
       }
     };
 
-    loadProfile();
-  }, [username, getUserBadges]);
+    if (username) {
+      loadProfile();
+    } else {
+      setLoading(false);
+      setError('Username not provided');
+    }
+  }, [username]);
 
   const calculateXPProgress = (xp: number): number => {
+    if (!xp || isNaN(xp)) return 0;
     const xpForNextLevel = (Math.floor(Math.sqrt(xp / 100)) + 1) * 100;
     const xpForCurrentLevel = Math.floor(Math.sqrt(xp / 100)) * 100;
     const progress = ((xp - xpForCurrentLevel) / (xpForNextLevel - xpForCurrentLevel)) * 100;
@@ -102,10 +182,25 @@ function PublicProfile() {
     setContactMessage('');
   };
 
+  const handleShareProfile = () => {
+    // Implement profile sharing functionality
+    const profileUrl = window.location.href;
+    navigator.clipboard.writeText(profileUrl)
+      .then(() => {
+        alert('Profile URL copied to clipboard!');
+      })
+      .catch(err => {
+        console.error('Failed to copy URL:', err);
+      });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background text-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue"></div>
+        <div className="flex flex-col items-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue mb-4"></div>
+          <p className="text-gray-400">Loading profile...</p>
+        </div>
       </div>
     );
   }
@@ -118,7 +213,7 @@ function PublicProfile() {
           <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 max-w-md mx-auto">
             <Shield className="w-16 h-16 text-primary-blue mx-auto mb-4" />
             <h1 className="text-2xl font-bold mb-4">Profile Not Found</h1>
-            <p className="text-gray-400 mb-6">The requested profile could not be found.</p>
+            <p className="text-gray-400 mb-6">{error || 'The requested profile could not be found.'}</p>
             <Link
               to="/"
               className="inline-flex items-center text-primary-blue hover:text-secondary-blue"
@@ -139,7 +234,7 @@ function PublicProfile() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Profile Header */}
         <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300">
-          <div className="flex items-center space-x-6">
+          <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
             {profile.avatarUrl ? (
               <img
                 src={profile.avatarUrl}
@@ -151,11 +246,11 @@ function PublicProfile() {
                 <User className="w-12 h-12 text-primary-blue" />
               </div>
             )}
-            <div className="flex-1">
-              <div className="flex items-center space-x-3">
-                <h1 className="text-3xl font-bold">{profile.fullName}</h1>
+            <div className="flex-1 text-center md:text-left">
+              <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-3">
+                <h1 className="text-3xl font-bold">{profile.fullName || profile.username}</h1>
                 {profile.subscription?.plan === 'pro' && (
-                  <span className="bg-primary-blue/20 text-primary-blue px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                  <span className="bg-primary-blue/20 text-primary-blue px-3 py-1 rounded-full text-sm font-semibold flex items-center mt-2 md:mt-0">
                     <Crown className="w-4 h-4 mr-1" />
                     PRO
                   </span>
@@ -165,7 +260,7 @@ function PublicProfile() {
               {profile.bio && (
                 <p className="text-gray-300 mt-2 max-w-2xl">{profile.bio}</p>
               )}
-              <div className="flex items-center space-x-4 mt-4">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-4">
                 {profile.location && (
                   <span className="text-gray-400 flex items-center">
                     <MapPin className="w-4 h-4 mr-1" />
@@ -174,7 +269,7 @@ function PublicProfile() {
                 )}
                 {profile.website && (
                   <a
-                    href={profile.website}
+                    href={profile.website.startsWith('http') ? profile.website : `https://${profile.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary-blue hover:text-primary-blue/80 flex items-center"
@@ -216,6 +311,7 @@ function PublicProfile() {
                 Contact
               </button>
               <button
+                onClick={handleShareProfile}
                 className="border border-primary-blue text-primary-blue px-4 py-2 rounded-lg hover:bg-primary-blue/10 transition-all duration-300 flex items-center"
               >
                 <Share2 className="w-4 h-4 mr-2" />
@@ -229,7 +325,7 @@ function PublicProfile() {
         {showContactForm && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-primary-dark/95 rounded-lg p-8 border border-primary-blue/20 max-w-md w-full">
-              <h2 className="text-xl font-bold mb-4">Contact {profile.fullName}</h2>
+              <h2 className="text-xl font-bold mb-4">Contact {profile.fullName || profile.username}</h2>
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <textarea
                   value={contactMessage}
@@ -263,36 +359,36 @@ function PublicProfile() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
               <Star className="w-8 h-8 text-primary-blue mb-2" />
-              <div className="text-2xl font-bold">Level {stats.level}</div>
-              <div className="text-sm text-gray-400">{stats.xp.toLocaleString()} XP</div>
+              <div className="text-2xl font-bold">Level {stats.level || 1}</div>
+              <div className="text-sm text-gray-400">{stats.xp?.toLocaleString() || 0} XP</div>
               <div className="mt-2 h-2 bg-primary-dark rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-primary-blue transition-all duration-300"
-                  style={{ width: `${calculateXPProgress(stats.xp)}%` }}
+                  style={{ width: `${calculateXPProgress(stats.xp || 0)}%` }}
                 />
               </div>
             </div>
             <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
               <Trophy className="w-8 h-8 text-primary-blue mb-2" />
-              <div className="text-2xl font-bold">#{stats.rank}</div>
+              <div className="text-2xl font-bold">#{stats.rank || 0}</div>
               <div className="text-sm text-gray-400">Global Rank</div>
             </div>
             <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
               <Target className="w-8 h-8 text-primary-blue mb-2" />
-              <div className="text-2xl font-bold">{stats.challengesCompleted}</div>
+              <div className="text-2xl font-bold">{stats.challengesCompleted || 0}</div>
               <div className="text-sm text-gray-400">Challenges Completed</div>
-              <div className="text-xs text-gray-500">{stats.totalPoints.toLocaleString()} Points</div>
+              <div className="text-xs text-gray-500">{stats.totalPoints?.toLocaleString() || 0} Points</div>
             </div>
             <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
               <Clock className="w-8 h-8 text-primary-blue mb-2" />
-              <div className="text-2xl font-bold">{stats.streakDays}</div>
+              <div className="text-2xl font-bold">{stats.streakDays || 0}</div>
               <div className="text-sm text-gray-400">Day Streak</div>
             </div>
           </div>
         )}
 
         {/* Badges Section */}
-        {badges.length > 0 && (
+        {badges && badges.length > 0 && (
           <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300">
             <div className="flex items-center space-x-4 mb-6">
               <Award className="w-6 h-6 text-primary-blue" />
@@ -311,7 +407,7 @@ function PublicProfile() {
         )}
 
         {/* Activity Feed */}
-        {activityLog.length > 0 && (
+        {activityLog && activityLog.length > 0 && (
           <UserActivityFeed activities={activityLog} />
         )}
 
@@ -320,7 +416,7 @@ function PublicProfile() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-400">Member since</p>
-              <p className="text-lg">{formatDate(new Date(profile.createdAt))}</p>
+              <p className="text-lg">{profile.createdAt ? formatDate(new Date(profile.createdAt)) : 'Unknown'}</p>
             </div>
             <Shield className="w-6 h-6 text-primary-blue" />
           </div>
