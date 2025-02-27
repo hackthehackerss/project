@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   CheckCircle2,
@@ -11,9 +11,14 @@ import {
   Trophy,
   ChevronDown,
   ChevronUp,
+  Star
 } from 'lucide-react';
 import Confetti from 'react-confetti';
 import { motion } from 'framer-motion';
+import { useAuth } from '../../contexts/AuthContext';
+import { useChallengeProgress } from '../../hooks/useChallengeProgress';
+import { useXP } from '../../hooks/useXP';
+import { getChallengeCompletionXP } from '../../utils/xpSystem';
 
 // Reusable QuestionCard Component with question number added
 const QuestionCard = ({
@@ -35,7 +40,6 @@ const QuestionCard = ({
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          {/* Added question number before text */}
           <h3 className="text-lg font-semibold mb-4">
             {question.id}. {question.text}
           </h3>
@@ -87,6 +91,9 @@ const QuestionCard = ({
 };
 
 function CryptoMinerChallenge() {
+  const navigate = useNavigate();
+  const { profile } = useAuth();
+  const { awardUserXP } = useXP();
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -168,11 +175,17 @@ function CryptoMinerChallenge() {
   const [showError, setShowError] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [questionsVisible, setQuestionsVisible] = useState(false);
+  const [xpAwarded, setXpAwarded] = useState(0);
+  const [xpNotification, setXpNotification] = useState(false);
+
+  // Challenge progress tracking
+  const challengeId = "miner-on-the-run";
+  const { progress, updateProgress } = useChallengeProgress(profile?.uid || '', challengeId);
 
   const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
   const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
   const totalQuestions = questions.length;
-  const progress = (correctAnswersCount / totalQuestions) * 100;
+  const progressPercentage = (correctAnswersCount / totalQuestions) * 100;
 
   // Update the answer as the user types
   const handleAnswerChange = (id, value) => {
@@ -212,8 +225,33 @@ function CryptoMinerChallenge() {
     }
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     if (allQuestionsAnswered && correctAnswersCount === totalQuestions) {
+      if (profile && !progress?.completed) {
+        try {
+          // Update challenge progress
+          const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Medium");
+          
+          if (completed) {
+            // Calculate XP based on difficulty
+            const xpAmount = getChallengeCompletionXP("Medium");
+            setXpAwarded(xpAmount);
+            
+            // Award XP to user
+            await awardUserXP(profile.uid, {
+              amount: xpAmount,
+              reason: `Completed Miner on the Run Challenge`,
+              type: 'challenge_completion'
+            });
+            
+            setXpNotification(true);
+            setTimeout(() => setXpNotification(false), 5000);
+          }
+        } catch (error) {
+          console.error("Error updating progress:", error);
+        }
+      }
+      
       setShowConfetti(true);
       setShowSuccess(true);
       setShowError(false);
@@ -293,13 +331,13 @@ function CryptoMinerChallenge() {
             <div
               className="h-4 rounded-full transition-all duration-500 ease-in-out"
               style={{
-                width: `${progress}%`,
+                width: `${progressPercentage}%`,
                 background: 'linear-gradient(90deg, #4ade80, #3b82f6)',
                 boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)',
               }}
             >
               <div className="text-center text-white text-sm font-semibold absolute inset-0 flex items-center justify-center">
-                {`${Math.round(progress)}%`}
+                {`${Math.round(progressPercentage)}%`}
               </div>
             </div>
           </div>
@@ -448,6 +486,21 @@ function CryptoMinerChallenge() {
           )}
         </motion.div>
 
+        {/* XP Notification */}
+        {xpNotification && (
+          <div className="fixed top-20 right-4 bg-primary-dark/90 border border-primary-blue/20 rounded-lg p-4 shadow-lg animate-slideIn z-50">
+            <div className="flex items-center space-x-3">
+              <div className="bg-yellow-500/20 p-2 rounded-full">
+                <Star className="w-6 h-6 text-yellow-500" />
+              </div>
+              <div>
+                <p className="font-bold text-lg">+{xpAwarded} XP</p>
+                <p className="text-sm text-gray-400">Challenge completed!</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Success Message and Confetti */}
         {showSuccess && (
           <>
@@ -463,6 +516,11 @@ function CryptoMinerChallenge() {
                 <p>
                   You have completed the challenge with {correctAnswersCount} out of {totalQuestions} correct answers.
                 </p>
+                {xpAwarded > 0 && (
+                  <p className="mt-2 text-yellow-300 font-bold">
+                    +{xpAwarded} XP Awarded!
+                  </p>
+                )}
               </div>
             </motion.div>
           </>
