@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, setDoc, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useXP } from './useXP';
 import { getChallengeCompletionXP } from '../utils/xpSystem';
@@ -64,7 +64,7 @@ export function useChallengeProgress(userId: string, challengeId: string) {
     timeSpent: number,
     difficulty: string
   ) => {
-    if (!progress) return;
+    if (!progress) return false;
 
     try {
       const progressRef = doc(db, 'challenge_progress', progress.id);
@@ -81,6 +81,48 @@ export function useChallengeProgress(userId: string, challengeId: string) {
       if (isNowCompleted && wasNotCompleted) {
         updates.completed = true;
         updates.completedAt = new Date().toISOString();
+
+        // Get user stats to check streak
+        const statsRef = doc(db, 'user_stats', userId);
+        const statsDoc = await getDoc(statsRef);
+        
+        if (statsDoc.exists()) {
+          const stats = statsDoc.data();
+          const now = new Date();
+          const lastCompletionDate = stats.lastChallengeCompletionAt ? new Date(stats.lastChallengeCompletionAt) : null;
+          
+          // Check if this is a new day (more than 24 hours since last completion)
+          const shouldIncrementStreak = !lastCompletionDate || 
+            (now.getTime() - lastCompletionDate.getTime() >= 24 * 60 * 60 * 1000);
+
+          // Calculate streak
+          let newStreak = stats.streakDays || 0;
+          if (shouldIncrementStreak) {
+            newStreak += 1;
+            
+            // Check for streak rewards
+            if (newStreak === 10) {
+              await awardUserXP(userId, {
+                amount: 500,
+                reason: '10 Day Streak Bonus!',
+                type: 'daily_streak'
+              });
+            } else if (newStreak === 50) {
+              await awardUserXP(userId, {
+                amount: 1000,
+                reason: '50 Day Streak Bonus!',
+                type: 'daily_streak'
+              });
+            }
+          }
+
+          // Update user stats
+          await updateDoc(statsRef, {
+            challengesCompleted: (stats.challengesCompleted || 0) + 1,
+            streakDays: newStreak,
+            lastChallengeCompletionAt: now.toISOString()
+          });
+        }
 
         // Award XP for challenge completion
         const xpAmount = getChallengeCompletionXP(difficulty);
