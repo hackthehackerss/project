@@ -48,12 +48,7 @@ body {
   animation: shine 3s linear infinite;
 }
 
-.title-glow {
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5),
-              0 0 20px rgba(0, 240, 255, 0.3),
-              0 0 30px rgba(0, 240, 255, 0.2);
-  animation: pulse 2s ease-in-out infinite;
-}
+
 
 .subtitle-gradient {
   background: linear-gradient(to right, #ff0033, #00f0ff);
@@ -94,45 +89,6 @@ body {
   }
 }
 
-/* Logo Glitch Effect */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-.logo-glitch {
-  position: relative;
-  display: inline-block;
-}
-
-.logo-glitch::before,
-.logo-glitch::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: inherit;
-  background-size: inherit;
-  background-position: inherit;
-  background-repeat: inherit;
-}
-
-.logo-glitch::before {
-  animation: glitch-channel-1 3s steps(1) infinite;
-  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-  opacity: 0.75;
-  transform: translate(-2px);
-}
-
-.logo-glitch::after {
-  animation: glitch-channel-2 3s steps(1) infinite reverse;
-  clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
-  opacity: 0.75;
-  transform: translate(2px);
-}
 
 @keyframes glitch-channel-1 {
   0% { opacity: 0.75; }
@@ -560,14 +516,6 @@ html {
   animation: fadeIn 1s ease-in;
 }
 
-/* Title effect with moving blue and red gradient */
-.title-effect {
-  background: linear-gradient(90deg, #1e90ff, #ff4500);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientMove 4s ease infinite;
-}
 @keyframes gradientMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
