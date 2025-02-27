@@ -1,4 +1,4 @@
-import { doc, updateDoc, increment, getDoc, collection, setDoc } from 'firebase/firestore';
+import { doc, updateDoc, increment, getDoc, collection, setDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 export interface XPAward {
@@ -10,84 +10,44 @@ export interface XPAward {
 
 // Base XP values
 export const XP_VALUES = {
-  PATH_COMPLETION: {
-    BEGINNER: 1000,
-    INTERMEDIATE: 2000,
-    ADVANCED: 3000,
-    EXPERT: 4000
-  },
   CHALLENGE_COMPLETION: {
-    VERY_EASY: 100,
     EASY: 200,
     MEDIUM: 500,
-    HARD: 1000,
-    EXPERT: 2000
+    HARD: 1000
   },
   DAILY_STREAK: {
     BASE: 50,
-    BONUS_PER_WEEK: 100,
-    BONUS_PER_MONTH: 500
-  },
-  ACHIEVEMENTS: {
-    COMMON: 100,
-    RARE: 250,
-    EPIC: 500,
-    LEGENDARY: 1000
+    BONUS_10_DAYS: 500,
+    BONUS_50_DAYS: 1000
   }
-};
-
-// XP multipliers
-const XP_MULTIPLIERS = {
-  PRO_MEMBER: 1.5,
-  WEEKEND_BONUS: 1.25,
-  EVENT_BONUS: 2.0
 };
 
 export const awardXP = async (userId: string, award: XPAward) => {
   try {
-    // Get current user stats and profile
-    const [statsDoc, profileDoc] = await Promise.all([
-      getDoc(doc(db, 'user_stats', userId)),
-      getDoc(doc(db, 'profiles', userId))
-    ]);
+    // Get current user stats
+    const statsRef = doc(db, 'user_stats', userId);
+    const statsDoc = await getDoc(statsRef);
     
     if (!statsDoc.exists()) {
       throw new Error('User stats not found');
     }
 
-    // Calculate XP multipliers
-    let multiplier = 1;
-    const profile = profileDoc.data();
-    
-    // Pro member bonus
-    if (profile?.subscription?.plan === 'pro') {
-      multiplier *= XP_MULTIPLIERS.PRO_MEMBER;
-    }
-    
-    // Weekend bonus
-    const isWeekend = [0, 6].includes(new Date().getDay());
-    if (isWeekend) {
-      multiplier *= XP_MULTIPLIERS.WEEKEND_BONUS;
-    }
-
-    // Calculate final XP amount
-    const finalXPAmount = Math.round(award.amount * multiplier);
     const currentXP = statsDoc.data().xp || 0;
-    const newXP = currentXP + finalXPAmount;
+    const newXP = currentXP + award.amount;
     
-    // Calculate new level
+    // Calculate new level (sqrt of XP/100)
     const newLevel = Math.floor(Math.sqrt(newXP / 100)) + 1;
     const currentLevel = statsDoc.data().level || 1;
     const leveledUp = newLevel > currentLevel;
 
-    // Batch updates
-    const batch = db.batch();
+    // Start a batch write
+    const batch = writeBatch(db);
     
     // Update user stats
-    const statsRef = doc(db, 'user_stats', userId);
     batch.update(statsRef, {
-      xp: increment(finalXPAmount),
+      xp: increment(award.amount),
       level: newLevel,
+      totalPoints: increment(award.amount),
       updatedAt: new Date().toISOString()
     });
 
@@ -97,12 +57,10 @@ export const awardXP = async (userId: string, award: XPAward) => {
       userId,
       activityType: 'xp_earned',
       description: award.reason,
-      xpEarned: finalXPAmount,
+      xpEarned: award.amount,
       metadata: {
         ...award.metadata,
         type: award.type,
-        baseAmount: award.amount,
-        multiplier,
         levelUp: leveledUp,
         previousLevel: currentLevel,
         newLevel: newLevel
@@ -132,7 +90,7 @@ export const awardXP = async (userId: string, award: XPAward) => {
     return {
       previousXP: currentXP,
       newXP,
-      xpGained: finalXPAmount,
+      xpGained: award.amount,
       leveledUp,
       previousLevel: currentLevel,
       newLevel
@@ -143,47 +101,13 @@ export const awardXP = async (userId: string, award: XPAward) => {
   }
 };
 
-// Helper functions
-export const getPathCompletionXP = (difficulty: string): number => {
-  const difficultyMap: { [key: string]: keyof typeof XP_VALUES.PATH_COMPLETION } = {
-    'Beginner': 'BEGINNER',
-    'Intermediate': 'INTERMEDIATE',
-    'Advanced': 'ADVANCED',
-    'Expert': 'EXPERT'
-  };
-
-  const xpKey = difficultyMap[difficulty];
-  return xpKey ? XP_VALUES.PATH_COMPLETION[xpKey] : XP_VALUES.PATH_COMPLETION.BEGINNER;
-};
-
 export const getChallengeCompletionXP = (difficulty: string): number => {
   const difficultyMap: { [key: string]: keyof typeof XP_VALUES.CHALLENGE_COMPLETION } = {
-    'Very Easy': 'VERY_EASY',
     'Easy': 'EASY',
     'Medium': 'MEDIUM',
-    'Hard': 'HARD',
-    'Expert': 'EXPERT'
+    'Hard': 'HARD'
   };
 
   const xpKey = difficultyMap[difficulty];
   return xpKey ? XP_VALUES.CHALLENGE_COMPLETION[xpKey] : XP_VALUES.CHALLENGE_COMPLETION.EASY;
-};
-
-export const calculateStreakBonus = (streakDays: number): number => {
-  const baseBonus = XP_VALUES.DAILY_STREAK.BASE;
-  const weeklyBonus = Math.floor(streakDays / 7) * XP_VALUES.DAILY_STREAK.BONUS_PER_WEEK;
-  const monthlyBonus = Math.floor(streakDays / 30) * XP_VALUES.DAILY_STREAK.BONUS_PER_MONTH;
-  return baseBonus + weeklyBonus + monthlyBonus;
-};
-
-export const getAchievementXP = (rarity: string): number => {
-  const rarityMap: { [key: string]: keyof typeof XP_VALUES.ACHIEVEMENTS } = {
-    'Common': 'COMMON',
-    'Rare': 'RARE',
-    'Epic': 'EPIC',
-    'Legendary': 'LEGENDARY'
-  };
-
-  const xpKey = rarityMap[rarity];
-  return xpKey ? XP_VALUES.ACHIEVEMENTS[xpKey] : XP_VALUES.ACHIEVEMENTS.COMMON;
 };
