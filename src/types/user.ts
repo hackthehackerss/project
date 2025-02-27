@@ -6,11 +6,16 @@ export interface UserProfile {
   avatarUrl?: string;
   bio?: string;
   location?: string;
-  website?: string;
-  github?: string;
+  website?: string; github?: string;
   twitter?: string;
   createdAt: string;
   updatedAt: string;
+  subscription?: {
+    plan: string;
+    status: string;
+    startDate: string;
+    currentPeriodEnd: string;
+  };
 }
 
 export interface UserStats {
@@ -22,6 +27,7 @@ export interface UserStats {
   totalPoints: number;
   streakDays: number;
   lastActiveAt: string;
+  lastChallengeCompletionAt?: string;
   createdAt: string;
   updatedAt: string;
 }
