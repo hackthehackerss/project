@@ -297,7 +297,7 @@ function Home() {
                   <RippleButton
                     className="bg-primary-red text-white px-8 py-3 rounded-lg transition-all transform hover:scale-105 min-w-[200px] font-semibold animate-pulse"
                   >
-                    Start Learning Now
+                    Start Learning For Free
                   </RippleButton>
                 </Link>
                 <Link
@@ -317,28 +317,28 @@ function Home() {
 
         {/* Main Image with 3D Tilt, Floating, Rotation & Glowing Frame */}
         <Link
-          to="/learning-paths"
-          className="mb-16 reveal tilt-image transition-transform duration-300 relative w-3/4 md:w-2/3 lg:w-1/2"
-        >
-          <div className="animate-float">
-            <div
-              className={`absolute inset-0 border-4 ${
-                darkMode ? "border-primary-blue" : "border-black"
-              } rounded-lg z-0 animate-glow-blue-red`}
-            ></div>
-            <div
-              className={`relative z-10 p-2 border-4 ${
-                darkMode ? "border-primary-blue/30" : "border-black/30"
-              } rounded-lg overflow-hidden`}
-            >
-              <img
-                src="/Main/choose-path.png"
-                alt="Choose Your Path"
-                className="w-full h-auto rounded-lg shadow-lg object-contain"
-              />
-            </div>
-          </div>
-        </Link>
+  to="/learning-paths"
+  className="mb-16 reveal transition-transform duration-300 relative w-3/4 md:w-2/3 lg:w-1/2"
+>
+  <div className="animate-float">
+    <div
+      className={`absolute inset-0 border-4 ${
+        darkMode ? "border-primary-blue" : "border-black"
+      } rounded-lg z-0 animate-glow-blue-red`}
+    ></div>
+    <div
+      className={`relative z-10 p-2 border-4 ${
+        darkMode ? "border-primary-blue/30" : "border-black/30"
+      } rounded-lg overflow-hidden`}
+    >
+      <img
+        src="/Main/choose-path.png"
+        alt="Choose Your Path"
+        className="w-full h-auto rounded-lg shadow-lg object-contain"
+      />
+    </div>
+  </div>
+</Link>
       </div>
 
       {/* Get Hands-On Experience Section */}
