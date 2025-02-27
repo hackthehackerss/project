@@ -49,7 +49,7 @@ function UserProfileCard({ profile, stats }: UserProfileCardProps) {
 
         <div className="bg-background/50 rounded-lg p-4 border border-primary-blue/10">
           <Trophy className="w-6 h-6 text-primary-blue mb-2" />
-          <div className="text-2xl font-bold">#{stats.rank}</div>
+          <div className="text-2xl font-bold">#{stats.rank || 'N/A'}</div>
           <div className="text-sm text-gray-400">Global Rank</div>
         </div>
 
