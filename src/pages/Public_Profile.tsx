@@ -370,7 +370,7 @@ function PublicProfile() {
             </div>
             <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
               <Trophy className="w-8 h-8 text-primary-blue mb-2" />
-              <div className="text-2xl font-bold">#{stats.rank || 0}</div>
+              <div className="text-2xl font-bold">#{stats.rank || 'N/A'}</div>
               <div className="text-sm text-gray-400">Global Rank</div>
             </div>
             <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
