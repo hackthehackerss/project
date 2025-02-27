@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, LogOut, Settings, Award, ShieldAlert } from 'lucide-react';
+import { User, LogOut, Settings, Award, ShieldAlert, Flame } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useUserStats } from '../hooks/useUserStats';
 
 function UserProfileButton() {
   const navigate = useNavigate();
   const { profile, signOut } = useAuth();
+  const { stats } = useUserStats(profile?.uid || '');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -40,6 +42,23 @@ function UserProfileButton() {
 
   return (
     <div className="flex items-center space-x-4">
+      {stats && (
+        <div className="relative group">
+          <div className="flex items-center text-yellow-500">
+            <Flame className="w-5 h-5" />
+            <span className="ml-1 font-medium">{stats.streakDays || 0}</span>
+          </div>
+          
+          <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-48 bg-primary-dark/90 text-white text-xs rounded-lg py-2 px-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-50">
+            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-primary-dark/90 rotate-45"></div>
+            <p className="mb-1">Day Streak: {stats.streakDays || 0}</p>
+            <div className="h-px bg-gray-600 my-1"></div>
+            <p className="text-green-400">Get 500 points - 10 day streak</p>
+            <p className="text-green-400">Get 1000 points - 50 day streak</p>
+          </div>
+        </div>
+      )}
+      
       <div className="relative inline-block text-left" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
