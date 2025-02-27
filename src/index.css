@@ -407,3 +407,255 @@ body {
     transform: translateY(0);
   }
 }
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ripple Button Styles */
+.ripple-button {
+  position: relative;
+  overflow: hidden;
+}
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  animation: rippleEffect 0.6s linear;
+  pointer-events: none;
+}
+@keyframes rippleEffect {
+  from {
+    transform: scale(0);
+    opacity: 1;
+  }
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Scroll Progress Indicator */
+.scroll-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: transparent;
+  z-index: 9999;
+}
+.scroll-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #1e90ff, #ff4500);
+  transition: width 0.2s ease-out;
+}
+
+/* Particle Background */
+.particle-background {
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Parallax Section */
+.parallax-section {
+  background-image: url('https://via.placeholder.com/1920x1080');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Float animation for image container */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal-scale.active {
+  opacity: 1;
+  transform: scale(1);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal-right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Glow animation for frame */
+@keyframes glow {
+  0% { box-shadow: 0 0 10px rgba(0,123,255,0.7); }
+  25% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+  50% { box-shadow: 0 0 30px rgba(0,123,255,0.7); }
+  75% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+  100% { box-shadow: 0 0 10px rgba(0,123,255,0.7); }
+}
+.animate-glow-blue-red {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Slow pulse animation */
+@keyframes pulseSlow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.animate-pulse-slow {
+  animation: pulseSlow 2s infinite;
+}
+
+/* Gradient animation for text and other elements */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in;
+}
+
+/* Title effect with moving blue and red gradient */
+.title-effect {
+  background: linear-gradient(90deg, #1e90ff, #ff4500);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 4s ease infinite;
+}
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glitch effect on hover for title */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch:hover::before,
+.glitch:hover::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  clip: rect(0,900px,0,0);
+}
+.glitch:hover::before {
+  animation: glitchTop 1s linear infinite;
+  color: #1e90ff;
+}
+.glitch:hover::after {
+  animation: glitchBottom 1s linear infinite;
+  color: #ff4500;
+}
+@keyframes glitchTop {
+  0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+  20% { clip: rect(10px, 9999px, 30px, 0); transform: translate(-2px, -2px); }
+  40% { clip: rect(5px, 9999px, 20px, 0); transform: translate(2px, 0); }
+  60% { clip: rect(15px, 9999px, 25px, 0); transform: translate(-2px, 2px); }
+  80% { clip: rect(0, 9999px, 10px, 0); transform: translate(2px, -2px); }
+  100% { clip: rect(10px, 9999px, 30px, 0); transform: translate(0); }
+}
+@keyframes glitchBottom {
+  0% { clip: rect(0, 9999px, 0, 0); transform: translate(0); }
+  20% { clip: rect(30px, 9999px, 40px, 0); transform: translate(2px, 2px); }
+  40% { clip: rect(20px, 9999px, 35px, 0); transform: translate(-2px, 0); }
+  60% { clip: rect(25px, 9999px, 45px, 0); transform: translate(2px, -2px); }
+  80% { clip: rect(10px, 9999px, 20px, 0); transform: translate(-2px, 2px); }
+  100% { clip: rect(30px, 9999px, 40px, 0); transform: translate(0); }
+}
+
+/* Improved 3D Tilt Effect for Cards */
+.tilt {
+  perspective: 1200px; /* Lower value intensifies the 3D effect */
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+  will-change: transform;
+}
+.tilt:hover {
+  transform: rotateX(15deg) rotateY(15deg) scale(1.1) translateZ(20px);
+  box-shadow: 0 20px 40px rgba(0, 240, 255, 0.4);
+}
+
+
+/* Animated SVG icon hover */
+.icon-animate {
+  transition: transform 0.3s ease;
+}
+.icon-animate:hover {
+  transform: rotate(10deg) scale(1.1);
+}
+
+/* New 3D Tilt Effect for the Image */
+.tilt-image {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+  will-change: transform;
+}
+.tilt-image:hover {
+  transform: rotateX(10deg) rotateY(10deg) scale(1.05);
+  box-shadow: 0 20px 40px rgba(0, 240, 255, 0.4);
+}
+
+/* 3D Effect for Text */
+.text-3d-effect {
+  perspective: 600px;
+  transform: rotateX(5deg) rotateY(5deg);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  transition: transform 0.4s ease-out;
+}
+.text-3d-effect:hover {
+  transform: rotateX(0deg) rotateY(0deg);
+}
+
