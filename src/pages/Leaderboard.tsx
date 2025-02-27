@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Trophy, Medal, Search, User, Shield, ArrowUp, ArrowDown 
+  Trophy, Medal, Search, User, Shield, ArrowUp, Activity 
 } from 'lucide-react';
-import { collection, query, orderBy, limit, onSnapshot, where, doc, getDoc } from 'firebase/firestore';
+import { collection, query, orderBy, limit, onSnapshot, where, doc, getDoc, updateDoc, writeBatch } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { UserProfile, UserStats } from '../types/user';
 import Navigation from '../components/Navigation';
@@ -28,7 +28,6 @@ function Leaderboard() {
     category: 'xp',
     subscription: 'all'
   });
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
     // Build the query based on filters
@@ -52,10 +51,10 @@ function Leaderboard() {
       queryConstraints.push(where('lastActiveAt', '>=', date.toISOString()));
     }
 
-    // Add sorting
+    // Add sorting based on category
     const sortField = filters.category === 'xp' ? 'xp' : 
                      filters.category === 'challenges' ? 'challengesCompleted' : 'streakDays';
-    queryConstraints.push(orderBy(sortField, sortDirection));
+    queryConstraints.push(orderBy(sortField, 'desc'));
     queryConstraints.push(limit(100));
 
     const statsQuery = query(baseQuery, ...queryConstraints);
@@ -63,6 +62,8 @@ function Leaderboard() {
     const unsubscribe = onSnapshot(statsQuery, async (snapshot) => {
       try {
         const leaderboardData: LeaderboardEntry[] = [];
+        let rank = 1;
+        const batch = writeBatch(db);
 
         for (const statsDoc of snapshot.docs) {
           const profileDoc = await getDoc(doc(db, 'profiles', statsDoc.id));
@@ -75,13 +76,26 @@ function Leaderboard() {
               if (filters.subscription === 'free' && profile.subscription?.plan === 'pro') continue;
             }
 
-            leaderboardData.push({
+            // Update the rank in Firestore
+            const statsRef = doc(db, 'user_stats', statsDoc.id);
+            batch.update(statsRef, { rank });
+
+            const entry = {
               profile: { id: profileDoc.id, ...profileDoc.data() } as UserProfile,
-              stats: { id: statsDoc.id, ...statsDoc.data() } as UserStats
-            });
+              stats: { 
+                id: statsDoc.id, 
+                ...statsDoc.data(),
+                rank // Add rank based on position in sorted results
+              } as UserStats
+            };
+            leaderboardData.push(entry);
+            rank++;
           }
         }
 
+        // Commit the batch update
+        await batch.commit();
+        
         setEntries(leaderboardData);
         setLoading(false);
       } catch (error) {
@@ -91,16 +105,12 @@ function Leaderboard() {
     });
 
     return () => unsubscribe();
-  }, [filters, sortDirection]);
+  }, [filters]);
 
   const filteredEntries = entries.filter(entry => 
     entry.profile.username?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     entry.profile.fullName?.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const toggleSortDirection = () => {
-    setSortDirection(prev => prev === 'desc' ? 'asc' : 'desc');
-  };
 
   return (
     <div className="min-h-screen bg-background text-white">
@@ -155,18 +165,6 @@ function Leaderboard() {
               <option value="free">Free Users</option>
               <option value="pro">Pro Users</option>
             </select>
-
-            <button
-              onClick={toggleSortDirection}
-              className="p-2 bg-primary-dark/30 border border-primary-blue/20 rounded-md hover:bg-primary-blue/10 transition"
-              title={`Sort ${sortDirection === 'desc' ? 'Ascending' : 'Descending'}`}
-            >
-              {sortDirection === 'desc' ? (
-                <ArrowDown className="w-5 h-5" />
-              ) : (
-                <ArrowUp className="w-5 h-5" />
-              )}
-            </button>
           </div>
         </div>
 
