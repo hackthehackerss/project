@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, Target, CreditCard, Trophy, Sun, Moon, FlaskConical } from 'lucide-react'; // Updated icon import
+import { Shield,  CreditCard, Trophy, Sun, Moon, FlaskConical, Award } from 'lucide-react'; // Updated icon import
 import UserProfileButton from './UserProfileButton';
 import { useAuth } from '../contexts/AuthContext';
 import logoShieldImg from '/Main/logo-shield.png';
@@ -47,7 +47,7 @@ function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
               to="/challenges" 
               className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-2 transition-colors`}
             >
-              <Target className="w-5 h-5" />
+              <Award className="w-5 h-5" />
               <span>Challenges</span>
             </Link>
 
