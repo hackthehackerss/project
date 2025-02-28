@@ -3,7 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { 
   ArrowLeft, Trophy, Star, Target, Award, Shield, Flame, 
   User, MapPin, Globe, Twitter, Github, Crown, Zap, 
-  Calendar, Mail, MessageSquare, Share2, CheckCircle2, Linkedin
+  Calendar, Mail, MessageSquare, Share2, CheckCircle2, Linkedin,
+  Book, Sword
 } from 'lucide-react';
 import { collection, query, where, getDocs, doc, getDoc, orderBy, limit } from 'firebase/firestore';
 import { db } from '../lib/firebase';
@@ -456,6 +457,54 @@ function PublicProfile() {
             </div>
           </div>
         )}
+
+        {/* Learning Paths Progress Section */}
+        <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8">
+          <h2 className="text-xl font-bold mb-6 flex items-center">
+            <Book className="w-6 h-6 text-primary-blue mr-2" />
+            Learning Paths Progress
+          </h2>
+
+          {/* Blue Team Progress */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center">
+                <Shield className="w-5 h-5 text-primary-blue mr-2" />
+                <h3 className="text-lg font-semibold">Blue Team</h3>
+              </div>
+              <span className="text-sm text-gray-400">0%</span>
+            </div>
+            <div className="w-full h-2 bg-primary-dark rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary-blue transition-all duration-300"
+                style={{ width: '0%' }}
+              />
+            </div>
+            <div className="mt-2 text-sm text-gray-400">
+              0 of 5 paths completed
+            </div>
+          </div>
+
+          {/* Red Team Progress */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center">
+                <Sword className="w-5 h-5 text-primary-red mr-2" />
+                <h3 className="text-lg font-semibold">Red Team</h3>
+              </div>
+              <span className="text-sm text-gray-400">0%</span>
+            </div>
+            <div className="w-full h-2 bg-primary-dark rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-primary-red transition-all duration-300"
+                style={{ width: '0%' }}
+              />
+            </div>
+            <div className="mt-2 text-sm text-gray-400">
+              0 of 4 paths completed
+            </div>
+          </div>
+        </div>
 
         {/* Badges Section */}
         {badges && badges.length > 0 && (
