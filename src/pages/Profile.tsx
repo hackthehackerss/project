@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, User, Shield, Award, Loader2, AlertCircle, 
-  CheckCircle, LogOut, Save, ExternalLink, Settings, Activity
+  CheckCircle, LogOut, Save, ExternalLink, Settings, Activity,
+  Twitter, Linkedin
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { formatDate } from '../utils/formatters';
@@ -12,9 +13,49 @@ import BadgeCard from '../components/BadgeCard';
 import AvatarSelector from '../components/AvatarSelector';
 import UserStatsCard from '../components/UserStatsCard';
 import UserActivityFeed from '../components/UserActivityFeed';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import Navigation from '../components/Navigation';
+
+// Challenge badge data
+const challengeBadges = [
+  {
+    id: 'powershell-logs',
+    name: 'PowerShell Analysis',
+    description: 'Successfully analyzed suspicious PowerShell commands',
+    imageUrl: '/Challenges/powershell-banner2.jpg'
+  },
+  {
+    id: 'miner-on-the-run',
+    name: 'Miner on the Run',
+    description: 'Uncovered a hidden cryptocurrency mining operation',
+    imageUrl: '/Challenges/cryptominer-banner.png'
+  },
+  {
+    id: 'mft-analysis',
+    name: 'Master File Trap',
+    description: 'Mastered MFT analysis techniques',
+    imageUrl: '/Challenges/mft-banner.png'
+  },
+  {
+    id: 'email-analysis',
+    name: 'Email Analysis Expert',
+    description: 'Successfully analyzed phishing email indicators',
+    imageUrl: '/Challenges/emailanalysischallenge.png'
+  },
+  {
+    id: 'web-bruteforce',
+    name: 'Brute Force Defense',
+    description: 'Successfully analyzed a brute force attack',
+    imageUrl: '/Challenges/bruteforcechallenge.png'
+  },
+  {
+    id: 'hacked-by-captcha',
+    name: 'CAPTCHA Analysis',
+    description: 'Analyzed malicious CAPTCHA page interactions',
+    imageUrl: '/Challenges/HackedByCaptcha.png'
+  }
+];
 
 type TabType = 'profile' | 'stats';
 
@@ -35,12 +76,14 @@ function Profile() {
   });
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('profile');
+  const [completedChallenges, setCompletedChallenges] = useState<string[]>([]);
 
   const { stats, achievements, activityLog, loading: statsLoading } = useUserStats(profile?.uid || '');
 
   useEffect(() => {
     if (profile) {
       loadBadges();
+      loadCompletedChallenges();
       setFormData({
         firstName: profile.firstName || '',
         lastName: profile.lastName || '',
@@ -60,6 +103,24 @@ function Profile() {
       setBadges(userBadges);
     } catch (error) {
       console.error('Error loading badges:', error);
+    }
+  };
+
+  const loadCompletedChallenges = async () => {
+    if (!profile) return;
+    try {
+      const challengesRef = collection(db, 'challenge_progress');
+      const challengesQuery = query(
+        challengesRef,
+        where('userId', '==', profile.uid),
+        where('completed', '==', true)
+      );
+      const challengesSnapshot = await getDocs(challengesQuery);
+      const completedChallengeIds = challengesSnapshot.docs.map(doc => doc.data().challengeId);
+      setCompletedChallenges(completedChallengeIds);
+    } catch (err) {
+      console.error('Error fetching completed challenges:', err);
+      setCompletedChallenges([]);
     }
   };
 
@@ -106,7 +167,7 @@ function Profile() {
     }
   };
 
-  const handleShare = async (badgeId: string, platform: 'twitter' | 'linkedin' | 'facebook') => {
+  const handleShare = async (badgeId: string, platform: 'twitter' | 'linkedin') => {
     const badge = badges.find(b => b.id === badgeId);
     if (!badge) return;
 
@@ -114,6 +175,23 @@ function Profile() {
     window.open(shareUrls[platform], '_blank');
     await incrementShareCount(badgeId);
     loadBadges();
+  };
+
+  const handleShareBadge = (badgeName: string, platform: 'twitter' | 'linkedin') => {
+    const shareText = encodeURIComponent(
+      `I earned the ${badgeName} badge on HackTheHackers! Check out my cybersecurity skills! #cybersecurity #hacking #infosec`
+    );
+    
+    const shareUrl = encodeURIComponent(window.location.href);
+    
+    let platformUrl = '';
+    if (platform === 'twitter') {
+      platformUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+    } else if (platform === 'linkedin') {
+      platformUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}&title=${shareText}`;
+    }
+    
+    window.open(platformUrl, '_blank');
   };
 
   const handleSignOut = async () => {
@@ -361,6 +439,63 @@ function Profile() {
           <div className="space-y-8">
             {/* Stats Card */}
             {stats && <UserStatsCard stats={stats} />}
+
+            {/* Challenge Badges Section */}
+            <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300">
+              <div className="flex items-center space-x-4 mb-6">
+                <Award className="w-6 h-6 text-primary-blue" />
+                <h2 className="text-xl font-bold">Challenge Badges</h2>
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {challengeBadges.map((badge) => (
+                  <div
+                    key={badge.id}
+                    className={`relative bg-primary-dark/50 rounded-lg overflow-hidden border ${
+                      completedChallenges.includes(badge.id)
+                        ? 'border-green-500/50'
+                        : 'border-gray-600/20'
+                    } transition-all duration-300 hover:transform hover:scale-105`}
+                  >
+                    <img
+                      src={badge.imageUrl}
+                      alt={badge.name}
+                      className={`w-full h-24 object-cover ${
+                        !completedChallenges.includes(badge.id) && 'grayscale opacity-50'
+                      }`}
+                    />
+                    <div className="p-3">
+                      <div className="flex items-center justify-between mb-1">
+                        <h3 className="font-semibold text-sm">{badge.name}</h3>
+                        {completedChallenges.includes(badge.id) && (
+                          <CheckCircle className="w-4 h-4 text-green-500" />
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-400 mb-2">{badge.description}</p>
+                      
+                      {completedChallenges.includes(badge.id) && (
+                        <div className="flex space-x-2 mt-2">
+                          <button 
+                            onClick={() => handleShareBadge(badge.name, 'twitter')}
+                            className="bg-blue-500 text-white p-1 rounded text-xs flex items-center"
+                          >
+                            <Twitter className="w-3 h-3 mr-1" />
+                            Share
+                          </button>
+                          <button 
+                            onClick={() => handleShareBadge(badge.name, 'linkedin')}
+                            className="bg-blue-700 text-white p-1 rounded text-xs flex items-center"
+                          >
+                            <Linkedin className="w-3 h-3 mr-1" />
+                            Share
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             {/* Activity Feed */}
             {activityLog && activityLog.length > 0 && (
