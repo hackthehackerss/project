@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, LogOut, Settings, Award, ShieldAlert, Flame } from 'lucide-react';
+import { User, LogOut, Settings, Award, ShieldAlert, Flame, ExternalLink } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useUserStats } from '../hooks/useUserStats';
 
@@ -9,6 +9,7 @@ function UserProfileButton() {
   const { profile, signOut } = useAuth();
   const { stats } = useUserStats(profile?.uid || '');
   const [isOpen, setIsOpen] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -102,6 +103,14 @@ function UserProfileButton() {
             >
               <Settings className="w-4 h-4 mr-2" />
               Profile Settings
+            </button>
+            <button
+              onClick={() => handleMenuClick(() => navigate(`/profile/${profile.username}`))}
+              className="w-full text-left px-4 py-2 text-sm text-white hover:bg-primary-blue/10 transition-colors cursor-pointer flex items-center"
+              role="menuitem"
+            >
+              <ExternalLink className="w-4 h-4 mr-2" />
+              Public Profile
             </button>
             <button
               onClick={() => handleMenuClick(() => navigate('/profile/certificates'))}
