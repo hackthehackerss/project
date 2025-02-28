@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, User, Shield, Award, Loader2, AlertCircle, 
   CheckCircle, LogOut, Save, ExternalLink, Settings, Activity,
-  Twitter, Linkedin
+  Twitter, Linkedin, Book, Sword
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { formatDate } from '../utils/formatters';
@@ -439,6 +439,54 @@ function Profile() {
           <div className="space-y-8">
             {/* Stats Card */}
             {stats && <UserStatsCard stats={stats} />}
+
+            {/* Learning Paths Progress Section */}
+            <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8">
+              <h2 className="text-xl font-bold mb-6 flex items-center">
+                <Book className="w-6 h-6 text-primary-blue mr-2" />
+                Learning Paths Progress
+              </h2>
+
+              {/* Blue Team Progress */}
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center">
+                    <Shield className="w-5 h-5 text-primary-blue mr-2" />
+                    <h3 className="text-lg font-semibold">Blue Team</h3>
+                  </div>
+                  <span className="text-sm text-gray-400">0%</span>
+                </div>
+                <div className="w-full h-2 bg-primary-dark rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-primary-blue transition-all duration-300"
+                    style={{ width: '0%' }}
+                  />
+                </div>
+                <div className="mt-2 text-sm text-gray-400">
+                  0 of 5 paths completed
+                </div>
+              </div>
+
+              {/* Red Team Progress */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center">
+                    <Sword className="w-5 h-5 text-primary-red mr-2" />
+                    <h3 className="text-lg font-semibold">Red Team</h3>
+                  </div>
+                  <span className="text-sm text-gray-400">0%</span>
+                </div>
+                <div className="w-full h-2 bg-primary-dark rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-primary-red transition-all duration-300"
+                    style={{ width: '0%' }}
+                  />
+                </div>
+                <div className="mt-2 text-sm text-gray-400">
+                  0 of 4 paths completed
+                </div>
+              </div>
+            </div>
 
             {/* Challenge Badges Section */}
             <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300">
