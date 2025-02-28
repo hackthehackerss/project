@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -184,7 +184,6 @@ function MFTChallenge() {
       isCorrect: undefined,
     },
   ]);
-
   const [hintsRemaining, setHintsRemaining] = useState(3);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -197,46 +196,54 @@ function MFTChallenge() {
   const challengeId = "mft-analysis";
   const { progress, updateProgress } = useChallengeProgress(profile?.uid || '', challengeId);
 
-  const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
-  const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
+  // If progress is already complete, update questions state accordingly
+  useEffect(() => {
+    if (progress?.completed && progress.answers) {
+      setQuestions(questions.map(q => ({
+        ...q,
+        userAnswer: progress.answers[q.id] || '',
+        isCorrect: progress.answers[q.id]?.toLowerCase() === q.answer.toLowerCase(),
+        showHint: false,
+      })));
+      setShowSuccess(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progress]);
+
+  const allQuestionsAnswered = questions.every(q => q.isCorrect !== undefined);
+  const correctAnswersCount = questions.filter(q => q.isCorrect).length;
   const totalQuestions = questions.length;
   const progressPercentage = (correctAnswersCount / totalQuestions) * 100;
 
-  // Update answer on input change
   const handleAnswerChange = (id, value) => {
-    setQuestions(
-      questions.map((q) => (q.id === id ? { ...q, userAnswer: value } : q))
-    );
+    if (progress?.completed) return;
+    setQuestions(questions.map(q => q.id === id ? { ...q, userAnswer: value } : q));
   };
 
-  // Submit the answer and check correctness
   const handleAnswerSubmit = (id, answer) => {
-    setQuestions(
-      questions.map((q) => {
-        if (q.id === id) {
-          return {
-            ...q,
-            userAnswer: answer.toLowerCase(),
-            isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
-          };
+    if (progress?.completed) return;
+    setQuestions(questions.map(q => {
+      if (q.id === id) {
+        return {
+          ...q,
+          userAnswer: answer.toLowerCase(),
+          isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
+        };
+      }
+      return q;
+    }));
+  };
+
+  const toggleHint = (id) => {
+    if (progress?.completed) return;
+    if (hintsRemaining > 0) {
+      setQuestions(questions.map(q => {
+        if (q.id === id && !q.showHint) {
+          setHintsRemaining(hintsRemaining - 1);
+          return { ...q, showHint: true };
         }
         return q;
-      })
-    );
-  };
-
-  // Toggle hint visibility and decrement hints remaining if available
-  const toggleHint = (id) => {
-    if (hintsRemaining > 0) {
-      setQuestions(
-        questions.map((q) => {
-          if (q.id === id && !q.showHint) {
-            setHintsRemaining(hintsRemaining - 1);
-            return { ...q, showHint: true };
-          }
-          return q;
-        })
-      );
+      }));
     }
   };
 
@@ -244,21 +251,22 @@ function MFTChallenge() {
     if (allQuestionsAnswered && correctAnswersCount === totalQuestions) {
       if (profile && !progress?.completed) {
         try {
-          // Update challenge progress
-          const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Medium");
-          
+          // Create an answers object from current responses
+          const answers = questions.reduce((acc, q) => ({
+            ...acc,
+            [q.id]: q.userAnswer,
+          }), {});
+          // Update progress with the answers and difficulty ("Medium")
+          const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Medium", answers);
           if (completed) {
-            // Calculate XP based on difficulty
             const xpAmount = getChallengeCompletionXP("Medium");
             setXpAwarded(xpAmount);
-            
-            // Award XP to user
+            // Award XP to the user
             await awardUserXP(profile.uid, {
               amount: xpAmount,
               reason: `Completed Master File Trap Challenge`,
               type: 'challenge_completion'
             });
-            
             setXpNotification(true);
             setTimeout(() => setXpNotification(false), 5000);
           }
@@ -266,7 +274,6 @@ function MFTChallenge() {
           console.error("Error updating progress:", error);
         }
       }
-      
       setShowConfetti(true);
       setShowSuccess(true);
       setShowError(false);
@@ -567,10 +574,8 @@ function MFTChallenge() {
                   </div>
                 </div>
               </div>
-
               {/* Divider */}
               <div className="w-px bg-primary-blue/20 h-12"></div>
-
               {/* First Blood section */}
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-red-500/10 rounded-full">
