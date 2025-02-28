@@ -20,13 +20,14 @@ import { useChallengeProgress } from '../../hooks/useChallengeProgress';
 import { useXP } from '../../hooks/useXP';
 import { getChallengeCompletionXP } from '../../utils/xpSystem';
 
-// Reusable QuestionCard Component with question number added
+// Reusable QuestionCard Component with question number and progress prop
 const QuestionCard = ({
   question,
   hintsRemaining,
   onAnswerChange,
   onSubmit,
   onToggleHint,
+  progress,
 }) => {
   return (
     <motion.div
@@ -36,7 +37,11 @@ const QuestionCard = ({
         scale: question.isCorrect === true ? 0.98 : 1,
       }}
       transition={{ duration: 0.5 }}
-      className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:bg-primary-dark/40 hover:border-primary-blue transition-all"
+      className={`bg-primary-dark/30 rounded-lg p-6 border ${
+        progress?.completed
+          ? 'border-green-500/20'
+          : 'border-primary-blue/20 hover:bg-primary-dark/40 hover:border-primary-blue'
+      } transition-all`}
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
@@ -46,39 +51,59 @@ const QuestionCard = ({
           <div className="flex items-center space-x-4">
             <input
               type="text"
-              className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
+              className={`bg-background border ${
+                progress?.completed
+                  ? 'border-green-500/20 text-green-500'
+                  : 'border-primary-blue/20'
+              } rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue`}
               placeholder="Enter your answer"
               value={question.userAnswer}
               onChange={(e) => onAnswerChange(question.id, e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && !question.isCorrect) {
+                if (e.key === 'Enter' && !question.isCorrect && !progress?.completed) {
                   onSubmit(question.id, question.userAnswer);
                 }
               }}
-              disabled={question.isCorrect === true}
+              disabled={progress?.completed}
             />
-            <button
-              className={`text-gray-500 hover:text-gray-400 transition-all ${
-                hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              onClick={() => onToggleHint(question.id)}
-              disabled={question.isCorrect === true || hintsRemaining === 0}
-            >
-              <HelpCircle className="w-5 h-5" />
-            </button>
-            {!question.isCorrect && (
-              <button
-                className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
-                onClick={() => onSubmit(question.id, question.userAnswer)}
-              >
-                Submit
-              </button>
+            {!progress?.completed && (
+              <>
+                <button
+                  className={`text-gray-500 hover:text-gray-400 transition-all ${
+                    hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  onClick={() => onToggleHint(question.id)}
+                  disabled={question.isCorrect === true || hintsRemaining === 0}
+                >
+                  <HelpCircle className="w-5 h-5" />
+                </button>
+                {!question.isCorrect && (
+                  <button
+                    className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+                    onClick={() => onSubmit(question.id, question.userAnswer)}
+                  >
+                    Submit
+                  </button>
+                )}
+              </>
             )}
             {question.isCorrect !== undefined &&
               (question.isCorrect ? (
-                <CheckCircle2 className="w-6 h-6 text-green-500" />
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                >
+                  <CheckCircle2 className="w-6 h-6 text-green-500" />
+                </motion.div>
               ) : (
-                <XCircle className="w-6 h-6 text-red-500" />
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                >
+                  <XCircle className="w-6 h-6 text-red-500" />
+                </motion.div>
               ))}
           </div>
           {question.showHint && (
@@ -182,20 +207,35 @@ function CryptoMinerChallenge() {
   const challengeId = "miner-on-the-run";
   const { progress, updateProgress } = useChallengeProgress(profile?.uid || '', challengeId);
 
+  // When progress is complete, update the questions and show success
+  useEffect(() => {
+    if (progress?.completed && progress.answers) {
+      setQuestions(questions.map(q => ({
+        ...q,
+        userAnswer: progress.answers[q.id] || '',
+        isCorrect: progress.answers[q.id]?.toLowerCase() === q.answer.toLowerCase(),
+        showHint: false
+      })));
+      setShowSuccess(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progress]);
+
   const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
   const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
   const totalQuestions = questions.length;
   const progressPercentage = (correctAnswersCount / totalQuestions) * 100;
 
-  // Update the answer as the user types
+  // Prevent changes if the challenge is already completed
   const handleAnswerChange = (id, value) => {
+    if (progress?.completed) return;
     setQuestions(
       questions.map((q) => (q.id === id ? { ...q, userAnswer: value } : q))
     );
   };
 
-  // Submit the answer and check correctness
   const handleAnswerSubmit = (id, answer) => {
+    if (progress?.completed) return;
     setQuestions(
       questions.map((q) => {
         if (q.id === id) {
@@ -210,8 +250,8 @@ function CryptoMinerChallenge() {
     );
   };
 
-  // Toggle the hint and decrement available hints if not already shown
   const toggleHint = (id) => {
+    if (progress?.completed) return;
     if (hintsRemaining > 0) {
       setQuestions(
         questions.map((q) => {
@@ -229,15 +269,20 @@ function CryptoMinerChallenge() {
     if (allQuestionsAnswered && correctAnswersCount === totalQuestions) {
       if (profile && !progress?.completed) {
         try {
-          // Update challenge progress
-          const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Medium");
+          // Create an answers object to save progress
+          const answers = questions.reduce((acc, q) => ({
+            ...acc,
+            [q.id]: q.userAnswer
+          }), {});
+          
+          // Update challenge progress with answers and difficulty ("Medium")
+          const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Medium", answers);
           
           if (completed) {
-            // Calculate XP based on difficulty
             const xpAmount = getChallengeCompletionXP("Medium");
             setXpAwarded(xpAmount);
             
-            // Award XP to user
+            // Award XP to the user
             await awardUserXP(profile.uid, {
               amount: xpAmount,
               reason: `Completed Miner on the Run Challenge`,
@@ -460,31 +505,34 @@ function CryptoMinerChallenge() {
                 onAnswerChange={handleAnswerChange}
                 onSubmit={handleAnswerSubmit}
                 onToggleHint={toggleHint}
+                progress={progress}
               />
             ))}
           </motion.div>
         )}
 
         {/* Complete Button */}
-        <motion.div
-          className="max-w-4xl mx-auto px-4 mt-8 text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <button
-            onClick={handleComplete}
-            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
+        {!progress?.completed && (
+          <motion.div
+            className="max-w-4xl mx-auto px-4 mt-8 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
           >
-            <CheckCircle2 className="w-5 h-5" />
-            <span>Complete Challenge</span>
-          </button>
-          {showError && (
-            <div className="mt-4 p-4 bg-red-600 text-white rounded-lg">
-              <p>Please answer all questions correctly before completing the challenge.</p>
-            </div>
-          )}
-        </motion.div>
+            <button
+              onClick={handleComplete}
+              className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
+            >
+              <CheckCircle2 className="w-5 h-5" />
+              <span>Complete Challenge</span>
+            </button>
+            {showError && (
+              <div className="mt-4 p-4 bg-red-600 text-white rounded-lg">
+                <p>Please answer all questions correctly before completing the challenge.</p>
+              </div>
+            )}
+          </motion.div>
+        )}
 
         {/* XP Notification */}
         {xpNotification && (
