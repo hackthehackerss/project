@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   CheckCircle2,
@@ -11,9 +11,14 @@ import {
   Trophy,
   ChevronDown,
   ChevronUp,
+  Star
 } from 'lucide-react';
 import Confetti from 'react-confetti';
 import { motion } from 'framer-motion';
+import { useAuth } from '../../contexts/AuthContext';
+import { useChallengeProgress } from '../../hooks/useChallengeProgress';
+import { useXP } from '../../hooks/useXP';
+import { getChallengeCompletionXP } from '../../utils/xpSystem';
 
 // Reusable QuestionCard Component with fade/scale effect when answered correctly
 const QuestionCard = ({
@@ -84,6 +89,11 @@ const QuestionCard = ({
 };
 
 function WebBruteForceChallenge() {
+  const navigate = useNavigate();
+  const { profile } = useAuth();
+  const { awardUserXP } = useXP();
+  
+  // Questions remain unchanged
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -200,52 +210,91 @@ function WebBruteForceChallenge() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [questionsVisible, setQuestionsVisible] = useState(false);
+  const [xpAwarded, setXpAwarded] = useState(0);
+  const [xpNotification, setXpNotification] = useState(false);
 
-  const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
-  const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
+  // Challenge progress tracking (challengeId: "web-bruteforce")
+  const challengeId = "web-bruteforce";
+  const { progress, updateProgress } = useChallengeProgress(profile?.uid || '', challengeId);
+
+  // On mount, if progress is complete, update questions to show stored answers and disable editing.
+  useEffect(() => {
+    if (progress?.completed && progress.answers) {
+      setQuestions(questions.map(q => ({
+        ...q,
+        userAnswer: progress.answers[q.id] || '',
+        isCorrect: progress.answers[q.id]?.toLowerCase() === q.answer.toLowerCase(),
+        showHint: false,
+      })));
+      setShowSuccess(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progress]);
+
+  const allQuestionsAnswered = questions.every(q => q.isCorrect !== undefined);
+  const correctAnswersCount = questions.filter(q => q.isCorrect).length;
   const totalQuestions = questions.length;
-  const progress = (correctAnswersCount / totalQuestions) * 100;
+  const progressPercentage = (correctAnswersCount / totalQuestions) * 100;
 
-  // Update answer on input change
   const handleAnswerChange = (id, value) => {
-    setQuestions(
-      questions.map((q) => (q.id === id ? { ...q, userAnswer: value } : q))
-    );
+    if (progress?.completed) return;
+    setQuestions(questions.map(q => q.id === id ? { ...q, userAnswer: value } : q));
   };
 
-  // Submit the answer and update its correctness
   const handleAnswerSubmit = (id, answer) => {
-    setQuestions(
-      questions.map((q) => {
-        if (q.id === id) {
-          return {
-            ...q,
-            userAnswer: answer,
-            isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
-          };
+    if (progress?.completed) return;
+    setQuestions(questions.map(q => {
+      if (q.id === id) {
+        return {
+          ...q,
+          userAnswer: answer,
+          isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
+        };
+      }
+      return q;
+    }));
+  };
+
+  const toggleHint = (id) => {
+    if (progress?.completed) return;
+    if (hintsRemaining > 0) {
+      setQuestions(questions.map(q => {
+        if (q.id === id && !q.showHint) {
+          setHintsRemaining(hintsRemaining - 1);
+          return { ...q, showHint: true };
         }
         return q;
-      })
-    );
-  };
-
-  // Toggle hint visibility and decrement hints remaining if available
-  const toggleHint = (id) => {
-    if (hintsRemaining > 0) {
-      setQuestions(
-        questions.map((q) => {
-          if (q.id === id && !q.showHint) {
-            setHintsRemaining(hintsRemaining - 1);
-            return { ...q, showHint: true };
-          }
-          return q;
-        })
-      );
+      }));
     }
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     if (allQuestionsAnswered && correctAnswersCount === totalQuestions) {
+      if (profile && !progress?.completed) {
+        try {
+          // Create an answers object
+          const answers = questions.reduce((acc, q) => ({
+            ...acc,
+            [q.id]: q.userAnswer,
+          }), {});
+          // Update progress with answers (difficulty "Easy")
+          const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Easy", answers);
+          if (completed) {
+            const xpAmount = getChallengeCompletionXP("Easy");
+            setXpAwarded(xpAmount);
+            // Award XP to the user
+            await awardUserXP(profile.uid, {
+              amount: xpAmount,
+              reason: `Completed Web Brute-Force Challenge`,
+              type: 'challenge_completion'
+            });
+            setXpNotification(true);
+            setTimeout(() => setXpNotification(false), 5000);
+          }
+        } catch (error) {
+          console.error("Error updating progress:", error);
+        }
+      }
       setShowConfetti(true);
       setShowSuccess(true);
       setShowError(false);
@@ -281,7 +330,7 @@ function WebBruteForceChallenge() {
         </div>
       </motion.nav>
 
-      {/* Banner */}
+      {/* Banner (image remains unchanged) */}
       <motion.div
         className="flex justify-center mb-12"
         initial={{ opacity: 0, y: -20 }}
@@ -320,13 +369,13 @@ function WebBruteForceChallenge() {
             <div
               className="h-4 rounded-full transition-all duration-500 ease-in-out"
               style={{
-                width: `${progress}%`,
+                width: `${Math.round(progressPercentage)}%`,
                 background: 'linear-gradient(90deg, #4ade80, #3b82f6)',
                 boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)',
               }}
             >
               <div className="text-center text-white text-sm font-semibold absolute inset-0 flex items-center justify-center">
-                {`${Math.round(progress)}%`}
+                {`${Math.round(progressPercentage)}%`}
               </div>
             </div>
           </div>
@@ -505,7 +554,7 @@ function WebBruteForceChallenge() {
           </>
         )}
 
-        {/* Combined frame for Created by and First Blood */}
+        {/* Combined Frame for Created by and First Blood */}
         <motion.div
           className="max-w-4xl mx-auto px-4 mt-8"
           initial={{ opacity: 0 }}
@@ -514,7 +563,7 @@ function WebBruteForceChallenge() {
         >
           <div className="bg-primary-dark/40 p-6 rounded-xl border border-primary-blue/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <div className="flex justify-center space-x-8">
-              {/* Created by section */}
+              {/* Created by */}
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-primary-blue/10 rounded-full">
                   <User className="w-6 h-6 text-primary-blue" />
@@ -526,11 +575,9 @@ function WebBruteForceChallenge() {
                   </div>
                 </div>
               </div>
-
               {/* Divider */}
               <div className="w-px bg-primary-blue/20 h-12"></div>
-
-              {/* First Blood section */}
+              {/* First Blood */}
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-red-500/10 rounded-full">
                   <Droplet className="w-6 h-6 text-red-500" />
