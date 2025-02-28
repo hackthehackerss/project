@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -24,6 +24,7 @@ function HackedByCaptcha() {
   const navigate = useNavigate();
   const { profile } = useAuth();
   const { awardUserXP } = useXP();
+  
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -141,7 +142,7 @@ function HackedByCaptcha() {
       isCorrect: undefined,
     },
   ]);
-
+  
   const [hintsRemaining, setHintsRemaining] = useState(3);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -154,46 +155,54 @@ function HackedByCaptcha() {
   const challengeId = "hacked-by-captcha";
   const { progress, updateProgress } = useChallengeProgress(profile?.uid || '', challengeId);
 
-  const allQuestionsAnswered = questions.every((q) => q.isCorrect !== undefined);
-  const correctAnswersCount = questions.filter((q) => q.isCorrect).length;
+  // If progress is complete, update questions to display stored answers and disable further editing
+  useEffect(() => {
+    if (progress?.completed && progress.answers) {
+      setQuestions(questions.map(q => ({
+        ...q,
+        userAnswer: progress.answers[q.id] || '',
+        isCorrect: progress.answers[q.id]?.toLowerCase() === q.answer.toLowerCase(),
+        showHint: false
+      })));
+      setShowSuccess(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progress]);
+
+  const allQuestionsAnswered = questions.every(q => q.isCorrect !== undefined);
+  const correctAnswersCount = questions.filter(q => q.isCorrect).length;
   const totalQuestions = questions.length;
   const progressPercentage = (correctAnswersCount / totalQuestions) * 100;
 
-  // Update answer on input change
   const handleAnswerChange = (id, value) => {
-    setQuestions(
-      questions.map((q) => (q.id === id ? { ...q, userAnswer: value } : q))
-    );
+    if (progress?.completed) return;
+    setQuestions(questions.map(q => q.id === id ? { ...q, userAnswer: value } : q));
   };
 
-  // Submit the answer and check correctness
   const handleAnswerSubmit = (id, answer) => {
-    setQuestions(
-      questions.map((q) => {
-        if (q.id === id) {
-          return {
-            ...q,
-            userAnswer: answer.toLowerCase(),
-            isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
-          };
+    if (progress?.completed) return;
+    setQuestions(questions.map(q => {
+      if (q.id === id) {
+        return {
+          ...q,
+          userAnswer: answer.toLowerCase(),
+          isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
+        };
+      }
+      return q;
+    }));
+  };
+
+  const toggleHint = (id) => {
+    if (progress?.completed) return;
+    if (hintsRemaining > 0) {
+      setQuestions(questions.map(q => {
+        if (q.id === id && !q.showHint) {
+          setHintsRemaining(hintsRemaining - 1);
+          return { ...q, showHint: true };
         }
         return q;
-      })
-    );
-  };
-
-  // Toggle hint visibility and decrement hints remaining if available
-  const toggleHint = (id) => {
-    if (hintsRemaining > 0) {
-      setQuestions(
-        questions.map((q) => {
-          if (q.id === id && !q.showHint) {
-            setHintsRemaining(hintsRemaining - 1);
-            return { ...q, showHint: true };
-          }
-          return q;
-        })
-      );
+      }));
     }
   };
 
@@ -201,21 +210,22 @@ function HackedByCaptcha() {
     if (allQuestionsAnswered && correctAnswersCount === totalQuestions) {
       if (profile && !progress?.completed) {
         try {
-          // Update challenge progress
-          const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Medium");
-          
+          // Create an answers object
+          const answers = questions.reduce((acc, q) => ({
+            ...acc,
+            [q.id]: q.userAnswer,
+          }), {});
+          // Update challenge progress with the answers and difficulty ("Medium")
+          const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Medium", answers);
           if (completed) {
-            // Calculate XP based on difficulty
             const xpAmount = getChallengeCompletionXP("Medium");
             setXpAwarded(xpAmount);
-            
-            // Award XP to user
+            // Award XP to the user
             await awardUserXP(profile.uid, {
               amount: xpAmount,
               reason: `Completed Hacked by CAPTCHA Challenge`,
               type: 'challenge_completion'
             });
-            
             setXpNotification(true);
             setTimeout(() => setXpNotification(false), 5000);
           }
@@ -223,7 +233,6 @@ function HackedByCaptcha() {
           console.error("Error updating progress:", error);
         }
       }
-      
       setShowConfetti(true);
       setShowSuccess(true);
       setShowError(false);
@@ -295,7 +304,7 @@ function HackedByCaptcha() {
             <div
               className="h-4 rounded-full transition-all duration-500 ease-in-out"
               style={{
-                width: `${progressPercentage}%`,
+                width: `${Math.round(progressPercentage)}%`,
                 background: 'linear-gradient(90deg, #4ade80, #3b82f6)',
                 boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)',
               }}
@@ -546,17 +555,12 @@ function HackedByCaptcha() {
                 <p>
                   You have completed the challenge with {correctAnswersCount} out of {totalQuestions} correct answers.
                 </p>
-                {xpAwarded > 0 && (
-                  <p className="mt-2 text-yellow-300 font-bold">
-                    +{xpAwarded} XP Awarded!
-                  </p>
-                )}
               </div>
             </motion.div>
           </>
         )}
 
-        {/* Combined frame for Created by and First Blood */}
+        {/* Combined Frame for Created by and First Blood */}
         <motion.div
           className="max-w-4xl mx-auto px-4 mt-8"
           initial={{ opacity: 0 }}
@@ -565,7 +569,7 @@ function HackedByCaptcha() {
         >
           <div className="bg-primary-dark/40 p-6 rounded-xl border border-primary-blue/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <div className="flex justify-center space-x-8">
-              {/* Created by section */}
+              {/* Created by */}
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-primary-blue/10 rounded-full">
                   <User className="w-6 h-6 text-primary-blue" />
@@ -577,11 +581,9 @@ function HackedByCaptcha() {
                   </div>
                 </div>
               </div>
-
               {/* Divider */}
               <div className="w-px bg-primary-blue/20 h-12"></div>
-
-              {/* First Blood section */}
+              {/* First Blood */}
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-red-500/10 rounded-full">
                   <Droplet className="w-6 h-6 text-red-500" />
