@@ -24,8 +24,10 @@ function OSWPCourse() {
               </p>
               <ul>
                 <li>
-                  <strong>This course is ideal for:                  </strong> 
-                  ✅ IT professionals responsible for securing Wi-Fi networks.
+                  <strong>This course is ideal for:</strong> 
+                </li>
+                <li>
+                ✅ IT professionals responsible for securing Wi-Fi networks.
                 </li>
                 <li>
                 ✅ Penetration testers looking to expand their skill set.
@@ -39,6 +41,7 @@ function OSWPCourse() {
 
                 </li>
               </ul>
+              
               <p>
                 <strong>What You’ll Learn? </strong>
               </p>
@@ -51,35 +54,35 @@ function OSWPCourse() {
               </p>
               <p>
               This course follows a practical, hands-on approach, covering:
-              1️⃣ Wireless Network Basics – 802.11 standards, encryption protocols, and wireless reconnaissance.
-              2️⃣ Packet Capture & Analysis – Using tools like Airodump-ng and Wireshark.
-              3️⃣ Wi-Fi Exploitation Techniques – Cracking WEP, WPA/WPA2, and PMKID attacks.
-              4️⃣ Rogue Access Points & Evil Twin Attacks – Setting up fake APs for credential theft.
-              5️⃣ Post-Exploitation & Defense Strategies – How to protect against common wireless threats.
-
               </p>
+              <ul>
+              <li> 1️⃣ Wireless Network Basics – 802.11 standards, encryption protocols, and wireless reconnaissance.</li>
+              <li>2️⃣ Packet Capture & Analysis – Using tools like Airodump-ng and Wireshark.</li>
+              <li>3️⃣ Wi-Fi Exploitation Techniques – Cracking WEP, WPA/WPA2, and PMKID attacks.</li>
+              <li>4️⃣ Rogue Access Points & Evil Twin Attacks – Setting up fake APs for credential theft.</li>
+              <li>5️⃣ Post-Exploitation & Defense Strategies – How to protect against common wireless threats.</li>
+              </ul>
 
               <p>
-              <strong> What You Need Before Starting?              </strong>
+              <strong> What You Need Before Starting? </strong>
               </p>
               
               <p>
-              📌 Basic Linux knowledge (Kali Linux is recommended).
-              📌 Understanding of networking concepts (IP addresses, DHCP, etc.).
-            📌 A wireless network adapter that supports packet injection (e.g., ALFA AWUS036NHA).
 
-            By the end of this course, you will have a deep understanding of wireless security, be able to perform real-world Wi-Fi penetration tests, and be well-prepared for the OSWP exam.
+              <ul>
+              <li>📌 Basic Linux knowledge (Kali Linux is recommended).</li>
+              <li>📌 Understanding of networking concepts (IP addresses, DHCP, etc.).</li>
+              <li>📌 A wireless network adapter that supports packet injection (e.g., ALFA AWUS036NHA).</li>
+             
+              </ul>
+             
+
+              By the end of this course, you will have a deep understanding of wireless security, be able to perform real-world Wi-Fi penetration tests, and be well-prepared for the OSWP exam.
 
             👉 Let’s dive in and start hacking Wi-Fi! 🚀
 
               </p>
-              <pre>{`IF event.type == "login_failure" AND event.count > 5 WITHIN 10 minutes THEN alert "Potential brute force attack"`}</pre>
-              <p>
-                Additionally, a phishing simulation campaign may be launched where employees receive fake phishing emails. The results are analyzed to identify weaknesses in training and awareness.
-              </p>
-              <p>
-                Preparation is an ongoing process. Regular reviews of policies, continuous threat intelligence updates, and iterative testing ensure the SOC remains effective against evolving threats.
-              </p>
+           
             </>
           )
         },
