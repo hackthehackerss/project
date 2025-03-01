@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import Navigation from '../../components/Navigation';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -15,24 +14,9 @@ const BybitBlog: React.FC = () => {
 
   // Get current URL for sharing purposes
   const currentUrl = window.location.href;
-  // Build absolute URL for the image using the current origin
-  const imageUrl = `${window.location.origin}/Blog/bybit.png`;
 
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <Helmet>
-        <title>North Korea behind $1.5b hack of crypto exchange ByBit, says FBI</title>
-        <meta
-          property="og:title"
-          content="North Korea behind $1.5b hack of crypto exchange ByBit, says FBI"
-        />
-        <meta
-          property="og:description"
-          content="In what is being dubbed the largest crypto heist in history, the recent Bybit hack has sent shockwaves through the cryptocurrency industry, raising critical questions about crypto security and multisig protection."
-        />
-        <meta property="og:image" content={imageUrl} />
-        <meta property="og:url" content={currentUrl} />
-      </Helmet>
       <Navigation darkMode={darkMode} onToggleDarkMode={handleDarkModeToggle} />
       <main className="container mx-auto p-4">
         <article className="bg-gray-800 dark:bg-gray-900 text-white rounded-lg p-8">
