@@ -23,36 +23,37 @@ function OSWPCourse() {
       id: "OSWPCourse-overview",
       title: "OSWP Course Overview",
       content: {
-        introduction:
-          "The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks.",
+        introduction: (
+          <>
+            <h2>Welcome to Wireless Penetration Testing</h2>
+            <p>This course will cover various aspects of wireless network security.</p>
+          </>
+        ),
         sections: [
           {
-            title: "Introduction to the OSWP Course",
-            content: [
-              <h2> Welcome to Wireless Penetration Testing </h2>
-              <p> dsds</p>
-          
-            ]
+            title: "1",
+            content: <p>Section 1 content goes here.</p>
           },
           {
             title: "2",
-            content: []
+            content: <p>Section 2 content goes here.</p>
           },
           {
             title: "3",
-            content: []
+            content: <p>Section 3 content goes here.</p>
           },
           {
             title: "4",
-            content: []
+            content: <p>Section 4 content goes here.</p>
           },
           {
             title: "5",
-            content: []
+            content: <p>Section 5 content goes here.</p>
           }
         ]
       }
-    },{
+    }
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -488,8 +489,11 @@ function OSWPCourse() {
         ]
       }
     },
-    
   ];
+
+  return <div>{sections[0].content.introduction}</div>;
+}
+
 
   const activeContent = sections.find((section) => section.id === activeSection)?.content;
   const activeSubSectionContent = activeContent?.sections?.find(
