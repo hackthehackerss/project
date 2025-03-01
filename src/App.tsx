@@ -34,6 +34,7 @@ import BruteforceChallenge from './pages/Challenges/BruteforceChallenge';
 import HackedByCaptcha from './pages/Challenges/HackedByCaptcha';
 import SqlLab from './pages/labs/sqllab';
 import VbaScripting from './pages/red-team/vba-scripting';
+import OSWPCourse from './pages/red-team/OSWPCourse';
 import LABexercise01 from './pages/labs/sql_labs/lab-exercise01';
 import LABexercise02 from './pages/labs/sql_labs/lab-exercise02';
 import LABexercise03 from './pages/labs/sql_labs/lab-exercise03';
@@ -76,6 +77,7 @@ function App() {
           <Route path="/challenges/HackedByCaptcha" element={<HackedByCaptcha />} />
           <Route path="/labs/sqllab" element={<SqlLab />} /> 
           <Route path="/vba-scripting" element={<VbaScripting />} /> 
+          <Route path="/OSWPCourse" element={<OSWPCourse />} />
           <Route path="/labs/sqllab/lab-exercise01" element={<LABexercise01 />} /> 
           <Route path="/labs/sqllab/lab-exercise02" element={<LABexercise02 />} /> 
           <Route path="/labs/sqllab/lab-exercise03" element={<LABexercise03 />} /> 
