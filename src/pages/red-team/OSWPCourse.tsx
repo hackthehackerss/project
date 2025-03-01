@@ -52,7 +52,7 @@ function OSWPCourse() {
           }
         ]
       }
-    }
+    },
     {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
@@ -82,7 +82,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -111,7 +112,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -140,7 +142,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -169,7 +172,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -198,7 +202,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -227,7 +232,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -256,7 +262,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -285,7 +292,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -314,7 +322,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -343,7 +352,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -372,7 +382,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -401,7 +412,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -430,7 +442,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
@@ -459,7 +472,8 @@ function OSWPCourse() {
           }
         ]
       }
-    },{
+    },
+    {
       id: "OSWPCourse-overview",
       title: "OSWPCourse Overview",
       content: {
