@@ -172,7 +172,7 @@ function OSWPCourse() {
         {
           title: "Manual Network Connections",
           summary: (
-            <div style={{ textAlign: 'left' }}>
+            <div style={{ textAlign: 'center' }}>
               <p><strong>Overview of Wireless Penetration Testing</strong></p>
               <p>
                 Wireless penetration testing tools usually require disabling network managers because they interfere with the proper operation of the tools.
@@ -452,149 +452,138 @@ Although this should technically suffice to forward packets over to the Internet
     },
     {
       id: "module2",
-      title: "Wireless Network Analysis & Reconnaissance",
-      sections: [
-        {
-          title: "Manual Network Connections & Wireless Adapter Configuration",
-          summary: (
-            <div style={{ textAlign: 'center' }}>
-              <p>
-              When conducting wireless penetration testing, it's often necessary to disable network managers, as they can interfere with the tools being used. However, there are instances when we still need internet access or even need to share it. Although network managers can typically handle this, we will explore how to manually configure the setup, as network managers are disabled during testing. It's important to use a separate network interface from the one employed for penetration testing.
-              </p>
+title: "Wireless Network Analysis & Reconnaissance",
+sections: [
+  {
+    title: "Manual Network Connections & Wireless Adapter Configuration",
+    summary: (
+      <div style={{ textAlign: 'center' }}>
+        <p>
+          When conducting wireless penetration testing, it's often necessary to disable network managers, as they can interfere with the tools being used. However, there are instances when we still need internet access or even need to share it. Although network managers can typically handle this, we will explore how to manually configure the setup, as network managers are disabled during testing. It's important to use a separate network interface from the one employed for penetration testing.
+        </p>
 
-              <p>
-              <strong>Connecting to an Access Point</strong>
-              Linux offers several wireless clients, with wpa_supplicant being the most widely used. It connects to Wi-Fi networks on many Linux distributions, even for unencrypted networks or those still using WEP.
+        <p>
+          <strong>Connecting to an Access Point</strong>
+          Linux offers several wireless clients, with wpa_supplicant being the most widely used. It connects to Wi-Fi networks on many Linux distributions, even for unencrypted networks or those still using WEP.
 
-              wpa_supplicant can be controlled via a command-line interface (wpa_cli) or through configuration files specifying network settings.
+          wpa_supplicant can be controlled via a command-line interface (wpa_cli) or through configuration files specifying network settings.
+        </p>
 
-              </p>
+        <p>
+          This configuration allows the system to connect to an open network called "hotel_wifi" and instructs wpa_supplicant to scan for SSIDs first.
 
-              <p>
-              This configuration allows the system to connect to an open network called "hotel_wifi" and instructs wpa_supplicant to scan for SSIDs first.
+          The tool will automatically select between TKIP and CCMP for encryption, but you can specify a preference by adding pairwise=CCMP or pairwise=TKIP to the configuration. wpa_supplicant also supports WPA3, OWE, and WPA Enterprise, though these are outside the scope of this tutorial. 
 
-              The tool will automatically select between TKIP and CCMP for encryption, but you can specify a preference by adding pairwise=CCMP or pairwise=TKIP to the configuration. wpa_supplicant also supports WPA3, OWE, and WPA Enterprise, though these are outside the scope of this tutorial. 
+          To simplify configuration, you can use the wpa_passphrase tool, which generates configuration files for basic WPA-PSK networks. This tool requires the ESSID and optionally, a passphrase. If the passphrase isn't provided, it will prompt for it and output the configuration to a file.
 
-              To simplify configuration, you can use the wpa_passphrase tool, which generates configuration files for basic WPA-PSK networks. This tool requires the ESSID and optionally, a passphrase. If the passphrase isn't provided, it will prompt for it and output the configuration to a file.
+          Using the sample configuration from above, the following commands would generate and use a configuration file (wifi-client.conf):
 
-              Using the sample configuration from above, the following commands would generate and use a configuration file (wifi-client.conf):
+          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
+            sudo wpa_supplicant -i wlan0 -c wifi-client.conf
+          </code>
+        </p>
 
-              <code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
-              sudo wpa_supplicant -i wlan0 -c wifi-client.conf
+        <p>
+          Once successfully connected, we can run wpa_supplicant in the background by appending -B and then request a DHCP lease with dhclient:
+        </p>
+        <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
+          sudo dhclient wlan0
+        </code>
 
-</code>
-              </p>
+        <p><strong>Setting up an Access Point</strong>
+          To set up an access point, you need two distinct network interfaces. The process involves five main steps:
+          <ul>
+            <li>Configure Internet Access on the system.</li>
+            <li>Set a Static IP on the wireless interface.</li>
+            <li>Set up a DHCP server to provide IP addresses to Wi-Fi clients.</li>
+            <li>Add routing to enable Internet access for Wi-Fi clients.</li>
+            <li>Configure the wireless interface in AP mode.</li>
+          </ul>
+        </p>
 
-              <p>
-              Once successfully connected, we can run wpa_supplicant in the background by appending -B and then request a DHCP lease with dhclient:
-              </p>
-              <code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
-              sudo dhclient wlan0
+        <p><strong>Internet Access</strong>
+          You need an active Internet connection on the system, whether through Ethernet, Wi-Fi, or mobile broadband. While Ethernet is straightforward to configure, Wi-Fi requires the same process as described in 16.1.
 
-</code>
+          It's important to note that while you can use a single Wi-Fi interface for both client and AP modes, this is more complex and may not work reliably on all adapters. Use iw to list supported modes for your Wi-Fi interface:
 
-<p><strong>Setting up an Access Point</strong>
-To set up an access point, you need two distinct network interfaces. The process involves five main steps:
-<ul>
-  <li>Configure Internet Access on the system.</li>
-  <li>Set a Static IP on the wireless interface.</li>
-  <li>Set up a DHCP server to provide IP addresses to Wi-Fi clients.</li>
-  <li>Add routing to enable Internet access for Wi-Fi clients.</li>
-  <li>Configure the wireless interface in AP mode.</li>
-</ul>
-</p>
+          <strong> sudo iw list </strong>
+        </p>
 
-<p><strong>Internet Access</strong>
-You need an active Internet connection on the system, whether through Ethernet, Wi-Fi, or mobile broadband. While Ethernet is straightforward to configure, Wi-Fi requires the same process as described in 16.1.
+        <p><strong>Static IP on Access Point Wireless Interface</strong>
+          Next, assign a static IP to the wireless interface intended for the access point. The IP address should not conflict with the range of the network you're using for Internet access. For example, if the Internet network is on the 192.168.1.0/24 range, use 10.0.0.1/24 for the access point interface.
+          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
+            sudo dhclient wlan0
+          </code>
+        </p>
 
-It's important to note that while you can use a single Wi-Fi interface for both client and AP modes, this is more complex and may not work reliably on all adapters. Use iw to list supported modes for your Wi-Fi interface:
+        <p><strong>DHCP Server</strong>
+          To automatically assign IPs to clients, set up dnsmasq, a tool that provides DNS and DHCP services. The following is an example configuration file (dnsmasq.conf):
 
-<strong> sudo iw list </strong>
-</p>
+          <ul>
+            <li><strong>Main options:</strong></li>
+            <ul>
+              <li>domain-needed</li>
+              <li>bogus-priv</li>
+              <li>no-resolv</li>
+              <li>filterwin2k</li>
+              <li>expand-hosts</li>
+              <li>domain=localdomain</li>
+              <li>local=/localdomain/</li>
+              <li>listen-address=10.0.0.1</li>
+            </ul>
 
-<p><strong>Static IP on Access Point Wireless Interface</strong>
+            <li><strong>DHCP range:</strong></li>
+            <ul>
+              <li>dhcp-range=10.0.0.100,10.0.0.199,12h</li>
+              <li>dhcp-lease-max=100</li>
+              <li>dhcp-option=option:router,10.0.0.1</li>
+              <li>dhcp-authoritative</li>
+            </ul>
 
-Next, assign a static IP to the wireless interface intended for the access point. The IP address should not conflict with the range of the network you're using for Internet access. For example, if the Internet network is on the 192.168.1.0/24 range, use 10.0.0.1/24 for the access point interface.
-<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
-              sudo dhclient wlan0
-              </code>
-              </p>
-<p><strong>DHCP Server</strong>
-To automatically assign IPs to clients, set up dnsmasq, a tool that provides DNS and DHCP services. The following is an example configuration file (dnsmasq.conf):
+            <li><strong>DNS: Primary and secondary Google DNS</strong></li>
+            <ul>
+              <li>server=8.8.8.8</li>
+              <li>server=8.8.4.4</li>
+            </ul>
+          </ul>
 
-<ul>
-  <li><strong>Main options:</strong></li>
-  <ul>
-    <li>domain-needed</li>
-    <li>bogus-priv</li>
-    <li>no-resolv</li>
-    <li>filterwin2k</li>
-    <li>expand-hosts</li>
-    <li>domain=localdomain</li>
-    <li>local=/localdomain/</li>
-    <li>listen-address=10.0.0.1</li>
-  </ul>
+          Start dnsmasq with this configuration file:
+          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
+            sudo dnsmasq --conf-file=dnsmasq.conf
+          </code>
+        </p>
+
+        <p>
+          You can confirm it’s running by checking the syslog:
+          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
+            sudo tail /var/log/syslog | grep dnsmasq
+          </code>
+        </p>
+
+        <p><strong> Enable IP forwarding to allow the system to act as a router: </strong>
+          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
+            echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+          </code>
+        </p>
+
+        <p>
+          Next, set up a NAT rule to masquerade the client IP addresses to appear as if they are coming from the system's Internet connection. You will need nftables to manage firewall rules:
+
+          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
+            sudo apt install nftables
+          </code>
+
+          Add the NAT table and the masquerade rule:
+
+          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
+            sudo nft add table nat
+            sudo nft add chain nat postrouting 
+            sudo nft add rule ip nat postrouting oifname "eth0" ip daddr != 10.0.0.1/24 masquerade
+          </code>
+        </p>
+      </div>
+    )
   
-  <li><strong>DHCP range:</strong></li>
-  <ul>
-    <li>dhcp-range=10.0.0.100,10.0.0.199,12h</li>
-    <li>dhcp-lease-max=100</li>
-    <li>dhcp-option=option:router,10.0.0.1</li>
-    <li>dhcp-authoritative</li>
-  </ul>
-
-  <li><strong>DNS: Primary and secondary Google DNS</strong></li>
-  <ul>
-    <li>server=8.8.8.8</li>
-    <li>server=8.8.4.4</li>
-  </ul>
-</ul>
-
-Start dnsmasq with this configuration file:
-<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
-sudo dnsmasq --conf-file=dnsmasq.conf
-              </code>
-
-</p>
-
-<p>
-You can confirm it’s running by checking the syslog:
-<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
-sudo tail /var/log/syslog | grep dnsmasq
-              </code>
-</p>
-
-<p><strong> Enable IP forwarding to allow the system to act as a router: </strong>
-<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
-echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
-
-              </code>
-
-</p>
-
-<p>
-Next, set up a NAT rule to masquerade the client IP addresses to appear as if they are coming from the system's Internet connection. You will need nftables to manage firewall rules:
-
-<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
-sudo apt install nftables
-
-              </code>
-
-              Add the NAT table and the masquerade rule:
-
-              <code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
-              sudo nft add table nat
-sudo nft add chain nat postrouting 
-sudo nft add rule ip nat postrouting oifname "eth0" ip daddr != 10.0.0.1/24 masquerade
-
-
-              </code>
-</p>
-
-
-
-            </div>
-          )
         },
         {
           title: "Determining Chipsets and Drivers for Wireless Attacks",
