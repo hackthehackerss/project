@@ -21,53 +21,34 @@ function OSWPCourse() {
   const sections = [
     {
       id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
+      title: "OSWP Course Overview",
       content: {
         introduction:
-          "In this course, we will cover the fundamentals of Wi-Fi security, the methodologies used by attackers, and the defensive strategies to secure wireless networks.",
+          "The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks.",
         sections: [
           {
             title: "Introduction to the OSWP Course",
             content: [
-              "Welcome to Wireless Penetration Testing Wireless networks are an essential part of modern communication, but they also introduce significant security risks. The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks. "
-              
-              <strong> What You’ll Learn </strong>
-              "In this course, we will cover the fundamentals of Wi-Fi security, the methodologies used by attackers, and the defensive strategies to secure wireless networks. By the end, you'll have hands-on experience with real-world Wi-Fi attacks and be fully prepared for the OSWP exam. "
-
-              <strong> Who Is This Course For? </strong>
-              
-              "This course is ideal for:"
-              "Penetration testers looking to expand their skill set."
-              "Cybersecurity professionals wanting to specialize in wireless security"
-              "Ethical hackers seeking OSWP certification."
-              "IT professionals responsible for securing Wi-Fi networks." 
-
+              <h2> Welcome to Wireless Penetration Testing </h2>
+              <p> dsds</p>
+          
             ]
           },
           {
-            title: "Course Structure",
-            content: [
-              <strong> Course Structure: </strong>
-              "This course follows a practical, hands-on approach, covering:"
-              "1️⃣ Wireless Network Basics – 802.11 standards, encryption protocols, and wireless reconnaissance."
-              "2️⃣ Packet Capture & Analysis – Using tools like Airodump-ng and Wireshark."
-              "3️⃣ Wi-Fi Exploitation Techniques – Cracking WEP, WPA/WPA2, and PMKID attacks."
-              "4️⃣ Rogue Access Points & Evil Twin Attacks – Setting up fake APs for credential theft."
-              "5️⃣ Post-Exploitation & Defense Strategies – How to protect against common wireless threats."
-            ]
+            title: "2",
+            content: []
           },
           {
-            title: "What You Need Before Starting",
-            content: [
-              "What You Need Before Starting"
-              "📌 Basic Linux knowledge (Kali Linux is recommended)."
-              "📌 Understanding of networking concepts (IP addresses, DHCP, etc.)."
-              "📌 A wireless network adapter that supports packet injection (e.g., ALFA AWUS036NHA)."
-              "By the end of this course, you will have a deep understanding of wireless security, be able to perform real-world Wi-Fi penetration tests, and be well-prepared for the OSWP exam."
-
-
-              "👉 Let’s dive in and start hacking Wi-Fi! 🚀"
-            ]
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
           }
         ]
       }
@@ -545,9 +526,9 @@ function OSWPCourse() {
           <div className="flex items-center space-x-4">
             <Book className="w-8 h-8 text-primary-blue" />
             <div>
-              <h1 className="text-2xl font-bold">OSWP Course</h1>
+              <h1 className="text-2xl font-bold">VBA Scripting</h1>
               <p className="text-gray-400 text-sm mt-1">
-              Get deep understanding of wireless security
+                Master VBA Scripting Technics
               </p>
             </div>
           </div>
