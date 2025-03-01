@@ -21,32 +21,35 @@ function OSWPCourse() {
   const sections = [
     {
       id: "OSWPCourse-overview",
-      title: "OSWP Course Overview",
+      title: "OSWPCourse Overview",
       content: {
-        introduction: "",
+        introduction:
+          "",
         sections: [
-          { title: "1. IEEE 802.11", content: [] },
-          { title: "2. Manual Network Connections", content: [] },
-          { title: "3. Determining Chipsets and Drivers", content: [] },
-          { title: "4. Kismet Essentials", content: [] },
-          { title: "5. Bettercap Essentials", content: [] },
-          { title: "6. Attacking Captive Portals", content: [] },
-          { title: "7. Attacking WPA Enterprise", content: [] },
-          { title: "8. Rogue Access Points", content: [] },
-          { title: "9. Attacking WPS Networks", content: [] },
-          { title: "10. Cracking Authentication Hashes", content: [] },
-          { title: "11. Aircrack-ng Essentials", content: [] },
-          { title: "12. Frames and Network Interaction", content: [] },
-          { title: "13. Wireshark Essentials", content: [] },
-          { title: "14. Linux Wireless Tools, Drivers, and Stacks", content: [] },
-          { title: "15. Wi-Fi Encryption", content: [] },
-          { title: "16. Wireless Networks", content: [] }
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
         ]
       }
     }
   ];
-}
-
 
   const activeContent = sections.find((section) => section.id === activeSection)?.content;
   const activeSubSectionContent = activeContent?.sections?.find(
@@ -83,9 +86,9 @@ function OSWPCourse() {
           <div className="flex items-center space-x-4">
             <Book className="w-8 h-8 text-primary-blue" />
             <div>
-              <h1 className="text-2xl font-bold">OSWP Course</h1>
+              <h1 className="text-2xl font-bold">VBA Scripting</h1>
               <p className="text-gray-400 text-sm mt-1">
-              OSWP Course Road Map
+                Master VBA Scripting Technics
               </p>
             </div>
           </div>
