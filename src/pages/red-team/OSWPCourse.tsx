@@ -144,7 +144,7 @@ function OSWPCourse() {
             When referring to a channel frequency, the center frequency is used. The center frequency represents the midpoint of a channel’s bandwidth. For instance, channel 1 spans from 2.401 GHz to 2.423 GHz, but its center frequency is 2.412 GHz. <br></br>
 
            <br></br>
-            <strong>IEEE 802.11a</strong>
+            <strong>IEEE 802.11a</strong> <br></br>
 
             The IEEE 802.11a standard was introduced alongside 802.11b but operates in the 5 GHz frequency band. This provides more available channels with reduced interference compared to 2.4 GHz networks. Unlike 802.11b, which uses CCK modulation, 802.11a relies on Orthogonal Frequency-Division Multiplexing (OFDM) for transmission. This allows data rates of up to 54 Mbps over 20 MHz-wide channels.
             <br></br>
@@ -158,7 +158,7 @@ function OSWPCourse() {
 
               <p>
               
-              <strong>IEEE 802.11g</strong>
+              <strong>IEEE 802.11g</strong><br></br>
 
               IEEE 802.11g builds upon 802.11b by incorporating OFDM while operating within the 2.4 GHz band. It offers improved performance and maintains backward compatibility with 802.11b devices. When an 802.11b device connects to an 802.11g network, the connection speed may drop to accommodate the older standard. <br></br>
 
@@ -170,7 +170,7 @@ function OSWPCourse() {
 
               <p>
               
-              <strong>IEEE 802.11n</strong><br></br><br></br>
+              <strong>IEEE 802.11n</strong><br></br>
               IEEE 802.11n introduced significant advancements in both speed and range for wireless networks, operating on both 2.4 GHz and 5 GHz bands. Initially, the standard allowed speeds up to 74 Mbps, with later implementations reaching up to 300 Mbps. A key improvement in 802.11n is the introduction of MIMO technology. <br></br>
 
             MIMO employs multiple antennas for transmitting and receiving signals, utilizing multipath propagation to improve performance. While traditional signals degrade when bouncing off obstacles, MIMO leverages these reflections to enhance data transmission.<br></br>
@@ -203,58 +203,129 @@ function OSWPCourse() {
 
             3x3:3: 3 TX chains, 3 RX chains, and 3 streams.
 
-            An alternative notation format, tTrR, omits the stream count. Using this format:
-
-            2T2R corresponds to 2x2:2.
-
-            3T3R corresponds to 3x3:3. <br></br>
+            <br></br> An alternative notation format, tTrR, omits the stream count. Using this format: 2T2R corresponds to 2x2:2. 3T3R corresponds to 3x3:3. <br></br><br></br>
 
             The number of antennas is always equal to or greater than the number of streams. For instance, a device with four antennas might support only three streams, such as the Alfa AWUS1900 wireless adapter, which has four TX and RX chains but only supports three spatial streams (4x4:3). 
             <br></br>
 
-            When analyzing networks, the number of streams is crucial for ensuring compatibility with client devices. A device with fewer streams than a client cannot fully decode its communication. <br></br>
+            When analyzing networks, the number of streams is crucial for ensuring compatibility with client devices. A device with fewer streams than a client cannot fully decode its communication. <br></br><br></br>
 
 
             <strong>Modulation and Coding Scheme (MCS) Rates</strong> <br></br>
             i-Fi networks, particularly 802.11n, utilize various modulation techniques, coding rates, and spatial streams to achieve speeds of up to 600 Mbps (commercially around 450 Mbps). The Modulation and Coding Scheme (MCS) rate refers to specific modulation and coding combinations that influence performance. Key factors affecting MCS rates include:  <br></br>
+            <ul>
+            <li>Modulation Type</li>
+            <li>Coding Rate (the ratio of useful data to redundant error correction data)</li>
+            <li>Number of Spatial Streams</li>
+            <li>Channel Bandwidth (e.g., 20 MHz vs. 40 MHz)</li>
+            <li>Guard Interval (time interval between frames)</li>
+            </ul> <br></br><br> </br>
 
-            Modulation Type
-
-          Coding Rate (the ratio of useful data to redundant error correction data)
-
-        Number of Spatial Streams
-
-        Channel Bandwidth (e.g., 20 MHz vs. 40 MHz)
-
-        Guard Interval (time interval between frames)
-
-Each additional spatial stream increases the data rate proportionally (e.g., doubling streams doubles the rate). While a deeper discussion of MCS is beyond this scope, understanding MCS rates is essential when analyzing Wi-Fi traffic.
+              Each additional spatial stream increases the data rate proportionally (e.g., doubling streams doubles the rate). While a deeper discussion of MCS is beyond this scope, understanding MCS rates is essential when analyzing Wi-Fi traffic.
 
                 </p><br></br><br></br>
 
                 <p> 
+                  <strong>HT40+ and HT40- Channel Bonding</strong>
                 <br></br>
+                
+                802.11n can use HT20 (20 MHz) or HT40 (40 MHz) channels. HT40 channels combine two adjacent 20 MHz channels to increase throughput. The notation for these bonded channels includes HT40+ and HT40-: <br></br>
 
-802.11n can use HT20 (20 MHz) or HT40 (40 MHz) channels. HT40 channels combine two adjacent 20 MHz channels to increase throughput. The notation for these bonded channels includes HT40+ and HT40-: <br></br>
+                <ul>
+                  <li>HT40+: The primary channel remains at the original frequency, while the secondary channel is positioned four channels above the primary. </li>
 
-HT40+: The primary channel remains at the original frequency, while the secondary channel is positioned four channels above the primary. 
-
-HT40-: The secondary channel is positioned four channels below the primary.
-
+                  <li>HT40-: The secondary channel is positioned four channels below the primary.</li>
+                </ul>
 <br></br>
 
+<ul>
 For example:
+<li>Channel 1 HT40+: Primary on channel 1, secondary on channel 5.
+</li>
+<li>Channel 5 HT40-: Primary on channel 5, secondary on channel 1.
+</li>
 
-Channel 1 HT40+: Primary on channel 1, secondary on channel 5.
+</ul>
+<br></br>
 
-Channel 5 HT40-: Primary on channel 5, secondary on channel 1.
 
 HT40+ starts at channel 1 and ends at channel 7 (9 in Europe) within the 2.4 GHz band. HT40- starts at channel 5 and ends at channel 11 (13 in Europe). Similar constraints apply to 5 GHz networks. <br></br>
 
-
 Understanding these principles is essential for optimizing Wi-Fi performance and ensuring efficient data transmission in high-throughput environments.
 
+                </p> <br></br> <br></br>
+
+                <p>
+              <strong>IEEE 802.11ac</strong><br></br>
+              802.11ac operates exclusively in the 5 GHz band due to its requirement for 80 MHz channels. It supports up to eight spatial streams and utilizes transmit beamforming (beam steering) to enhance RF transmission.
+
+              <ul>
+              Key features:
+              <li>Supports MCS 8 and 9 using 256-QAM, requiring close proximity between transmitter and receiver.</li>
+              <li>Some devices support 1024-QAM for higher data rates, though this is not officially part of 802.11ac.</li>
+              <li>Default Guard Interval (GI) is 800 ns, which can be shortened to 400 ns for improved data rates.</li>
+              <li>Two waves: Wave 1 (SU-MIMO) and Wave 2 (MU-MIMO for downlink, 160 MHz channels support).</li>
+              <li>Uses the same subcarrier setup as 802.11n: 52 data, 4 pilot, and 8 null subcarriers.</li>
+
+            <br></br>
+            MCSIndex.com provides 802.11ac rate lookups.
+              </ul>
                 </p>
+
+                <p>
+                <strong>1.2.7. IEEE 802.11ad (WiGig)</strong><br></br>
+                802.11ad enables high-speed (multi-Gigabit) transmission of audio, video, and data, achieving speeds between 385 Mbps and 6.7 Gbps.
+
+              <ul>
+              Key features:
+              <li>Operates in the 60 GHz band with 2.16 GHz channel bandwidth.</li>
+              <li>Uses SQPSK, QPSK, BPSK, 16-QAM, and 64-QAM.</li>
+              <li>Limited range due to absorption by atmospheric oxygen.</li>
+              <li>Six defined channels with center frequencies ranging from 58.32 GHz to 69.12 GHz.</li>
+              <li>Frequency availability varies by region (e.g., USA: 57.05 GHz - 71 GHz, Europe: 57 - 66 GHz).</li>
+
+            <br></br>
+      
+              </ul>
+
+                </p>
+
+                <br></br> <br></br>
+
+                <p>
+              <strong>IEEE 802.11ax (High Efficiency - HE)</strong><br></br>
+              802.11ax improves performance in dense environments while maintaining backward compatibility.
+
+              <ul>
+              Key features:
+              <li>Supports both 2.4 GHz and 5 GHz bands.</li>
+              <li>Introduces 1024-QAM (up to ~1.2 Gbps per stream) and MU-OFDMA.</li>
+              <li>OFDMA allows multiple users to transmit simultaneously by allocating resource units (RUs) within a channel.</li>
+              <li>Increases subcarriers per 20 MHz channel to 256, with RUs as small as 2 MHz.</li>
+              <li>Supports up to 8x8:8 spatial streams, including client devices.</li>
+              <li>MU-MIMO supports both downlink and uplink if the client supports it.</li>
+
+            <br></br>
+           
+              </ul>
+                </p>
+
+                <p>
+                <strong>IEEE 802.11h</strong><br></br>
+                802.11h addresses coexistence with radar systems operating in the 5 GHz band.
+              <ul>
+              Key features:
+              
+              <li>Implements Dynamic Frequency Selection (DFS) to prevent interference with radar.</li>
+              <li>Mandates Transmit Power Control (TPC) in Europe for 5.250 - 5.725 GHz frequencies.</li>
+              <li>DFS requires a 30-minute frequency change if radar is detected.</li>
+
+            <br></br>
+            These enhancements ensure regulatory compliance and coexistence with critical communication systems.
+              </ul>
+
+                </p>
+
             </>
           )
         },
