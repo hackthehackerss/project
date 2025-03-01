@@ -15,43 +15,43 @@ import BadgeCard from '../components/BadgeCard';
 import { useBadges } from '../hooks/useBadges';
 import Navigation from '../components/Navigation';
 
-// Challenge badge data - updated with correct IDs
+// Challenge badge data
 const challengeBadges = [
   {
     id: 'powershell-logs',
     name: 'PowerShell Analysis',
     description: 'Successfully analyzed suspicious PowerShell commands',
-    imageUrl: '/Challenges/powershell-banner2.jpg'
+    imageUrl: '/Badges/powershell-banner2.png'
   },
   {
     id: 'miner-on-the-run',
     name: 'Miner on the Run',
     description: 'Uncovered a hidden cryptocurrency mining operation',
-    imageUrl: '/Challenges/cryptominer-banner.png'
+    imageUrl: '/Badges/cryptominer-banner.png'
   },
   {
     id: 'mft-analysis',
     name: 'Master File Trap',
     description: 'Mastered MFT analysis techniques',
-    imageUrl: '/Challenges/mft-banner.png'
+    imageUrl: '/Badges/mft-banner.png'
   },
   {
     id: 'email-analysis',
     name: 'Email Analysis Expert',
     description: 'Successfully analyzed phishing email indicators',
-    imageUrl: '/Challenges/emailanalysischallenge.png'
+    imageUrl: '/Badges/emailanalysischallenge.png'
   },
   {
     id: 'web-bruteforce',
     name: 'Brute Force Defense',
     description: 'Successfully analyzed a brute force attack',
-    imageUrl: '/Challenges/bruteforcechallenge.png'
+    imageUrl: '/Badges/bruteforcechallenge.png'
   },
   {
     id: 'hacked-by-captcha',
     name: 'CAPTCHA Analysis',
     description: 'Analyzed malicious CAPTCHA page interactions',
-    imageUrl: '/Challenges/HackedByCaptcha.png'
+    imageUrl: '/Badges/HackedByCaptcha.png'
   }
 ];
 
@@ -525,43 +525,63 @@ function PublicProfile() {
           </div>
         )}
 
-        {/* Challenge Badges Section */}
-        <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300">
-          <div className="flex items-center space-x-4 mb-6">
-            <Award className="w-6 h-6 text-primary-blue" />
-            <h2 className="text-xl font-bold">Challenge Badges</h2>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {challengeBadges.map((badge) => (
-              <div
-                key={badge.id}
-                className={`relative bg-primary-dark/50 rounded-lg overflow-hidden border ${
-                  completedChallenges.includes(badge.id)
-                    ? 'border-green-500/50'
-                    : 'border-gray-600/20'
-                } transition-all duration-300 hover:transform hover:scale-105`}
-              >
-                <img
-                  src={badge.imageUrl}
-                  alt={badge.name}
-                  className={`w-full h-24 object-cover ${
-                    !completedChallenges.includes(badge.id) && 'grayscale opacity-50'
-                  }`}
-                />
-                <div className="p-3">
-                  <div className="flex items-center justify-between mb-1">
-                    <h3 className="font-semibold text-sm">{badge.name}</h3>
-                    {completedChallenges.includes(badge.id) && (
-                      <CheckCircle2 className="w-4 h-4 text-green-500" />
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-400 mb-2">{badge.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+{/* Challenge Badges Section */}
+<div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300">
+  {/* Section Title */}
+  <div className="flex items-center space-x-4 mb-6">
+    <Award className="w-6 h-6 text-primary-blue" />
+    <h2 className="text-xl font-bold">Challenge Badges</h2>
+  </div>
+
+  {/* Badge Grid */}
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    {challengeBadges.map((badge) => (
+      <div
+        key={badge.id}
+        className="flex flex-col items-center p-4 bg-primary-dark/50 rounded-lg border transition-all duration-300 hover:scale-105"
+      >
+        {/* Badge Image Container */}
+        <div
+          className={`w-32 h-32 mb-2 rounded-full border-4 ${
+            completedChallenges.includes(badge.id)
+              ? 'border-green-500/50'
+              : 'border-gray-600/20'
+          }`}
+        >
+          <img
+            src={badge.imageUrl}
+            alt={badge.name}
+            className={`w-full h-full object-cover rounded-full ${
+              !completedChallenges.includes(badge.id) && 'grayscale opacity-50'
+            }`}
+          />
         </div>
+        <h3 className="font-semibold text-sm text-center">{badge.name}</h3>
+        <p className="text-xs text-gray-400 text-center">{badge.description}</p>
+        {completedChallenges.includes(badge.id) && (
+          <div className="flex space-x-2 mt-2">
+            {/* Twitter (X) Share Button */}
+            <button
+              onClick={() => handleShareBadge(badge.name, 'twitter')}
+              className="bg-black text-white px-3 py-1.5 rounded-full text-xs flex items-center hover:bg-gray-800 transition-all duration-300"
+            >
+              X {/* Replaced Twitter icon with "X" */}
+              <span className="ml-1">Share</span>
+            </button>
+            {/* LinkedIn Share Button */}
+            <button
+              onClick={() => handleShareBadge(badge.name, 'linkedin')}
+              className="bg-blue-600 text-white px-3 py-1.5 rounded-full text-xs flex items-center hover:bg-blue-700 transition-all duration-300"
+            >
+              <Linkedin className="w-3 h-3 mr-1" /> {/* Updated LinkedIn icon */}
+              <span>Share</span>
+            </button>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
 
         {/* Activity Feed */}
         {activityLog && activityLog.length > 0 && (
