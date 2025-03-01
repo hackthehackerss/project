@@ -455,20 +455,149 @@ Although this should technically suffice to forward packets over to the Internet
       title: "Wireless Network Analysis & Reconnaissance",
       sections: [
         {
-          title: "Introduction to OSWP Road Map",
+          title: "Manual Network Connections & Wireless Adapter Configuration",
           summary: (
             <div style={{ textAlign: 'center' }}>
-              <p>1. **Pre-Engagement**: Begin by learning the basics of wireless networking, understanding Wi-Fi standards, and common attack vectors. Knowledge of networking protocols (like TCP/IP, DHCP, and DNS) is essential.</p>
-              <p>2. **Wireless Security Fundamentals**: Study the encryption standards (WEP, WPA, WPA2, WPA3) and their weaknesses. Learn about different wireless attack techniques such as deauthentication attacks, rogue AP attacks, and the methods used to crack WEP and WPA passwords.</p>
-              <p>3. **Tools for Wireless Hacking**: Familiarize yourself with tools like Aircrack-ng, Kismet, Wireshark, and Reaver. These are essential for capturing packets, analyzing wireless networks, and exploiting vulnerabilities.</p>
-              <p>4. **Advanced Exploitation**: Learn about advanced wireless attacks like Evil Twin, Karma attacks, and wireless relay attacks. Practice exploiting vulnerabilities in various encryption protocols and wireless devices.</p>
-              <p>5. **OSWP Exam Preparation**: Once you have gained hands-on experience, review the OSWP exam objectives and practice labs. Focus on areas such as identifying vulnerable networks, cracking WEP/WPA, and simulating attacks on real-world wireless networks.</p>
-              <p>6. **Certification**: The final step is the OSWP exam, which tests your ability to perform wireless penetration tests and exploit weaknesses in wireless networks. Passing the exam will grant you the OSWP certification, showcasing your expertise in wireless security.</p>
+              <p>
+              When conducting wireless penetration testing, it's often necessary to disable network managers, as they can interfere with the tools being used. However, there are instances when we still need internet access or even need to share it. Although network managers can typically handle this, we will explore how to manually configure the setup, as network managers are disabled during testing. It's important to use a separate network interface from the one employed for penetration testing.
+              </p>
+
+              <p>
+              <strong>Connecting to an Access Point</strong>
+              Linux offers several wireless clients, with wpa_supplicant being the most widely used. It connects to Wi-Fi networks on many Linux distributions, even for unencrypted networks or those still using WEP.
+
+              wpa_supplicant can be controlled via a command-line interface (wpa_cli) or through configuration files specifying network settings.
+
+              </p>
+
+              <p>
+              This configuration allows the system to connect to an open network called "hotel_wifi" and instructs wpa_supplicant to scan for SSIDs first.
+
+              The tool will automatically select between TKIP and CCMP for encryption, but you can specify a preference by adding pairwise=CCMP or pairwise=TKIP to the configuration. wpa_supplicant also supports WPA3, OWE, and WPA Enterprise, though these are outside the scope of this tutorial. 
+
+              To simplify configuration, you can use the wpa_passphrase tool, which generates configuration files for basic WPA-PSK networks. This tool requires the ESSID and optionally, a passphrase. If the passphrase isn't provided, it will prompt for it and output the configuration to a file.
+
+              Using the sample configuration from above, the following commands would generate and use a configuration file (wifi-client.conf):
+
+              <code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
+              sudo wpa_supplicant -i wlan0 -c wifi-client.conf
+
+</code>
+              </p>
+
+              <p>
+              Once successfully connected, we can run wpa_supplicant in the background by appending -B and then request a DHCP lease with dhclient:
+              </p>
+              <code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
+              sudo dhclient wlan0
+
+</code>
+
+<p><strong>Setting up an Access Point</strong>
+To set up an access point, you need two distinct network interfaces. The process involves five main steps:
+<ul>
+  <li>Configure Internet Access on the system.</li>
+  <li>Set a Static IP on the wireless interface.</li>
+  <li>Set up a DHCP server to provide IP addresses to Wi-Fi clients.</li>
+  <li>Add routing to enable Internet access for Wi-Fi clients.</li>
+  <li>Configure the wireless interface in AP mode.</li>
+</ul>
+</p>
+
+<p><strong>Internet Access</strong>
+You need an active Internet connection on the system, whether through Ethernet, Wi-Fi, or mobile broadband. While Ethernet is straightforward to configure, Wi-Fi requires the same process as described in 16.1.
+
+It's important to note that while you can use a single Wi-Fi interface for both client and AP modes, this is more complex and may not work reliably on all adapters. Use iw to list supported modes for your Wi-Fi interface:
+
+<strong> sudo iw list </strong>
+</p>
+
+<p><strong>Static IP on Access Point Wireless Interface</strong>
+
+Next, assign a static IP to the wireless interface intended for the access point. The IP address should not conflict with the range of the network you're using for Internet access. For example, if the Internet network is on the 192.168.1.0/24 range, use 10.0.0.1/24 for the access point interface.
+<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
+              sudo dhclient wlan0
+              </code>
+              </p>
+<p><strong>DHCP Server</strong>
+To automatically assign IPs to clients, set up dnsmasq, a tool that provides DNS and DHCP services. The following is an example configuration file (dnsmasq.conf):
+
+<ul>
+  <li><strong>Main options:</strong></li>
+  <ul>
+    <li>domain-needed</li>
+    <li>bogus-priv</li>
+    <li>no-resolv</li>
+    <li>filterwin2k</li>
+    <li>expand-hosts</li>
+    <li>domain=localdomain</li>
+    <li>local=/localdomain/</li>
+    <li>listen-address=10.0.0.1</li>
+  </ul>
+  
+  <li><strong>DHCP range:</strong></li>
+  <ul>
+    <li>dhcp-range=10.0.0.100,10.0.0.199,12h</li>
+    <li>dhcp-lease-max=100</li>
+    <li>dhcp-option=option:router,10.0.0.1</li>
+    <li>dhcp-authoritative</li>
+  </ul>
+
+  <li><strong>DNS: Primary and secondary Google DNS</strong></li>
+  <ul>
+    <li>server=8.8.8.8</li>
+    <li>server=8.8.4.4</li>
+  </ul>
+</ul>
+
+Start dnsmasq with this configuration file:
+<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
+sudo dnsmasq --conf-file=dnsmasq.conf
+              </code>
+
+</p>
+
+<p>
+You can confirm it’s running by checking the syslog:
+<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
+sudo tail /var/log/syslog | grep dnsmasq
+              </code>
+</p>
+
+<p><strong> Enable IP forwarding to allow the system to act as a router: </strong>
+<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
+echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+
+              </code>
+
+</p>
+
+<p>
+Next, set up a NAT rule to masquerade the client IP addresses to appear as if they are coming from the system's Internet connection. You will need nftables to manage firewall rules:
+
+<code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
+sudo apt install nftables
+
+              </code>
+
+              Add the NAT table and the masquerade rule:
+
+              <code style="background-color: black; color: white; padding: 5px; font-family: 'Courier New', monospace;">
+              sudo nft add table nat
+sudo nft add chain nat postrouting 
+sudo nft add rule ip nat postrouting oifname "eth0" ip daddr != 10.0.0.1/24 masquerade
+
+
+              </code>
+</p>
+
+
+
             </div>
           )
         },
         {
-          title: "Reconnaissance",
+          title: "Determining Chipsets and Drivers for Wireless Attacks",
           summary: (
             <>
               <p></p>
@@ -476,7 +605,7 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "Weaponization",
+          title: "Linux Wireless Tools, Drivers, and Stacks",
           summary: (
             <>
               <p></p>
@@ -484,7 +613,7 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "Delivery",
+          title: "Frames and Network Interaction – How Wi-Fi devices communicate",
           summary: (
             <>
               <p></p>
@@ -492,7 +621,7 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "Exploitation",
+          title: "Wireshark Essentials – Packet Capturing & Analysis",
           summary: (
             <>
               <p></p>
@@ -500,7 +629,7 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "Installation",
+          title: "Kismet Essentials – Passive Network Discovery",
           summary: (
             <>
               <p></p>
@@ -508,21 +637,13 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "Command & Control",
+          title: "Bettercap Essentials – MITM & Wireless Attacks",
           summary: (
             <>
               <p></p>
             </>
           )
         },
-        {
-          title: "Actions on Objectives (Exfiltration)",
-          summary: (
-            <>
-              <p></p>
-            </>
-          )
-        }
       ], quiz: {
         questions: [
           {
@@ -544,7 +665,7 @@ Although this should technically suffice to forward packets over to the Internet
       title: "Wireless Attacks & Exploitation",
       sections: [
         {
-          title: "What is the MITRE ATT&CK framework",
+          title: "Cracking Authentication Hashes – PMKID, Handshakes, and Offline Cracking",
           summary: (
             <>
               <p></p>
@@ -552,7 +673,7 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "MITRE ATT&CK Matrix",
+          title: "Aircrack-ng Essentials – Core Tools for Wi-Fi Penetration Testing",
           summary: (
             <>
               <p></p>
@@ -560,7 +681,7 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "MITRE ATT&CK for Cloud Matrix",
+          title: "Attacking WPS Networks – Exploiting Weak Configurations",
           summary: (
             <>
               <p></p>
@@ -568,7 +689,7 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "MITRE ATT&CK tactics",
+          title: "Attacking WPA Enterprise – Capturing Credentials & Bypassing Authentication",
           summary: (
             <>
               <p></p>
@@ -576,7 +697,7 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "MITRE ATT&CK techniques",
+          title: "Attacking Captive Portals – Bypassing Restricted Wi-Fi Networks",
           summary: (
             <>
               <p></p>
@@ -584,21 +705,13 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "MITRE ATT&CK vs. the Cyber Kill Chain",
+          title: "Rogue Access Points – Evil Twin, Karma Attacks, & Credential Harvesting",
           summary: (
             <>
               <p></p>
             </>
           )
         },
-        {
-          title: "How Do You Use the MITRE ATT&CK Matrix",
-          summary: (
-            <>
-              <p></p>
-            </>
-          )
-        }
       ],
       quiz: {
         questions: [
@@ -621,7 +734,7 @@ Although this should technically suffice to forward packets over to the Internet
       title: "Defensive Strategies & Countermeasures",
       sections: [
         {
-          title: "What is the Pyramid of Pain",
+          title: "Identifying Wireless Threats & Implementing Security Best Practices",
           summary: (
             <>
               <p></p>
@@ -629,7 +742,7 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "Hash values",
+          title: "Securing Wireless Networks Against Common Attacks",
           summary: (
             <>
               <p></p>
@@ -637,53 +750,16 @@ Although this should technically suffice to forward packets over to the Internet
           )
         },
         {
-          title: "IP addresses",
+          title: "Wrapping Up",
           summary: (
             <>
-              <p></p>
-            </>
-          )
-        },
-        {
-          title: "Domain names",
-          summary: (
-            <>
-              <p></p>
-            </>
-          )
-        },
-        {
-          title: "Network Artifacts",
-          summary: (
-            <>
-              <p></p>
-            </>
-          )
-        },
-        {
-          title: "Host Artifacts",
-          summary: (
-            <>
-              <p></p>
-            </>
-          )
-        },
-        {
-          title: "Tools",
-          summary: (
-            <>
-              <p></p>
-            </>
-          )
-        },
-        {
-          title: "Tactics, Techniques and Procedures (TTPs)",
-          summary: (
-            <>
-              <p></p>
+              <p>
+              By the end of this course, you will have gained a comprehensive understanding of wireless security, from the basics of Wi-Fi standards and encryption to the intricacies of wireless network analysis and advanced exploitation techniques. You will be equipped with practical skills in using essential tools such as Aircrack-ng, Kismet, and Bettercap to perform penetration testing and simulate real-world attacks. Additionally, you will learn how to identify wireless threats and implement security best practices to defend against common vulnerabilities. Whether you are cracking WPA handshakes, bypassing captive portals, or defending against rogue access points, this course will prepare you to effectively manage and secure wireless networks in any environment.
+              </p>
             </>
           )
         }
+        
       ],
       quiz: {
         questions: [
@@ -955,6 +1031,7 @@ Although this should technically suffice to forward packets over to the Internet
       </div>
 
       {/* Footer */}
+      
       <footer className="bg-gray-100 dark:bg-primary-dark/30 text-gray-900 dark:text-white py-8 border-t border-primary-blue/20">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <p className="text-gray-400">© 2025 HackTheHackers. All rights reserved.</p>
