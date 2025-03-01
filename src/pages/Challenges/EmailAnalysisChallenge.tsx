@@ -202,6 +202,7 @@ function EmailAnalysisChallenge() {
   const [questionsVisible, setQuestionsVisible] = useState(false);
   const [xpAwarded, setXpAwarded] = useState(0);
   const [xpNotification, setXpNotification] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false); // Share modal state
 
   // Challenge progress tracking
   const challengeId = "email-analysis";
@@ -266,7 +267,7 @@ function EmailAnalysisChallenge() {
           // Create an answers object
           const answers = questions.reduce((acc, q) => ({
             ...acc,
-            [q.id]: q.userAnswer
+            [q.id]: q.userAnswer,
           }), {});
           // Update progress with the answers and difficulty ("Easy")
           const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Easy", answers);
@@ -289,6 +290,8 @@ function EmailAnalysisChallenge() {
       setShowConfetti(true);
       setShowSuccess(true);
       setShowError(false);
+      // Trigger share modal on completion
+      setShowShareModal(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setShowError(true);
@@ -357,7 +360,7 @@ function EmailAnalysisChallenge() {
             <div
               className="h-4 rounded-full transition-all duration-500 ease-in-out"
               style={{
-                width: `${progressPercentage}%`,
+                width: `${Math.round(progressPercentage)}%`,
                 background: 'linear-gradient(90deg, #4ade80, #3b82f6)',
                 boxShadow: '0 0 8px rgba(59, 130, 246, 0.6)',
               }}
@@ -560,6 +563,41 @@ function EmailAnalysisChallenge() {
               </div>
             </motion.div>
           </>
+        )}
+
+        {/* Share Modal */}
+        {showShareModal && (
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <div className="bg-blue-600 rounded-lg p-8 z-50 text-center relative shadow-2xl">
+              <button
+                onClick={() => setShowShareModal(false)}
+                className="absolute top-2 right-2 text-white hover:text-gray-200"
+              >
+                <XCircle className="w-6 h-6" />
+              </button>
+              <h2 className="text-2xl font-bold mb-4 text-white">Congratulations!</h2>
+              <p className="mb-4 text-white">You have finished the challenge. Share your achievement!</p>
+              <div className="flex justify-center space-x-4">
+                <a
+                  href="https://www.linkedin.com/sharing/share-offsite/?url=https://yourdomain.com/challenge/email-analysis"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white text-blue-600 rounded hover:bg-gray-100 font-semibold"
+                >
+                  Share on LinkedIn
+                </a>
+                <a
+                  href="https://twitter.com/intent/tweet?text=I%20just%20finished%20the%20challenge%20on%20HackTheHackers!"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white text-blue-600 rounded hover:bg-gray-100 font-semibold"
+                >
+                  Share on X
+                </a>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Combined Frame for Created by and First Blood */}
