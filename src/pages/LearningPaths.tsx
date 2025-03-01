@@ -229,7 +229,7 @@ function LearningPaths() {
     },
     {
       title: "OSWP Road Map",
-      path: "/red-team/OSWPCourse",
+      path: "/OSWPCourse",
       description: "OSWP (Offensive Security Wireless Professional) is a certification from Offensive Security focused on wireless network security. It teaches Wi-Fi hacking techniques, including WEP, WPA, and WPA2 attacks using tools like Aircrack-ng.",
       icon: Sword,
       difficulty: "Advanced",
