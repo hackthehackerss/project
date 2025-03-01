@@ -18,7 +18,7 @@ function OSWPCourse() {
               <p><strong>Introduction to OSWP Road Map</strong></p>
               <p>
               Wireless networks are an essential part of modern communication, but they also introduce significant security risks. The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks.
-              </p>
+              </p> 
               <p>
                 <strong>Who Is This Course For? </strong>
               </p>
@@ -79,6 +79,8 @@ function OSWPCourse() {
 
               By the end of this course, you will have a deep understanding of wireless security, be able to perform real-world Wi-Fi penetration tests, and be well-prepared for the OSWP exam.
 
+
+              <br></br>
             👉 Let’s dive in and start hacking Wi-Fi! 🚀
 
               </p>
