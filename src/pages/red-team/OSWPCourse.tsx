@@ -17,30 +17,61 @@ function OSWPCourse() {
             <>
               <p><strong>Introduction to OSWP Road Map</strong></p>
               <p>
-                Before any incident occurs, a well-prepared Security Operations Center (SOC) is essential to minimize risk and reduce response time. Preparation and prevention encompass the establishment of policies, implementation of security controls, regular training, and proactive threat hunting. The goal is to reduce vulnerabilities and create layers of defense that deter, detect, and mitigate potential attacks.
+              Wireless networks are an essential part of modern communication, but they also introduce significant security risks. The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks.
               </p>
               <p>
-                <strong>Key Areas of Focus:</strong>
+                <strong>Who Is This Course For? </strong>
               </p>
               <ul>
                 <li>
-                  <strong>Policy and Procedure Development:</strong> Establish incident response plans, escalation procedures, and clear communication channels. Define roles and responsibilities so every team member knows their role during an incident.
+                  <strong>This course is ideal for:                  </strong> 
+                  ✅ IT professionals responsible for securing Wi-Fi networks.
                 </li>
                 <li>
-                  <strong>Threat Intelligence:</strong> Integrate threat intelligence feeds to stay informed about emerging threats and vulnerabilities. Regularly update detection rules and adjust defenses based on current threat landscapes.
+                ✅ Penetration testers looking to expand their skill set.
                 </li>
                 <li>
-                  <strong>Security Controls and Hardening:</strong> Implement firewalls, IDS/IPS systems, endpoint security solutions, and other technical measures. Maintain regular patch management and vulnerability scanning to reduce the attack surface.
+                ✅ Cybersecurity professionals wanting to specialize in wireless security.
+
                 </li>
                 <li>
-                  <strong>Training and Simulation:</strong> Conduct regular training sessions, phishing simulations, and tabletop exercises. These drills prepare staff for real incidents, ensuring that they respond swiftly and correctly.
+                ✅ Ethical hackers seeking OSWP certification.
+
                 </li>
               </ul>
               <p>
-                <strong>Examples and Best Practices:</strong>
+                <strong>What You’ll Learn? </strong>
               </p>
               <p>
-                For example, a SOC might schedule monthly vulnerability scans using tools like Nessus or OpenVAS. Findings are prioritized based on risk and remediated via a ticketing system. In parallel, regular threat intelligence briefings update the SIEM detection rules. A sample SIEM rule might be:
+              In this course, we will cover the fundamentals of Wi-Fi security, the methodologies used by attackers, and the defensive strategies to secure wireless networks. By the end, you'll have hands-on experience with real-world Wi-Fi attacks and be fully prepared for the OSWP exam.
+              </p>
+
+              <p>
+              <strong> Course Structure:              </strong>
+              </p>
+              <p>
+              This course follows a practical, hands-on approach, covering:
+              1️⃣ Wireless Network Basics – 802.11 standards, encryption protocols, and wireless reconnaissance.
+              2️⃣ Packet Capture & Analysis – Using tools like Airodump-ng and Wireshark.
+              3️⃣ Wi-Fi Exploitation Techniques – Cracking WEP, WPA/WPA2, and PMKID attacks.
+              4️⃣ Rogue Access Points & Evil Twin Attacks – Setting up fake APs for credential theft.
+              5️⃣ Post-Exploitation & Defense Strategies – How to protect against common wireless threats.
+
+              </p>
+
+              <p>
+              <strong> What You Need Before Starting?              </strong>
+              </p>
+              
+              <p>
+              📌 Basic Linux knowledge (Kali Linux is recommended).
+              📌 Understanding of networking concepts (IP addresses, DHCP, etc.).
+            📌 A wireless network adapter that supports packet injection (e.g., ALFA AWUS036NHA).
+
+            By the end of this course, you will have a deep understanding of wireless security, be able to perform real-world Wi-Fi penetration tests, and be well-prepared for the OSWP exam.
+
+            👉 Let’s dive in and start hacking Wi-Fi! 🚀
+
               </p>
               <pre>{`IF event.type == "login_failure" AND event.count > 5 WITHIN 10 minutes THEN alert "Potential brute force attack"`}</pre>
               <p>
@@ -1271,7 +1302,7 @@ function OSWPCourse() {
             <div className="flex items-center space-x-4">
               <Book className="w-8 h-8 text-primary-blue animate-pulse-slow" />
               <div>
-                <h1 className="text-2xl font-bold gradient-text">SOC Analyst Course</h1>
+                <h1 className="text-2xl font-bold gradient-text">OSWP Road Map</h1>
                 <p className="text-gray-400 text-sm">
                 </p>
               </div>
