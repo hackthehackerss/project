@@ -48,7 +48,443 @@ function OSWPCourse() {
           }
         ]
       }
-    }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },{
+      id: "OSWPCourse-overview",
+      title: "OSWPCourse Overview",
+      content: {
+        introduction:
+          "",
+        sections: [
+          {
+            title: "1",
+            content: []
+          },
+          {
+            title: "2",
+            content: []
+          },
+          {
+            title: "3",
+            content: []
+          },
+          {
+            title: "4",
+            content: []
+          },
+          {
+            title: "5",
+            content: []
+          }
+        ]
+      }
+    },
+    
   ];
 
   const activeContent = sections.find((section) => section.id === activeSection)?.content;
