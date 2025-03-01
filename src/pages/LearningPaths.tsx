@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Book, ChevronRight, Shield, Sword, Target, Code, Network, Search, Filter, Award, Bug } from 'lucide-react';
 import Navigation from '../components/Navigation';
+import { useAuth } from '../contexts/AuthContext';
 
 function LearningPaths() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [darkMode, setDarkMode] = useState(true); // Dark mode state
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
@@ -33,6 +37,15 @@ function LearningPaths() {
     const section = document.getElementById(id);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Handler to check auth before navigating to a path
+  const handlePathClick = (path) => {
+    if (!user) {
+      navigate('/signup');
+    } else {
+      navigate(path);
     }
   };
 
@@ -257,8 +270,9 @@ function LearningPaths() {
   // Filter paths
   const filterPaths = (paths) => {
     return paths.filter(path => {
-      const matchesSearch = path.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
-                            path.description.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
+      const matchesSearch =
+        path.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+        path.description.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
       const matchesDifficulty = selectedDifficulty === 'all' || path.difficulty.toLowerCase() === selectedDifficulty.toLowerCase();
       const matchesAccess = selectedAccess === 'all' || path.access.toLowerCase() === selectedAccess.toLowerCase();
       return matchesSearch && matchesDifficulty && matchesAccess;
@@ -293,21 +307,11 @@ function LearningPaths() {
             {pathCards.map((card, index) => (
               <div
                 key={index}
-                className={`relative bg-primary-dark/30 rounded-lg p-8 border ${
-                  card.borderColor
-                } ${
-                  card.hoverBorderColor
-                } ${
-                  card.bgHover
-                } transition-all duration-300 cursor-pointer group hover:scale-105 hover:shadow-lg hover:shadow-${
-                  card.type === 'blue' ? 'primary-blue/20' : 'primary-red/20'
-                } overflow-hidden`}
+                className={`relative bg-primary-dark/30 rounded-lg p-8 border ${card.borderColor} ${card.hoverBorderColor} ${card.bgHover} transition-all duration-300 cursor-pointer group hover:scale-105 hover:shadow-lg hover:shadow-${card.type === 'blue' ? 'primary-blue/20' : 'primary-red/20'} overflow-hidden`}
                 onClick={() => scrollToSection(card.type === 'blue' ? 'blue-team-paths' : 'red-team-paths')}
               >
                 {/* Glowing Border */}
-                <div className={`absolute inset-0 rounded-lg border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                  card.type === 'blue' ? 'border-primary-blue/50' : 'border-primary-red/50'
-                }`} />
+                <div className={`absolute inset-0 rounded-lg border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${card.type === 'blue' ? 'border-primary-blue/50' : 'border-primary-red/50'}`} />
 
                 {/* Card Content */}
                 <div className="flex items-center">
@@ -321,9 +325,7 @@ function LearningPaths() {
                   <div>
                     {/* Animated Icon */}
                     <card.icon
-                      className={`w-12 h-12 mb-4 ${
-                        card.iconColor
-                      } transition-transform duration-300 group-hover:scale-110`}
+                      className={`w-12 h-12 mb-4 ${card.iconColor} transition-transform duration-300 group-hover:scale-110`}
                     />
                     {/* Fade-in Title */}
                     <h2 className="text-2xl font-bold mb-2 animate-fade-in">
@@ -349,9 +351,7 @@ function LearningPaths() {
                 placeholder="Search learning paths..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 ${
-                  darkMode ? 'bg-background border-primary-blue/20' : 'bg-white border-gray-200'
-                } border rounded-lg focus:outline-none focus:border-primary-blue text-white`}
+                className={`w-full pl-10 pr-4 py-2 ${darkMode ? 'bg-background border-primary-blue/20' : 'bg-white border-gray-200'} border rounded-lg focus:outline-none focus:border-primary-blue text-white`}
                 aria-label="Search learning paths"
               />
             </div>
@@ -360,9 +360,7 @@ function LearningPaths() {
               <select
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className={`px-4 py-2 ${
-                  darkMode ? 'bg-background border-primary-blue/20' : 'bg-white border-gray-200'
-                } border rounded-md focus:outline-none focus:border-primary-blue text-white`}
+                className={`px-4 py-2 ${darkMode ? 'bg-background border-primary-blue/20' : 'bg-white border-gray-200'} border rounded-md focus:outline-none focus:border-primary-blue text-white`}
               >
                 <option value="all">All Difficulties</option>
                 <option value="beginner">Beginner</option>
@@ -373,9 +371,7 @@ function LearningPaths() {
               <select
                 value={selectedAccess}
                 onChange={(e) => setSelectedAccess(e.target.value)}
-                className={`px-4 py-2 ${
-                  darkMode ? 'bg-background border-primary-blue/20' : 'bg-white border-gray-200'
-                } border rounded-md focus:outline-none focus:border-primary-blue text-white`}
+                className={`px-4 py-2 ${darkMode ? 'bg-background border-primary-blue/20' : 'bg-white border-gray-200'} border rounded-md focus:outline-none focus:border-primary-blue text-white`}
               >
                 <option value="all">All Access</option>
                 <option value="free">Free</option>
@@ -398,10 +394,10 @@ function LearningPaths() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredBluePaths.length > 0 ? (
               filteredBluePaths.map((path, index) => (
-                <Link
+                <div
                   key={index}
-                  to={path.path}
-                  className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 overflow-hidden hover:border-primary-blue transition-all hover:scale-105"
+                  onClick={() => handlePathClick(path.path)}
+                  className="bg-primary-dark/30 rounded-lg border border-primary-blue/20 overflow-hidden hover:border-primary-blue transition-all hover:scale-105 cursor-pointer"
                 >
                   <div className="relative h-82">
                     <img
@@ -424,11 +420,7 @@ function LearningPaths() {
                       <span className="px-3 py-1 rounded-full bg-primary-blue/10 text-primary-blue text-sm">
                         {path.difficulty}
                       </span>
-                      <span className={`px-3 py-1 rounded-full text-sm ${
-                        path.access === 'Free' 
-                          ? 'bg-green-500/10 text-green-500'
-                          : 'bg-primary-red/10 text-primary-red'
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-sm ${path.access === 'Free' ? 'bg-green-500/10 text-green-500' : 'bg-primary-red/10 text-primary-red'}`}>
                         {path.access}
                       </span>
                     </div>
@@ -452,7 +444,7 @@ function LearningPaths() {
                       <ChevronRight className="ml-2 w-4 h-4" />
                     </button>
                   </div>
-                </Link>
+                </div>
               ))
             ) : (
               <div className="col-span-full text-center py-12">
@@ -482,10 +474,10 @@ function LearningPaths() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredRedPaths.length > 0 ? (
               filteredRedPaths.map((path, index) => (
-                <Link
+                <div
                   key={index}
-                  to={path.path}
-                  className="bg-primary-dark/30 rounded-lg border border-primary-red/20 overflow-hidden hover:border-primary-red transition-all hover:scale-105"
+                  onClick={() => handlePathClick(path.path)}
+                  className="bg-primary-dark/30 rounded-lg border border-primary-red/20 overflow-hidden hover:border-primary-red transition-all hover:scale-105 cursor-pointer"
                 >
                   <div className="relative h-82">
                     <img
@@ -508,11 +500,7 @@ function LearningPaths() {
                       <span className="px-3 py-1 rounded-full bg-primary-red/10 text-primary-red text-sm">
                         {path.difficulty}
                       </span>
-                      <span className={`px-3 py-1 rounded-full text-sm ${
-                        path.access === 'Free' 
-                          ? 'bg-green-500/10 text-green-500'
-                          : 'bg-primary-red/10 text-primary-red'
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-sm ${path.access === 'Free' ? 'bg-green-500/10 text-green-500' : 'bg-primary-red/10 text-primary-red'}`}>
                         {path.access}
                       </span>
                     </div>
@@ -536,7 +524,7 @@ function LearningPaths() {
                       <ChevronRight className="ml-2 w-4 h-4" />
                     </button>
                   </div>
-                </Link>
+                </div>
               ))
             ) : (
               <div className="col-span-full text-center py-12">
@@ -566,12 +554,10 @@ function LearningPaths() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCertPaths.length > 0 ? (
               filteredCertPaths.map((path, index) => (
-                <Link
+                <div
                   key={index}
-                  to={path.path}
-                  className={`bg-primary-dark/30 rounded-lg border ${
-                    path.theme === 'red' ? 'border-primary-red/20 hover:border-primary-red' : 'border-primary-blue/20 hover:border-primary-blue'
-                  } overflow-hidden transition-all hover:scale-105`}
+                  onClick={() => handlePathClick(path.path)}
+                  className={`bg-primary-dark/30 rounded-lg border ${path.theme === 'red' ? 'border-primary-red/20 hover:border-primary-red' : 'border-primary-blue/20 hover:border-primary-blue'} overflow-hidden transition-all hover:scale-105 cursor-pointer`}
                 >
                   <div className="relative h-82">
                     <img
@@ -591,42 +577,28 @@ function LearningPaths() {
                     <p className="text-gray-400 mb-4">{path.description}</p>
                     
                     <div className="flex items-center space-x-4 mb-4">
-                      <span className={`px-3 py-1 rounded-full text-sm ${
-                        path.theme === 'red' ? 'bg-primary-red/10 text-primary-red' : 'bg-primary-blue/10 text-primary-blue'
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-sm ${path.theme === 'red' ? 'bg-primary-red/10 text-primary-red' : 'bg-primary-blue/10 text-primary-blue'}`}>
                         {path.difficulty}
                       </span>
-                      <span className={`px-3 py-1 rounded-full text-sm ${
-                        path.theme === 'red' ? 'bg-primary-red/10 text-primary-red' : 'bg-primary-blue/10 text-primary-blue'
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-sm ${path.theme === 'red' ? 'bg-primary-red/10 text-primary-red' : 'bg-primary-blue/10 text-primary-blue'}`}>
                         {path.duration}
                       </span>
                     </div>
 
-                    <div className={`mb-4 p-3 ${
-                      path.theme === 'red' ? 'bg-primary-red/5' : 'bg-primary-blue/5'
-                    } rounded-lg border ${
-                      path.theme === 'red' ? 'border-primary-red/10' : 'border-primary-blue/10'
-                    }`}>
+                    <div className={`mb-4 p-3 ${path.theme === 'red' ? 'bg-primary-red/5' : 'bg-primary-blue/5'} rounded-lg border ${path.theme === 'red' ? 'border-primary-red/10' : 'border-primary-blue/10'}`}>
                       <div className="text-sm text-gray-400">
-                        Exam Cost: <span className={`font-semibold ${
-                          path.theme === 'red' ? 'text-primary-red' : 'text-primary-blue'
-                        }`}>
+                        Exam Cost: <span className={`font-semibold ${path.theme === 'red' ? 'text-primary-red' : 'text-primary-blue'}`}>
                           {path.examCost}
                         </span>
                       </div>
                     </div>
 
-                    <button className={`${
-                      path.theme === 'red' 
-                        ? 'bg-primary-red hover:bg-secondary-red' 
-                        : 'bg-primary-blue hover:bg-secondary-blue'
-                    } text-background px-4 py-2 rounded-md transition flex items-center justify-center w-full`}>
+                    <button className={`${path.theme === 'red' ? 'bg-primary-red hover:bg-secondary-red' : 'bg-primary-blue hover:bg-secondary-blue'} text-background px-4 py-2 rounded-md transition flex items-center justify-center w-full`}>
                       Start Certification
                       <ChevronRight className="ml-2 w-4 h-4" />
                     </button>
                   </div>
-                </Link>
+                </div>
               ))
             ) : (
               <div className="col-span-full text-center py-12">
