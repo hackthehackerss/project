@@ -60,7 +60,11 @@ const QuestionCard = ({
               value={question.userAnswer}
               onChange={(e) => onAnswerChange(question.id, e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && !question.isCorrect && !progress?.completed) {
+                if (
+                  e.key === 'Enter' &&
+                  !question.isCorrect &&
+                  !progress?.completed
+                ) {
                   onSubmit(question.id, question.userAnswer);
                 }
               }}
@@ -132,7 +136,8 @@ function CryptoMinerChallenge() {
     {
       id: 2,
       text: "From which URL was the extension downloaded?",
-      answer: "http://chromewebstore.google.com/detail/bitcoin-generator-best-bi/lhahofhogpojbfgcejbohlinmhjaodkn",
+      answer:
+        "http://chromewebstore.google.com/detail/bitcoin-generator-best-bi/lhahofhogpojbfgcejbohlinmhjaodkn",
       hint: "The Chrome Web Store URL contains the extension ID.",
       showHint: false,
       userAnswer: '',
@@ -202,6 +207,7 @@ function CryptoMinerChallenge() {
   const [questionsVisible, setQuestionsVisible] = useState(false);
   const [xpAwarded, setXpAwarded] = useState(0);
   const [xpNotification, setXpNotification] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false); // New share modal state
 
   // Challenge progress tracking
   const challengeId = "miner-on-the-run";
@@ -300,6 +306,7 @@ function CryptoMinerChallenge() {
       setShowConfetti(true);
       setShowSuccess(true);
       setShowError(false);
+      setShowShareModal(true); // Trigger share modal on completion
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setShowError(true);
@@ -574,7 +581,42 @@ function CryptoMinerChallenge() {
           </>
         )}
 
-        {/* Combined frame for Created by and First Blood */}
+        {/* Share Modal */}
+        {showShareModal && (
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <div className="bg-blue-600 rounded-lg p-8 z-50 text-center relative shadow-2xl">
+              <button
+                onClick={() => setShowShareModal(false)}
+                className="absolute top-2 right-2 text-white hover:text-gray-200"
+              >
+                <XCircle className="w-6 h-6" />
+              </button>
+              <h2 className="text-2xl font-bold mb-4 text-white">Congratulations!</h2>
+              <p className="mb-4 text-white">You have finished the challenge. Share your achievement!</p>
+              <div className="flex justify-center space-x-4">
+                <a
+                  href="https://www.linkedin.com/sharing/share-offsite/?url=https://yourdomain.com/challenge/miner-on-the-run"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white text-blue-600 rounded hover:bg-gray-100 font-semibold"
+                >
+                  Share on LinkedIn
+                </a>
+                <a
+                  href="https://twitter.com/intent/tweet?text=I%20just%20finished%20the%20challenge%20on%20HackTheHackers!"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white text-blue-600 rounded hover:bg-gray-100 font-semibold"
+                >
+                  Share on X
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Combined Frame for Created by and First Blood */}
         <motion.div
           className="max-w-4xl mx-auto px-4 mt-8"
           initial={{ opacity: 0 }}
