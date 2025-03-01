@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import Navigation from '../../components/Navigation';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -12,8 +13,26 @@ const BybitBlog: React.FC = () => {
     setDarkMode(!darkMode);
   };
 
+  // Get current URL for sharing purposes
+  const currentUrl = window.location.href;
+  // Build absolute URL for the image using the current origin
+  const imageUrl = `${window.location.origin}/Blog/bybit.png`;
+
   return (
     <div className={darkMode ? 'dark' : ''}>
+      <Helmet>
+        <title>North Korea behind $1.5b hack of crypto exchange ByBit, says FBI</title>
+        <meta
+          property="og:title"
+          content="North Korea behind $1.5b hack of crypto exchange ByBit, says FBI"
+        />
+        <meta
+          property="og:description"
+          content="In what is being dubbed the largest crypto heist in history, the recent Bybit hack has sent shockwaves through the cryptocurrency industry, raising critical questions about crypto security and multisig protection."
+        />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:url" content={currentUrl} />
+      </Helmet>
       <Navigation darkMode={darkMode} onToggleDarkMode={handleDarkModeToggle} />
       <main className="container mx-auto p-4">
         <article className="bg-gray-800 dark:bg-gray-900 text-white rounded-lg p-8">
@@ -105,6 +124,37 @@ const BybitBlog: React.FC = () => {
             <p>
               As the industry continues to grow, the lessons learned from this hack must inform future security strategies. Crypto security must evolve to account for not just technical flaws but also the human factor, advanced malware threats, and UI manipulation attacks. Only then can we hope to build a financial system that is both radically open and rigorously secure.
             </p>
+          </section>
+          <section className="mt-8 border-t border-gray-700 pt-4">
+            <h2 className="text-xl font-bold mb-2">Share this article</h2>
+            <div className="flex space-x-4">
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-blue hover:underline"
+              >
+                Facebook
+              </a>
+              <a
+                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                  currentUrl
+                )}&text=${encodeURIComponent("Check out this article!")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-blue hover:underline"
+              >
+                X
+              </a>
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-blue hover:underline"
+              >
+                LinkedIn
+              </a>
+            </div>
           </section>
         </article>
       </main>
