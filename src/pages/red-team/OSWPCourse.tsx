@@ -54,460 +54,40 @@ function OSWPCourse() {
       }
     },
     {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
+      id: "OSWPCourse-section-1",
+      title: "OSWP Course Section 1",
       content: {
-        introduction:
-          "",
+        introduction: <p>Introduction to Section 1 content goes here.</p>,
         sections: [
           {
             title: "1",
-            content: []
+            content: <p>Content for Subsection 1 goes here.</p>
           },
           {
             title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
+            content: <p>Content for Subsection 2 goes here.</p>
           }
         ]
       }
     },
     {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
+      id: "OSWPCourse-section-2",
+      title: "OSWP Course Section 2",
       content: {
-        introduction:
-          "",
+        introduction: <p>Introduction to Section 2 content goes here.</p>,
         sections: [
           {
             title: "1",
-            content: []
+            content: <p>Content for Subsection 1 goes here.</p>
           },
           {
             title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
+            content: <p>Content for Subsection 2 goes here.</p>
           }
         ]
       }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-overview",
-      title: "OSWPCourse Overview",
-      content: {
-        introduction:
-          "",
-        sections: [
-          {
-            title: "1",
-            content: []
-          },
-          {
-            title: "2",
-            content: []
-          },
-          {
-            title: "3",
-            content: []
-          },
-          {
-            title: "4",
-            content: []
-          },
-          {
-            title: "5",
-            content: []
-          }
-        ]
-      }
-    },
+    }
   ];
-
-  return <div>{sections[0].content.introduction}</div>;
-}
-
 
   const activeContent = sections.find((section) => section.id === activeSection)?.content;
   const activeSubSectionContent = activeContent?.sections?.find(
@@ -544,9 +124,9 @@ function OSWPCourse() {
           <div className="flex items-center space-x-4">
             <Book className="w-8 h-8 text-primary-blue" />
             <div>
-              <h1 className="text-2xl font-bold">VBA Scripting</h1>
+              <h1 className="text-2xl font-bold">Wireless Penetration Testing</h1>
               <p className="text-gray-400 text-sm mt-1">
-                Master VBA Scripting Technics
+                Master Wireless Penetration Testing Techniques
               </p>
             </div>
           </div>
@@ -592,57 +172,32 @@ function OSWPCourse() {
               {!activeSubSection && (
                 <>
                   <h1 className="text-3xl font-bold text-primary-blue mb-4">
-                    {sections.find((s) => s.id === activeSection)?.title}
+                    {activeContent.introduction}
                   </h1>
-                  <p className="text-lg mb-8">{activeContent.introduction}</p>
+                  <div className="space-y-6">
+                    {activeContent.sections.map((subsection) => (
+                      <button
+                        key={subsection.title}
+                        onClick={() => setActiveSubSection(subsection.title)}
+                        className="w-full text-left px-4 py-2 rounded-md hover:bg-primary-blue/10"
+                      >
+                        Subsection {subsection.title}
+                      </button>
+                    ))}
+                  </div>
                 </>
               )}
-
               {activeSubSection && activeSubSectionContent && (
-                <div className="space-y-6">
-                  <h2 className="text-2xl font-bold text-primary-blue">
-                    {activeSubSectionContent.title}
+                <>
+                  <h2 className="text-2xl font-bold text-primary-blue mb-4">
+                    Subsection {activeSubSection}
                   </h2>
-                  {activeSubSectionContent.content && (
-                    <ul className="list-disc list-inside space-y-2 text-gray-200">
-                      {activeSubSectionContent.content.map((item, i) =>
-                        typeof item === "string" ? (
-                          <li key={i}>{item}</li>
-                        ) : (
-                          <div key={i}>{item}</div>
-                        )
-                      )}
-                    </ul>
-                  )}
-                </div>
+                  {activeSubSectionContent}
+                </>
               )}
             </div>
           )}
         </div>
-
-        {/* Right Sidebar */}
-        {activeContent?.sections && activeContent.sections.length > 0 && (
-          <div className="w-64 bg-primary-dark/30 min-h-[calc(100vh-11rem)] border-l border-primary-blue/20">
-            <div className="p-4">
-              <h2 className="text-lg font-semibold mb-4">Module Sections</h2>
-              <div className="space-y-2">
-                {activeContent.sections.map((section, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveSubSection(section.title)}
-                    className={`w-full text-left px-4 py-2 rounded-md ${
-                      activeSubSection === section.title
-                        ? 'bg-primary-blue/20 text-primary-blue'
-                        : 'hover:bg-primary-blue/10'
-                    }`}
-                  >
-                    {section.title}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
