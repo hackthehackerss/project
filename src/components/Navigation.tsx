@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Shield,  CreditCard, Trophy, Sun, Moon, FlaskConical, Award } from 'lucide-react'; // Updated icon import
+import { Shield, CreditCard, Trophy, Sun, Moon, FlaskConical, Award, BookOpen } from 'lucide-react'; // Added BookOpen icon
 import UserProfileButton from './UserProfileButton';
 import { useAuth } from '../contexts/AuthContext';
 import logoShieldImg from '/Main/logo-shield.png';
@@ -34,45 +34,54 @@ function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
             </Link>
           </div>
 
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4">
+            {/* New Blog Tab inserted before Learning Paths */}
+            <Link 
+              to="/blog" 
+              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-1 transition-colors text-sm`}
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Blog</span>
+            </Link>
+
             <Link 
               to="/learning-paths" 
-              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-2 transition-colors`}
+              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-1 transition-colors text-sm`}
             >
-              <Shield className="w-5 h-5" />
+              <Shield className="w-4 h-4" />
               <span>Learning Paths</span>
             </Link>
             
             <Link 
               to="/challenges" 
-              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-2 transition-colors`}
+              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-1 transition-colors text-sm`}
             >
-              <Award className="w-5 h-5" />
+              <Award className="w-4 h-4" />
               <span>Challenges</span>
             </Link>
 
-            {/* Added Labs Section */}
+            {/* Labs Section */}
             <Link 
               to="/labs" 
-              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-2 transition-colors`}
+              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-1 transition-colors text-sm`}
             >
-              <FlaskConical className="w-5 h-5" />
+              <FlaskConical className="w-4 h-4" />
               <span>Labs</span>
             </Link>
             
             <Link 
               to="/leaderboard" 
-              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-2 transition-colors`}
+              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-1 transition-colors text-sm`}
             >
-              <Trophy className="w-5 h-5" />
+              <Trophy className="w-4 h-4" />
               <span>Leaderboard</span>
             </Link>
             
             <Link 
               to="/pricing" 
-              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-2 transition-colors`}
+              className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} flex items-center space-x-1 transition-colors text-sm`}
             >
-              <CreditCard className="w-5 h-5" /> {/* Updated icon */}
+              <CreditCard className="w-4 h-4" />
               <span>Pricing Plans</span>
             </Link>
 
@@ -89,13 +98,13 @@ function Navigation({ darkMode, onToggleDarkMode }: NavigationProps) {
               <div className="flex items-center space-x-4">
                 <Link 
                   to="/signin" 
-                  className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} transition-colors`}
+                  className={`${darkMode ? 'text-gray-300 hover:text-primary-blue' : 'text-gray-700 hover:text-gray-900'} transition-colors text-sm`}
                 >
                   Sign In
                 </Link>
                 <Link 
                   to="/signup" 
-                  className="bg-primary-red text-white px-6 py-2 rounded-md hover:bg-secondary-red transition min-w-[120px] text-center"
+                  className="bg-primary-red text-white px-4 py-2 rounded-md hover:bg-secondary-red transition text-sm min-w-[100px] text-center"
                 >
                   Get Started
                 </Link>
