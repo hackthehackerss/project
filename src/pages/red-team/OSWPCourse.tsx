@@ -91,249 +91,106 @@ function OSWPCourse() {
         {
           title: "Overview of IEEE 802.11 Standards",
           summary: (
-            <>
+            <div style={{ textAlign: 'center' }}>
               <p><strong>Overview of IEEE 802.11 Standards</strong></p>
               <p>
-              This module introduces key wireless communication concepts and terminology as defined by various IEEE 802.11 protocols. Each wireless card supports specific 802.11 standards, and compatibility with other protocols may vary.
-              </p> <br></br><br></br>
-              <p>
-                <strong>Key Monitoring Techniques:</strong>
+                This module introduces key wireless communication concepts and terminology as defined by various IEEE 802.11 protocols. Each wireless card supports specific 802.11 standards, and compatibility with other protocols may vary.
               </p>
-              
+              <br /><br />
+              <p><strong>Key Monitoring Techniques:</strong></p>
               <p>
-              Understanding these protocols is crucial because both the hardware we use and the testing environment's equipment influence our work. A solid grasp of hardware capabilities allows for proper utilization. With that in mind, this module serves two main purposes.
-              </p> <br></br><br></br>
-
+                Understanding these protocols is crucial because both the hardware we use and the testing environment's equipment influence our work. A solid grasp of hardware capabilities allows for proper utilization. With that in mind, this module serves two main purposes.
+              </p>
+              <br /><br />
               <p>
-              First, it provides an overview of the different 802.11 standards and their distinctions. While memorization isn’t necessary, knowing which protocols a device supports and the frequencies it operates on is essential. <br></br>
-              For instance, when capturing packets from an 802.11ac transmitter, understanding concepts like beamforming and streams can be useful in troubleshooting issues. 
-
-              Second, this module functions as a quick reference guide. Given the breadth of terms and concepts, it's unrealistic to remember everything. Instead, when working with new hardware, revisiting this module for a refresher may prove beneficial.
-              </p> <br></br><br></br>
+                First, it provides an overview of the different 802.11 standards and their distinctions. While memorization isn’t necessary, knowing which protocols a device supports and the frequencies it operates on is essential. <br />
+                For instance, when capturing packets from an 802.11ac transmitter, understanding concepts like beamforming and streams can be useful in troubleshooting issues.
+              </p>
+              <br /><br />
               <p>
-              <strong>802.11 Standards and Amendments</strong> <br></br>
-              IEEE 802.11 is the standard for wireless local area networks (WLAN). It defines specifications for the physical layer and the Media Access Control (MAC) layer within the OSI model. <br></br>
-
-              As wireless technology has evolved, the 802.11 committee has introduced several amendments to the original standard. Below are some key amendments:
-
+                Second, this module functions as a quick reference guide. Given the breadth of terms and concepts, it's unrealistic to remember everything. Instead, when working with new hardware, revisiting this module for a refresher may prove beneficial.
+              </p>
+              <br /><br />
+              <p><strong>802.11 Standards and Amendments</strong><br />
+                IEEE 802.11 is the standard for wireless local area networks (WLAN). It defines specifications for the physical layer and the Media Access Control (MAC) layer within the OSI model.<br />
+                As wireless technology has evolved, the 802.11 committee has introduced several amendments to the original standard. Below are some key amendments:
+              </p>
               <ul>
-                <li>802.11: The original WLAN standard.                </li>
-                <li>802.11a: Supports speeds up to 54 Mbit/s on the 5 GHz band.                </li>
-                <li>802.11b: Provides 5.5 Mbit/s and 11 Mbit/s speeds on the 2.4 GHz band.
-                </li>
-                <li>802.11g: Supports up to 54 Mbit/s on 2.4 GHz and is backward compatible with 802.11b.
-                </li>
-                <li>802.11h: Introduces regulatory requirements for power and transmission limits in the 5 GHz band.
-                </li>
-                <li>802.11i: Enhances security measures.
-                </li>
-                <li>802.11n: Increases throughput using Multiple Input/Multiple Output (MIMO), also known as Wi-Fi 4.
-                </li>
-                <li>802.11ac: Provides very high throughput below 6 GHz, commonly known as Wi-Fi 5.
-                </li>
-                <li>802.11ad: Enables multi-gigabit speeds in the 60 GHz band, also referred to as WiGig.
-                </li>
-                <li>802.11ax: Improves efficiency in wireless networks, known as Wi-Fi 6.
-                </li>
+                <li>802.11: The original WLAN standard.</li>
+                <li>802.11a: Supports speeds up to 54 Mbit/s on the 5 GHz band.</li>
+                <li>802.11b: Provides 5.5 Mbit/s and 11 Mbit/s speeds on the 2.4 GHz band.</li>
+                <li>802.11g: Supports up to 54 Mbit/s on 2.4 GHz and is backward compatible with 802.11b.</li>
+                <li>802.11h: Introduces regulatory requirements for power and transmission limits in the 5 GHz band.</li>
+                <li>802.11i: Enhances security measures.</li>
+                <li>802.11n: Increases throughput using Multiple Input/Multiple Output (MIMO), also known as Wi-Fi 4.</li>
+                <li>802.11ac: Provides very high throughput below 6 GHz, commonly known as Wi-Fi 5.</li>
+                <li>802.11ad: Enables multi-gigabit speeds in the 60 GHz band, also referred to as WiGig.</li>
+                <li>802.11ax: Improves efficiency in wireless networks, known as Wi-Fi 6.</li>
               </ul>
-              </p><br></br>
-              <p>
-              <strong>IEEE 802.11b</strong> <br></br>
-              The IEEE 802.11b standard introduced Complementary Code Keying (CCK), enabling data transfer rates of 5.5 Mbps and 11 Mbps in the 2.4 GHz frequency band, which ranges from 2.4 GHz to 2.485 GHz. This standard operates across 14 channels, each 22 MHz wide. However, due to the limited spectrum, only three non-overlapping channels are available in most regions. <br></br>
-
-            When referring to a channel frequency, the center frequency is used. The center frequency represents the midpoint of a channel’s bandwidth. For instance, channel 1 spans from 2.401 GHz to 2.423 GHz, but its center frequency is 2.412 GHz. <br></br>
-
-           <br></br>
-            <strong>IEEE 802.11a</strong> <br></br>
-
-            The IEEE 802.11a standard was introduced alongside 802.11b but operates in the 5 GHz frequency band. This provides more available channels with reduced interference compared to 2.4 GHz networks. Unlike 802.11b, which uses CCK modulation, 802.11a relies on Orthogonal Frequency-Division Multiplexing (OFDM) for transmission. This allows data rates of up to 54 Mbps over 20 MHz-wide channels.
-            <br></br>
-
-            OFDM works by dividing a channel into multiple smaller subchannels, called subcarriers, which carry data simultaneously. Each 802.11a channel consists of 64 subcarriers, with 48 used for data transmission, 4 serving as synchronization pilots, and 12 left unused. Each subcarrier has a width of 312.5 KHz.
-
-            <br></br>
-
-            As with 802.11b, the frequency allocation and power limits of 802.11a vary by country. Due to the complexity of 5 GHz spectrum regulations, channel availability may differ across regions and change over time.
-              </p> <br></br><br></br>
-
-              <p>
-              
-              <strong>IEEE 802.11g</strong><br></br>
-
-              IEEE 802.11g builds upon 802.11b by incorporating OFDM while operating within the 2.4 GHz band. It offers improved performance and maintains backward compatibility with 802.11b devices. When an 802.11b device connects to an 802.11g network, the connection speed may drop to accommodate the older standard. <br></br>
-
-              The channel structure in 802.11g remains the same as in 802.11b. However, channel 14 was only available in Japan for 802.11b networks. <br></br>
-
-              Although 802.11a, 802.11b, and 802.11g sometimes utilize multiple antennas, they do not support Multiple-Input Multiple-Output (MIMO). Instead, they use Single Input Single Output (SISO) technology, where only one antenna transmits and receives at a time. In these standards, multiple antennas are primarily used for antenna diversity, which improves signal reception by selecting the strongest signal available.
-
-              </p> <br></br><br></br>
-
-              <p>
-              
-              <strong>IEEE 802.11n</strong><br></br>
-              IEEE 802.11n introduced significant advancements in both speed and range for wireless networks, operating on both 2.4 GHz and 5 GHz bands. Initially, the standard allowed speeds up to 74 Mbps, with later implementations reaching up to 300 Mbps. A key improvement in 802.11n is the introduction of MIMO technology. <br></br>
-
-            MIMO employs multiple antennas for transmitting and receiving signals, utilizing multipath propagation to improve performance. While traditional signals degrade when bouncing off obstacles, MIMO leverages these reflections to enhance data transmission.<br></br>
-
-            The 802.11n standard supports up to four spatial streams, each requiring a separate antenna, allowing for greater data throughput. In commercial devices, up to three spatial streams are commonly available. Additionally, 802.11n supports 40 MHz-wide channels, doubling the data rate compared to 20 MHz-wide channels used in previous standards.<br></br>
-
-            A new feature introduced in 802.11n is Greenfield mode, which optimizes wireless transmission by restricting network access to 802.11n devices only. This eliminates the need to support older standards, thereby increasing efficiency.<br></br>
-
-            In terms of channel structure, 802.11n follows a similar subcarrier division as 802.11a and 802.11g but with slight modifications. Of the 64 subcarriers in a 20 MHz channel, 52 are used for data, 4 for pilots, and 8 remain unused.<br></br>
-
-
-
-
-              
-              </p> <br></br><br></br>
-
-              <p>
-               <strong>MIMO Notation and Configuration</strong>  <br></br>
-               The number of streams and achievable data rates in a wireless network depend on the number of antennas on both the transmitter and receiver. The standard notation for MIMO (Multiple Input, Multiple Output) configurations follows the format t×r:s, where: <br></br>
-
-            t represents the number of transmit (TX) chains. <br></br>
-
-            r represents the number of receive (RX) chains. <br></br>
-
-          s denotes the maximum number of spatial streams the radio can use.<br></br>
-
-            For example: <br></br>
-
-            2x2:2: 2 TX chains, 2 RX chains, and 2 streams.
-
-            3x3:3: 3 TX chains, 3 RX chains, and 3 streams.
-
-            <br></br> An alternative notation format, tTrR, omits the stream count. Using this format: 2T2R corresponds to 2x2:2. 3T3R corresponds to 3x3:3. <br></br><br></br>
-
-            The number of antennas is always equal to or greater than the number of streams. For instance, a device with four antennas might support only three streams, such as the Alfa AWUS1900 wireless adapter, which has four TX and RX chains but only supports three spatial streams (4x4:3). 
-            <br></br>
-
-            When analyzing networks, the number of streams is crucial for ensuring compatibility with client devices. A device with fewer streams than a client cannot fully decode its communication. <br></br><br></br>
-
-
-            <strong>Modulation and Coding Scheme (MCS) Rates</strong> <br></br>
-            i-Fi networks, particularly 802.11n, utilize various modulation techniques, coding rates, and spatial streams to achieve speeds of up to 600 Mbps (commercially around 450 Mbps). The Modulation and Coding Scheme (MCS) rate refers to specific modulation and coding combinations that influence performance. Key factors affecting MCS rates include:  <br></br>
-            <ul>
-            <li>Modulation Type</li>
-            <li>Coding Rate (the ratio of useful data to redundant error correction data)</li>
-            <li>Number of Spatial Streams</li>
-            <li>Channel Bandwidth (e.g., 20 MHz vs. 40 MHz)</li>
-            <li>Guard Interval (time interval between frames)</li>
-            </ul> <br></br><br> </br>
-
-              Each additional spatial stream increases the data rate proportionally (e.g., doubling streams doubles the rate). While a deeper discussion of MCS is beyond this scope, understanding MCS rates is essential when analyzing Wi-Fi traffic.
-
-                </p><br></br><br></br>
-
-                <p> 
-                  <strong>HT40+ and HT40- Channel Bonding</strong>
-                <br></br>
-                
-                802.11n can use HT20 (20 MHz) or HT40 (40 MHz) channels. HT40 channels combine two adjacent 20 MHz channels to increase throughput. The notation for these bonded channels includes HT40+ and HT40-: <br></br>
-
-                <ul>
-                  <li>HT40+: The primary channel remains at the original frequency, while the secondary channel is positioned four channels above the primary. </li>
-
-                  <li>HT40-: The secondary channel is positioned four channels below the primary.</li>
-                </ul>
-<br></br>
-
-<ul>
-For example:
-<li>Channel 1 HT40+: Primary on channel 1, secondary on channel 5.
-</li>
-<li>Channel 5 HT40-: Primary on channel 5, secondary on channel 1.
-</li>
-
-</ul>
-<br></br>
-
-
-HT40+ starts at channel 1 and ends at channel 7 (9 in Europe) within the 2.4 GHz band. HT40- starts at channel 5 and ends at channel 11 (13 in Europe). Similar constraints apply to 5 GHz networks. <br></br>
-
-Understanding these principles is essential for optimizing Wi-Fi performance and ensuring efficient data transmission in high-throughput environments.
-
-                </p> <br></br> <br></br>
-
-                <p>
-              <strong>IEEE 802.11ac</strong><br></br>
-              802.11ac operates exclusively in the 5 GHz band due to its requirement for 80 MHz channels. It supports up to eight spatial streams and utilizes transmit beamforming (beam steering) to enhance RF transmission.
-
+              <br />
+              <p><strong>IEEE 802.11b</strong><br />
+                The IEEE 802.11b standard introduced Complementary Code Keying (CCK), enabling data transfer rates of 5.5 Mbps and 11 Mbps in the 2.4 GHz frequency band, which ranges from 2.4 GHz to 2.485 GHz. This standard operates across 14 channels, each 22 MHz wide. However, due to the limited spectrum, only three non-overlapping channels are available in most regions.<br />
+                When referring to a channel frequency, the center frequency is used. The center frequency represents the midpoint of a channel’s bandwidth. For instance, channel 1 spans from 2.401 GHz to 2.423 GHz, but its center frequency is 2.412 GHz.
+              </p>
+              <br />
+              <p><strong>IEEE 802.11a</strong><br />
+                The IEEE 802.11a standard was introduced alongside 802.11b but operates in the 5 GHz frequency band. This provides more available channels with reduced interference compared to 2.4 GHz networks. Unlike 802.11b, which uses CCK modulation, 802.11a relies on Orthogonal Frequency-Division Multiplexing (OFDM) for transmission. This allows data rates of up to 54 Mbps over 20 MHz-wide channels.
+                <br />
+                OFDM works by dividing a channel into multiple smaller subchannels, called subcarriers, which carry data simultaneously. Each 802.11a channel consists of 64 subcarriers, with 48 used for data transmission, 4 serving as synchronization pilots, and 12 left unused. Each subcarrier has a width of 312.5 KHz.
+                <br />
+                As with 802.11b, the frequency allocation and power limits of 802.11a vary by country. Due to the complexity of 5 GHz spectrum regulations, channel availability may differ across regions and change over time.
+              </p>
+              <br /><br />
+              <p><strong>IEEE 802.11g</strong><br />
+                IEEE 802.11g builds upon 802.11b by incorporating OFDM while operating within the 2.4 GHz band. It offers improved performance and maintains backward compatibility with 802.11b devices. When an 802.11b device connects to an 802.11g network, the connection speed may drop to accommodate the older standard.
+                <br />
+                The channel structure in 802.11g remains the same as in 802.11b. However, channel 14 was only available in Japan for 802.11b networks.
+                <br />
+                Although 802.11a, 802.11b, and 802.11g sometimes utilize multiple antennas, they do not support Multiple-Input Multiple-Output (MIMO). Instead, they use Single Input Single Output (SISO) technology, where only one antenna transmits and receives at a time. In these standards, multiple antennas are primarily used for antenna diversity, which improves signal reception by selecting the strongest signal available.
+              </p>
+              <br /><br />
+              <p><strong>IEEE 802.11n</strong><br />
+                IEEE 802.11n introduced significant advancements in both speed and range for wireless networks, operating on both 2.4 GHz and 5 GHz bands. Initially, the standard allowed speeds up to 74 Mbps, with later implementations reaching up to 300 Mbps. A key improvement in 802.11n is the introduction of MIMO technology.
+                <br />
+                MIMO employs multiple antennas for transmitting and receiving signals, utilizing multipath propagation to improve performance. While traditional signals degrade when bouncing off obstacles, MIMO leverages these reflections to enhance data transmission.
+                <br />
+                The 802.11n standard supports up to four spatial streams, each requiring a separate antenna, allowing for greater data throughput. In commercial devices, up to three spatial streams are commonly available. Additionally, 802.11n supports 40 MHz-wide channels, doubling the data rate compared to 20 MHz-wide channels used in previous standards.
+                <br />
+                A new feature introduced in 802.11n is Greenfield mode, which optimizes wireless transmission by restricting network access to 802.11n devices only. This eliminates the need to support older standards, thereby increasing efficiency.
+              </p>
+              <br /><br />
+              <p><strong>MIMO Notation and Configuration</strong><br />
+                The number of streams and achievable data rates in a wireless network depend on the number of antennas on both the transmitter and receiver. The standard notation for MIMO (Multiple Input, Multiple Output) configurations follows the format t×r:s, where:
+              </p>
               <ul>
-              Key features:
-              <li>Supports MCS 8 and 9 using 256-QAM, requiring close proximity between transmitter and receiver.</li>
-              <li>Some devices support 1024-QAM for higher data rates, though this is not officially part of 802.11ac.</li>
-              <li>Default Guard Interval (GI) is 800 ns, which can be shortened to 400 ns for improved data rates.</li>
-              <li>Two waves: Wave 1 (SU-MIMO) and Wave 2 (MU-MIMO for downlink, 160 MHz channels support).</li>
-              <li>Uses the same subcarrier setup as 802.11n: 52 data, 4 pilot, and 8 null subcarriers.</li>
-
-            <br></br>
-            MCSIndex.com provides 802.11ac rate lookups.
+                <li>t represents the number of transmit (TX) chains.</li>
+                <li>r represents the number of receive (RX) chains.</li>
+                <li>s denotes the maximum number of spatial streams the radio can use.</li>
               </ul>
-                </p>
-
-                <p>
-                <strong>1.2.7. IEEE 802.11ad (WiGig)</strong><br></br>
-                802.11ad enables high-speed (multi-Gigabit) transmission of audio, video, and data, achieving speeds between 385 Mbps and 6.7 Gbps.
-
+              <p>For example:</p>
               <ul>
-              Key features:
-              <li>Operates in the 60 GHz band with 2.16 GHz channel bandwidth.</li>
-              <li>Uses SQPSK, QPSK, BPSK, 16-QAM, and 64-QAM.</li>
-              <li>Limited range due to absorption by atmospheric oxygen.</li>
-              <li>Six defined channels with center frequencies ranging from 58.32 GHz to 69.12 GHz.</li>
-              <li>Frequency availability varies by region (e.g., USA: 57.05 GHz - 71 GHz, Europe: 57 - 66 GHz).</li>
-
-            <br></br>
-      
+                <li>2x2:2: 2 TX chains, 2 RX chains, and 2 streams.</li>
+                <li>3x3:3: 3 TX chains, 3 RX chains, and 3 streams.</li>
               </ul>
-
-                </p>
-
-                <br></br> <br></br>
-
-                <p>
-              <strong>IEEE 802.11ax (High Efficiency - HE)</strong><br></br>
-              802.11ax improves performance in dense environments while maintaining backward compatibility.
-
-              <ul>
-              Key features:
-              <li>Supports both 2.4 GHz and 5 GHz bands.</li>
-              <li>Introduces 1024-QAM (up to ~1.2 Gbps per stream) and MU-OFDMA.</li>
-              <li>OFDMA allows multiple users to transmit simultaneously by allocating resource units (RUs) within a channel.</li>
-              <li>Increases subcarriers per 20 MHz channel to 256, with RUs as small as 2 MHz.</li>
-              <li>Supports up to 8x8:8 spatial streams, including client devices.</li>
-              <li>MU-MIMO supports both downlink and uplink if the client supports it.</li>
-
-            <br></br>
-           
-              </ul>
-                </p>
-
-                <p>
-                <strong>IEEE 802.11h</strong><br></br>
-                802.11h addresses coexistence with radar systems operating in the 5 GHz band.
-              <ul>
-              Key features:
-              
-              <li>Implements Dynamic Frequency Selection (DFS) to prevent interference with radar.</li>
-              <li>Mandates Transmit Power Control (TPC) in Europe for 5.250 - 5.725 GHz frequencies.</li>
-              <li>DFS requires a 30-minute frequency change if radar is detected.</li>
-
-            <br></br>
-            These enhancements ensure regulatory compliance and coexistence with critical communication systems.
-              </ul>
-
-                </p>
-
-            </>
+              <p>An alternative notation format, tTrR, omits the stream count. Using this format: 2T2R corresponds to 2x2:2. 3T3R corresponds to 3x3:3.</p>
+              <br />
+              <p>The number of antennas is always equal to or greater than the number of streams. For instance, a device with four antennas might support only three streams, such as the Alfa AWUS1900 wireless adapter, which has four TX and RX chains but only supports three spatial streams (4x4:3).</p>
+              <br />
+              <p>When analyzing networks, the number of streams is crucial for ensuring compatibility with client devices. A device with fewer streams than a client cannot fully decode its communication.</p>
+              <br />
+              <p><strong>Modulation and Coding Scheme (MCS) Rates</strong><br />
+                i-Fi networks, particularly 802.11n, utilize various modulation techniques, coding rates, and spatial streams to achieve speeds of up to 600 Mbps, the maximum supported rate for most consumer devices. The MCS index is key to determining a network's data throughput.
+                <br />
+                Higher MCS rates result in faster speeds but require cleaner signals. MCS index values range from 0 to 9, with each value corresponding to different modulation schemes (e.g., BPSK, QPSK, QAM) and coding rates. A higher MCS index provides faster throughput but demands higher signal quality.
+              </p>
+              <br />
+            </div>
           )
         },
         {
-          title: "A Day In the Life SOC",
+          title: "Manual Network Connections",
           summary: (
             <>
-              <p><strong>A Typical Day for a SOC Analyst</strong></p>
               <p>
                 The daily routine of a SOC analyst is dynamic, demanding constant vigilance and rapid response to evolving threats. While each day may present unique challenges, a typical day involves a combination of monitoring, investigation, collaboration, and continuous learning.
               </p>
