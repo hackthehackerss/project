@@ -492,8 +492,13 @@ function PowerShellChallenge() {
                 <div>
                   <p className="text-gray-400 text-sm">First Blood:</p>
                   <div className="flex items-center space-x-2">
-                    <Trophy className="w-5 h-5 text-yellow-500" />
-                    <p className="text-red-500 hover:text-red-400 font-semibold">User</p>
+                  <Trophy className="w-5 h-5 text-yellow-500" />
+                    <Link 
+                      to="/profile/hacker" 
+                      className="text-red-500 hover:text-red-400 font-semibold"
+                    >
+                      hacker
+                    </Link>
                   </div>
                 </div>
               </div>
