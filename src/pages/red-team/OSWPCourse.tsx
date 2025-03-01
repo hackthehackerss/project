@@ -185,27 +185,12 @@ function OSWPCourse() {
               <p>
                 wpa_supplicant can either be used via a command line interface, with wpa_cli, or with configuration files containing the settings of the network. In a sample configuration file, each network connection is defined within a network item.
               </p>
-              <pre>
-                network={{
-                  ssid="hotel_wifi"
-                  scan_ssid=1
-                }}
-              </pre>
-              <p>
-                The above example allows the system to connect to an open network, called "hotel_wifi" as indicated in the second line, and wpa_supplicant is instructed to scan for SSIDs first.
-              </p>
+             
               <br />
               <p>
                 Connecting to a WPA-PSK network is a bit more involved. We need to add two parameters inside the network item:
               </p>
-              <pre>
-                network={{
-                  ssid="home_network"
-                  scan_ssid=1
-                  psk="correct battery horse staple"
-                  key_mgmt=WPA-PSK
-                }}
-              </pre>
+              
               <p>
                 wpa_supplicant will automatically choose between TKIP and CCMP based on availability, but it is possible to force one or the other by adding pairwise=CCMP or pairwise=TKIP to the configuration if necessary.
               </p>
@@ -213,7 +198,7 @@ function OSWPCourse() {
                 wpa_supplicant supports WPA3, OWE, and can handle WPA Enterprise networks as well; however, these are out of scope of this module. The configuration file provided with the wpa_supplicant source code provides a number of examples for various network settings, including WPA3, OWE, and WPA Enterprise.
               </p>
               <p>
-                A quick and easy alternative is wpa_passphrase. This tool can generate a configuration file for a basic WPA-PSK network. It requires at least one parameter, the ESSID. The second parameter, the passphrase, is optional, for security reasons. If the second parameter is omitted, it will prompt for the passphrase. This tool will output the content of a configuration file. We can redirect the output to a file with 'wpa_passphrase home_network > home_network.conf'
+                A quick and easy alternative is wpa_passphrase. This tool can generate a configuration file for a basic WPA-PSK network. It requires at least one parameter, the ESSID. The second parameter, the passphrase, is optional, for security reasons. If the second parameter is omitted, it will prompt for the passphrase. This tool will output the content of a configuration file. We can redirect the output to a file with 'wpa_passphrase home_network , home_network.conf'
               </p>
               <p>
                 Using the example in the above text, we'll create a file called wifi-client.conf. We now have to start wpa_supplicant with a couple of parameters. To connect to the network, we have to start wpa_supplicant with the network interface using -i, and the configuration file with -c. Assuming the interface is wlan0, the command and the output will look like the following.
