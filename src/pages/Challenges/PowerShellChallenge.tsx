@@ -212,6 +212,7 @@ function PowerShellChallenge() {
   const [questionsVisible, setQuestionsVisible] = useState(false);
   const [xpAwarded, setXpAwarded] = useState(0);
   const [xpNotification, setXpNotification] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const challengeId = "powershell-logs";
   const { progress, updateProgress } = useChallengeProgress(profile?.uid || '', challengeId);
@@ -312,6 +313,7 @@ function PowerShellChallenge() {
       setShowConfetti(true);
       setShowSuccess(true);
       setShowError(false);
+      setShowShareModal(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       setShowError(true);
@@ -468,6 +470,41 @@ function PowerShellChallenge() {
           </>
         )}
 
+        {/* Updated Share Modal */}
+        {showShareModal && (
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <div className="bg-blue-600 rounded-lg p-8 z-50 text-center relative shadow-2xl">
+              <button
+                onClick={() => setShowShareModal(false)}
+                className="absolute top-2 right-2 text-white hover:text-gray-200"
+              >
+                <XCircle className="w-6 h-6" />
+              </button>
+              <h2 className="text-2xl font-bold mb-4 text-white">Congratulations!</h2>
+              <p className="mb-4 text-white">You have finished the challenge. Share your achievement!</p>
+              <div className="flex justify-center space-x-4">
+                <a
+                  href="https://www.linkedin.com/sharing/share-offsite/?url=https://yourdomain.com/challenge/powershell-logs"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white text-blue-600 rounded hover:bg-gray-100 font-semibold"
+                >
+                  Share on LinkedIn
+                </a>
+                <a
+                  href="https://twitter.com/intent/tweet?text=I%20just%20finished%20the%20challenge%20on%20HackTheHackers!"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white text-blue-600 rounded hover:bg-gray-100 font-semibold"
+                >
+                  Share on X
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="max-w-4xl mx-auto px-4 mt-8">
           <div className="bg-primary-dark/40 p-6 rounded-xl border border-primary-blue/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
             <div className="flex justify-center space-x-8">
@@ -492,7 +529,7 @@ function PowerShellChallenge() {
                 <div>
                   <p className="text-gray-400 text-sm">First Blood:</p>
                   <div className="flex items-center space-x-2">
-                  <Trophy className="w-5 h-5 text-yellow-500" />
+                    <Trophy className="w-5 h-5 text-yellow-500" />
                     <Link 
                       to="/profile/hacker" 
                       className="text-red-500 hover:text-red-400 font-semibold"
