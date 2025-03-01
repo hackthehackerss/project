@@ -15,11 +15,11 @@ function OSWPCourse() {
           title: "Introduction to OSWP Road Map",
           summary: (
             <div style={{ textAlign: 'center' }}>
-              <p><strong>Introduction to OSWP Road Map</strong></p><br />
-              <p>
+              <p style={{padding: '5px'}}><strong>Introduction to OSWP Road Map</strong></p><br />
+              <p style={{padding: '5px'}}>
                 Wireless networks are an essential part of modern communication, but they also introduce significant security risks. The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks.
               </p> 
-              <p>
+              <p style={{padding: '5px'}}>
                 <strong>Who Is This Course For? </strong><br />
               </p>
               <ul>
@@ -32,17 +32,17 @@ function OSWPCourse() {
                 <li>✅ Ethical hackers seeking OSWP certification.</li>
               </ul>
         
-              <p>
+              <p style={{padding: '5px'}}>
                 <strong>What You’ll Learn? </strong><br />
               </p>
-              <p>
+              <p style={{padding: '5px'}}>
                 In this course, we will cover the fundamentals of Wi-Fi security, the methodologies used by attackers, and the defensive strategies to secure wireless networks. By the end, you'll have hands-on experience with real-world Wi-Fi attacks and be fully prepared for the OSWP exam.
               </p>
         
-              <p>
+              <p style={{padding: '5px'}}>
                 <strong> Course Structure: </strong><br />
               </p>
-              <p>
+              <p style={{padding: '5px'}}>
                 This course follows a practical, hands-on approach, covering:
               </p>
               <ul>
@@ -53,7 +53,7 @@ function OSWPCourse() {
                 <li>5️⃣ Post-Exploitation & Defense Strategies – How to protect against common wireless threats.</li>
               </ul>
         
-              <p>
+              <p style={{padding: '5px'}}>
                 <strong>What You Need Before Starting? </strong><br />
               </p>
         
@@ -74,26 +74,26 @@ function OSWPCourse() {
           title: "Overview of IEEE 802.11 Standards",
           summary: (
             <div style={{ textAlign: 'center' }}>
-              <p><strong>Overview of IEEE 802.11 Standards</strong></p>
-              <p>
+              <p style={{padding: '5px'}}><strong>Overview of IEEE 802.11 Standards</strong></p>
+              <p style={{padding: '5px'}}>
                 This module introduces key wireless communication concepts and terminology as defined by various IEEE 802.11 protocols. Each wireless card supports specific 802.11 standards, and compatibility with other protocols may vary.
               </p>
               <br /><br />
-              <p><strong>Key Monitoring Techniques:</strong></p>
-              <p>
+              <p style={{padding: '5px'}}><strong>Key Monitoring Techniques:</strong></p>
+              <p style={{padding: '5px'}}>
                 Understanding these protocols is crucial because both the hardware we use and the testing environment's equipment influence our work. A solid grasp of hardware capabilities allows for proper utilization. With that in mind, this module serves two main purposes.
               </p>
               <br /><br />
-              <p>
+              <p style={{padding: '5px'}}>
                 First, it provides an overview of the different 802.11 standards and their distinctions. While memorization isn’t necessary, knowing which protocols a device supports and the frequencies it operates on is essential. <br />
                 For instance, when capturing packets from an 802.11ac transmitter, understanding concepts like beamforming and streams can be useful in troubleshooting issues.
               </p>
               <br /><br />
-              <p>
+              <p style={{padding: '5px'}}>
                 Second, this module functions as a quick reference guide. Given the breadth of terms and concepts, it's unrealistic to remember everything. Instead, when working with new hardware, revisiting this module for a refresher may prove beneficial.
               </p>
               <br /><br />
-              <p><strong>802.11 Standards and Amendments</strong><br />
+              <p style={{padding: '5px'}}><strong>802.11 Standards and Amendments</strong><br />
                 IEEE 802.11 is the standard for wireless local area networks (WLAN). It defines specifications for the physical layer and the Media Access Control (MAC) layer within the OSI model.<br />
                 As wireless technology has evolved, the 802.11 committee has introduced several amendments to the original standard. Below are some key amendments:
               </p>
@@ -110,12 +110,12 @@ function OSWPCourse() {
                 <li>802.11ax: Improves efficiency in wireless networks, known as Wi-Fi 6.</li>
               </ul>
               <br />
-              <p><strong>IEEE 802.11b</strong><br />
+              <p style={{padding: '5px'}}><strong>IEEE 802.11b</strong><br />
                 The IEEE 802.11b standard introduced Complementary Code Keying (CCK), enabling data transfer rates of 5.5 Mbps and 11 Mbps in the 2.4 GHz frequency band, which ranges from 2.4 GHz to 2.485 GHz. This standard operates across 14 channels, each 22 MHz wide. However, due to the limited spectrum, only three non-overlapping channels are available in most regions.<br />
                 When referring to a channel frequency, the center frequency is used. The center frequency represents the midpoint of a channel’s bandwidth. For instance, channel 1 spans from 2.401 GHz to 2.423 GHz, but its center frequency is 2.412 GHz.
               </p>
               <br />
-              <p><strong>IEEE 802.11a</strong><br />
+              <p style={{padding: '5px'}}><strong>IEEE 802.11a</strong><br />
                 The IEEE 802.11a standard was introduced alongside 802.11b but operates in the 5 GHz frequency band. This provides more available channels with reduced interference compared to 2.4 GHz networks. Unlike 802.11b, which uses CCK modulation, 802.11a relies on Orthogonal Frequency-Division Multiplexing (OFDM) for transmission. This allows data rates of up to 54 Mbps over 20 MHz-wide channels.
                 <br />
                 OFDM works by dividing a channel into multiple smaller subchannels, called subcarriers, which carry data simultaneously. Each 802.11a channel consists of 64 subcarriers, with 48 used for data transmission, 4 serving as synchronization pilots, and 12 left unused. Each subcarrier has a width of 312.5 KHz.
@@ -123,7 +123,7 @@ function OSWPCourse() {
                 As with 802.11b, the frequency allocation and power limits of 802.11a vary by country. Due to the complexity of 5 GHz spectrum regulations, channel availability may differ across regions and change over time.
               </p>
               <br /><br />
-              <p><strong>IEEE 802.11g</strong><br />
+              <p style={{padding: '5px'}}><strong>IEEE 802.11g</strong><br />
                 IEEE 802.11g builds upon 802.11b by incorporating OFDM while operating within the 2.4 GHz band. It offers improved performance and maintains backward compatibility with 802.11b devices. When an 802.11b device connects to an 802.11g network, the connection speed may drop to accommodate the older standard.
                 <br />
                 The channel structure in 802.11g remains the same as in 802.11b. However, channel 14 was only available in Japan for 802.11b networks.
@@ -131,7 +131,7 @@ function OSWPCourse() {
                 Although 802.11a, 802.11b, and 802.11g sometimes utilize multiple antennas, they do not support Multiple-Input Multiple-Output (MIMO). Instead, they use Single Input Single Output (SISO) technology, where only one antenna transmits and receives at a time. In these standards, multiple antennas are primarily used for antenna diversity, which improves signal reception by selecting the strongest signal available.
               </p>
               <br /><br />
-              <p><strong>IEEE 802.11n</strong><br />
+              <p style={{padding: '5px'}}><strong>IEEE 802.11n</strong><br />
                 IEEE 802.11n introduced significant advancements in both speed and range for wireless networks, operating on both 2.4 GHz and 5 GHz bands. Initially, the standard allowed speeds up to 74 Mbps, with later implementations reaching up to 300 Mbps. A key improvement in 802.11n is the introduction of MIMO technology.
                 <br />
                 MIMO employs multiple antennas for transmitting and receiving signals, utilizing multipath propagation to improve performance. While traditional signals degrade when bouncing off obstacles, MIMO leverages these reflections to enhance data transmission.
@@ -141,7 +141,7 @@ function OSWPCourse() {
                 A new feature introduced in 802.11n is Greenfield mode, which optimizes wireless transmission by restricting network access to 802.11n devices only. This eliminates the need to support older standards, thereby increasing efficiency.
               </p>
               <br /><br />
-              <p><strong>MIMO Notation and Configuration</strong><br />
+              <p style={{padding: '5px'}}><strong>MIMO Notation and Configuration</strong><br />
                 The number of streams and achievable data rates in a wireless network depend on the number of antennas on both the transmitter and receiver. The standard notation for MIMO (Multiple Input, Multiple Output) configurations follows the format t×r:s, where:
               </p>
               <ul>
@@ -149,18 +149,18 @@ function OSWPCourse() {
                 <li>r represents the number of receive (RX) chains.</li>
                 <li>s denotes the maximum number of spatial streams the radio can use.</li>
               </ul>
-              <p>For example:</p>
+              <p style={{padding: '5px'}}>For example:</p>
               <ul>
                 <li>2x2:2: 2 TX chains, 2 RX chains, and 2 streams.</li>
                 <li>3x3:3: 3 TX chains, 3 RX chains, and 3 streams.</li>
               </ul>
-              <p>An alternative notation format, tTrR, omits the stream count. Using this format: 2T2R corresponds to 2x2:2. 3T3R corresponds to 3x3:3.</p>
+              <p style={{padding: '5px'}}>An alternative notation format, tTrR, omits the stream count. Using this format: 2T2R corresponds to 2x2:2. 3T3R corresponds to 3x3:3.</p>
               <br />
-              <p>The number of antennas is always equal to or greater than the number of streams. For instance, a device with four antennas might support only three streams, such as the Alfa AWUS1900 wireless adapter, which has four TX and RX chains but only supports three spatial streams (4x4:3).</p>
+              <p style={{padding: '5px'}}>The number of antennas is always equal to or greater than the number of streams. For instance, a device with four antennas might support only three streams, such as the Alfa AWUS1900 wireless adapter, which has four TX and RX chains but only supports three spatial streams (4x4:3).</p>
               <br />
-              <p>When analyzing networks, the number of streams is crucial for ensuring compatibility with client devices. A device with fewer streams than a client cannot fully decode its communication.</p>
+              <p style={{padding: '5px'}}>When analyzing networks, the number of streams is crucial for ensuring compatibility with client devices. A device with fewer streams than a client cannot fully decode its communication.</p>
               <br />
-              <p><strong>Modulation and Coding Scheme (MCS) Rates</strong><br />
+              <p style={{padding: '5px'}}><strong>Modulation and Coding Scheme (MCS) Rates</strong><br />
                 i-Fi networks, particularly 802.11n, utilize various modulation techniques, coding rates, and spatial streams to achieve speeds of up to 600 Mbps, the maximum supported rate for most consumer devices. The MCS index is key to determining a network's data throughput.
                 <br />
                 Higher MCS rates result in faster speeds but require cleaner signals. MCS index values range from 0 to 9, with each value corresponding to different modulation schemes (e.g., BPSK, QPSK, QAM) and coding rates. A higher MCS index provides faster throughput but demands higher signal quality.
@@ -173,34 +173,34 @@ function OSWPCourse() {
           title: "Manual Network Connections",
           summary: (
             <div style={{ textAlign: 'center' }}>
-              <p><strong>Overview of Wireless Penetration Testing</strong></p>
-              <p>
+              <p style={{padding: '5px'}}><strong>Overview of Wireless Penetration Testing</strong></p>
+              <p style={{padding: '5px'}}>
                 Wireless penetration testing tools usually require disabling network managers because they interfere with the proper operation of the tools.
               </p>
               <br /><br />
-              <p><strong>Connecting to an Access Point</strong></p>
-              <p>
+              <p style={{padding: '5px'}}><strong>Connecting to an Access Point</strong></p> <br></br> <br></br>
+              <p style={{padding: '5px'}}>
                 Several wireless clients exist on Linux. The most common one is wpa_supplicant, as it is commonly used by network managers across Linux distributions to connect to Wi-Fi networks, even if they don't have any encryption or still use WEP.
               </p>
-              <p>
+              <p style={{padding: '5px'}}>
                 wpa_supplicant can either be used via a command line interface, with wpa_cli, or with configuration files containing the settings of the network. In a sample configuration file, each network connection is defined within a network item.
               </p>
              
               <br />
-              <p>
+              <p style={{padding: '5px'}}>
                 Connecting to a WPA-PSK network is a bit more involved. We need to add two parameters inside the network item:
               </p>
               
-              <p>
+              <p style={{padding: '5px'}}>
                 wpa_supplicant will automatically choose between TKIP and CCMP based on availability, but it is possible to force one or the other by adding pairwise=CCMP or pairwise=TKIP to the configuration if necessary.
               </p>
-              <p>
+              <p style={{padding: '5px'}}>
                 wpa_supplicant supports WPA3, OWE, and can handle WPA Enterprise networks as well; however, these are out of scope of this module. The configuration file provided with the wpa_supplicant source code provides a number of examples for various network settings, including WPA3, OWE, and WPA Enterprise.
               </p>
-              <p>
+              <p style={{padding: '5px'}}>
                 A quick and easy alternative is wpa_passphrase. This tool can generate a configuration file for a basic WPA-PSK network. It requires at least one parameter, the ESSID. The second parameter, the passphrase, is optional, for security reasons. If the second parameter is omitted, it will prompt for the passphrase. This tool will output the content of a configuration file. We can redirect the output to a file with 'wpa_passphrase home_network , home_network.conf'
               </p>
-              <p>
+              <p style={{padding: '5px'}}>
                 Using the example in the above text, we'll create a file called wifi-client.conf. We now have to start wpa_supplicant with a couple of parameters. To connect to the network, we have to start wpa_supplicant with the network interface using -i, and the configuration file with -c. Assuming the interface is wlan0, the command and the output will look like the following.
               </p>
               <pre>
@@ -215,7 +215,7 @@ function OSWPCourse() {
 
               </pre>
 
-              <p>
+              <p style={{padding: '5px'}}>
               Now that we've confirmed we can successfully connect to the network, we can append -B to our wpa_supplicant command line to run it in the background. Once connected, we usually request a DHCP lease using dhclient:
 
               </p>
@@ -223,9 +223,9 @@ function OSWPCourse() {
               <pre>
               kali@kali:~$ sudo dhclient wlan0
               </pre>
-              <p><strong>Setting up an Access Point</strong></p>
+              <p style={{padding: '5px'}}><strong>Setting up an Access Point</strong></p> <br><br></br></br>
 
-              <p>Setting up an access point requires two distinct network interfaces, and involves five steps:              
+              <p style={{padding: '5px'}}>Setting up an access point requires two distinct network interfaces, and involves five steps:              
 
                 <ul>
                 <li>- Configure Internet access on the system.                </li>
@@ -236,16 +236,16 @@ function OSWPCourse() {
                 </ul>
               </p>
 
-              <p><strong>Internet Access</strong></p>
+              <p style={{padding: '5px'}}><strong>Internet Access</strong></p> <br></br>
 
-              <p>
+              <p style={{padding: '5px'}}>
               We first need to have Internet access on the system. It doesn't really matter if it is via Ethernet, Wi-Fi, or if it's mobile broadband.
               Ethernet is fairly easy to set up, and in most cases, we just need to get a DHCP lease like we did in the previous steps.
               If the connection is Wi-Fi, we can refer to the section above to configure it. It is important to note that while it is possible to do client and AP on a single Wi-Fi interface, configuration is a bit more involved, has limitations, and may not work properly (the Wi-Fi adapters recommended for this course provide this ability). Therefore, we must be careful choosing the interface to use for the access point, as not all Wi-Fi adapters support that mode. We can use iw to display what modes each of the wireless interface support.
               </p>
               <pre>kali@kali:~$ sudo iw list              </pre>
 
-                <p>
+                <p style={{padding: '5px'}}>
                 Supported interface modes:
                   <ul>
                     <li>IBSS</li>
@@ -260,17 +260,17 @@ function OSWPCourse() {
                   </ul>
                 </p>
 
-                <p><strong>Static IP on Access Point Wireless Interface</strong></p>
-                <p>We now have to choose an IP address that doesn't conflict with the network and CIDR of the interface we just configured for Internet. Most routers offer an IP in the 192.168.1.0/24 range, so we will use the 10.0.0.0/24 range and set the wireless interface for the access point to 10.0.0.1. We'll assume the interface is wlan0.
+                <p style={{padding: '5px'}}><strong>Static IP on Access Point Wireless Interface</strong></p> <br><br></br></br>
+                <p style={{padding: '5px'}}>We now have to choose an IP address that doesn't conflict with the network and CIDR of the interface we just configured for Internet. Most routers offer an IP in the 192.168.1.0/24 range, so we will use the 10.0.0.0/24 range and set the wireless interface for the access point to 10.0.0.1. We'll assume the interface is wlan0.
                 </p> 
                 <pre>kali@kali:~$ sudo ip link set wlan0 up                </pre>
                 <pre>kali@kali:~$ sudo ip addr add 10.0.0.1/24 dev wlan0                </pre>
 
-                <p><strong>DHCP Server</strong></p>
-                <p>We will set up the DHCP server on the wireless interface (wlan0) using dnsmasq, which is a DNS and DHCP server. We'll create the following configuration file and save it as dnsmasq.conf.
+                <p style={{padding: '5px'}}><strong>DHCP Server</strong></p><br><br></br></br>
+                <p style={{padding: '5px'}}>We will set up the DHCP server on the wireless interface (wlan0) using dnsmasq, which is a DNS and DHCP server. We'll create the following configuration file and save it as dnsmasq.conf.
                 </p>
 
-                <p>
+                <p style={{padding: '5px'}}>
                 Main options
                 <ul>
                   <li>domain-needed</li>
@@ -285,7 +285,7 @@ function OSWPCourse() {
                 </ul>
                 </p>
 
-                <p>
+                <p style={{padding: '5px'}}>
                 DHCP range
                 <ul>
                   <li>dhcp-range=10.0.0.100,10.0.0.199,12h</li>
@@ -296,7 +296,7 @@ function OSWPCourse() {
                 </ul>
                 </p>
 
-                <p>
+                <p style={{padding: '5px'}}>
                 DNS: Primary and secondary Google DNS
                 <ul>
                   <li>server=8.8.8.8</li>
@@ -304,14 +304,14 @@ function OSWPCourse() {
                 </ul>
                 </p>
 
-                <p>
+                <p style={{padding: '5px'}}>
                 Now that our dnsmasq configuration is complete, we will run dnsmasq with --conf-file followed by the path of our configuration file.
                 <ul>
                   <li>kali@kali:~$ sudo dnsmasq --conf-file=dnsmasq.conf </li>
                 </ul>
                 </p>
                 
-                <p>
+                <p style={{padding: '5px'}}>
                 After startup, dnsmasq will create a file containing its process ID in /var/run/dnsmasq.pid, which lets us find and kill the process when we are done. We will inspect syslog to confirm it started successfully.
 
                 <pre>
@@ -328,8 +328,8 @@ function OSWPCourse() {
                 </pre>
                 </p>
 
-                <p>
-                  <strong>Routing</strong>
+                <p style={{padding: '5px'}}>
+                  <strong>Routing</strong><br><br></br></br>
                   We now have to enable routing and add a few firewall rules so we can act as a router and allow clients to reach the Internet. We first have to enable IP forwarding, which we can do by setting the ip_forward kernel variable to "1".
 
 <pre>kali@kali:~$ echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
@@ -458,18 +458,18 @@ sections: [
     title: "Manual Network Connections & Wireless Adapter Configuration",
     summary: (
       <div style={{ textAlign: 'center' }}>
-        <p>
+        <p style={{padding: '5px'}}>
           When conducting wireless penetration testing, it's often necessary to disable network managers, as they can interfere with the tools being used. However, there are instances when we still need internet access or even need to share it. Although network managers can typically handle this, we will explore how to manually configure the setup, as network managers are disabled during testing. It's important to use a separate network interface from the one employed for penetration testing.
         </p>
 
-        <p>
-          <strong>Connecting to an Access Point</strong>
+        <p style={{padding: '5px'}}>
+          <strong>Connecting to an Access Point</strong><br><br></br></br>
           Linux offers several wireless clients, with wpa_supplicant being the most widely used. It connects to Wi-Fi networks on many Linux distributions, even for unencrypted networks or those still using WEP.
 
           wpa_supplicant can be controlled via a command-line interface (wpa_cli) or through configuration files specifying network settings.
         </p>
 
-        <p>
+        <p style={{padding: '5px'}}>
           This configuration allows the system to connect to an open network called "hotel_wifi" and instructs wpa_supplicant to scan for SSIDs first.
 
           The tool will automatically select between TKIP and CCMP for encryption, but you can specify a preference by adding pairwise=CCMP or pairwise=TKIP to the configuration. wpa_supplicant also supports WPA3, OWE, and WPA Enterprise, though these are outside the scope of this tutorial. 
@@ -483,14 +483,14 @@ sections: [
           </code>
         </p>
 
-        <p>
+        <p style={{padding: '5px'}}>
           Once successfully connected, we can run wpa_supplicant in the background by appending -B and then request a DHCP lease with dhclient:
         </p>
         <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
           sudo dhclient wlan0
         </code>
 
-        <p><strong>Setting up an Access Point</strong>
+        <p style={{padding: '5px'}}><strong>Setting up an Access Point</strong><br><br></br></br>
           To set up an access point, you need two distinct network interfaces. The process involves five main steps:
           <ul>
             <li>Configure Internet Access on the system.</li>
@@ -501,7 +501,7 @@ sections: [
           </ul>
         </p>
 
-        <p><strong>Internet Access</strong>
+        <p style={{padding: '5px'}}><strong>Internet Access</strong><br><br></br></br>
           You need an active Internet connection on the system, whether through Ethernet, Wi-Fi, or mobile broadband. While Ethernet is straightforward to configure, Wi-Fi requires the same process as described in 16.1.
 
           It's important to note that while you can use a single Wi-Fi interface for both client and AP modes, this is more complex and may not work reliably on all adapters. Use iw to list supported modes for your Wi-Fi interface:
@@ -509,18 +509,18 @@ sections: [
           <strong> sudo iw list </strong>
         </p>
 
-        <p><strong>Static IP on Access Point Wireless Interface</strong>
+        <p style={{padding: '5px'}}><strong>Static IP on Access Point Wireless Interface</strong><br><br></br></br>
           Next, assign a static IP to the wireless interface intended for the access point. The IP address should not conflict with the range of the network you're using for Internet access. For example, if the Internet network is on the 192.168.1.0/24 range, use 10.0.0.1/24 for the access point interface.
           <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
             sudo dhclient wlan0
           </code>
         </p>
 
-        <p><strong>DHCP Server</strong>
+        <p style={{padding: '5px'}}><strong>DHCP Server</strong><br><br></br></br>
           To automatically assign IPs to clients, set up dnsmasq, a tool that provides DNS and DHCP services. The following is an example configuration file (dnsmasq.conf):
 
           <ul>
-            <li><strong>Main options:</strong></li>
+            <li><strong>Main options:</strong></li><br><br></br></br>
             <ul>
               <li>domain-needed</li>
               <li>bogus-priv</li>
@@ -532,7 +532,7 @@ sections: [
               <li>listen-address=10.0.0.1</li>
             </ul>
 
-            <li><strong>DHCP range:</strong></li>
+            <li><strong>DHCP range:</strong></li><br><br></br></br>
             <ul>
               <li>dhcp-range=10.0.0.100,10.0.0.199,12h</li>
               <li>dhcp-lease-max=100</li>
@@ -540,33 +540,35 @@ sections: [
               <li>dhcp-authoritative</li>
             </ul>
 
-            <li><strong>DNS: Primary and secondary Google DNS</strong></li>
+            <li><strong>DNS: Primary and secondary Google DNS</strong></li><br><br></br></br>
             <ul>
               <li>server=8.8.8.8</li>
               <li>server=8.8.4.4</li>
             </ul>
           </ul>
-
+          <br><br></br></br>
           Start dnsmasq with this configuration file:
           <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
             sudo dnsmasq --conf-file=dnsmasq.conf
           </code>
         </p>
 
-        <p>
+        <p style={{padding: '5px'}}>
           You can confirm it’s running by checking the syslog:
           <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
             sudo tail /var/log/syslog | grep dnsmasq
           </code>
         </p>
 
-        <p><strong> Enable IP forwarding to allow the system to act as a router: </strong>
+        
+
+        <p style={{padding: '5px'}}><strong> Enable IP forwarding to allow the system to act as a router: </strong>
           <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
             echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
           </code>
         </p>
 
-        <p>
+        <p style={{padding: '5px'}}>
           Next, set up a NAT rule to masquerade the client IP addresses to appear as if they are coming from the system's Internet connection. You will need nftables to manage firewall rules:
 
           <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
@@ -589,7 +591,7 @@ sections: [
           title: "Determining Chipsets and Drivers for Wireless Attacks",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -597,7 +599,7 @@ sections: [
           title: "Linux Wireless Tools, Drivers, and Stacks",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -605,7 +607,7 @@ sections: [
           title: "Frames and Network Interaction – How Wi-Fi devices communicate",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -613,7 +615,7 @@ sections: [
           title: "Wireshark Essentials – Packet Capturing & Analysis",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -621,7 +623,7 @@ sections: [
           title: "Kismet Essentials – Passive Network Discovery",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -629,7 +631,7 @@ sections: [
           title: "Bettercap Essentials – MITM & Wireless Attacks",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -657,7 +659,7 @@ sections: [
           title: "Cracking Authentication Hashes – PMKID, Handshakes, and Offline Cracking",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -665,7 +667,7 @@ sections: [
           title: "Aircrack-ng Essentials – Core Tools for Wi-Fi Penetration Testing",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -673,7 +675,7 @@ sections: [
           title: "Attacking WPS Networks – Exploiting Weak Configurations",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -681,7 +683,7 @@ sections: [
           title: "Attacking WPA Enterprise – Capturing Credentials & Bypassing Authentication",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -689,7 +691,7 @@ sections: [
           title: "Attacking Captive Portals – Bypassing Restricted Wi-Fi Networks",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -697,7 +699,7 @@ sections: [
           title: "Rogue Access Points – Evil Twin, Karma Attacks, & Credential Harvesting",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -726,7 +728,7 @@ sections: [
           title: "Identifying Wireless Threats & Implementing Security Best Practices",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -734,7 +736,7 @@ sections: [
           title: "Securing Wireless Networks Against Common Attacks",
           summary: (
             <>
-              <p></p>
+              <p style={{padding: '5px'}}></p>
             </>
           )
         },
@@ -742,7 +744,7 @@ sections: [
           title: "Wrapping Up",
           summary: (
             <>
-              <p>
+              <p style={{padding: '5px'}}>
               By the end of this course, you will have gained a comprehensive understanding of wireless security, from the basics of Wi-Fi standards and encryption to the intricacies of wireless network analysis and advanced exploitation techniques. You will be equipped with practical skills in using essential tools such as Aircrack-ng, Kismet, and Bettercap to perform penetration testing and simulate real-world attacks. Additionally, you will learn how to identify wireless threats and implement security best practices to defend against common vulnerabilities. Whether you are cracking WPA handshakes, bypassing captive portals, or defending against rogue access points, this course will prepare you to effectively manage and secure wireless networks in any environment.
               </p>
             </>
