@@ -21,72 +21,35 @@ function OSWPCourse() {
   const sections = [
     {
       id: "OSWPCourse-overview",
-      title: "OSWP Course Overview",
+      title: "OSWPCourse Overview",
       content: {
-        introduction: (
-          <>
-            <h2>Welcome to Wireless Penetration Testing</h2>
-            <p>This course will cover various aspects of wireless network security.</p>
-          </>
-        ),
+        introduction:
+          "This is the introduction. You can add <p></p> tags inside the content.",
         sections: [
           {
             title: "1",
-            content: <p>Section 1 content goes here.</p>
+            content: ["<p>This is paragraph 1.</p>"]
           },
           {
             title: "2",
-            content: <p>Section 2 content goes here.</p>
+            content: ["<p>This is paragraph 2.</p>"]
           },
           {
             title: "3",
-            content: <p>Section 3 content goes here.</p>
+            content: ["<p>This is paragraph 3.</p>"]
           },
           {
             title: "4",
-            content: <p>Section 4 content goes here.</p>
+            content: ["<p>This is paragraph 4.</p>"]
           },
           {
             title: "5",
-            content: <p>Section 5 content goes here.</p>
+            content: ["<p>This is paragraph 5.</p>"]
           }
         ]
       }
     },
-    {
-      id: "OSWPCourse-section-1",
-      title: "OSWP Course Section 1",
-      content: {
-        introduction: <p>Introduction to Section 1 content goes here.</p>,
-        sections: [
-          {
-            title: "1",
-            content: <p>Content for Subsection 1 goes here.</p>
-          },
-          {
-            title: "2",
-            content: <p>Content for Subsection 2 goes here.</p>
-          }
-        ]
-      }
-    },
-    {
-      id: "OSWPCourse-section-2",
-      title: "OSWP Course Section 2",
-      content: {
-        introduction: <p>Introduction to Section 2 content goes here.</p>,
-        sections: [
-          {
-            title: "1",
-            content: <p>Content for Subsection 1 goes here.</p>
-          },
-          {
-            title: "2",
-            content: <p>Content for Subsection 2 goes here.</p>
-          }
-        ]
-      }
-    }
+    // Repeat for other sections...
   ];
 
   const activeContent = sections.find((section) => section.id === activeSection)?.content;
@@ -124,9 +87,9 @@ function OSWPCourse() {
           <div className="flex items-center space-x-4">
             <Book className="w-8 h-8 text-primary-blue" />
             <div>
-              <h1 className="text-2xl font-bold">Wireless Penetration Testing</h1>
+              <h1 className="text-2xl font-bold">VBA Scripting</h1>
               <p className="text-gray-400 text-sm mt-1">
-                Master Wireless Penetration Testing Techniques
+                Master VBA Scripting Technics
               </p>
             </div>
           </div>
@@ -172,28 +135,25 @@ function OSWPCourse() {
               {!activeSubSection && (
                 <>
                   <h1 className="text-3xl font-bold text-primary-blue mb-4">
-                    {activeContent.introduction}
+                    {sections.find((s) => s.id === activeSection)?.title}
                   </h1>
-                  <div className="space-y-6">
-                    {activeContent.sections.map((subsection) => (
-                      <button
-                        key={subsection.title}
-                        onClick={() => setActiveSubSection(subsection.title)}
-                        className="w-full text-left px-4 py-2 rounded-md hover:bg-primary-blue/10"
-                      >
-                        Subsection {subsection.title}
-                      </button>
-                    ))}
-                  </div>
+                  <p className="text-lg mb-8" dangerouslySetInnerHTML={{ __html: activeContent.introduction }}></p>
                 </>
               )}
+
               {activeSubSection && activeSubSectionContent && (
-                <>
-                  <h2 className="text-2xl font-bold text-primary-blue mb-4">
-                    Subsection {activeSubSection}
+                <div className="space-y-6">
+                  <h2 className="text-2xl font-bold text-primary-blue">
+                    {activeSubSectionContent.title}
                   </h2>
-                  {activeSubSectionContent}
-                </>
+                  {activeSubSectionContent.content && (
+                    <ul className="list-disc list-inside space-y-2 text-gray-200">
+                      {activeSubSectionContent.content.map((item, index) => (
+                        <li key={index} dangerouslySetInnerHTML={{ __html: item }}></li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               )}
             </div>
           )}
