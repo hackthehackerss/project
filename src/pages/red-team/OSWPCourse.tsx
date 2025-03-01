@@ -172,7 +172,7 @@ function OSWPCourse() {
         {
           title: "Manual Network Connections",
           summary: (
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ textAlign: 'left' }}>
               <p><strong>Overview of Wireless Penetration Testing</strong></p>
               <p>
                 Wireless penetration testing tools usually require disabling network managers because they interfere with the proper operation of the tools.
