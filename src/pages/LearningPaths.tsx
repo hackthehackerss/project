@@ -226,6 +226,22 @@ function LearningPaths() {
           topics: ["Buffer Overflow", "Active Directory", "Privilege Escalation", "Report Writing"]
         }
       ]
+    },
+    {
+      title: "OSWP Road Map",
+      path: "/red-team/OSWPCourse",
+      description: "OSWP (Offensive Security Wireless Professional) is a certification from Offensive Security focused on wireless network security. It teaches Wi-Fi hacking techniques, including WEP, WPA, and WPA2 attacks using tools like Aircrack-ng.",
+      icon: Sword,
+      difficulty: "Advanced",
+      access: "Pro",
+      image: "/Learning Paths/oscp.jpeg",
+      progress: 0,
+      modules: [
+        {
+          title: "OSWP Road Map",
+          topics: ["Wireless Network Fundamentals", "Attacking Wireless Networks", "Post-Exploitation & Rogue AP Attacks", "Wireless Reconnaissance & Enumeration"]
+        }
+      ]
     }
   ];
 
