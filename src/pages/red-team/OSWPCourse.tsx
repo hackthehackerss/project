@@ -455,11 +455,16 @@ Although this should technically suffice to forward packets over to the Internet
       title: "Wireless Network Analysis & Reconnaissance",
       sections: [
         {
-          title: "Introduction",
+          title: "Introduction to OSWP Road Map",
           summary: (
-            <>
-              <p></p>
-            </>
+            <div style={{ textAlign: 'center' }}>
+              <p>1. **Pre-Engagement**: Begin by learning the basics of wireless networking, understanding Wi-Fi standards, and common attack vectors. Knowledge of networking protocols (like TCP/IP, DHCP, and DNS) is essential.</p>
+              <p>2. **Wireless Security Fundamentals**: Study the encryption standards (WEP, WPA, WPA2, WPA3) and their weaknesses. Learn about different wireless attack techniques such as deauthentication attacks, rogue AP attacks, and the methods used to crack WEP and WPA passwords.</p>
+              <p>3. **Tools for Wireless Hacking**: Familiarize yourself with tools like Aircrack-ng, Kismet, Wireshark, and Reaver. These are essential for capturing packets, analyzing wireless networks, and exploiting vulnerabilities.</p>
+              <p>4. **Advanced Exploitation**: Learn about advanced wireless attacks like Evil Twin, Karma attacks, and wireless relay attacks. Practice exploiting vulnerabilities in various encryption protocols and wireless devices.</p>
+              <p>5. **OSWP Exam Preparation**: Once you have gained hands-on experience, review the OSWP exam objectives and practice labs. Focus on areas such as identifying vulnerable networks, cracking WEP/WPA, and simulating attacks on real-world wireless networks.</p>
+              <p>6. **Certification**: The final step is the OSWP exam, which tests your ability to perform wireless penetration tests and exploit weaknesses in wireless networks. Passing the exam will grant you the OSWP certification, showcasing your expertise in wireless security.</p>
+            </div>
           )
         },
         {
