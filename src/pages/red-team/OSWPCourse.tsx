@@ -15,12 +15,12 @@ function OSWPCourse() {
           title: "Introduction to OSWP Road Map",
           summary: (
             <>
-              <p><strong>Introduction to OSWP Road Map</strong></p>
+              <p><strong>Introduction to OSWP Road Map</strong></p><br></br>
               <p>
               Wireless networks are an essential part of modern communication, but they also introduce significant security risks. The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks.
               </p> 
               <p>
-                <strong>Who Is This Course For? </strong>
+                <strong>Who Is This Course For? </strong><br></br>
               </p>
               <ul>
                 <li>
@@ -43,14 +43,14 @@ function OSWPCourse() {
               </ul>
               
               <p>
-                <strong>What You’ll Learn? </strong>
+                <strong>What You’ll Learn? </strong><br></br>
               </p>
               <p>
               In this course, we will cover the fundamentals of Wi-Fi security, the methodologies used by attackers, and the defensive strategies to secure wireless networks. By the end, you'll have hands-on experience with real-world Wi-Fi attacks and be fully prepared for the OSWP exam.
               </p>
 
               <p>
-              <strong> Course Structure:              </strong>
+              <strong> Course Structure:  </strong><br></br>
               </p>
               <p>
               This course follows a practical, hands-on approach, covering:
@@ -64,7 +64,7 @@ function OSWPCourse() {
               </ul>
 
               <p>
-              <strong> What You Need Before Starting? </strong>
+              <strong> What You Need Before Starting? </strong><br></br>
               </p>
               
               <p>
@@ -80,7 +80,7 @@ function OSWPCourse() {
               By the end of this course, you will have a deep understanding of wireless security, be able to perform real-world Wi-Fi penetration tests, and be well-prepared for the OSWP exam.
 
 
-              <br></br>
+              <br></br><br></br>
             👉 Let’s dive in and start hacking Wi-Fi! 🚀
 
               </p>
@@ -89,54 +89,30 @@ function OSWPCourse() {
           )
         },
         {
-          title: "Monitoring and Investigation",
+          title: "Overview of IEEE 802.11 Standards",
           summary: (
             <>
-              <p><strong>Continuous Monitoring and Alerting</strong></p>
+              <p><strong>Overview of IEEE 802.11 Standards</strong></p>
               <p>
-                A core function of a SOC is continuous monitoring. Using Security Information and Event Management (SIEM) systems, analysts collect and correlate logs from diverse sources such as network devices, servers, endpoints, and applications. This real-time monitoring enables the detection of anomalies and potential security incidents as they occur.
-              </p>
+              This module introduces key wireless communication concepts and terminology as defined by various IEEE 802.11 protocols. Each wireless card supports specific 802.11 standards, and compatibility with other protocols may vary.
+              </p> <br></br><br></br>
               <p>
                 <strong>Key Monitoring Techniques:</strong>
               </p>
-              <ul>
-                <li>
-                  <strong>Log Collection and Correlation:</strong> Aggregating logs from firewalls, IDS/IPS, endpoints, and application servers to build a comprehensive view of network activity.
-                </li>
-                <li>
-                  <strong>Alert Prioritization:</strong> Using correlation rules and threat intelligence to filter false positives and prioritize alerts by severity.
-                </li>
-                <li>
-                  <strong>Dashboards and Reporting:</strong> Implementing visual dashboards to monitor security metrics and incident trends at a glance.
-                </li>
-              </ul>
+              
               <p>
-                <strong>The Investigation Process:</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>Event Analysis:</strong> Examine log entries, timestamps, and network flows to reconstruct the sequence of events.
-                </li>
-                <li>
-                  <strong>Threat Hunting:</strong> Proactively search for hidden indicators of compromise using tools like Splunk or the ELK stack.
-                </li>
-                <li>
-                  <strong>Incident Correlation:</strong> Link related events across different systems to identify broader attack patterns.
-                </li>
-              </ul>
+              Understanding these protocols is crucial because both the hardware we use and the testing environment's equipment influence our work. A solid grasp of hardware capabilities allows for proper utilization. With that in mind, this module serves two main purposes.
+              </p> <br></br><br></br>
+
               <p>
-                <strong>Examples:</strong>
-              </p>
+              First, it provides an overview of the different 802.11 standards and their distinctions. While memorization isn’t necessary, knowing which protocols a device supports and the frequencies it operates on is essential.
+              </p> <br></br><br></br>
+
               <p>
-                An analyst might receive an alert about multiple failed login attempts from a single IP. They could run a Splunk query like:
-              </p>
-              <pre>{`index=security sourcetype=auth_logs "login failure" | stats count by src_ip`}</pre>
-              <p>
-                This query helps detect potential brute force attacks. Further, if unusual outbound traffic is detected, an analyst might capture packet data using Wireshark to determine if data exfiltration is occurring.
-              </p>
-              <p>
-                Monitoring and investigation are iterative processes. Each incident provides valuable feedback to refine detection rules and improve overall response strategies.
-              </p>
+              For instance, when capturing packets from an 802.11ac transmitter, understanding concepts like beamforming and streams can be useful in troubleshooting issues.
+
+              Second, this module functions as a quick reference guide. Given the breadth of terms and concepts, it's unrealistic to remember everything. Instead, when working with new hardware, revisiting this module for a refresher may prove beneficial.
+              </p> <br></br><br></br>
             </>
           )
         },
