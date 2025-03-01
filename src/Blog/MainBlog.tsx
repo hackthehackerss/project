@@ -12,6 +12,14 @@ const MainBlog: React.FC = () => {
     setDarkMode(!darkMode);
   };
 
+  // Function to scroll to the articles section
+  const scrollToArticles = () => {
+    const articlesSection = document.getElementById('articles-section');
+    if (articlesSection) {
+      articlesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Sample articles data
   const articles = [
     {
@@ -45,58 +53,114 @@ const MainBlog: React.FC = () => {
       <Navigation darkMode={darkMode} onToggleDarkMode={handleDarkModeToggle} />
       <main className="container mx-auto p-4">
         {/* Hero Section */}
-        <section className="mb-8">
-          <div className="bg-gray-800 dark:bg-gray-900 text-white rounded-lg p-8">
-            <h1 className="text-4xl font-bold mb-4">Cybersecurity Blog</h1>
-            <p className="text-lg mb-4">
+        <section className="mb-12">
+          <div className="bg-gradient-to-r from-blue-900 to-purple-900 text-white rounded-lg p-8 text-center">
+            <h1 className="text-5xl font-bold mb-4">Cybersecurity Blog</h1>
+            <p className="text-xl mb-6">
               Dive into the latest insights, news, and articles on cybersecurity.
             </p>
-            {profile && (
-              <Link
-                to="/blog/create"
-                className="inline-block bg-primary-red text-white px-4 py-2 rounded hover:bg-secondary-red"
-              >
-                Create New Post
-              </Link>
-            )}
+            <button
+              onClick={scrollToArticles}
+              className="inline-block bg-white text-blue-900 font-semibold py-2 px-6 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              Explore Articles
+            </button>
           </div>
         </section>
 
         {/* Articles Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section id="articles-section" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sortedArticles.map((article) => (
-            <Link
+            <div
               key={article.id}
-              // For the Bybit article, redirect to the custom route.
-              to={article.id === 3 ? "/Blog/Blogs/Bybit" : `/blog/${article.id}`}
-              className="block bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-lg transition-shadow"
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow overflow-hidden"
             >
-              <div className="overflow-hidden rounded-t-lg">
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
-                  {article.title}
-                </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {article.date}
-                </p>
-              </div>
-            </Link>
+              <Link to={article.id === 3 ? "/Blog/Blogs/Bybit" : `/blog/${article.id}`}>
+                <div className="overflow-hidden">
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="w-full h-48 object-cover transform hover:scale-105 transition-transform"
+                  />
+                </div>
+                <div className="p-6">
+                  <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-3">
+                    {article.title}
+                  </h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    Published on {new Date(article.date).toLocaleDateString()}
+                  </p>
+                  <button className="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                    Read More →
+                  </button>
+                </div>
+              </Link>
+            </div>
           ))}
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="bg-primary-dark/30 dark:bg-gray-800 text-white py-8 mt-16 border-t border-primary-blue/20">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-400">
-            © 2025 HackTheHackers. All rights reserved.
-          </p>
+      <footer className="bg-gray-800 dark:bg-gray-900 text-white py-12 mt-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* About Section */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">About Us</h3>
+              <p className="text-gray-400">
+                HackTheHackers is a leading cybersecurity training platform, which also
+                provides a cybersecurity blog offering insights, news, and resources to
+                help you stay secure in the digital world.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link to="/blog" className="text-gray-400 hover:text-white">
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="text-gray-400 hover:text-white">
+                    Contact
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Social Media Links */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">Follow Us</h3>
+              <div className="flex space-x-4">
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Twitter
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white"
+                >
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="border-t border-gray-700 mt-8 pt-8 text-center">
+            <p className="text-gray-400">
+              © 2025 HackTheHackers. All rights reserved.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
