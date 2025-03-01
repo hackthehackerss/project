@@ -72,7 +72,6 @@ function PublicProfile() {
   // Debug function to log completed challenges
   const logCompletedChallenges = (challenges: string[]) => {
     console.log('Completed challenges:', challenges);
-    // Log which badges should be shown as completed
     challengeBadges.forEach(badge => {
       console.log(`Badge ${badge.name} (${badge.id}): ${challenges.includes(badge.id) ? 'Completed' : 'Not completed'}`);
     });
@@ -85,7 +84,6 @@ function PublicProfile() {
         setLoading(false);
         return;
       }
-
       try {
         setLoading(true);
         
@@ -167,10 +165,7 @@ function PublicProfile() {
           );
           const challengesSnapshot = await getDocs(challengesQuery);
           const completedChallengeIds = challengesSnapshot.docs.map(doc => doc.data().challengeId);
-          
-          // Log challenge IDs for debugging
           console.log("Raw challenge IDs from database:", completedChallengeIds);
-          
           setCompletedChallenges(completedChallengeIds);
           logCompletedChallenges(completedChallengeIds);
         } catch (err) {
@@ -216,7 +211,6 @@ function PublicProfile() {
           console.error('Error fetching activity log:', err);
           setActivityLog([]);
         }
-
       } catch (err) {
         console.error('Error loading profile:', err);
         setError('Error loading profile');
@@ -258,10 +252,15 @@ function PublicProfile() {
       });
   };
 
+  const handleShareBadge = (badgeName: string, platform: string) => {
+    console.log(`Sharing badge "${badgeName}" on ${platform}`);
+    // Integrate generateShareUrl if needed.
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background text-white flex items-center justify-center">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center animate-fadeInUp">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue mb-4"></div>
           <p className="text-gray-400">Loading profile...</p>
         </div>
@@ -273,14 +272,14 @@ function PublicProfile() {
     return (
       <div className="min-h-screen bg-background text-white">
         <Navigation darkMode={darkMode} onToggleDarkMode={() => {}} />
-        <div className="max-w-7xl mx-auto px-4 py-12 text-center">
+        <div className="max-w-7xl mx-auto px-4 py-12 text-center animate-fadeInUp">
           <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 max-w-md mx-auto">
             <Shield className="w-16 h-16 text-primary-blue mx-auto mb-4" />
             <h1 className="text-2xl font-bold mb-4">Profile Not Found</h1>
             <p className="text-gray-400 mb-6">{error || 'The requested profile could not be found.'}</p>
             <Link
               to="/"
-              className="inline-flex items-center text-primary-blue hover:text-secondary-blue"
+              className="inline-flex items-center text-primary-blue hover:text-secondary-blue transition-colors duration-300"
             >
               <ArrowLeft className="w-5 h-5 mr-2" />
               Back to Home
@@ -295,15 +294,15 @@ function PublicProfile() {
     <div className="min-h-screen bg-background text-white">
       <Navigation darkMode={darkMode} onToggleDarkMode={() => {}} />
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 py-12 space-y-8 animate-fadeInUp">
         {/* Profile Header */}
-        <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300">
+        <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300 transform hover:scale-105">
           <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
             {profile.avatarUrl ? (
               <img
                 src={profile.avatarUrl}
                 alt={profile.username}
-                className="w-24 h-24 rounded-full object-cover border-4 border-primary-blue/20"
+                className="w-24 h-24 rounded-full object-cover border-4 border-primary-blue/20 transition-all duration-300 transform hover:scale-105"
               />
             ) : (
               <div className="w-24 h-24 rounded-full bg-primary-blue/20 flex items-center justify-center border-4 border-primary-blue/20">
@@ -314,7 +313,7 @@ function PublicProfile() {
               <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-3">
                 <h1 className="text-3xl font-bold">{profile.fullName || profile.username}</h1>
                 {profile.subscription?.plan === 'pro' && (
-                  <span className="bg-primary-blue/20 text-primary-blue px-3 py-1 rounded-full text-sm font-semibold flex items-center mt-2 md:mt-0">
+                  <span className="bg-primary-blue/20 text-primary-blue px-3 py-1 rounded-full text-sm font-semibold flex items-center mt-2 md:mt-0 transition-colors duration-300">
                     <Crown className="w-4 h-4 mr-1" />
                     PRO
                   </span>
@@ -336,7 +335,7 @@ function PublicProfile() {
                     href={profile.website.startsWith('http') ? profile.website : `https://${profile.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary-blue hover:text-primary-blue/80 flex items-center"
+                    className="text-primary-blue hover:text-primary-blue/80 flex items-center transition-colors duration-300"
                   >
                     <Globe className="w-4 h-4 mr-1" />
                     Website
@@ -347,7 +346,7 @@ function PublicProfile() {
                     href={`https://github.com/${profile.github}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary-blue hover:text-primary-blue/80 flex items-center"
+                    className="text-primary-blue hover:text-primary-blue/80 flex items-center transition-colors duration-300"
                   >
                     <Github className="w-4 h-4 mr-1" />
                     GitHub
@@ -358,7 +357,7 @@ function PublicProfile() {
                     href={`https://twitter.com/${profile.twitter}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary-blue hover:text-primary-blue/80 flex items-center"
+                    className="text-primary-blue hover:text-primary-blue/80 flex items-center transition-colors duration-300"
                   >
                     <Twitter className="w-4 h-4 mr-1" />
                     Twitter
@@ -369,14 +368,14 @@ function PublicProfile() {
             <div className="flex flex-col space-y-2">
               <button
                 onClick={() => setShowContactForm(true)}
-                className="bg-primary-blue text-background px-4 py-2 rounded-lg hover:bg-secondary-blue transition-all duration-300 flex items-center"
+                className="bg-primary-blue text-background px-4 py-2 rounded-lg hover:bg-secondary-blue transition-all duration-300 flex items-center transform hover:scale-105"
               >
                 <MessageSquare className="w-4 h-4 mr-2" />
                 Contact
               </button>
               <button
                 onClick={handleShareProfile}
-                className="border border-primary-blue text-primary-blue px-4 py-2 rounded-lg hover:bg-primary-blue/10 transition-all duration-300 flex items-center"
+                className="border border-primary-blue text-primary-blue px-4 py-2 rounded-lg hover:bg-primary-blue/10 transition-all duration-300 flex items-center transform hover:scale-105"
               >
                 <Share2 className="w-4 h-4 mr-2" />
                 Share Profile
@@ -387,22 +386,22 @@ function PublicProfile() {
 
         {/* Contact Form Modal */}
         {showContactForm && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-primary-dark/95 rounded-lg p-8 border border-primary-blue/20 max-w-md w-full">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 transition-opacity duration-300">
+            <div className="bg-primary-dark/95 rounded-lg p-8 border border-primary-blue/20 max-w-md w-full animate-fadeInUp">
               <h2 className="text-xl font-bold mb-4">Contact {profile.fullName || profile.username}</h2>
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <textarea
                   value={contactMessage}
                   onChange={(e) => setContactMessage(e.target.value)}
                   placeholder="Your message..."
-                  className="w-full px-4 py-2 bg-background border border-primary-blue/20 rounded-lg focus:outline-none focus:border-primary-blue"
+                  className="w-full px-4 py-2 bg-background border border-primary-blue/20 rounded-lg focus:outline-none focus:border-primary-blue transition-colors duration-300"
                   rows={4}
                 />
                 <div className="flex justify-end space-x-4">
                   <button
                     type="button"
                     onClick={() => setShowContactForm(false)}
-                    className="px-4 py-2 text-gray-400 hover:text-white"
+                    className="px-4 py-2 text-gray-400 hover:text-white transition-colors duration-300"
                   >
                     Cancel
                   </button>
@@ -418,10 +417,10 @@ function PublicProfile() {
           </div>
         )}
 
-        {/* Stats Grid */}
-        {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
+        {/* Stats Grid with 3D Effect */}
+        <div className="card-3d">
+          <div className="card-3d-inner grid grid-cols-1 md:grid-cols-4 gap-6 mb-8 animate-fadeInUp">
+            <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300 transform hover:scale-105">
               <Star className="w-8 h-8 text-primary-blue mb-2" />
               <div className="text-2xl font-bold">Level {stats.level || 1}</div>
               <div className="text-sm text-gray-400">{stats.xp?.toLocaleString() || 0} XP</div>
@@ -432,18 +431,18 @@ function PublicProfile() {
                 />
               </div>
             </div>
-            <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
+            <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300 transform hover:scale-105">
               <Trophy className="w-8 h-8 text-primary-blue mb-2" />
               <div className="text-2xl font-bold">#{stats.rank || 'N/A'}</div>
               <div className="text-sm text-gray-400">Global Rank</div>
             </div>
-            <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
+            <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300 transform hover:scale-105">
               <Target className="w-8 h-8 text-primary-blue mb-2" />
               <div className="text-2xl font-bold">{stats.challengesCompleted || 0}</div>
               <div className="text-sm text-gray-400">Challenges Completed</div>
               <div className="text-xs text-gray-500">{stats.totalPoints?.toLocaleString() || 0} Points</div>
             </div>
-            <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
+            <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300 transform hover:scale-105">
               <Flame className="w-8 h-8 text-yellow-500 mb-2" />
               <div className="text-2xl font-bold">{stats.streakDays || 0}</div>
               <div className="text-sm text-gray-400">Day Streak</div>
@@ -456,15 +455,14 @@ function PublicProfile() {
               </div>
             </div>
           </div>
-        )}
+        </div>
 
         {/* Learning Paths Progress Section */}
-        <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8">
+        <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 animate-fadeInUp">
           <h2 className="text-xl font-bold mb-6 flex items-center">
             <Book className="w-6 h-6 text-primary-blue mr-2" />
             Learning Paths Progress
           </h2>
-
           {/* Blue Team Progress */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
@@ -484,7 +482,6 @@ function PublicProfile() {
               0 of 5 paths completed
             </div>
           </div>
-
           {/* Red Team Progress */}
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -508,7 +505,7 @@ function PublicProfile() {
 
         {/* Badges Section */}
         {badges && badges.length > 0 && (
-          <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300">
+          <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300 animate-fadeInUp">
             <div className="flex items-center space-x-4 mb-6">
               <Award className="w-6 h-6 text-primary-blue" />
               <h2 className="text-xl font-bold">Badges & Achievements</h2>
@@ -526,13 +523,12 @@ function PublicProfile() {
         )}
 
 {/* Challenge Badges Section */}
-<div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300">
+<div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 mb-8 hover:border-primary-blue transition-all duration-300 animate-fadeInUp">
   {/* Section Title */}
   <div className="flex items-center space-x-4 mb-6">
     <Award className="w-6 h-6 text-primary-blue" />
     <h2 className="text-xl font-bold">Challenge Badges</h2>
   </div>
-
   {/* Badge Grid */}
   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     {challengeBadges.map((badge) => (
@@ -541,43 +537,17 @@ function PublicProfile() {
         className="flex flex-col items-center p-4 bg-primary-dark/50 rounded-lg border transition-all duration-300 hover:scale-105"
       >
         {/* Badge Image Container */}
-        <div
-          className={`w-32 h-32 mb-2 rounded-full border-4 ${
-            completedChallenges.includes(badge.id)
-              ? 'border-green-500/50'
-              : 'border-gray-600/20'
-          }`}
-        >
+        <div className="relative w-32 h-32 mb-2">
           <img
             src={badge.imageUrl}
             alt={badge.name}
             className={`w-full h-full object-cover rounded-full ${
-              !completedChallenges.includes(badge.id) && 'grayscale opacity-50'
+              !completedChallenges.includes(badge.id) ? 'grayscale opacity-50' : ''
             }`}
           />
         </div>
         <h3 className="font-semibold text-sm text-center">{badge.name}</h3>
         <p className="text-xs text-gray-400 text-center">{badge.description}</p>
-        {completedChallenges.includes(badge.id) && (
-          <div className="flex space-x-2 mt-2">
-            {/* Twitter (X) Share Button */}
-            <button
-              onClick={() => handleShareBadge(badge.name, 'twitter')}
-              className="bg-black text-white px-3 py-1.5 rounded-full text-xs flex items-center hover:bg-gray-800 transition-all duration-300"
-            >
-              X {/* Replaced Twitter icon with "X" */}
-              <span className="ml-1">Share</span>
-            </button>
-            {/* LinkedIn Share Button */}
-            <button
-              onClick={() => handleShareBadge(badge.name, 'linkedin')}
-              className="bg-blue-600 text-white px-3 py-1.5 rounded-full text-xs flex items-center hover:bg-blue-700 transition-all duration-300"
-            >
-              <Linkedin className="w-3 h-3 mr-1" /> {/* Updated LinkedIn icon */}
-              <span>Share</span>
-            </button>
-          </div>
-        )}
       </div>
     ))}
   </div>
@@ -589,7 +559,7 @@ function PublicProfile() {
         )}
 
         {/* Member Since */}
-        <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300">
+        <div className="bg-primary-dark/30 rounded-lg p-6 border border-primary-blue/20 hover:border-primary-blue transition-all duration-300 animate-fadeInUp">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-400">Member since</p>
@@ -598,6 +568,13 @@ function PublicProfile() {
             <Shield className="w-6 h-6 text-primary-blue" />
           </div>
         </div>
+
+        {/* Footer */}
+        <footer className={`${darkMode ? "bg-primary-dark/30 border-primary-blue/20" : "bg-gray-200 border-gray-300"} text-white py-8 mt-16 border-t`}>
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <p className={`${darkMode ? "text-gray-400" : "text-gray-600"}`}>© 2025 HackTheHackers. All rights reserved.</p>
+          </div>
+        </footer>
       </div>
     </div>
   );
