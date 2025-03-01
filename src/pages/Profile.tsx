@@ -504,13 +504,7 @@ function Profile() {
         className="flex flex-col items-center p-4 bg-primary-dark/50 rounded-lg border transition-all duration-300 hover:scale-105"
       >
         {/* Badge Image Container */}
-        <div
-           className={`w-32 h-32 mb-2 rounded-full border-4 ${
-            completedChallenges.includes(badge.id)
-              ? 'border-green-500/50'
-              : 'border-gray-600/20'
-          }`}
-        >
+        <div className="relative w-32 h-32 mb-2">
           <img
             src={badge.imageUrl}
             alt={badge.name}
@@ -518,6 +512,7 @@ function Profile() {
               !completedChallenges.includes(badge.id) && 'grayscale opacity-50'
             }`}
           />
+
         </div>
         <h3 className="font-semibold text-sm text-center">{badge.name}</h3>
         <p className="text-xs text-gray-400 text-center">{badge.description}</p>
