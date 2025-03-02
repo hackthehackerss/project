@@ -30,15 +30,15 @@ const MainBlog: React.FC = () => {
     },
     {
       id: 2,
-      title: "Latest Cyber Threats in 2025",
-      date: "2025-01-3",
-      image: "https://via.placeholder.com/400x200?text=Cyber+Threats+2025",
+      title: "FireScam: A New Android Malware Disguised as Telegram",
+      date: "2025-01-20",
+      image: "/Blog/FireScam.png",
     },
     {
       id: 3,
       title: "Bybit Suffers Largest Crypto Hack In History",
       date: "2025-02-27",
-      image: "/Blog/bybit.png",  // Updated image path for Bybit article
+      image: "/Blog/bybit.png",
     },
     // Add more articles as needed
   ];
@@ -75,7 +75,16 @@ const MainBlog: React.FC = () => {
               key={article.id}
               className="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow overflow-hidden"
             >
-              <Link to={article.id === 3 ? "/Blog/Blogs/Bybit" : `/blog/${article.id}`}>
+              {/* Updated Link logic below */}
+              <Link
+                to={
+                  article.id === 3
+                    ? "/Blog/Blogs/Bybit"
+                    : article.id === 2
+                      ? "/Blog/Blogs/firescam"
+                      : `/blog/${article.id}`
+                }
+              >
                 <div className="overflow-hidden">
                   <img
                     src={article.image}
