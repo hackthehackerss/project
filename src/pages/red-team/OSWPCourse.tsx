@@ -595,7 +595,102 @@ Wireless cards are branded by manufacturers like Netgear, Ubiquiti, Linksys, and
           title: "Linux Wireless Tools, Drivers, and Stacks",
           summary: (
             <>
-              <p className="p-5"></p>
+              <p className="p-5">
+              This module covers the Linux wireless subsystem, including essential tools and concepts for penetration testing.
+              <h3>Wireless Tools and Remote Testing</h3> <br></br>
+              Wireless cards are often controlled through user-friendly interfaces, but penetration testers must also understand command-line tools. This is especially important in remote penetration tests, where an administrator sets up a machine with a wireless card, and interaction occurs via SSH. In such cases, unfamiliar hardware may require troubleshooting, making a solid understanding of wireless tools crucial.
+              </p>
+
+              <p className="p-5">
+              A deep understanding of Linux drivers and wireless stacks is helpful when dealing with uncooperative hardware, troubleshooting, or referencing information for future use.              
+              <h3>Loading and Unloading Wireless Drivers</h3> <br></br>
+              When a wireless device is plugged in or powered on, Linux automatically loads its driver. To determine the driver in use, the airmon-ng command is utilized. <br></br>
+              To list USB devices and their details, the lsusb command is used. This command provides critical information, such as the vendor and product IDs, helping identify chipset compatibility. Unlike Windows, where each device requires a specific driver, Linux allows a single driver to support multiple similar devices. Some drivers are pre-packaged with the kernel, requiring no additional installation. <br></br>
+              Most Linux drivers function as Loadable Kernel Modules (LKMs), meaning they are only loaded when needed to save memory. Kernel modules often have adjustable parameters, which can be viewed using the modinfo command.
+              </p>
+
+              <p className="p-5">
+                <h3> Managing Kernel Modules </h3> <br></br>
+                Kernel modules are stored in /lib/modules/kernel_version. To view module details, including dependencies and supported devices, modinfo is used. The modprobe command allows manual loading of a module with specific parameters, such as disabling an LED indicator. If a conflict arises between multiple drivers, blacklisting can be applied using /etc/modprobe.d/. For example, if an open-source and proprietary Broadcom driver coexist, blacklisting one prevents conflicts. The lsmod command displays loaded modules and dependencies. When unloading a driver, dependent modules must be removed first using rmmod. Reloading or switching to a different driver requires proper module management to avoid conflicts. <br></br>
+                Understanding these tools and techniques ensures effective management of wireless drivers in Linux environments, improving troubleshooting and penetration testing capabilities.
+              </p>
+
+              <p className="p-5">
+              The card supports multiple modes, including IBSS (ad hoc), monitor mode, managed mode (client), and AP mode. It also specifies frequency allowances, where channels 1 to 13 can use 20dBm power, while channel 14 is restricted.
+              <br></br>
+              To identify available wireless networks within range, we use the iw command with the dev wlan0 option to specify the device, followed by the scan parameter. To filter only network names, we pipe the output through grep SSID:
+              <code>
+              sudo iw dev wlan0 scan | grep SSID <br></br>
+              SSID: wifu <br></br> SSID: 6F36E6
+
+              </code>
+              </p>
+
+
+              <p className="p-5">
+              Since knowing the transmission channel of a target access point is crucial, we refine the command further using egrep to display both the SSID and the channel: <br></br>
+              <code>
+              sudo iw dev wlan0 scan | egrep "DS Parameter set|SSID:"
+SSID: wifu <br></br>
+DS Parameter set: channel 3 <br></br>
+SSID: 6F36E6 <br></br> 
+DS Parameter set: channel 11
+
+              </code>
+              </p>
+
+              <p className="p-5">
+              Now that we have identified available networks, we will create a new Virtual Interface (VIF) named wlan0mon in monitor mode. The following command adds the interface and sets it to monitor mode:
+              <br></br>
+              <code>
+              sudo iw dev wlan0 interface add wlan0mon type monitor
+              </code>
+              If no output appears, the command was successful. Next, we bring up the new interface: <br></br>
+
+<code>sudo ip link set wlan0mon up</code> <br></br>
+To verify its creation, we inspect the interface details:
+
+<code>sudo iw dev wlan0mon info</code>
+
+This will return details such as the interface name, type, and operating channel.
+
+To test whether the interface is properly in monitor mode, we use tcpdump to capture wireless frames: <br></br>
+
+<code>sudo tcpdump -i wlan0mon</code>
+
+              </p>
+
+              <p className="p-5">
+              This command displays network traffic captured by wlan0mon. Press Ctrl+C to stop capturing. If successful, we should see beacons from nearby access points, including their SSID and channel.
+
+Once the monitoring session is complete, we delete the virtual interface: <br></br>
+
+<code> sudo iw dev wlan0mon interface del</code> <br></br>
+
+Running iw dev wlan0mon info afterward should return an error indicating the interface no longer exists.
+
+
+              </p>
+
+              <p className="p-5">
+              Wireless devices must comply with regional regulations, which dictate aspects such as transmission power limits and allowed channels. The iw reg command helps manage regulatory domain settings. To check the current regulatory domain:
+
+            <code>sudo iw reg get            </code> <br></br>
+            By default, Kali Linux sets the regulatory domain to "global." To change it, use:
+
+            <code> sudo iw reg set US            </code>
+
+              </p>
+
+              <p className="p-5">
+              This applies the setting temporarily. To make it persistent, edit the /etc/default/crda file and set the REGDOMAIN variable accordingly.
+
+After rebooting, running iw reg get again should confirm the updated regulatory domain. The output will list frequency ranges, channel widths, and power limits for each band.
+
+However, regulatory domain settings may sometimes be overridden. Factors such as AP settings or wireless card firmware can affect which domain is enforced. For instance, certain wireless adapters may broadcast a default region when plugged in.
+
+By understanding these commands and regulatory constraints, we can effectively configure and troubleshoot wireless interfaces for various purposes, including monitoring and analysis.
+              </p>
             </>
           )
         },
