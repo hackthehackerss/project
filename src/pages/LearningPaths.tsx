@@ -181,7 +181,7 @@ function LearningPaths() {
     },
     {
       title: "The Onion Network",
-      path: "/red-team/TORProject",
+      path: "/TORProject",
       description: "The Onion Network is a decentralized, privacy-focused network that uses multiple layers of encryption to enable anonymous internet browsing, primarily accessed through the Tor network.",
       icon: Network,
       difficulty: "Beginner",
