@@ -255,6 +255,7 @@ function LearningPaths() {
           title: "OSWP Road Map",
           topics: ["Wireless Network Fundamentals", "Attacking Wireless Networks", "Post-Exploitation & Rogue AP Attacks", "Wireless Reconnaissance & Enumeration"]
         }
+      }
       ]
     }
   ];
