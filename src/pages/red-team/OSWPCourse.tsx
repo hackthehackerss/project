@@ -15,12 +15,12 @@ function OSWPCourse() {
           title: "Introduction to OSWP Road Map",
           summary: (
             <div style={{ textAlign: 'center' }}>
-              <p className="p-10"><strong>Introduction to OSWP Road Map</strong></p><br />
+              <p className="p-10"><strong>Introduction to OSWP Road Map</strong></p>
               <p className="p-10">
                 Wireless networks are an essential part of modern communication, but they also introduce significant security risks. The Offensive Security Wireless Professional (OSWP) certification is designed to equip cybersecurity professionals with the skills to assess and exploit vulnerabilities in Wi-Fi networks.
               </p> 
               <p className="p-10">
-                <strong>Who Is This Course For? </strong><br />
+                <strong>Who Is This Course For? </strong>
               </p>
               <ul>
                 <li>
@@ -33,14 +33,14 @@ function OSWPCourse() {
               </ul>
         
               <p className="p-10">
-                <strong>What You’ll Learn? </strong><br />
+                <strong>What You’ll Learn? </strong>
               </p>
               <p className="p-10">
                 In this course, we will cover the fundamentals of Wi-Fi security, the methodologies used by attackers, and the defensive strategies to secure wireless networks. By the end, you'll have hands-on experience with real-world Wi-Fi attacks and be fully prepared for the OSWP exam.
               </p>
         
               <p className="p-10">
-                <strong> Course Structure: </strong><br />
+                <strong> Course Structure: </strong>
               </p>
               <p className="p-10">
                 This course follows a practical, hands-on approach, covering:
@@ -54,7 +54,7 @@ function OSWPCourse() {
               </ul>
         
               <p className="p-10">
-                <strong>What You Need Before Starting? </strong><br />
+                <strong>What You Need Before Starting? </strong>
               </p>
         
               <ul>
@@ -65,7 +65,7 @@ function OSWPCourse() {
         
               By the end of this course, you will have a deep understanding of wireless security, be able to perform real-world Wi-Fi penetration tests, and be well-prepared for the OSWP exam.
         
-              <br /><br />
+              
               👉 Let’s dive in and start hacking Wi-Fi! 🚀
             </div>
           )
@@ -78,23 +78,23 @@ function OSWPCourse() {
               <p className="p-10">
                 This module introduces key wireless communication concepts and terminology as defined by various IEEE 802.11 protocols. Each wireless card supports specific 802.11 standards, and compatibility with other protocols may vary.
               </p>
-              <br /><br />
+              
               <p className="p-10"><strong>Key Monitoring Techniques:</strong></p>
               <p className="p-10">
                 Understanding these protocols is crucial because both the hardware we use and the testing environment's equipment influence our work. A solid grasp of hardware capabilities allows for proper utilization. With that in mind, this module serves two main purposes.
               </p>
-              <br /><br />
+              
               <p className="p-10">
-                First, it provides an overview of the different 802.11 standards and their distinctions. While memorization isn’t necessary, knowing which protocols a device supports and the frequencies it operates on is essential. <br />
+                First, it provides an overview of the different 802.11 standards and their distinctions. While memorization isn’t necessary, knowing which protocols a device supports and the frequencies it operates on is essential. 
                 For instance, when capturing packets from an 802.11ac transmitter, understanding concepts like beamforming and streams can be useful in troubleshooting issues.
               </p>
-              <br /><br />
+              
               <p className="p-10">
                 Second, this module functions as a quick reference guide. Given the breadth of terms and concepts, it's unrealistic to remember everything. Instead, when working with new hardware, revisiting this module for a refresher may prove beneficial.
               </p>
-              <br /><br />
-              <p className="p-10"><strong>802.11 Standards and Amendments</strong><br />
-                IEEE 802.11 is the standard for wireless local area networks (WLAN). It defines specifications for the physical layer and the Media Access Control (MAC) layer within the OSI model.<br />
+              
+              <p className="p-10"><strong>802.11 Standards and Amendments</strong>
+                IEEE 802.11 is the standard for wireless local area networks (WLAN). It defines specifications for the physical layer and the Media Access Control (MAC) layer within the OSI model.
                 As wireless technology has evolved, the 802.11 committee has introduced several amendments to the original standard. Below are some key amendments:
               </p>
               <ul>
@@ -109,39 +109,39 @@ function OSWPCourse() {
                 <li>802.11ad: Enables multi-gigabit speeds in the 60 GHz band, also referred to as WiGig.</li>
                 <li>802.11ax: Improves efficiency in wireless networks, known as Wi-Fi 6.</li>
               </ul>
-              <br />
-              <p className="p-10"><strong>IEEE 802.11b</strong><br />
-                The IEEE 802.11b standard introduced Complementary Code Keying (CCK), enabling data transfer rates of 5.5 Mbps and 11 Mbps in the 2.4 GHz frequency band, which ranges from 2.4 GHz to 2.485 GHz. This standard operates across 14 channels, each 22 MHz wide. However, due to the limited spectrum, only three non-overlapping channels are available in most regions.<br />
+              
+              <p className="p-10"><strong>IEEE 802.11b</strong>
+                The IEEE 802.11b standard introduced Complementary Code Keying (CCK), enabling data transfer rates of 5.5 Mbps and 11 Mbps in the 2.4 GHz frequency band, which ranges from 2.4 GHz to 2.485 GHz. This standard operates across 14 channels, each 22 MHz wide. However, due to the limited spectrum, only three non-overlapping channels are available in most regions.
                 When referring to a channel frequency, the center frequency is used. The center frequency represents the midpoint of a channel’s bandwidth. For instance, channel 1 spans from 2.401 GHz to 2.423 GHz, but its center frequency is 2.412 GHz.
               </p>
-              <br />
-              <p className="p-10"><strong>IEEE 802.11a</strong><br />
+              
+              <p className="p-10"><strong>IEEE 802.11a</strong>
                 The IEEE 802.11a standard was introduced alongside 802.11b but operates in the 5 GHz frequency band. This provides more available channels with reduced interference compared to 2.4 GHz networks. Unlike 802.11b, which uses CCK modulation, 802.11a relies on Orthogonal Frequency-Division Multiplexing (OFDM) for transmission. This allows data rates of up to 54 Mbps over 20 MHz-wide channels.
-                <br />
+                
                 OFDM works by dividing a channel into multiple smaller subchannels, called subcarriers, which carry data simultaneously. Each 802.11a channel consists of 64 subcarriers, with 48 used for data transmission, 4 serving as synchronization pilots, and 12 left unused. Each subcarrier has a width of 312.5 KHz.
-                <br />
+                
                 As with 802.11b, the frequency allocation and power limits of 802.11a vary by country. Due to the complexity of 5 GHz spectrum regulations, channel availability may differ across regions and change over time.
               </p>
-              <br /><br />
-              <p className="p-10"><strong>IEEE 802.11g</strong><br />
+              
+              <p className="p-10"><strong>IEEE 802.11g</strong>
                 IEEE 802.11g builds upon 802.11b by incorporating OFDM while operating within the 2.4 GHz band. It offers improved performance and maintains backward compatibility with 802.11b devices. When an 802.11b device connects to an 802.11g network, the connection speed may drop to accommodate the older standard.
-                <br />
+                
                 The channel structure in 802.11g remains the same as in 802.11b. However, channel 14 was only available in Japan for 802.11b networks.
-                <br />
+                
                 Although 802.11a, 802.11b, and 802.11g sometimes utilize multiple antennas, they do not support Multiple-Input Multiple-Output (MIMO). Instead, they use Single Input Single Output (SISO) technology, where only one antenna transmits and receives at a time. In these standards, multiple antennas are primarily used for antenna diversity, which improves signal reception by selecting the strongest signal available.
               </p>
-              <br /><br />
-              <p className="p-10"><strong>IEEE 802.11n</strong><br />
+              
+              <p className="p-10"><strong>IEEE 802.11n</strong>
                 IEEE 802.11n introduced significant advancements in both speed and range for wireless networks, operating on both 2.4 GHz and 5 GHz bands. Initially, the standard allowed speeds up to 74 Mbps, with later implementations reaching up to 300 Mbps. A key improvement in 802.11n is the introduction of MIMO technology.
-                <br />
+                
                 MIMO employs multiple antennas for transmitting and receiving signals, utilizing multipath propagation to improve performance. While traditional signals degrade when bouncing off obstacles, MIMO leverages these reflections to enhance data transmission.
-                <br />
+                
                 The 802.11n standard supports up to four spatial streams, each requiring a separate antenna, allowing for greater data throughput. In commercial devices, up to three spatial streams are commonly available. Additionally, 802.11n supports 40 MHz-wide channels, doubling the data rate compared to 20 MHz-wide channels used in previous standards.
-                <br />
+                
                 A new feature introduced in 802.11n is Greenfield mode, which optimizes wireless transmission by restricting network access to 802.11n devices only. This eliminates the need to support older standards, thereby increasing efficiency.
               </p>
-              <br /><br />
-              <p className="p-10"><strong>MIMO Notation and Configuration</strong><br />
+              
+              <p className="p-10"><strong>MIMO Notation and Configuration</strong>
                 The number of streams and achievable data rates in a wireless network depend on the number of antennas on both the transmitter and receiver. The standard notation for MIMO (Multiple Input, Multiple Output) configurations follows the format t×r:s, where:
               </p>
               <ul>
@@ -155,17 +155,17 @@ function OSWPCourse() {
                 <li>3x3:3: 3 TX chains, 3 RX chains, and 3 streams.</li>
               </ul>
               <p className="p-10">An alternative notation format, tTrR, omits the stream count. Using this format: 2T2R corresponds to 2x2:2. 3T3R corresponds to 3x3:3.</p>
-              <br />
+              
               <p className="p-10">The number of antennas is always equal to or greater than the number of streams. For instance, a device with four antennas might support only three streams, such as the Alfa AWUS1900 wireless adapter, which has four TX and RX chains but only supports three spatial streams (4x4:3).</p>
-              <br />
+              
               <p className="p-10">When analyzing networks, the number of streams is crucial for ensuring compatibility with client devices. A device with fewer streams than a client cannot fully decode its communication.</p>
-              <br />
-              <p className="p-10"><strong>Modulation and Coding Scheme (MCS) Rates</strong><br />
+              
+              <p className="p-10"><strong>Modulation and Coding Scheme (MCS) Rates</strong>
                 i-Fi networks, particularly 802.11n, utilize various modulation techniques, coding rates, and spatial streams to achieve speeds of up to 600 Mbps, the maximum supported rate for most consumer devices. The MCS index is key to determining a network's data throughput.
-                <br />
+                
                 Higher MCS rates result in faster speeds but require cleaner signals. MCS index values range from 0 to 9, with each value corresponding to different modulation schemes (e.g., BPSK, QPSK, QAM) and coding rates. A higher MCS index provides faster throughput but demands higher signal quality.
               </p>
-              <br />
+              
             </div>
           )
         },
@@ -177,10 +177,10 @@ function OSWPCourse() {
               <p className="p-10">
                 Wireless penetration testing tools usually require disabling network managers because they interfere with the proper operation of the tools.
               </p>
-              <br />
+              
         
               <p className="p-10"><strong>Connecting to an Access Point</strong></p>
-              <br />
+              
               
               <p className="p-10">
                 Several wireless clients exist on Linux. The most common one is wpa_supplicant, as it is commonly used by network managers across Linux distributions to connect to Wi-Fi networks, even if they don't have any encryption or still use WEP.
@@ -188,7 +188,7 @@ function OSWPCourse() {
               <p className="p-10">
                 wpa_supplicant can either be used via a command line interface, with wpa_cli, or with configuration files containing the settings of the network. In a sample configuration file, each network connection is defined within a network item.
               </p>
-              <br />
+              
         
               <p className="p-10">
                 Connecting to a WPA-PSK network is a bit more involved. We need to add two parameters inside the network item:
@@ -216,7 +216,7 @@ function OSWPCourse() {
               </pre>
               
               <p className="p-10"><strong>Setting up an Access Point</strong></p>
-              <br />
+              
               
               <p className="p-10">Setting up an access point requires two distinct network interfaces and involves five steps:</p>
               <ul>
@@ -240,7 +240,7 @@ function OSWPCourse() {
               </pre>
         
               <p className="p-10"><strong>Static IP on Access Point Wireless Interface</strong></p>
-              <br />
+              
               
               <p className="p-10">
                 We now have to choose an IP address that doesn't conflict with the network and CIDR of the interface we just configured for Internet. Most routers offer an IP in the <code>192.168.1.0/24</code> range, so we will use the <code>10.0.0.0/24</code> range and set the wireless interface for the access point to <code>10.0.0.1</code>.
@@ -253,7 +253,7 @@ function OSWPCourse() {
               </pre>
         
               <p className="p-10"><strong>DHCP Server</strong></p>
-              <br />
+              
               
               <p className="p-10">We will set up the DHCP server on the wireless interface (<code>wlan0</code>) using <code>dnsmasq</code>, which is a DNS and DHCP server.</p>
               <p className="p-10">Create a configuration file <code>dnsmasq.conf</code> with the following content:</p>
