@@ -2801,290 +2801,792 @@ Go to challange page, and test what you learned!
           title: "Objectives",
           summary: (
             <>
-              <p><strong>Objectives for Simulating a SOC Environment at Home</strong></p>
+              <img
+                src="/Learning Paths/SOC/homelab1.png"
+                alt="homelab1"
+                className="max-w-4xl w-full h-auto border border-gray-300 rounded-lg p-2 shadow-md mx-auto"
+              />
+              <p className="mt-8"></p>
+              <p><strong>Project Objectives</strong></p>
               <p>
-                The goal of this module is to create a fully functional, simulated Security Operations Center (SOC) environment within a home lab. By setting up this environment, you will gain hands-on experience with tools and techniques used by professional SOC teams. This lab environment is designed to help you understand incident detection, investigation, and response, all from the comfort of your home.
+                The goal of this project is to create a Wazuh instance integrated with a SOAR (Security Orchestration, Automation, and Response) platform. This setup will allow for automated threat detection, incident response, and security monitoring within a controlled lab environment.
               </p>
-              <p>
-                <strong>Key Objectives Include:</strong>
-              </p>
+              <p className="mt-4"></p>
+              <p><strong>Key Objectives Include:</strong></p>
               <ul>
                 <li>
-                  <strong>Understanding SOC Operations:</strong> Learn the fundamentals of how a SOC operates, including monitoring, alerting, and incident response.
+                  <strong>Deploying Wazuh:</strong> Set up and configure Wazuh for log collection, analysis, and security monitoring.
                 </li>
                 <li>
-                  <strong>Tool Integration:</strong> Install and configure key security tools such as Windows 10 (as the endpoint), Sysmon for detailed logging, Wazuh for security monitoring, and TheHive for incident management.
+                  <strong>SOAR Integration:</strong> Integrate a SOAR solution to automate security workflows and incident response.
                 </li>
                 <li>
-                  <strong>Simulated Attacks:</strong> Simulate real-world attack scenarios to observe how your SOC environment detects and responds to threats.
+                  <strong>Rule Development:</strong> Create and fine-tune detection rules to identify security incidents accurately.
                 </li>
                 <li>
-                  <strong>Rule Creation and Tuning:</strong> Develop and fine-tune detection rules and alerts to improve threat visibility and reduce false positives.
+                  <strong>Simulated Threats:</strong> Test the environment by simulating attacks and evaluating the automated response.
                 </li>
               </ul>
               <p>
-                Through this comprehensive lab, you will not only familiarize yourself with industry-standard security tools but also learn to correlate events and respond to incidents as a SOC analyst would in a live environment.
+                By the end of this project, you will have a fully functional security monitoring and response system that mirrors real-world SOC operations.
               </p>
+              <p className="mt-4 text-xl font-semibold">Resources We Will Use in This Project:</p>
+              <ul className="text-xl">
+                <li>
+                  <a
+                    href="https://wazuh.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600"
+                  >
+                    Wazuh
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://strangebee.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600"
+                  >
+                    Strangebee
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://shuffler.io/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600"
+                  >
+                    Shuffler
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.virustotal.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600"
+                  >
+                    VirusTotal
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://azure.microsoft.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600"
+                  >
+                    Microsoft Azure
+                  </a>
+                </li>
+              </ul>
             </>
           )
         },
         {
-          title: "Install Windows 10",
+          title: "Wazuh Setup",
           summary: (
             <>
-              <p><strong>Installing Windows 10 for Your SOC Lab</strong></p>
+              <img
+        src="/Learning Paths/SOC/wazuh.png"
+        alt="homelab2"
+        className="max-w-xl w-full h-auto border border-gray-300 rounded-lg p-2"
+      />
+              <p className="mt-4">
+                Wazuh is an open-source platform for threat detection and incident response, renowned for its adaptability and integration capabilities. The development team continuously enhances the platform, supported by rigorous testing and auditing processes.
+              </p>
+              <p className="mt-4"></p>
+              <p><strong>VM Configuration:</strong></p>
+              <ul>
+                <li>Created an Ubuntu Server 20.04 VM on Azure.</li>
+                <li>Configured with 2 vCPUs, 8GB RAM, and 64GB storage.</li>
+                <li>Connected to the VM via SSH using Azure CLI.</li>
+              </ul>
+              <p className="mt-4"></p>
+              <p><strong>Installation:</strong></p>
+              <pre className="bg-black text-white p-4">
+{`# Set root password
+sudo passwd root
+su -
+        
+# Update system
+apt-get update && apt-get upgrade
+        
+# Install Wazuh
+curl -sO https://packages.wazuh.com/4.7/wazuh-install.sh && sudo bash ./wazuh-install.sh -a`}
+              </pre>
+              <p className="mt-4"></p>
               <p>
-                Windows 10 serves as a versatile endpoint in your SOC simulation environment. It acts as the target system for various security tools and simulated attacks. Installing Windows 10 is the first step in creating an effective lab for practicing SOC operations.
+                After installation, access the Wazuh dashboard using the provided URL:{" "}
+                <a href="https://wazuh-dashboard-ip:443" target="_blank" rel="noopener noreferrer">
+                  https://wazuh-dashboard-ip:443
+                </a>.
               </p>
               <p>
-                <strong>Installation Steps:</strong>
+                Configured Azure inbound port rules to allow access to the Wazuh dashboard.
               </p>
-              <ol>
-                <li>
-                  <strong>Download the ISO:</strong> Visit Microsoft’s official website to download a Windows 10 ISO file.
-                </li>
-                <li>
-                  <strong>Create a Bootable USB:</strong> Use tools like Rufus or the Windows Media Creation Tool to create a bootable installation media.
-                </li>
-                <li>
-                  <strong>Install on a Virtual Machine or Physical Device:</strong> For a home lab, it is recommended to use a virtualization platform like VirtualBox, VMware Workstation, or Hyper-V.
-                </li>
-                <li>
-                  <strong>Configure Basic Settings:</strong> Set up a local account, configure network settings, and install updates.
-                </li>
-              </ol>
-              <p>
-                <strong>Example:</strong> In VirtualBox, create a new virtual machine, allocate at least 4GB of RAM, 2 CPU cores, and 50GB of disk space. Attach the Windows 10 ISO and follow the on-screen instructions to complete the installation.
-              </p>
-              <p>
-                Once installed, configure Windows for logging and monitoring by enabling Windows Event Logging and preparing the system for further endpoint security tool installations.
-              </p>
+              <p className="mt-6"></p>
+              <img
+                src="/Learning Paths/SOC/homelab10.png"
+                alt="homelab1"
+                className="max-w-8xl w-full h-auto border border-gray-300 rounded-lg p-2"
+              />
             </>
           )
         },
         {
-          title: "Install Sysmon",
+          title: "TheHive Setup",
           summary: (
             <>
-              <p><strong>Installing and Configuring Sysmon</strong></p>
-              <p>
-                Sysmon (System Monitor) is a powerful tool from the Sysinternals Suite that provides detailed logs about system activity. Installing Sysmon on your Windows 10 endpoint allows you to capture process creations, network connections, and other critical events.
+              <img
+        src="/Learning Paths/SOC/TheHive.jpg"
+        alt="homelab2"
+        className="max-w-xl w-full h-auto border border-gray-300 rounded-lg p-2"
+      />
+              <p className="mt-4">
+              TheHive is an open-source Security Incident Response Platform (SIRP) designed to help Security Operations Centers (SOCs), Computer Security Incident Response Teams (CSIRTs), and cybersecurity professionals efficiently manage and respond to security incidents. It provides a centralized platform for tracking, analyzing, and resolving security alerts and incidents, making it an essential tool for modern incident response workflows.
               </p>
               <p>
-                <strong>Installation Steps:</strong>
+              <p className="mt-4"></p>
+                To deploy TheHive, a powerful incident response platform, it is essential to configure a Virtual Machine (VM) with sufficient resources and install its dependencies, including Elasticsearch and Cassandra. Elasticsearch, in particular, requires a minimum of 4 CPU cores to function properly. During my setup, I encountered issues with Elasticsearch failing to start due to insufficient CPU allocation, which led me to reconfigure 4 VMs before achieving the desired setup.
               </p>
-              <ol>
-                <li>
-                  <strong>Download Sysmon:</strong> Obtain Sysmon from the Microsoft Sysinternals website.
-                </li>
-                <li>
-                  <strong>Install via Command Line:</strong> Open an elevated command prompt and run:
-                  <br /><code>Sysmon.exe -i -accepteula</code>
-                </li>
-                <li>
-                  <strong>Configure Sysmon:</strong> Use a configuration XML file to define which events to log. A sample configuration might be:
-                  <br /><code>{`<Sysmon schemaversion="4.22">
-      <EventFiltering>
-        <ProcessCreate onmatch="include">
-          <CommandLine condition="contains">-exec</CommandLine>
-        </ProcessCreate>
-        <NetworkConnect onmatch="include" />
-      </EventFiltering>
-    </Sysmon>`}</code>
-                </li>
-                <li>
-                  <strong>Verify Installation:</strong> Check the Windows Event Viewer under Applications and Services Logs → Microsoft → Windows → Sysmon for logs.
-                </li>
-              </ol>
-              <p>
-                <strong>Real-World Example:</strong> After installing Sysmon, run a test where you open a known application. Verify that Sysmon logs the process creation event along with detailed command line parameters and hashes. This data is invaluable for threat hunting and forensic investigations.
+              <p className="mt-4">
+                <strong>Create an Ubuntu VM on Azure:</strong>
               </p>
+              <ul>
+                <li>Select Ubuntu Server 20.04 as the operating system.</li>
+                <li>
+                  Allocated 4 vCPUs, 8GB RAM, and 64GB storage to meet the resource requirements for Elasticsearch and Cassandra.
+                </li>
+                <li>Enabled SSH access for remote management.</li>
+              </ul>
+              <p className="mt-4">
+                <strong>Connect to the VM via SSH:</strong>
+              </p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`ssh username@public-ip`}
+              </pre>
+              <p className="mt-4">
+                <strong>Update System and Set Root Password:</strong>
+              </p>
+              <p>Changed the root password for secure access:</p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`sudo passwd root`}
+              </pre>
+              <p>Switched to the root user:</p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`su -`}
+              </pre>
+              <p>Updated the system packages:</p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`apt-get update && apt-get upgrade -y`}
+              </pre>
+              <p className="mt-4">
+                <strong>Step 2: Install Dependencies</strong>
+              </p>
+              <p><strong>Install Required Packages:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`apt install wget gnupg apt-transport-https git ca-certificates ca-certificates-java curl software-properties-common python3-pip lsb-release -y`}
+              </pre>
+              <p className="mt-4"><strong>Install Java:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`wget -qO- https://apt.corretto.aws/corretto.key | sudo gpg --dearmor -o /usr/share/keyrings/corretto.gpg
+        echo "deb [signed-by=/usr/share/keyrings/corretto.gpg] https://apt.corretto.aws stable main" | sudo tee -a /etc/apt/sources.list.d/corretto.sources.list
+        sudo apt update
+        sudo apt install java-common java-11-amazon-corretto-jdk -y
+        echo JAVA_HOME="/usr/lib/jvm/java-11-amazon-corretto" | sudo tee -a /etc/environment
+        export JAVA_HOME="/usr/lib/jvm/java-11-amazon-corretto"`}
+              </pre>
+              <p className="mt-4"><strong>Install Cassandra:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`wget -qO - https://downloads.apache.org/cassandra/KEYS | sudo gpg --dearmor -o /usr/share/keyrings/cassandra-archive.gpg
+        echo "deb [signed-by=/usr/share/keyrings/cassandra-archive.gpg] https://debian.cassandra.apache.org 40x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+        sudo apt update
+        sudo apt install cassandra -y`}
+              </pre>
+              <p className="mt-4"><strong>Install Elasticsearch:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+        sudo apt-get install apt-transport-https -y
+        echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
+        sudo apt update
+        sudo apt install elasticsearch -y`}
+              </pre>
+              <p className="mt-4"><strong>Install TheHive:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`wget -O- https://archives.strangebee.com/keys/strangebee.gpg | sudo gpg --dearmor -o /usr/share/keyrings/strangebee-archive-keyring.gpg
+        echo 'deb [signed-by=/usr/share/keyrings/strangebee-archive-keyring.gpg] https://deb.strangebee.com thehive-5.2 main' | sudo tee -a /etc/apt/sources.list.d/strangebee.list
+        sudo apt-get update
+        sudo apt-get install -y thehive`}
+              </pre>
+              <p className="mt-4">
+                <strong>Step 3: Configure Services</strong>
+              </p>
+              <p><strong>Configure Cassandra:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`nano /etc/cassandra/cassandra.yaml
+        
+        # Update the following parameters with the server's public IP:
+        listen_address: <public-ip>
+        rpc_address: <public-ip>
+        seed_provider:
+          - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+            parameters:
+              - seeds: "<public-ip>"`}
+              </pre>
+              <p>Restart Cassandra:</p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`systemctl stop cassandra.service
+        rm -rf /var/lib/cassandra/*
+        systemctl enable cassandra.service
+        systemctl start cassandra.service`}
+              </pre>
+              <p className="mt-4"><strong>Configure Elasticsearch:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`nano /etc/elasticsearch/elasticsearch.yml
+        
+        # Uncomment and update the following parameters:
+        cluster.name: my-cluster
+        node.name: my-node
+        network.host: <public-ip>
+        
+        # Start Elasticsearch:
+        systemctl start elasticsearch
+        systemctl enable elasticsearch`}
+              </pre>
+              <p className="mt-4"><strong>Verify Services:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`systemctl status cassandra.service
+        systemctl status elasticsearch`}
+              </pre>
+              <p className="mt-4">
+                <strong>Step 4: Configure TheHive</strong>
+              </p>
+              <p>Set File Permissions:</p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`chown -R thehive:thehive /opt/thp`}
+              </pre>
+              <p>Edit TheHive Configuration:</p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`nano /etc/thehive/application.conf
+        
+        # Update the following parameters with the server's public IP:
+        hostname = "<public-ip>"
+        application.baseUrl = "http://<public-ip>:9000"`}
+              </pre>
+              <p>Start TheHive:</p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`systemctl start thehive
+        systemctl enable thehive
+        systemctl status thehive`}
+              </pre>
+              <p className="mt-4">
+                <strong>Step 5: Access TheHive</strong>
+              </p>
+              <p>Navigated to TheHive dashboard using the URL:</p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`http://<public-ip>:9000`}
+              </pre>
+              <p className="mt-4"></p>
+              <img
+  src="/Learning Paths/SOC/homelab2.png"
+  alt="homelab2"
+  className="max-w-screen-2xl w-full h-auto border border-gray-300 rounded-lg p-2 float-left"
+/>
+              <p className="mt-4"></p>
+              <p>Verified that all services (Cassandra, Elasticsearch, and TheHive) were running correctly.</p>
+              <p className="mt-6"></p>
+
+
+
             </>
           )
-        },
+        }
+        
+        ,
         {
-          title: "Install Wazuh",
+          title: "Setting Up Custom Alerts in Wazuh",
           summary: (
             <>
-              <p><strong>Deploying Wazuh for Log Analysis and SIEM Integration</strong></p>
+              <p className="mt-4 font-bold">Step 1: Configuring the Wazuh Dashboard</p>
               <p>
-                Wazuh is an open-source security monitoring platform that provides log analysis, intrusion detection, and vulnerability detection. It integrates with various SIEM solutions and is highly effective in a home SOC lab for centralizing endpoint and network monitoring.
+                <strong>Access the Wazuh Dashboard:</strong> Navigate to the Wazuh Dashboard using the provided URL (e.g.,{" "}
+                <a
+                  href="https://wazuh-dashboard-ip:443"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  https://wazuh-dashboard-ip:443
+                </a>
+                ). Log in using the credentials created during the Wazuh installation.
               </p>
+              <p className="mt-4"><strong>Add a Windows Agent:</strong></p>
+              <p>Click on <em>Add Agent</em> in the Wazuh Dashboard.</p>
+              <img
+                src="/Learning Paths/SOC/homelab3.png"
+                alt="homelab3"
+                className="max-w-2xl w-full h-auto border border-gray-300 rounded-lg p-2 float-left"
+              />
+              <div style={{ clear: "both", marginTop: "1rem" }}></div>
               <p>
-                <strong>Installation Steps:</strong>
+                Select <strong>Windows</strong> as the agent type. Enter the Wazuh Public Server Address (e.g., 1.1.1.1). The dashboard will generate a PowerShell command to install the Wazuh agent on the Windows machine.
               </p>
-              <ol>
-                <li>
-                  <strong>Set Up the Wazuh Manager:</strong> Install Wazuh Manager on a Linux virtual machine or server. Follow the official documentation to install it via packages or Docker.
-                </li>
-                <li>
-                  <strong>Install the Wazuh Agent:</strong> On your Windows 10 endpoint, download and install the Wazuh Agent. Configure it to communicate with your Wazuh Manager.
-                </li>
-                <li>
-                  <strong>Configure Log Collection:</strong> Customize the agent configuration to collect Windows Event Logs and Sysmon data.
-                </li>
-                <li>
-                  <strong>Integration with SIEM:</strong> Optionally, integrate Wazuh with an external SIEM (e.g., ELK, Splunk) for enhanced visualization and correlation.
-                </li>
-              </ol>
+              <p className="mt-4"><strong>Install the Wazuh Agent on Windows:</strong></p>
               <p>
-                <strong>Example:</strong> On a Windows endpoint, after installing the Wazuh Agent, configure the agent’s <code>ossec.conf</code> file to include:
+                Open PowerShell as Administrator on the Windows 10 machine and run the generated command. For example:
               </p>
-              <pre>{`<localfile>
-      <log_format>eventchannel</log_format>
-      <location>Security</location>
-    </localfile>`}</pre>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.1-1.msi -OutFile \${env.tmp}\\wazuh-agent; msiexec.exe /i \${env.tmp}\\wazuh-agent /q WAZUH_MANAGER='1.1.1.1' WAZUH_AGENT_NAME='mydfir' WAZUH_REGISTRATION_SERVER='1.1.1.1'`}
+              </pre>
+              <p className="mt-4"><strong>Start the Wazuh service:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`net start wazuhsvc`}
+              </pre>
+              <p className="mt-4">
+                Verify Agent Connection: Return to the Wazuh Dashboard and confirm that the Windows agent is connected. The dashboard will now display events and alerts from the Windows machine.
+              </p>
+              <img
+                src="/Learning Paths/SOC/homelab4.png"
+                alt="homelab4"
+                className="max-w-2xl w-full h-auto border border-gray-300 rounded-lg p-2 float-left"
+              />
+              <div style={{ clear: "both", marginTop: "1rem" }}></div>
+              
+              <p className="mt-4 font-bold">Step 2: Setting Up Custom Alerts for Mimikatz</p>
               <p>
-                This configuration ensures that Windows Security logs are forwarded to the Wazuh Manager for centralized analysis.
+                <strong>Download and Run Mimikatz:</strong> Mimikatz is a well-known tool used for credential dumping and privilege escalation. Download Mimikatz and extract it on the Windows machine. Run Mimikatz using PowerShell to simulate an attack.
               </p>
+              <p className="mt-4">
+                <strong>Wazuh Detects Mimikatz:</strong> Wazuh will detect the execution of Mimikatz and generate an event.
+              </p>
+              <img
+                src="/Learning Paths/SOC/homelab5.png"
+                alt="homelab4"
+                 className="max-w-2x2 w-full h-auto border border-gray-300 rounded-lg p-2 float-left"
+              />
+              <div style={{ clear: "both", marginTop: "1rem" }}></div>
               <p>
-                Wazuh provides a robust platform for continuous monitoring, making it an essential component of your home SOC lab.
+                However, by default, Wazuh may not provide detailed information about the event.
               </p>
+              <p className="mt-4">
+                <strong>Create a Custom Rule for Mimikatz:</strong> Navigate to the Wazuh Dashboard, go to <em>Management &gt; Rules &gt; Manage Rules Files &gt; Custom Rules</em>, and click the Edit (pencil) icon to modify the custom rules file. Add the following rule to detect Mimikatz:
+              </p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`<rule id="100003" level="15">
+          <if_group>sysmon_event1</if_group>
+          <field name="win.eventdata.originalFileName" type="pcre2">(?i)mimikatz\\.exe</field>
+          <description>Mimikatz Usage Detected</description>
+          <mitre>
+            <id>T1003</id>
+          </mitre>
+        </rule>`}
+              </pre>
+              <p className="mt-4">
+                Save the changes and restart the Wazuh manager to apply the new rule:
+              </p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`systemctl restart wazuh-manager`}
+              </pre>
+              <p className="mt-4">
+                <strong>Test the Custom Rule:</strong> Run Mimikatz again on the Windows machine. Return to the Wazuh Dashboard and observe the event. It should now include the custom description and MITRE ATT&CK technique ID (T1003).
+              </p>
+              <img
+                src="/Learning Paths/SOC/homelab6.png"
+                alt="homelab5"
+                className="max-w-2x2 w-full h-auto border border-gray-300 rounded-lg p-2 float-left"
+              />
+              <div style={{ clear: "both", marginTop: "1rem" }}></div>
             </>
           )
-        },
+        }
+        ,
         {
-          title: "Install TheHive",
+          title: "Integrating Shuffle",
           summary: (
             <>
-              <p><strong>Installing TheHive for Incident Response</strong></p>
+            
+              <img
+                src="/Learning Paths/SOC/saffle.png"
+                alt="shaffle"
+                className="max-w-2x2 w-full h-auto border border-gray-300 rounded-lg p-2 float-left"
+              />
               <p>
-                TheHive is an open-source Security Incident Response Platform (SIRP) that assists SOC teams in managing and investigating security incidents. It offers a centralized platform for collaboration, case management, and reporting.
+                This section explains how to integrate Shuffle, a SOAR (Security Orchestration, Automation, and Response) platform, with Wazuh and VirusTotal to automate threat detection and response workflows. By leveraging Shuffle, you can streamline the process of receiving alerts, parsing data, and performing actions like reputation checks using VirusTotal.
               </p>
+        
+              <p className="mt-4 font-bold">Step 1: Setting Up Shuffle</p>
+              <p><strong>Create a Shuffle Account:</strong></p>
+              <ul>
+                <li>Navigate to the Shuffle platform and create a new account.</li>
+                <li>Log in to your Shuffle workspace.</li>
+              </ul>
+              <p className="mt-4"><strong>Create a New Workflow:</strong></p>
+              <ul>
+                <li>In Shuffle, create a new workflow to automate the response process.</li>
+                <li>Name the workflow (e.g., "Wazuh-VirusTotal Integration").</li>
+              </ul>
+        
+              <p className="mt-4 font-bold">Step 2: Configure Wazuh to Send Alerts to Shuffle</p>
+              <p><strong>Add a Webhook Integration in Wazuh:</strong></p>
               <p>
-                <strong>Installation Steps:</strong>
+                In the Wazuh configuration, add a webhook integration to send alerts to Shuffle. Edit the Wazuh configuration file (e.g., <code>/var/ossec/etc/ossec.conf</code>) and add the following block:
               </p>
-              <ol>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`<integration>
+          <name>shuffle</name>
+          <hook_url>WEBHOOK_URL</hook_url>
+          <rule_id>100003</rule_id>
+          <alert_format>json</alert_format>
+        </integration>`}
+              </pre>
+              <p>
+                Replace <code>WEBHOOK_URL</code> with the webhook URL provided by Shuffle. The <code>rule_id</code> corresponds to the custom rule created earlier for Mimikatz detection.
+              </p>
+              <p className="mt-4"><strong>Restart Wazuh Services:</strong></p>
+              <pre className="bg-black text-white p-4 overflow-x-auto max-w-screen-md whitespace-pre-wrap mx-auto">
+        {`systemctl restart wazuh-manager`}
+              </pre>
+              <p className="mt-4"><strong>Test the Integration:</strong></p>
+              <p>
+                Run Mimikatz on the Windows machine to trigger an alert. Verify that the alert is sent to Shuffle via the webhook.
+              </p>
+        
+             
+        
+              <p className="mt-4 font-bold">Step 3: Execute the Workflow</p>
+              <ul>
                 <li>
-                  <strong>Set Up a Linux Virtual Machine:</strong> TheHive is typically installed on a Linux system. Use a distribution like Ubuntu for ease of installation.
+                  <strong>Trigger the Workflow:</strong> Run Mimikatz on the Windows machine to generate a Wazuh alert. The alert is sent to Shuffle via the webhook.
                 </li>
                 <li>
-                  <strong>Install TheHive:</strong> Follow the official installation guide. For example, using apt:
-                  <br /><code>sudo apt-get update && sudo apt-get install thehive</code>
+                  <strong>Parse the Alert:</strong> Shuffle uses Regex to extract the SHA-256 hash from the Wazuh alert.
                 </li>
                 <li>
-                  <strong>Configure TheHive:</strong> Customize configuration files to set up user authentication, storage, and integration with other tools (such as Cortex for analysis).
+                  <strong>Query VirusTotal:</strong> Shuffle sends the extracted hash to VirusTotal for reputation analysis. VirusTotal returns the analysis results (e.g., detection rate, file details).
                 </li>
                 <li>
-                  <strong>Verify Installation:</strong> Access TheHive’s web interface via your browser to ensure it is running correctly.
+                <p className="mt-6"></p>
+                  <strong>Take Action:</strong> Based on the VirusTotal results, Shuffle can:
+                  <ul>
+                    <li>Create an alert in TheHive.</li>
+                    <li>Notify analysts via email or chat (e.g., Slack, Microsoft Teams).</li>
+                    <li>Add the hash to a blocklist.</li>
+                  </ul>
                 </li>
-              </ol>
-              <p>
-                <strong>Real-World Example:</strong> Once installed, TheHive can be used to manage incident reports. For example, if a SOC analyst detects a suspicious file via ANY.RUN and Wazuh alerts, they can create a new case in TheHive, attach relevant logs and analysis reports, and collaborate with the incident response team.
-              </p>
-              <p>
-                TheHive provides a comprehensive platform for managing the lifecycle of security incidents, from detection through resolution.
-              </p>
+              </ul>
+        
+              <p className="mt-4 font-bold">Step 4: Verify the Integration</p>
+              <ul>
+                <li>
+                  <strong>Check Shuffle Logs:</strong> Verify that the workflow executed successfully and that the VirusTotal query returned the expected results.
+                </li>
+                <li>
+                  <strong>Review Actions:</strong> Confirm that the appropriate actions (e.g., alerts, notifications) were taken based on the VirusTotal analysis.
+                </li>
+              </ul>
+              <p className="mt-6"></p>
+              <img
+                src="/Learning Paths/SOC/homelab7.png"
+                alt="homelab7"
+                className="max-w-2x2 w-full h-auto border border-gray-300 rounded-lg p-2 float-left"
+              />
+              <div style={{ clear: "both", marginTop: "1rem" }}></div>
+              <p className="mt-6"></p>
+              <p className="mt-4 font-bold">Example Workflow in Shuffle</p>
+              <ul>
+                <li>
+                  <strong>Wazuh Alert:</strong> Wazuh detects Mimikatz execution and sends an alert to Shuffle via the webhook.
+                </li>
+                <li>
+                  <strong>Regex Parsing:</strong> Shuffle extracts the SHA-256 hash from the alert using Regex.
+                </li>
+                <li>
+                  <strong>VirusTotal Query:</strong> Shuffle sends the hash to VirusTotal for analysis.
+                </li>
+                <li>
+                  <strong>Response Actions:</strong> If VirusTotal identifies the file as malicious, Shuffle:
+                  <ul>
+                    <li>Creates a case in TheHive.</li>
+                    <li>Sends a notification to the SOC team.</li>
+                  </ul>
+                </li>
+              </ul>
             </>
           )
-        },
+        }
+        ,
         {
-          title: "Simulate Attack",
+          title: "TheHive with Shuffle",
           summary: (
             <>
-              <p><strong>Simulating an Attack in Your SOC Lab</strong></p>
-              <p>
-                To fully test your SOC environment, it is crucial to simulate attacks that mimic real-world threats. Simulated attacks help you verify that your security controls, monitoring, and response processes are functioning as expected.
+              <p className="mt-4 font-bold">
+                Integrating TheHive with Shuffle for Case Management
               </p>
               <p>
-                <strong>Steps to Simulate an Attack:</strong>
+                This section explains how to integrate TheHive, an incident response platform, with Shuffle to automate the creation of alerts and cases. By connecting these tools, you can streamline the process of managing security incidents—ensuring that alerts from Wazuh and other sources are automatically logged and tracked in TheHive.
               </p>
-              <ol>
-                <li>
-                  <strong>Select an Attack Scenario:</strong> Choose an attack vector such as a phishing email, brute force login attempt, or malware execution.
-                </li>
-                <li>
-                  <strong>Deploy Attack Tools:</strong> Use tools like Metasploit to simulate an exploit or manually craft a phishing email with a malicious payload.
-                </li>
-                <li>
-                  <strong>Monitor the Response:</strong> Observe how your SOC tools (Wazuh, Sysmon, TheHive, etc.) detect and respond to the simulated attack.
-                </li>
-                <li>
-                  <strong>Document the Attack:</strong> Record the events generated by the attack, including logs, alerts, and any network traffic data.
-                </li>
-              </ol>
+              
+              <p className="mt-4 font-bold">Step 1: Configure TheHive for Integration</p>
               <p>
-                <strong>Example Scenario:</strong> Simulate a brute force attack against a test web application. Use Metasploit to launch the attack and monitor the results in your SIEM or Wazuh dashboard. For instance, run:
+                <strong>Log into TheHive:</strong> Access your TheHive instance using the URL (e.g., <code>http://&lt;public-ip&gt;:9000</code>) and log in with your administrator credentials.
               </p>
-              <pre>{`msfconsole -q -x "use auxiliary/scanner/http/dir_scanner; set RHOSTS 192.168.1.100; run"`}</pre>
+              <p className="mt-4"><strong>Create User Accounts:</strong></p>
+              <ul>
+                <li>Create a personal analyst account for manual case management.</li>
+                <li>Create a SOAR user account for automated integrations (e.g., Shuffle).</li>
+              </ul>
+              <p className="mt-4"><strong>Generate an API Key:</strong></p>
               <p>
-                This simulation allows you to verify that your monitoring solutions are generating alerts for repeated failed login attempts or other suspicious activity.
+                Navigate to the SOAR user account settings in TheHive and generate an API key for the SOAR user. This key will be used to authenticate Shuffle with TheHive.
               </p>
+              
+              <p className="mt-4 font-bold">Step 2: Add TheHive to Shuffle Workflow</p>
               <p>
-                Simulating attacks is a key component of SOC exercises, ensuring that detection and response mechanisms are effective and well-tuned.
+                <strong>Log into Shuffle:</strong> Access your Shuffle workspace and open the workflow you created earlier (e.g., "Wazuh-VirusTotal Integration").
               </p>
-            </>
-          )
-        },
-        {
-          title: "Rule Creation",
-          summary: (
-            <>
-              <p><strong>Creating and Tuning Detection Rules</strong></p>
+              <p className="mt-4"><strong>Add TheHive App:</strong></p>
               <p>
-                Rule creation is essential for effective threat detection in a SOC environment. By developing custom rules, you can tailor alerts to your specific infrastructure and threat landscape. Rules can be created for SIEM systems, Wazuh, or other log analysis tools.
+                In Shuffle, add the TheHive app to your workflow. Authenticate the app using the API key generated in TheHive and provide the public IP of your TheHive instance.
               </p>
+              <p className="mt-4"><strong>Configure the Action:</strong></p>
               <p>
-                <strong>Steps in Rule Creation:</strong>
-              </p>
-              <ol>
-                <li>
-                  <strong>Identify Indicators of Compromise (IOCs):</strong> Determine the attributes that signify a potential attack, such as repeated login failures, unusual network connections, or unexpected process creations.
-                </li>
-                <li>
-                  <strong>Develop a Query or Rule:</strong> Write rules using the query language supported by your SIEM or monitoring tool.
-                </li>
-                <li>
-                  <strong>Test the Rule:</strong> Simulate attacks or use historical data to validate the rule and reduce false positives.
-                </li>
-                <li>
-                  <strong>Deploy and Monitor:</strong> Once validated, deploy the rule in your live environment and continuously monitor its effectiveness.
-                </li>
-              </ol>
-              <p>
-                <strong>Examples:</strong>
+                Set up an action in Shuffle to create an alert in TheHive. Configure the alert with the following details:
               </p>
               <ul>
                 <li>
-                  <strong>Splunk Query Example:</strong>
-                  <br /><code>{`index=security sourcetype=auth_logs "failed login" | stats count by src_ip | where count > 10`}</code>
+                  <strong>Date:</strong> Use a custom date (e.g., the current date and time).
                 </li>
                 <li>
-                  <strong>Wazuh Rule Example:</strong> A custom rule to alert on multiple failed login attempts might be:
-                  <br /><code>{`<group name="authentication_failures">
-      <rule id="100001" level="10">
-        <if_sid>18107</if_sid>
-        <frequency>5</frequency>
-        <timeframe>300</timeframe>
-        <description>Multiple failed login attempts detected</description>
-      </rule>
-    </group>`}</code>
+                  <strong>Description:</strong> Include a detailed description of the alert (e.g., "Mimikatz detected on Windows machine").
+                </li>
+                <li>
+                  <strong>Summary:</strong> Provide a brief summary of the incident.
+                </li>
+                <li>
+                  <strong>Tags:</strong> Add relevant tags (e.g., Mimikatz, Credential Dumping, T1003).
+                </li>
+                <li>
+                  <strong>Title:</strong> Set a descriptive title for the alert (e.g., "Mimikatz Execution Detected").
                 </li>
               </ul>
+              
+              <p className="mt-4 font-bold">Step 3: Execute the Workflow</p>
+              <ul>
+                <li>
+                  <strong>Trigger the Workflow:</strong> Run Mimikatz on the Windows machine to generate a Wazuh alert. The alert is sent to Shuffle via the webhook.
+                </li>
+                <li>
+                  <strong>Parse and Enrich Data:</strong> Shuffle extracts the relevant data (e.g., SHA-256 hash) and queries VirusTotal for reputation analysis.
+                </li>
+                <li>
+                  <strong>Create an Alert in TheHive:</strong> Shuffle sends the enriched data to TheHive and creates an alert with the configured details (date, description, summary, tags, and title).
+                </li>
+                <li>
+                  <strong>Verify the Alert:</strong> Log into TheHive and navigate to the Alerts section. Confirm that the alert was successfully created with the correct details.
+                </li>
+              </ul>
+              <p className="mt-6"></p>
+              <img
+                src="/Learning Paths/SOC/homelab8.png"
+                alt="homelab8"
+                className="max-w-2x2 w-full h-auto border border-gray-300 rounded-lg p-2 float-left"
+              />
+              <div style={{ clear: "both", marginTop: "1rem" }}></div>
+              <p className="mt-6"></p>
+              <p className="mt-4 font-bold">Step 4: Review the Alert in TheHive</p>
               <p>
-                <strong>Real-World Application:</strong> After simulating an attack, analyze the triggered events and adjust your rules to minimize false positives while ensuring that genuine threats are not overlooked. This iterative process of rule tuning is vital for maintaining an effective SOC.
+                <strong>Alert Details:</strong> The alert in TheHive will include the title, description, tags, and a link to the VirusTotal analysis (if included in the workflow). Analysts can convert the alert into a case for further investigation.
               </p>
-              <p>
-                By mastering rule creation, you enhance the accuracy and responsiveness of your security monitoring, ensuring that your SOC environment can quickly detect and respond to threats.
+              <p className="mt-4">
+                <strong>Case Creation and Automated Actions:</strong> Analysts can convert the alert into a case for investigation, or TheHive can automatically assign tasks, notify analysts, or trigger additional workflows based on the alert.
+              </p>
+              
+              <p className="mt-4 font-bold">Example Workflow in Shuffle and TheHive</p>
+              <ul>
+                <li>
+                  <strong>Wazuh Alert:</strong> Wazuh detects Mimikatz execution and sends an alert to Shuffle.
+                </li>
+                <li>
+                  <strong>Shuffle Workflow:</strong> Shuffle parses the alert, extracts the SHA-256 hash, and queries VirusTotal. Then, it sends the enriched data to TheHive to create an alert.
+                </li>
+                <li>
+                  <strong>TheHive Alert:</strong> An alert is created in TheHive with the configured details.
+                </li>
+                <li>
+                  <strong>Analyst Action:</strong> Analysts review the alert, convert it into a case, and begin the investigation.
+                </li>
+              </ul>
+              <p className="mt-6"></p>
+              <img
+                src="/Learning Paths/SOC/homelab9.png"
+                alt="homelab9"
+                className="max-w-2x2 w-full h-auto border border-gray-300 rounded-lg p-2 float-left"
+              />
+              <div style={{ clear: "both", marginTop: "1rem" }}></div>
+              <p className="mt-6"></p>
+              <p className="mt-4 font-bold">Key Takeaways</p>
+              <ul>
+                <li>
+                  <strong>TheHive Integration:</strong> Shuffle can automatically create alerts in TheHive, ensuring that incidents are logged and tracked.
+                </li>
+                <li>
+                  <strong>Custom Alerts:</strong> Alerts in TheHive can include detailed descriptions, summaries, tags, and titles for better organization.
+                </li>
+                <li>
+                  <strong>Automation:</strong> The integration eliminates manual steps, allowing analysts to focus on investigation and response.
+                </li>
+                <li>
+                  <strong>Scalability:</strong> This setup can handle large volumes of alerts, making it suitable for enterprise environments.
+                </li>
+              </ul>
+              
+              <p className="mt-4 font-bold">Benefits of This Integration</p>
+              <ul>
+                <li>
+                  <strong>Centralized Incident Management:</strong> TheHive provides a single platform for tracking and managing security incidents.
+                </li>
+                <li>
+                  <strong>Improved Efficiency:</strong> Automating alert creation reduces manual effort and speeds up response times.
+                </li>
+                <li>
+                  <strong>Enhanced Collaboration:</strong> Analysts can collaborate on cases in TheHive, improving teamwork and knowledge sharing.
+                </li>
+                <li>
+                  <strong>Customizable Workflows:</strong> Shuffle workflows can be tailored to meet specific organizational needs.
+                </li>
+              </ul>
+              
+              <p className="mt-4">
+                By integrating TheHive with Shuffle, you create a powerful incident response platform that enhances your SOC’s ability to detect, analyze, and respond to security incidents in real time. This setup ensures that alerts are automatically logged, enriched, and tracked—enabling faster and more effective incident response.
               </p>
             </>
           )
         }
+        ,
       ],
       quiz: {
         questions: [
           {
             id: 1,
-            question: "What is one objective of simulating a SOC at home?",
+            question: "What is the primary goal of this project?",
             options: [
-              "Gaining hands-on experience with security tools",
-              "Designing a website",
-              "Creating social media content",
-              "Editing videos"
+              "Deploying Wazuh and integrating it with a SOAR platform",
+              "Building a personal website",
+              "Creating a social media campaign",
+              "Developing a mobile app"
             ],
-            correctAnswer: "Gaining hands-on experience with security tools"
+            correctAnswer: "Deploying Wazuh and integrating it with a SOAR platform"
+          },
+          {
+            id: 2,
+            question: "Which tool is used for incident response and case management in this project?",
+            options: [
+              "Wazuh",
+              "TheHive",
+              "Shuffle",
+              "VirusTotal"
+            ],
+            correctAnswer: "TheHive"
+          },
+          {
+            id: 3,
+            question: "What is the minimum number of CPU cores required to run Elasticsearch in this setup?",
+            options: [
+              "2",
+              "4",
+              "8",
+              "16"
+            ],
+            correctAnswer: "4"
+          },
+          {
+            id: 4,
+            question: "Which command is used to install the Wazuh agent on a Windows machine?",
+            options: [
+              "curl -sO https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.1-1.msi",
+              "Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.1-1.msi -OutFile ${env.tmp}\\wazuh-agent; msiexec.exe /i ${env.tmp}\\wazuh-agent /q WAZUH_MANAGER='1.1.1.1' WAZUH_AGENT_NAME='mydfir' WAZUH_REGISTRATION_SERVER='1.1.1.1'",
+              "apt-get install wazuh-agent",
+              "systemctl start wazuh-agent"
+            ],
+            correctAnswer: "Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.1-1.msi -OutFile ${env.tmp}\\wazuh-agent; msiexec.exe /i ${env.tmp}\\wazuh-agent /q WAZUH_MANAGER='1.1.1.1' WAZUH_AGENT_NAME='mydfir' WAZUH_REGISTRATION_SERVER='1.1.1.1'"
+          },
+          {
+            id: 5,
+            question: "What is the purpose of the custom rule added to Wazuh in this project?",
+            options: [
+              "To detect phishing emails",
+              "To detect Mimikatz usage",
+              "To block malicious IP addresses",
+              "To monitor network traffic"
+            ],
+            correctAnswer: "To detect Mimikatz usage"
+          },
+          {
+            id: 6,
+            question: "Which MITRE ATT&CK technique is associated with Mimikatz in the custom Wazuh rule?",
+            options: [
+              "T1059 - Command and Scripting Interpreter",
+              "T1003 - Credential Dumping",
+              "T1204 - User Execution",
+              "T1082 - System Information Discovery"
+            ],
+            correctAnswer: "T1003 - Credential Dumping"
+          },
+          {
+            id: 7,
+            question: "What is the role of Shuffle in this project?",
+            options: [
+              "To act as a SIEM platform",
+              "To provide threat intelligence",
+              "To automate workflows and integrate Wazuh with TheHive",
+              "To analyze malware samples"
+            ],
+            correctAnswer: "To automate workflows and integrate Wazuh with TheHive"
+          },
+          {
+            id: 8,
+            question: "Which tool is used to query file hashes for reputation analysis in this project?",
+            options: [
+              "Wazuh",
+              "TheHive",
+              "VirusTotal",
+              "Shuffle"
+            ],
+            correctAnswer: "VirusTotal"
+          },
+          {
+            id: 9,
+            question: "What is the purpose of the API Key generated in TheHive?",
+            options: [
+              "To authenticate Shuffle with TheHive",
+              "To access the Wazuh dashboard",
+              "To query VirusTotal",
+              "To configure Elasticsearch"
+            ],
+            correctAnswer: "To authenticate Shuffle with TheHive"
+          },
+          {
+            id: 10,
+            question: "Which of the following is NOT a step in setting up TheHive?",
+            options: [
+              "Installing Java",
+              "Configuring Cassandra",
+              "Installing Elasticsearch",
+              "Deploying a mobile app"
+            ],
+            correctAnswer: "Deploying a mobile app"
           }
-        ]
+        ],
+        scoring: {
+          excellent: "10 Correct Answers: Excellent! You have a deep understanding of the SOC Automation Project.",
+          good: "7-9 Correct Answers: Good job! You understand the key concepts but may need to review some details.",
+          learning: "4-6 Correct Answers: Keep learning! Review the project documentation to strengthen your knowledge.",
+          revisit: "0-3 Correct Answers: Time to revisit the project! Focus on the tools and their integration."
+        }
       }
     }
   ];
