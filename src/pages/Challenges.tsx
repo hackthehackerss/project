@@ -15,7 +15,7 @@ function Challenges() {
   const [sortBy, setSortBy] = useState('default');
   const [suggestions, setSuggestions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(6); // Number of items per page
+  const [itemsPerPage] = useState(12); // Number of items per page
   const searchRef = useRef(null);
 
   // Sample challenges data
@@ -88,6 +88,17 @@ function Challenges() {
     },
     {
       id: 7,
+      title: 'Emotet Trace',
+      description: 'Investigate a suspicious file hash using OSINT techniques.',
+      questions: 13,
+      points: 200,
+      difficulty: 'Easy',
+      category: 'Malware Analysis',
+      link: '/challenges/emotet',
+      backgroundImage: '/Challenges/Emotet.png',
+    },
+    {
+      id: 8,
       title: 'Coming Soon',
       questions: 0,
       points: 0,
