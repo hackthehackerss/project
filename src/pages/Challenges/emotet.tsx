@@ -5,7 +5,6 @@ import {
   CheckCircle2,
   XCircle,
   HelpCircle,
-  Download,
   User,
   Droplet,
   Trophy,
@@ -28,7 +27,7 @@ function EDRInvestigationChallenge() {
   const [questions, setQuestions] = useState([
     {
       id: 1,
-      text: '1. What is the primary malware family associated with this hash?',
+      text: '1. What malware family does this hash belong to?',
       answer: 'emotet',
       hint: 'Use VirusTotal’s detection tab to identify the malware name.',
       showHint: false,
@@ -109,7 +108,7 @@ function EDRInvestigationChallenge() {
     },
     {
       id: 10,
-      text: '10. What domains did the malware contact to make it look legitimate process?',
+      text: '10. What domains did the malware contact to make it look legitimate?',
       answer: 'microsoft.com',
       hint: 'Threat actors often spoof well-known domains to blend in.',
       showHint: false,
@@ -157,19 +156,25 @@ function EDRInvestigationChallenge() {
   // Challenge progress tracking
   const challengeId = "edr-investigation-challenge";
   const { progress, updateProgress } = useChallengeProgress(profile?.uid || '', challengeId);
+  const isCompleted = progress?.completed;
 
-  // If progress is complete, update questions and disable further editing
+  // When progress is complete, update questions (filling in stored answers, marking as correct, fading) and show the completed banner.
   useEffect(() => {
     if (progress?.completed && progress.answers) {
-      setQuestions(questions.map(q => ({
-        ...q,
-        userAnswer: progress.answers[q.id] || '',
-        isCorrect: progress.answers[q.id]?.toLowerCase() === q.answer.toLowerCase(),
-        showHint: false
-      })));
+      setQuestions(prevQuestions =>
+        prevQuestions.map(q => {
+          const storedAnswer = progress.answers[q.id] || progress.answers[q.id.toString()] || '';
+          const finalAnswer = storedAnswer || q.answer;
+          return {
+            ...q,
+            userAnswer: finalAnswer,
+            isCorrect: finalAnswer.toLowerCase() === q.answer.toLowerCase(),
+            showHint: false,
+          };
+        })
+      );
       setShowSuccess(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progress]);
 
   const allQuestionsAnswered = questions.every(q => q.isCorrect !== undefined);
@@ -178,34 +183,40 @@ function EDRInvestigationChallenge() {
   const progressPercentage = (correctAnswersCount / totalQuestions) * 100;
 
   const handleAnswerChange = (id, value) => {
-    if (progress?.completed) return;
-    setQuestions(questions.map(q => q.id === id ? { ...q, userAnswer: value } : q));
+    if (isCompleted) return;
+    setQuestions(prev =>
+      prev.map(q => (q.id === id ? { ...q, userAnswer: value } : q))
+    );
   };
 
   const handleAnswerSubmit = (id, answer) => {
-    if (progress?.completed) return;
-    setQuestions(questions.map(q => {
-      if (q.id === id) {
-        return {
-          ...q,
-          userAnswer: answer.toLowerCase(),
-          isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
-        };
-      }
-      return q;
-    }));
+    if (isCompleted) return;
+    setQuestions(prev =>
+      prev.map(q => {
+        if (q.id === id) {
+          return {
+            ...q,
+            userAnswer: answer.toLowerCase(),
+            isCorrect: answer.toLowerCase() === q.answer.toLowerCase(),
+          };
+        }
+        return q;
+      })
+    );
   };
 
   const toggleHint = (id) => {
-    if (progress?.completed) return;
+    if (isCompleted) return;
     if (hintsRemaining > 0) {
-      setQuestions(questions.map(q => {
-        if (q.id === id && !q.showHint) {
-          setHintsRemaining(hintsRemaining - 1);
-          return { ...q, showHint: true };
-        }
-        return q;
-      }));
+      setQuestions(prev =>
+        prev.map(q => {
+          if (q.id === id && !q.showHint) {
+            setHintsRemaining(prevHints => prevHints - 1);
+            return { ...q, showHint: true };
+          }
+          return q;
+        })
+      );
     }
   };
 
@@ -213,20 +224,17 @@ function EDRInvestigationChallenge() {
     if (allQuestionsAnswered && correctAnswersCount === totalQuestions) {
       if (profile && !progress?.completed) {
         try {
-          // Create an answers object
           const answers = questions.reduce((acc, q) => ({
             ...acc,
             [q.id]: q.userAnswer,
           }), {});
-          // Update challenge progress with answers and difficulty ("Medium")
           const completed = await updateProgress(correctAnswersCount, totalQuestions, 0, "Medium", answers);
           if (completed) {
             const xpAmount = getChallengeCompletionXP("Medium");
             setXpAwarded(xpAmount);
-            // Award XP to the user
             await awardUserXP(profile.uid, {
               amount: xpAmount,
-              reason: `Completed Emotet trace Challenge`,
+              reason: `Completed Emotet Trace Challenge`,
               type: 'challenge_completion'
             });
             setXpNotification(true);
@@ -280,7 +288,7 @@ function EDRInvestigationChallenge() {
           <div className="absolute inset-0 rounded-lg bg-primary-blue/40 blur-lg group-hover:opacity-100 opacity-0 transition-opacity duration-300"></div>
           <img
             src="/Challenges/Emotet.png"
-            alt="EDR Investigation Challenge Banner"
+            alt="Emotet Trace Challenge Banner"
             className="w-auto max-h-80 object-cover rounded-lg shadow-lg group-hover:scale-105 group-hover:rotate-1 transition-transform duration-300 ease-in-out relative z-10"
           />
         </div>
@@ -295,6 +303,18 @@ function EDRInvestigationChallenge() {
         >
           Emotet Trace Challenge
         </motion.h1>
+
+        {/* Completion Banner */}
+        {progress?.completed && (
+          <motion.div
+            className="p-4 bg-green-600 text-white rounded-lg mb-8 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            Challenge Completed!
+          </motion.div>
+        )}
 
         {/* Progress Section */}
         <motion.div
@@ -323,15 +343,17 @@ function EDRInvestigationChallenge() {
           </div>
         </motion.div>
 
-        {/* Hints Remaining */}
-        <motion.div
-          className="text-gray-400 mb-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          Hints Remaining: {hintsRemaining}
-        </motion.div>
+        {/* Hints Remaining (shown only if not completed) */}
+        {!progress?.completed && (
+          <motion.div
+            className="text-gray-400 mb-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            Hints Remaining: {hintsRemaining}
+          </motion.div>
+        )}
 
         {/* Challenge Introduction */}
         <motion.div
@@ -342,21 +364,18 @@ function EDRInvestigationChallenge() {
         >
           <h2 className="text-xl font-semibold mb-4">Challenge Introduction</h2>
           <p className="text-gray-400 mb-6">
-            The EDR has flagged a suspicious file hash, triggering an urgent investigation. As an analyst, your mission is to leverage OSINT techniques to uncover the file's origin, behavior, and potential threat level.
+            The EDR has flagged a suspicious file hash, triggering an urgent investigation.
+            As an analyst, your mission is to leverage OSINT techniques to uncover the file's origin,
+            behavior, and potential threat level.
           </p>
           <p className="text-gray-400 mb-6">
-          Using publicly available intelligence sources, analyze the file and answer key questions to assess its risk and impact. 
-          Time is critical—let's see if you can piece together the full picture before it’s too late.
-
-
+            Using publicly available intelligence sources, analyze the file and answer key questions
+            to assess its risk and impact. Time is critical—let's see if you can piece together the full picture.
           </p>
           <p className="text-gray-400 mb-6">
             <strong>File Hash:</strong> eea5a1c7b3cc8350f8d5a95b6e2b7e3701d22cb362f8b988e815789f95c32eca
           </p>
-
         </motion.div>
-
-       
 
         {/* Suggested Tools */}
         <motion.div
@@ -378,8 +397,8 @@ function EDRInvestigationChallenge() {
                 className="text-primary-blue hover:text-primary-blue/80"
               >
                 VirusTotal
-              </a>
-              {' '} - Use it to review file metadata, detection names, and network behavior.
+              </a>{' '}
+              - Use it to review file metadata, detection names, and network behavior.
             </li>
           </ul>
         </motion.div>
@@ -442,27 +461,16 @@ function EDRInvestigationChallenge() {
                         type="text"
                         className="bg-background border border-primary-blue/20 rounded-md px-4 py-2 focus:outline-none focus:border-primary-blue"
                         placeholder="Enter your answer"
-                        value={question.userAnswer}
-                        onChange={(e) =>
-                          handleAnswerChange(question.id, e.target.value)
-                        }
+                        value={progress?.completed ? question.answer : question.userAnswer}
+                        onChange={(e) => handleAnswerChange(question.id, e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             handleAnswerSubmit(question.id, question.userAnswer);
                           }
                         }}
-                        disabled={question.isCorrect === true}
+                        disabled={progress?.completed || question.isCorrect === true}
                       />
-                      <button
-                        className={`text-gray-500 hover:text-gray-400 transition-all ${
-                          hintsRemaining === 0 ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
-                        onClick={() => toggleHint(question.id)}
-                        disabled={question.isCorrect === true || hintsRemaining === 0}
-                      >
-                        <HelpCircle className="w-5 h-5" />
-                      </button>
-                      {question.isCorrect !== true && (
+                      {!progress?.completed && question.isCorrect !== true && (
                         <button
                           className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
                           onClick={() => handleAnswerSubmit(question.id, question.userAnswer)}
@@ -476,6 +484,15 @@ function EDRInvestigationChallenge() {
                         ) : (
                           <XCircle className="w-6 h-6 text-red-500" />
                         ))}
+                      <button
+                        className={`text-gray-500 hover:text-gray-400 transition-all ${
+                          hintsRemaining === 0 || progress?.completed ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                        onClick={() => toggleHint(question.id)}
+                        disabled={question.isCorrect === true || hintsRemaining === 0 || progress?.completed}
+                      >
+                        <HelpCircle className="w-5 h-5" />
+                      </button>
                     </div>
                     {question.showHint && (
                       <div className="mt-4 text-gray-300 italic">{question.hint}</div>
@@ -487,26 +504,28 @@ function EDRInvestigationChallenge() {
           </motion.div>
         )}
 
-        {/* Complete Button */}
-        <motion.div
-          className="max-w-4xl mx-auto px-4 mt-8 text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <button
-            onClick={handleComplete}
-            className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
+        {/* Complete Button (only if challenge is not completed) */}
+        {!progress?.completed && (
+          <motion.div
+            className="max-w-4xl mx-auto px-4 mt-8 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
           >
-            <CheckCircle2 className="w-5 h-5" />
-            <span>Complete Challenge</span>
-          </button>
-          {showError && (
-            <div className="mt-4 p-4 bg-red-600 text-white rounded-lg">
-              <p>Please answer all questions correctly before completing the challenge.</p>
-            </div>
-          )}
-        </motion.div>
+            <button
+              onClick={handleComplete}
+              className="bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 active:scale-95 transition-all flex items-center justify-center space-x-2"
+            >
+              <CheckCircle2 className="w-5 h-5" />
+              <span>Complete Challenge</span>
+            </button>
+            {showError && (
+              <div className="mt-4 p-4 bg-red-600 text-white rounded-lg">
+                <p>Please answer all questions correctly before completing the challenge.</p>
+              </div>
+            )}
+          </motion.div>
+        )}
 
         {/* XP Notification */}
         {xpNotification && (
