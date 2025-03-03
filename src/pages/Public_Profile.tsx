@@ -52,6 +52,12 @@ const challengeBadges = [
     name: 'CAPTCHA Analysis',
     description: 'Analyzed malicious CAPTCHA page interactions',
     imageUrl: '/Badges/HackedByCaptcha.png'
+  },
+  {
+    id: 'edr-investigation-challenge',
+    name: 'Emotet Trace Challenge',
+    description: 'Analyzed malicious Emotet file',
+    imageUrl: '/Badges/emotet.png'
   }
 ];
 
