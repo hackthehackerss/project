@@ -41,6 +41,7 @@ import LABexercise03 from './pages/labs/sql_labs/lab-exercise03';
 import MainBlog from './Blog/MainBlog';
 import BybitBlog from './Blog/Blogs/Bybit';
 import FireScam from './Blog/Blogs/firescam';
+import Emotet from './pages/Challenges/Emotet';
 
 function App() {
   return (
@@ -87,6 +88,8 @@ function App() {
           <Route path="/Blog/Blogs/Bybit" element={<BybitBlog />} />
           <Route path="/OSWPCourse" element={<OSWPCourse />} /> 
           <Route path="/Blog/Blogs/firescam" element={<FireScam />} />
+          <Route path="/challenges/emotet" element={<Emotet />} />
+
         </Routes>
       </Router>
     </AuthProvider>
