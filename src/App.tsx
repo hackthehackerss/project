@@ -34,6 +34,7 @@ import BruteforceChallenge from './pages/Challenges/BruteforceChallenge';
 import HackedByCaptcha from './pages/Challenges/HackedByCaptcha';
 import SqlLab from './pages/labs/sqllab';
 import VbaScripting from './pages/red-team/vba-scripting';
+import TORProject from './pages/red-team/TORProject';
 import OSWPCourse from './pages/red-team/OSWPCourse';
 import LABexercise01 from './pages/labs/sql_labs/lab-exercise01';
 import LABexercise02 from './pages/labs/sql_labs/lab-exercise02';
@@ -87,6 +88,7 @@ function App() {
           <Route path="/blog" element={<MainBlog />} />
           <Route path="/Blog/Blogs/Bybit" element={<BybitBlog />} />
           <Route path="/OSWPCourse" element={<OSWPCourse />} /> 
+          <Route path="/TORProject" element={<TORProject />} />
           <Route path="/Blog/Blogs/firescam" element={<FireScam />} />
           <Route path="/challenges/emotet" element={<Emotet />} />
 
