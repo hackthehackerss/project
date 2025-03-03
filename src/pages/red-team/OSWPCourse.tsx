@@ -172,177 +172,125 @@ function OSWPCourse() {
         {
           title: "Manual Network Connections",
           summary: (
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ textAlign: "center" }}>
               <p><strong>Overview of Wireless Penetration Testing</strong></p>
               <p>
                 Wireless penetration testing tools usually require disabling network managers because they interfere with the proper operation of the tools.
               </p>
-              <br /><br />
-              <p><strong>Connecting to an Access Point</strong></p> <br></br> <br></br>
+              <br />
+        
+              <p><strong>Connecting to an Access Point</strong></p>
+              <br />
+              
               <p>
                 Several wireless clients exist on Linux. The most common one is wpa_supplicant, as it is commonly used by network managers across Linux distributions to connect to Wi-Fi networks, even if they don't have any encryption or still use WEP.
               </p>
               <p>
                 wpa_supplicant can either be used via a command line interface, with wpa_cli, or with configuration files containing the settings of the network. In a sample configuration file, each network connection is defined within a network item.
               </p>
-             
               <br />
+        
               <p>
                 Connecting to a WPA-PSK network is a bit more involved. We need to add two parameters inside the network item:
               </p>
-              
               <p>
-                wpa_supplicant will automatically choose between TKIP and CCMP based on availability, but it is possible to force one or the other by adding pairwise=CCMP or pairwise=TKIP to the configuration if necessary.
+                wpa_supplicant will automatically choose between TKIP and CCMP based on availability, but it is possible to force one or the other by adding <code>pairwise=CCMP</code> or <code>pairwise=TKIP</code> to the configuration if necessary.
               </p>
               <p>
                 wpa_supplicant supports WPA3, OWE, and can handle WPA Enterprise networks as well; however, these are out of scope of this module. The configuration file provided with the wpa_supplicant source code provides a number of examples for various network settings, including WPA3, OWE, and WPA Enterprise.
               </p>
               <p>
-                A quick and easy alternative is wpa_passphrase. This tool can generate a configuration file for a basic WPA-PSK network. It requires at least one parameter, the ESSID. The second parameter, the passphrase, is optional, for security reasons. If the second parameter is omitted, it will prompt for the passphrase. This tool will output the content of a configuration file. We can redirect the output to a file with 'wpa_passphrase home_network , home_network.conf'
+                A quick and easy alternative is wpa_passphrase. This tool can generate a configuration file for a basic WPA-PSK network. It requires at least one parameter, the ESSID. The second parameter, the passphrase, is optional, for security reasons. If the second parameter is omitted, it will prompt for the passphrase. This tool will output the content of a configuration file.
               </p>
+              
+              <p>Example command:</p>
+              <pre>
+                wpa_passphrase home_network &gt; home_network.conf
+              </pre>
+        
               <p>
-                Using the example in the above text, we'll create a file called wifi-client.conf. We now have to start wpa_supplicant with a couple of parameters. To connect to the network, we have to start wpa_supplicant with the network interface using -i, and the configuration file with -c. Assuming the interface is wlan0, the command and the output will look like the following.
+                To connect to the network, use the following command:
               </p>
               <pre>
-                kali@kali:~$ sudo wpa_supplicant -i wlan0 -c wifi-client.conf
-                Successfully initialized wpa_supplicant
-                wlan0: SME: Trying to authenticate with 00:ef:78:be:0d:98 (SSID='home_network' freq=2437 MHz)
-                wlan0: Trying to associate with 00:ef:78:be:0d:98 (SSID='home_network' freq=2437 MHz)
-                wlan0: Associated with 00:ef:78:be:0d:98
-                wlan0: CTRL-EVENT-SUBNET-STATUS-UPDATE status=0
-                wlan0: WPA: Key negotiation completed with 00:ef:78:be:0d:98 [PTK=CCMP GTK=CCMP]
-                wlan0: CTRL-EVENT-CONNECTED - Connection to 00:ef:78:be:0d:98 completed [id=0 id_str=]
-
+                sudo wpa_supplicant -i wlan0 -c wifi-client.conf
               </pre>
-
+              
+              <p><strong>Setting up an Access Point</strong></p>
+              <br />
+              
+              <p>Setting up an access point requires two distinct network interfaces and involves five steps:</p>
+              <ul>
+                <li>Configure Internet access on the system.</li>
+                <li>Set up a static IP for the wireless interface.</li>
+                <li>Set up a DHCP server to provide automatic IP configuration for Wi-Fi clients.</li>
+                <li>Add routing to provide Internet access to Wi-Fi clients.</li>
+                <li>Configure the Wi-Fi interface in AP mode.</li>
+              </ul>
+              
+              <p><strong>Internet Access</strong></p>
               <p>
-              Now that we've confirmed we can successfully connect to the network, we can append -B to our wpa_supplicant command line to run it in the background. Once connected, we usually request a DHCP lease using dhclient:
-
+                We first need to have Internet access on the system. It doesn't really matter if it is via Ethernet, Wi-Fi, or mobile broadband.
               </p>
-
+              <p>
+                Ethernet is fairly easy to set up, and in most cases, we just need to get a DHCP lease like we did in the previous steps.
+              </p>
+              
               <pre>
-              kali@kali:~$ sudo dhclient wlan0
+                sudo iw list
               </pre>
-              <p><strong>Setting up an Access Point</strong></p> <br><br></br></br>
-
-              <p>Setting up an access point requires two distinct network interfaces, and involves five steps:              
-
-                <ul>
-                <li>- Configure Internet access on the system.                </li>
-                <li>- Set up a static IP for the wireless interface.                </li>
-                <li>- DHCP server set up, to provide automatic IP configuration for Wi-Fi clients.                </li>
-                <li>- Add routing to provide Internet access to the Wi-Fi clients.                </li>
-                <li>- Configure the Wi-Fi interface in AP mode.                </li>
-                </ul>
-              </p>
-
-              <p><strong>Internet Access</strong></p> <br></br>
-
+        
+              <p><strong>Static IP on Access Point Wireless Interface</strong></p>
+              <br />
+              
               <p>
-              We first need to have Internet access on the system. It doesn't really matter if it is via Ethernet, Wi-Fi, or if it's mobile broadband.
-              Ethernet is fairly easy to set up, and in most cases, we just need to get a DHCP lease like we did in the previous steps.
-              If the connection is Wi-Fi, we can refer to the section above to configure it. It is important to note that while it is possible to do client and AP on a single Wi-Fi interface, configuration is a bit more involved, has limitations, and may not work properly (the Wi-Fi adapters recommended for this course provide this ability). Therefore, we must be careful choosing the interface to use for the access point, as not all Wi-Fi adapters support that mode. We can use iw to display what modes each of the wireless interface support.
+                We now have to choose an IP address that doesn't conflict with the network and CIDR of the interface we just configured for Internet. Most routers offer an IP in the <code>192.168.1.0/24</code> range, so we will use the <code>10.0.0.0/24</code> range and set the wireless interface for the access point to <code>10.0.0.1</code>.
               </p>
-              <pre>kali@kali:~$ sudo iw list              </pre>
-
-                <p>
-                Supported interface modes:
-                  <ul>
-                    <li>IBSS</li>
-                    <li>managed</li>
-                    <li>AP</li>
-                    <li>AP/VLAN</li>
-                    <li>monitor</li>
-                    <li>mesh point</li>
-                    <li>2P-client</li>
-                    <li>P2P-GO</li>
-                    <li>outside context of a BSS</li>
-                  </ul>
-                </p>
-
-                <p><strong>Static IP on Access Point Wireless Interface</strong></p> <br><br></br></br>
-                <p>We now have to choose an IP address that doesn't conflict with the network and CIDR of the interface we just configured for Internet. Most routers offer an IP in the 192.168.1.0/24 range, so we will use the 10.0.0.0/24 range and set the wireless interface for the access point to 10.0.0.1. We'll assume the interface is wlan0.
-                </p> 
-                <pre>kali@kali:~$ sudo ip link set wlan0 up                </pre>
-                <pre>kali@kali:~$ sudo ip addr add 10.0.0.1/24 dev wlan0                </pre>
-
-                <p><strong>DHCP Server</strong></p><br><br></br></br>
-                <p>We will set up the DHCP server on the wireless interface (wlan0) using dnsmasq, which is a DNS and DHCP server. We'll create the following configuration file and save it as dnsmasq.conf.
-                </p>
-
-                <p>
-                Main options
-                <ul>
-                  <li>domain-needed</li>
-                  <li>bogus-priv</li>
-                  <li>no-resolv</li>
-                  <li>filterwin2k</li>
-                  <li>expand-hosts</li>
-                  <li>domain=localdomain</li>
-                  <li>local=/localdomain/</li>
-                  <br></br>
-                  Only listen on this address. When specifying an interface, it also listens on localhost. We don't want to interrupt any local resolution listen-address=10.0.0.1
-                </ul>
-                </p>
-
-                <p>
-                DHCP range
-                <ul>
-                  <li>dhcp-range=10.0.0.100,10.0.0.199,12h</li>
-                  <li>dhcp-lease-max=100</li>
-                  <li>Router: wlan0</li>
-                  <li>dhcp-option=option:router,10.0.0.1</li>
-                  <li>dhcp-authoritative</li>
-                </ul>
-                </p>
-
-                <p>
-                DNS: Primary and secondary Google DNS
-                <ul>
-                  <li>server=8.8.8.8</li>
-                  <li>server=8.8.4.4</li>
-                </ul>
-                </p>
-
-                <p>
-                Now that our dnsmasq configuration is complete, we will run dnsmasq with --conf-file followed by the path of our configuration file.
-                <ul>
-                  <li>kali@kali:~$ sudo dnsmasq --conf-file=dnsmasq.conf </li>
-                </ul>
-                </p>
-                
-                <p>
-                After startup, dnsmasq will create a file containing its process ID in /var/run/dnsmasq.pid, which lets us find and kill the process when we are done. We will inspect syslog to confirm it started successfully.
-
-                <pre>
-                  <ul>
-                    <li>kali@kali:~$ sudo tail /var/log/syslog | grep dnsmasq</li>
-                    <li>Nov 10 19:36:39 kali dnsmasq[158592]: started, version 2.82 cachesize 150</li>
-                    <li>Nov 10 19:36:39 kali dnsmasq[158592]: compile time options: IPv6 GNU-getopt DBus no-UBus i18n IDN2 DHCP DHCPv6 no-Lua TFTP conntrack ipset auth DNSSEC loop-detect inotify dumpfile
-                    </li>
-                    <li>Nov 10 19:36:39 kali dnsmasq-dhcp[158592]: DHCP, IP range 10.0.0.100 -- 10.0.0.199, lease time 12h
-                    </li>
-                    <li>Nov 10 19:36:39 kali dnsmasq[158592]: using nameserver 8.8.4.4#53
-                    </li>
-                  </ul>
-                </pre>
-                </p>
-
-                <p>
-                  <strong>Routing</strong><br><br></br></br>
-                  We now have to enable routing and add a few firewall rules so we can act as a router and allow clients to reach the Internet. We first have to enable IP forwarding, which we can do by setting the ip_forward kernel variable to "1".
-
-<pre>kali@kali:~$ echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
-</pre>
-
-Although this should technically suffice to forward packets over to the Internet, our clients have a different IP address range than the one of our Internet connection. Since the Internet doesn't know where to route that back, packets will get dropped. In order to resolve
-
-
-                </p>
-                
+              <pre>
+                sudo ip link set wlan0 up
+              </pre>
+              <pre>
+                sudo ip addr add 10.0.0.1/24 dev wlan0
+              </pre>
+        
+              <p><strong>DHCP Server</strong></p>
+              <br />
+              
+              <p>We will set up the DHCP server on the wireless interface (<code>wlan0</code>) using <code>dnsmasq</code>, which is a DNS and DHCP server.</p>
+              <p>Create a configuration file <code>dnsmasq.conf</code> with the following content:</p>
+              <pre>
+                domain-needed
+                bogus-priv
+                no-resolv
+                filterwin2k
+                expand-hosts
+                domain=localdomain
+                local=/localdomain/
+                listen-address=10.0.0.1
+              </pre>
+              
+              <p>DHCP range settings:</p>
+              <pre>
+                dhcp-range=10.0.0.100,10.0.0.199,12h
+                dhcp-lease-max=100
+                dhcp-option=option:router,10.0.0.1
+                dhcp-authoritative
+              </pre>
+        
+              <p>To run <code>dnsmasq</code>:</p>
+              <pre>
+                sudo dnsmasq --conf-file=dnsmasq.conf
+              </pre>
+        
+              <p>Check logs to confirm:</p>
+              <pre>
+                sudo tail /var/log/syslog | grep dnsmasq
+              </pre>
+        
+              <p>Now, your network should be set up correctly!</p>
             </div>
-          )
+          ),
         }
+        
         
       ],
       quiz: {
@@ -463,130 +411,108 @@ sections: [
         </p>
 
         <p>
-          <strong>Connecting to an Access Point</strong><br><br></br></br>
-          Linux offers several wireless clients, with wpa_supplicant being the most widely used. It connects to Wi-Fi networks on many Linux distributions, even for unencrypted networks or those still using WEP.
-
-          wpa_supplicant can be controlled via a command-line interface (wpa_cli) or through configuration files specifying network settings.
+          <strong>Connecting to an Access Point</strong>
+        </p>
+        <p>
+          Linux offers several wireless clients, with <code>wpa_supplicant</code> being the most widely used. It connects to Wi-Fi networks on many Linux distributions, even for unencrypted networks or those still using WEP.
+        </p>
+        <p>
+          <code>wpa_supplicant</code> can be controlled via a command-line interface (<code>wpa_cli</code>) or through configuration files specifying network settings.
         </p>
 
         <p>
-          This configuration allows the system to connect to an open network called "hotel_wifi" and instructs wpa_supplicant to scan for SSIDs first.
-
-          The tool will automatically select between TKIP and CCMP for encryption, but you can specify a preference by adding pairwise=CCMP or pairwise=TKIP to the configuration. wpa_supplicant also supports WPA3, OWE, and WPA Enterprise, though these are outside the scope of this tutorial. 
-
-          To simplify configuration, you can use the wpa_passphrase tool, which generates configuration files for basic WPA-PSK networks. This tool requires the ESSID and optionally, a passphrase. If the passphrase isn't provided, it will prompt for it and output the configuration to a file.
-
-          Using the sample configuration from above, the following commands would generate and use a configuration file (wifi-client.conf):
-
-          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
-            sudo wpa_supplicant -i wlan0 -c wifi-client.conf
-          </code>
+          This configuration allows the system to connect to an open network called "hotel_wifi" and instructs <code>wpa_supplicant</code> to scan for SSIDs first.
         </p>
+        <p>
+          The tool will automatically select between TKIP and CCMP for encryption, but you can specify a preference by adding <code>pairwise=CCMP</code> or <code>pairwise=TKIP</code> to the configuration. <code>wpa_supplicant</code> also supports WPA3, OWE, and WPA Enterprise, though these are outside the scope of this tutorial. 
+        </p>
+        <p>
+          To simplify configuration, you can use the <code>wpa_passphrase</code> tool, which generates configuration files for basic WPA-PSK networks. This tool requires the ESSID and optionally, a passphrase. If the passphrase isn't provided, it will prompt for it and output the configuration to a file.
+        </p>
+        <p>
+          Using the sample configuration from above, the following commands would generate and use a configuration file (<code>wifi-client.conf</code>):
+        </p>
+        <code>
+          sudo wpa_supplicant -i wlan0 -c wifi-client.conf
+        </code>
 
         <p>
-          Once successfully connected, we can run wpa_supplicant in the background by appending -B and then request a DHCP lease with dhclient:
+          Once successfully connected, we can run <code>wpa_supplicant</code> in the background by appending <code>-B</code> and then request a DHCP lease with <code>dhclient</code>:
         </p>
-        <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
+        <code>
           sudo dhclient wlan0
         </code>
 
-        <p><strong>Setting up an Access Point</strong><br><br></br></br>
+        <p><strong>Setting up an Access Point</strong></p>
+        <p>
           To set up an access point, you need two distinct network interfaces. The process involves five main steps:
-          <ul>
-            <li>Configure Internet Access on the system.</li>
-            <li>Set a Static IP on the wireless interface.</li>
-            <li>Set up a DHCP server to provide IP addresses to Wi-Fi clients.</li>
-            <li>Add routing to enable Internet access for Wi-Fi clients.</li>
-            <li>Configure the wireless interface in AP mode.</li>
-          </ul>
         </p>
+        <ul>
+          <li>Configure Internet Access on the system.</li>
+          <li>Set a Static IP on the wireless interface.</li>
+          <li>Set up a DHCP server to provide IP addresses to Wi-Fi clients.</li>
+          <li>Add routing to enable Internet access for Wi-Fi clients.</li>
+          <li>Configure the wireless interface in AP mode.</li>
+        </ul>
 
-        <p><strong>Internet Access</strong><br><br></br></br>
-          You need an active Internet connection on the system, whether through Ethernet, Wi-Fi, or mobile broadband. While Ethernet is straightforward to configure, Wi-Fi requires the same process as described in 16.1.
-
-          It's important to note that while you can use a single Wi-Fi interface for both client and AP modes, this is more complex and may not work reliably on all adapters. Use iw to list supported modes for your Wi-Fi interface:
-
-          <strong> sudo iw list </strong>
+        <p><strong>Internet Access</strong></p>
+        <p>
+          You need an active Internet connection on the system, whether through Ethernet, Wi-Fi, or mobile broadband. Use <code>iw</code> to list supported modes for your Wi-Fi interface:
         </p>
+        <code>
+          sudo iw list
+        </code>
 
-        <p><strong>Static IP on Access Point Wireless Interface</strong><br><br></br></br>
-          Next, assign a static IP to the wireless interface intended for the access point. The IP address should not conflict with the range of the network you're using for Internet access. For example, if the Internet network is on the 192.168.1.0/24 range, use 10.0.0.1/24 for the access point interface.
-          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
-            sudo dhclient wlan0
-          </code>
+        <p><strong>Static IP on Access Point Wireless Interface</strong></p>
+        <p>
+          Assign a static IP to the wireless interface intended for the access point. Example:
         </p>
+        <code>
+          sudo ifconfig wlan0 10.0.0.1/24 up
+        </code>
 
-        <p><strong>DHCP Server</strong><br><br></br></br>
-          To automatically assign IPs to clients, set up dnsmasq, a tool that provides DNS and DHCP services. The following is an example configuration file (dnsmasq.conf):
-
-          <ul>
-            <li><strong>Main options:</strong></li><br><br></br></br>
-            <ul>
-              <li>domain-needed</li>
-              <li>bogus-priv</li>
-              <li>no-resolv</li>
-              <li>filterwin2k</li>
-              <li>expand-hosts</li>
-              <li>domain=localdomain</li>
-              <li>local=/localdomain/</li>
-              <li>listen-address=10.0.0.1</li>
-            </ul>
-
-            <li><strong>DHCP range:</strong></li><br><br></br></br>
-            <ul>
-              <li>dhcp-range=10.0.0.100,10.0.0.199,12h</li>
-              <li>dhcp-lease-max=100</li>
-              <li>dhcp-option=option:router,10.0.0.1</li>
-              <li>dhcp-authoritative</li>
-            </ul>
-
-            <li><strong>DNS: Primary and secondary Google DNS</strong></li><br><br></br></br>
-            <ul>
-              <li>server=8.8.8.8</li>
-              <li>server=8.8.4.4</li>
-            </ul>
-          </ul>
-          <br><br></br></br>
-          Start dnsmasq with this configuration file:
-          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
-            sudo dnsmasq --conf-file=dnsmasq.conf
-          </code>
+        <p><strong>DHCP Server</strong></p>
+        <p>
+          To automatically assign IPs to clients, set up <code>dnsmasq</code>. Example configuration file (<code>dnsmasq.conf</code>):
         </p>
+        <pre>
+        domain-needed
+        bogus-priv
+        no-resolv
+        listen-address=10.0.0.1
+        dhcp-range=10.0.0.100,10.0.0.199,12h
+        server=8.8.8.8
+        server=8.8.4.4
+        </pre>
+        <p>Start <code>dnsmasq</code> with:</p>
+        <code>
+          sudo dnsmasq --conf-file=dnsmasq.conf
+        </code>
 
         <p>
           You can confirm it’s running by checking the syslog:
-          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
-            sudo tail /var/log/syslog | grep dnsmasq
-          </code>
         </p>
+        <code>
+          sudo tail /var/log/syslog | grep dnsmasq
+        </code>
 
-        
+        <p><strong>Enable IP forwarding</strong></p>
+        <code>
+          echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+        </code>
 
-        <p><strong> Enable IP forwarding to allow the system to act as a router: </strong>
-          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
-            echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
-          </code>
-        </p>
-
-        <p>
-          Next, set up a NAT rule to masquerade the client IP addresses to appear as if they are coming from the system's Internet connection. You will need nftables to manage firewall rules:
-
-          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
-            sudo apt install nftables
-          </code>
-
-          Add the NAT table and the masquerade rule:
-
-          <code style={{backgroundColor: 'black', color: 'white', padding: '5px', fontFamily: "'Courier New', monospace"}}>
-            sudo nft add table nat
-            sudo nft add chain nat postrouting 
-            sudo nft add rule ip nat postrouting oifname "eth0" ip daddr != 10.0.0.1/24 masquerade
-          </code>
-        </p>
+        <p><strong>Set up NAT rule using nftables:</strong></p>
+        <code>
+          sudo apt install nftables
+        </code>
+        <code>
+          sudo nft add table nat
+          sudo nft add chain nat postrouting type nat hook postrouting priority 100 \;
+          sudo nft add rule nat postrouting oifname "eth0" masquerade
+        </code>
       </div>
     )
-  
-        },
+},
         {
           title: "Determining Chipsets and Drivers for Wireless Attacks",
           summary: (
