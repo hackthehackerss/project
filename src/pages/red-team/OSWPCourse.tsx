@@ -518,9 +518,76 @@ sections: [
           summary: (
             <>
               <p className="p-5">
+              The chipset of a Wi-Fi card and the corresponding driver are both important when it comes to penetration testing. In this module, we will review how to determine the chipset and driver for a Wi-Fi adapter, even without physical access to the hardware. This information is also useful for selecting compatible hardware.
 
+While we might prefer to stick to a list of chipsets known to work, there may be times when we need to work with an unfamiliar adapter. Learning the wireless chipset manufacturer helps determine supported operating systems, required drivers, and any associated limitations.
+
+Wireless cards are branded by manufacturers like Netgear, Ubiquiti, Linksys, and D-Link. These cards contain chipsets from different manufacturers such as Mediatek, Ralink, Atheros, Qualcomm, or Marvell. Unfortunately, chipset manufacturers are both more important and harder to determine, as card manufacturers do not always disclose the chipset used. Even different versions of the same model may have different chipsets.
+              </p>
+
+              <p className="p-5">
+              The first step is to identify the wireless chipset used by an adapter. Several techniques can be used:
+              <ul>
+              Physical Inspection:
+                <li>If the adapter is accessible, check for an FCC ID on a label or etched onto the metal casing.</li>
+                <li>Enter the FCC ID into the FCC database to find internal device photos revealing the chipset.</li>
+
+              </ul>
+
+              <ul>
+              Using System Tools:
+                <li>Plug in the adapter and run airmon-ng to check if it displays the chipset and driver.</li>
+                <li>If no interfaces appear, check loaded modules using lsmod before and after plugging in the device.</li>
+                <li>Use dmesg to look for chipset-related messages or errors such as missing firmware.</li>
+                <li>Filter dmesg output using terms like ieee80211, mac80211, cfg80211, wireless, or wifi.</li>
+                <li>Inspect lsusb -vv output for USB devices or lspci -n for PCI/PCIe devices.</li>
+                
+              </ul>
 
               </p>
+
+              <p className="p-5">
+              Example output of lsusb -vv:
+
+              <code>
+              kali@kali:~# sudo lsusb -vv <br></br>
+              Bus 001 Device 065: ID 148f:5370 Ralink Technology, Corp. RT5370 Wireless Adapter <br></br>
+              Device Descriptor: <br></br>
+              idVendor  0x148f Ralink Technology, Corp. <br></br>
+              idProduct  0x5370 RT5370 Wireless Adapter
+              </code>
+              </p>
+
+              <p className="p-5">
+              In this case, the chipset is RT5370 from Ralink. The vendor ID (0x148f) and product ID (0x5370) can be searched online for more details. <br></br>
+              Additional resources for identifying chipsets include: 
+              <ul>
+                <li>DeviWiki (WikiDevi) for a user-maintained database.</li>
+                <li>The Wireless Adapter Chipset Directory.</li>
+                <li>Manufacturer product pages and forums.</li>
+                <li>Windows driver filenames, which may contain chipset details.</li>
+              </ul>
+              </p>
+
+              <p className="p-5">
+              Once the chipset is identified, determining the driver is straightforward. If DeviWiki lacks the information, the Linux-wireless wiki can help. Google is an alternative. <br></br>
+              There may be multiple drivers available for the same card:
+                            <ul>
+                <li>Vendor drivers (often closed source) may not support monitor mode.</li>
+                <li>Open-source drivers generally support monitor mode but may not be included in the Linux kernel if the chipset is new.</li>
+                Examples of vendor drivers with monitor mode:
+                <li>r8187: Later evolved into a mac80211-based driver.</li>
+                <li>rtl8812au: Available as a package on Kali Linux.</li>
+                <li>nexmon: Used for Broadcom chipsets in Raspberry Pis and other SoCs.</li> 
+              </ul>
+              Some FullMAC chipsets, found in embedded systems and SoCs, rarely support monitor mode, even with an open-source driver.
+              </p>
+
+              <p className="p-5">
+              For an Alfa AWUS036AC USB Wi-Fi Adapter, searching for "Alfa AWUS036AC wikidevi" leads to a page containing chipset and driver details. The chipset is often listed in the specifications box. <br></br>
+              By following these techniques, we can identify Wi-Fi chipsets and drivers to ensure compatibility with penetration testing tools.
+              </p>
+
             </>
           )
         },
