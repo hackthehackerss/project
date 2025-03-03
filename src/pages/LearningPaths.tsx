@@ -180,6 +180,22 @@ function LearningPaths() {
       ]
     },
     {
+      title: "The Onion Network",
+      path: "/red-team/TORProject",
+      description: "The Onion Network is a decentralized, privacy-focused network that uses multiple layers of encryption to enable anonymous internet browsing, primarily accessed through the Tor network.",
+      icon: Network,
+      difficulty: "Beginner",
+      access: "Free",
+      image: "/Learning Paths/pentestbasic.jpeg",
+      progress: 0,
+      modules: [
+        {
+          title: "Network Architecture",
+          topics: ["Onion Routing", "Tor Network Architecture", "Privacy and Anonymity", "Dark Web Access and Security"]
+        }
+      ]
+    },
+    {
       title: "Web Application Security",
       path: "/red-team/web-security",
       description: "Master web application security testing",
@@ -240,22 +256,7 @@ function LearningPaths() {
         {
           title: "OSWP Road Map",
           topics: ["Wireless Network Fundamentals", "Attacking Wireless Networks", "Post-Exploitation & Rogue AP Attacks", "Wireless Reconnaissance & Enumeration"]
-        },
-    {
-      title: "The Onion Network",
-      path: "/TORProject",
-      description: "The Onion Network is a decentralized, privacy-focused network that uses multiple layers of encryption to enable anonymous internet browsing, primarily accessed through the Tor network.",
-      icon: Network,
-      difficulty: "Beginner",
-      access: "Free",
-      image: "/Learning Paths/oscp.jpeg",
-      progress: 0,
-      modules: [
-        {
-          title: "OSWP Road Map",
-          topics: ["Wireless Network Fundamentals", "Attacking Wireless Networks", "Post-Exploitation & Rogue AP Attacks", "Wireless Reconnaissance & Enumeration"]
         }
-      }
       ]
     }
   ];
