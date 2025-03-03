@@ -1212,6 +1212,30 @@ For practice, you can use Wireshark's SSH option to initiate a dumpcap capture o
 
 </p>
 
+<p className="p-5">
+
+In addition to capturing, Wireshark offers various preferences to improve your workflow. <br></br>
+
+To assist with packet analysis, you can apply color rules to highlight certain packets in the packet list. To toggle coloring, use the "View, Colorize Packet List" option. You can also edit the coloring rules by navigating to "View, Coloring rules." <br></br> 
+
+Wireshark’s default coloring rules are tailored for Ethernet networks, but you can add your own rules for wireless frames. Wireshark processes these rules in order, and once a match is found, it stops checking other rules. To add a rule, click the "+" button, enter the filter expression, and select colors for the foreground and background. <br></br>
+
+Instead of manually creating rules, you can import a pre-defined wireless coloring rules file. Once imported, the rules will be applied automatically to your capture. <br></br>
+
+Another useful feature is the ability to modify the columns displayed in the Packet List. You can add, remove, resize, and move columns based on the packet's fields. For example, you can add a column for the channel in a probe request packet by right-clicking on it and selecting "Apply as a column." <br></br>
+
+Wireshark also allows configuring the capture snaplen, which determines the maximum number of bytes to capture for each packet. This can be useful when you're not interested in capturing the entire payload. Snaplen should be set during the capture configuration and cannot be changed while capturing. <br></br>
+
+Finally, Wireshark provides several preferences for configuring IEEE 802.11 protocols. These preferences allow you to optimize performance, such as disabling certain features that may increase CPU usage. <br></br>
+
+For WEP and WPA1/2 decryption, you can add decryption keys in the preferences. These include WEP keys in hexadecimal, WPA passphrases, or Pairwise Master Keys (PMK) for WPA Enterprise. Once the keys are added, Wireshark will apply them to decrypt the captured packets. <br></br>
+
+These features can significantly improve the packet analysis process, especially when dealing with complex wireless networks and encrypted traffic.
+
+</p>
+
+
+
               
             </>
           )
