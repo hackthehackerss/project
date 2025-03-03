@@ -41,7 +41,7 @@ import LABexercise03 from './pages/labs/sql_labs/lab-exercise03';
 import MainBlog from './Blog/MainBlog';
 import BybitBlog from './Blog/Blogs/Bybit';
 import FireScam from './Blog/Blogs/firescam';
-import Emotet from './pages/Challenges/emotet';
+import Emotet from './pages/Challenges/EDRInvestigationChallenge';
 
 function App() {
   return (
