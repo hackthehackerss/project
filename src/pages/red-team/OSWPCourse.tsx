@@ -1244,7 +1244,109 @@ These features can significantly improve the packet analysis process, especially
           title: "Kismet Essentials – Passive Network Discovery",
           summary: (
             <>
-              <p className="p-5"></p>
+              <p className="p-5">
+
+              Kismet is a versatile wireless capture tool capable of detecting and analyzing multiple wireless technologies, including Wi-Fi, Bluetooth, and nRF signals. Additionally, it can utilize Software Defined Radio (SDR) to capture signals such as ADS-B, Automatic Meter Reading (AMR), and various frequencies like 433MHz. This document will focus on Kismet's Wi-Fi capabilities. <br></br>
+
+              Kismet captures raw wireless frames and decodes them to identify access points and devices on a network. When used with a GPS device, it can include estimated geolocation data for discovered devices, providing insights into their approximate locations relative to access points. The user interface offers multiple views for analyzing wireless networks, enhancing understanding when combined with other network tools.<br></br>
+
+              <h3 className="text-xl font-bold">Installation</h3> <br></br>
+              To install Kismet on Kali Linux, use the following command: <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">sudo apt install kismet</code> <br></br>
+              After installation, Kismet is ready for configuration.
+              <h3 className="text-xl font-bold">Configuration Files</h3> <br></br>
+              Kismet's configuration files are stored in the /etc/kismet/ directory. These files control different aspects of the tool:
+              <ul>
+                <li>kismet_80211.conf: Manages Wi-Fi-related settings.</li>
+                <li>kismet_alerts.conf: Configures intrusion detection and alerting.</li>
+                <li>kismet.conf: The primary configuration file.</li>
+                <li>kismet_filter.conf: Defines filtering rules for devices and packets.</li>
+                <li>kismet_httpd.conf: Configures the web server.</li>
+                <li>kismet_logging.conf: Manages logging behavior and file locations.</li>
+                <li>kismet_memory.conf: Handles memory usage settings.</li>
+                <li>kismet_uav.conf: Contains rules for detecting unmanned aerial vehicles (UAVs) and drones.</li>
+              </ul> <br></br>
+              Users can override settings by creating a kismet_site.conf file in /etc/kismet/. This approach allows customization without modifying default configuration files, ensuring personal settings persist after software updates.
+
+
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Output Files</h3> <br></br>
+              Kismet generates log files in different formats:
+
+              <ul>
+                <li>Kismet format: Uses an SQLite database to store collected data.</li>
+                <li>PcapPpi format: A legacy packet capture format.</li>
+                <li>PcapNg format: A modern packet capture format that supports multiple data link types.</li>
+              </ul> <br></br>
+              The preferred format is PcapNg, as it allows compatibility with tools like Wireshark. If a PcapNg file contains only one type of data, it can be converted to a standard Pcap file using tshark:
+              <code className="bg-gray-800 text-white p-2 rounded">tshark -F pcap -r input.pcapng -w output.pcap</code> <br></br>
+
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Logging Configuration</h3> <br></br>
+              To customize logging settings, users can modify kismet_logging.conf. Key parameters include:
+              <ul>
+                <li>log_title: Specifies the default title for logs.</li>
+                <li>log_prefix: Defines the directory where logs are stored.</li>
+                <li>log_types: Determines which log formats are enabled.</li>
+              </ul> <br></br>
+              By creating a custom kismet_site.conf file, users can override logging defaults and configure settings according to their requirements.
+              <br></br>
+              Kismet is a powerful tool for wireless network analysis, offering flexible configuration and extensive logging capabilities to suit various security and research needs.
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Securing the Web Interface</h3> <br></br>
+              By default, the Kismet web server listens on all interfaces, allowing remote connections. While this is acceptable in a controlled environment, it is advisable to restrict access before deploying Kismet in real-world scenarios. This can be done by configuring Kismet's web server to listen only on the loopback interface. To achieve this, add the following line to the kismet_site.conf override file:
+
+              <code className="bg-gray-800 text-white p-2 rounded">httpd_bind_address=127.0.0.1</code> <br></br>
+              Additionally, enabling HTTPS can encrypt communications with the web server. Although this step is unnecessary in a lab environment, it is recommended when running Kismet on a public network.
+
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Remote Capture</h3> <br></br>
+              Kismet provides tools for data capture. When specifying a source, Kismet automatically uses the appropriate tool. For instance, when capturing on wlan0 in Kali, it calls kismet_cap_linux_wifi to handle the capture. <br></br>
+
+Kismet also allows remote data capture. The server does not initiate the capture but listens for connections and processes incoming data. By default, it only allows connections from localhost. This functionality can be used to collect Wi-Fi data on multiple remote devices and send it to a centralized server for analysis. <br></br>
+
+To enable remote capture, an SSH tunnel to the server must be established, or the remote instance of Kismet should be configured to listen on a specific network interface. This can be done by modifying the remote_capture_listen value in the override file. <br></br>
+
+In the following example, two Kali instances are used: kali host as the server and kaliremote as the capture device. The Kismet server is started on kali host without specifying a source: <br></br>
+
+              <code className="bg-gray-800 text-white p-2 rounded">sudo kismet</code> <br></br>
+              Once the server is running, an SSH tunnel is established from kaliremote to kali host, forwarding port 8000 on kaliremote to port 3501 on kali host:
+              <code className="bg-gray-800 text-white p-2 rounded">ssh kali@192.168.X.X -L 8000:localhost:3501</code> <br></br>
+              After setting up the tunnel, a remote capture is initiated on kaliremote using:
+              <code className="bg-gray-800 text-white p-2 rounded">sudo kismet_cap_linux_wifi --connect 127.0.0.1:8000 --source=wlan0</code> <br></br>
+              This setup enables kaliremote to capture Wi-Fi data and send it through the SSH tunnel to kali host. The process can be stopped using Ctrl+C on kaliremote, while the server on kali host remains active, waiting for future connections. <br></br>
+
+        To terminate the SSH tunnel, simply log out of the session:
+        <code className="bg-gray-800 text-white p-2 rounded">exit</code> <br></br>
+        Finally, the Kismet server on kali host can be shut down when no longer needed.
+
+
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Log Files</h3> <br></br>
+              Logging in Kismet can be configured through override files or command-line options. Some useful flags include: <br></br>
+
+              <code className="bg-gray-800 text-white p-2 rounded">-T, --log-types (Override activated log types) </code> <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">-p, --log-prefix (Directory to store log files) </code> <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">-n, --no-logging  (Disable logging entirely) </code> <br></br>
+              The <code className="bg-gray-800 text-white p-2 rounded">--no-logging </code> option can be useful for debugging without creating log files.
+              <br></br>
+              Kismet logs are stored in SQLite databases. The sqlite3 tool can be used to interact with them:
+              <code className="bg-gray-800 text-white p-2 rounded">sudo sqlite3 /var/log/kismet/Kismet-YYYYMMDD-HHMMSS.kismet </code>
+              <br></br>
+              Once inside SQLite, tables can be listed using:
+              <code className="bg-gray-800 text-white p-2 rounded">.tables </code> <br></br>
+              This allows for efficient querying and analysis of captured data.
+              </p>
             </>
           )
         },
@@ -1252,7 +1354,142 @@ These features can significantly improve the packet analysis process, especially
           title: "Bettercap Essentials – MITM & Wireless Attacks",
           summary: (
             <>
-              <p className="p-5"></p>
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Bettercap Essentials</h3> <br></br>
+              Bettercap is a popular tool for Wi-Fi assessments. It shares some capabilities with airodump-ng, aireplay-ng, and airbase-ng or hostapd-mana. Unlike many other tools, Bettercap provides flexibility through an interactive terminal, scripting language, or web UI. <br></br>
+
+              While Bettercap has extensive functionalities beyond Wi-Fi, this guide focuses solely on its Wi-Fi capabilities.
+
+
+
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Installation and Execution</h3> <br></br>
+              Installing Bettercap is straightforward. Use the following command to install it: <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">sudo apt install bettercap</code> <br></br>
+              No additional configurations are needed for the wireless interface. As long as no other processes are using the wireless interface, Bettercap will configure monitor mode automatically. <br></br>
+              To start Bettercap, use the following command, replacing wlan0 with the appropriate interface name: <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">sudo bettercap -iface wlan0</code> <br></br>
+              This will launch an interactive session. To display available commands, type:<code className="bg-gray-800 text-white p-2 rounded">help</code>  <br></br>
+              If no -iface argument is provided, Bettercap will attempt to select an interface automatically. However, specifying the intended interface is recommended to avoid conflicts, especially if multiple wireless interfaces are present. <br></br>
+              To change the Wi-Fi module’s interface, use: <code className="bg-gray-800 text-white p-2 rounded">set wifi.interface wlanX</code>  <br></br> Although this changes the interface, the terminal will still display the original interface name/IP, which is another reason to specify -iface at startup. To clear the screen, use: <code className="bg-gray-800 text-white p-2 rounded">clear</code>  <br></br> To exit Bettercap, type:<code className="bg-gray-800 text-white p-2 rounded">exit</code>
+
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Modules vs. Commands</h3> <br></br>
+              Bettercap's main functionality is divided into six primary modules: <br></br>
+
+              <ul>
+                <li>Bluetooth LE</li>
+                <li>HID on 2.4GHz</li>
+                <li>Ethernet</li>
+                <li>Wi-Fi</li>
+                <li>Core (for Bettercap-specific commands)</li>
+                <li>Utils (for utilities like GPS or MAC address changers)</li>
+              </ul>
+              <br></br>
+
+              Each module consists of commands and parameters. Commands trigger specific actions, such as deauthentication in the Wi-Fi module, while parameters modify module behavior, like adjusting the frequency of channel hopping. Set parameters using:
+
+              <code className="bg-gray-800 text-white p-2 rounded">set 'parameter' 'value' </code> <br></br>
+              For example, to set the channel-hopping period to 200 milliseconds:
+              <code className="bg-gray-800 text-white p-2 rounded">set wifi.hop.period 200 </code> <br></br>
+              While Bettercap supports various modules, this guide focuses on the Wi-Fi module.
+
+              </p>
+
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Wi-Fi Module</h3> <br></br>
+              The Bettercap Wi-Fi module allows users to: <br></br>
+
+              <ul>
+                <li>Scan the Wi-Fi spectrum</li>
+                <li>Deauthenticate clients</li>
+                <li>Capture WPA/WPA2 handshakes</li>
+                <li>Create rogue access points</li>
+                Useful Wi-Fi commands:
+                <li>wifi.recon – Scan for access points and capture WPA/WPA2 handshakes.</li>
+                <li>wifi.deauth – Disconnect clients from an access point.</li>
+                <li>wifi.show – Display discovered wireless stations.</li>
+                <li>wifi.ap – Create a rogue access point.</li>
+              </ul>
+              <br></br>
+
+              To use these commands, prepend wifi. (e.g., wifi.recon). Start Bettercap with:
+              <code className="bg-gray-800 text-white p-2 rounded">sudo bettercap -iface wlan0</code> <br></br>
+        
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Discovering Access Points</h3> <br></br>
+              The wifi.recon command scans for nearby access points. To initiate scanning: <br></br>
+
+
+              <code className="bg-gray-800 text-white p-2 rounded">wifi.recon on</code> <br></br>
+              Bettercap will automatically hop between channels and list discovered APs and clients. To scan specific channels, use:
+              <code className="bg-gray-800 text-white p-2 rounded">wifi.recon.channel 'channel_numbers'</code> <br></br>
+              For example, to scan channels 1, 6, and 11:
+              <code className="bg-gray-800 text-white p-2 rounded">wifi.recon.channel 1,6,11 </code> <br></br>
+              This helps refine the scan for efficiency.
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Additional Methods for Interacting with Bettercap </h3> <br></br>
+              So far, we have been using the interactive session to perform various actions in Bettercap. While effective, this approach can be tedious for simple or repetitive tasks. Bettercap provides alternative methods, such as a web interface for easier management and a scripting interface for automation.
+
+<br></br>
+
+<h3 className="text-xl font-bold">Caplets</h3> <br></br>
+Caplets are script files that allow the execution of multiple commands without manually entering them in the terminal. These files use the .cap extension and are stored in /usr/share/bettercap/caplets/. For example, the massdeauth.cap caplet deauthenticates all clients every 10 seconds. The script includes:
+
+<ul>
+  <li>A customized prompt  </li>
+  <li>A ticker that runs every 10 seconds  </li>
+  <li>Commands to clear the screen and send deauthentication packets  </li>
+  <li>Initialization of 802.11 discovery and event clearing  </li>
+
+  Instead of using mass deauthentication, we can create a custom caplet to target specific clients on a corporate access point. This custom caplet:
+  <li>Modifies the prompt to display the received data, interface name, and arrows.  </li>
+  <li>Sets a ticker to execute every 10 seconds.  </li>
+  <li>Displays relevant information while deauthenticating all clients connected to the corporate AP.  </li>
+  <li>Starts network reconnaissance.  </li>
+  <li>Clears the screen and event buffer.  </li>
+</ul> <br></br>
+To execute this caplet, use the following command:
+
+              <code className="bg-gray-800 text-white p-2 rounded">sudo bettercap -iface wlan0 -caplet deauth_corp.cap   </code> <br></br>
+              This will continuously send deauthentication packets and capture WPA2 handshakes for potential password cracking.
+              </p>
+
+              <p className="p-5">
+              <h3 className="text-xl font-bold">Web Interface              </h3> <br></br>
+              Bettercap’s interactive terminal can become cluttered, especially when dealing with multiple access points. The web interface provides a more structured way to display information and allows remote control of Bettercap. <br></br>
+              By default, the web interface runs on port 443, with the API server on port 8083. To secure access, firewall rules should be set up using nftables to restrict access to a specific IP.
+
+
+          <br></br>
+          To configure nftables:
+
+
+<ul>
+  <li> <code className="bg-gray-800 text-white p-2 rounded">sudo nft add table inet filter  </code></li>
+  <li> <code className="bg-gray-800 text-white p-2 rounded">sudo nft add chain inet filter INPUT (type filter hook input priority 0; policy drop; ) </code></li>  
+  <li> <code className="bg-gray-800 text-white p-2 rounded">sudo nft add rule inet filter INPUT ip saddr 'your-ip' tcp dport 443 accept
+  </code></li>  
+  <li> <code className="bg-gray-800 text-white p-2 rounded">sudo nft add rule inet filter INPUT ip saddr 'your-ip' tcp dport 8083 accept
+  </code></li>
+</ul> <br></br>
+Additionally, the web interface requires setting a username and password by modifying the caplet file at /usr/share/bettercap/caplets/https-ui.cap. After setting up authentication, the web interface can be launched with:
+              <code className="bg-gray-800 text-white p-2 rounded">sudo bettercap -caplet https-ui.cap              </code> <br></br>
+              Now, the Bettercap instance can be accessed remotely through a web browser for easier monitoring and management.
+
+</p>
+
+
+
             </>
           )
         },
@@ -1260,17 +1497,117 @@ These features can significantly improve the packet analysis process, especially
         questions: [
           {
             id: 1,
-            question: "Which stage comes first in the Cyber Kill Chain?",
+            question: "Which Linux command is used to check the wireless interfaces available on a system?",
             options: [
-              "Reconnaissance",
-              "Delivery",
-              "Exploitation",
-              "Installation"
+              "ifconfig",
+              "iwconfig",
+              "netstat",
+              "ipconfig"
             ],
-            correctAnswer: "Reconnaissance"
+            correctAnswer: "iwconfig"
+          },
+          {
+            id: 2,
+            question: "What is the primary purpose of setting a wireless adapter into monitor mode?",
+            options: [
+              "To connect to a Wi-Fi network",
+              "To intercept and capture Wi-Fi packets",
+              "To boost Wi-Fi signal strength",
+              "To enable faster internet speeds"
+            ],
+            correctAnswer: "To intercept and capture Wi-Fi packets"
+          },
+          {
+            id: 3,
+            question: "Which tool can be used to determine the chipset and driver of a wireless adapter?",
+            options: [
+              "lsusb",
+              "lspci",
+              "airmon-ng",
+              "netstat"
+            ],
+            correctAnswer: "airmon-ng"
+          },
+          {
+            id: 4,
+            question: "What does the 'wifi.recon on' command do in Bettercap?",
+            options: [
+              "Starts a deauthentication attack",
+              "Begins scanning for access points and clients",
+              "Creates a rogue access point",
+              "Hides the network from other devices"
+            ],
+            correctAnswer: "Begins scanning for access points and clients"
+          },
+          {
+            id: 5,
+            question: "Which type of frame is responsible for establishing and maintaining Wi-Fi connections?",
+            options: [
+              "Data frames",
+              "Management frames",
+              "Control frames",
+              "Beacon frames"
+            ],
+            correctAnswer: "Management frames"
+          },
+          {
+            id: 6,
+            question: "What is the purpose of the 'wifi.deauth' command in Bettercap?",
+            options: [
+              "To disconnect clients from an access point",
+              "To connect to a Wi-Fi network",
+              "To change the MAC address of an interface",
+              "To increase network speed"
+            ],
+            correctAnswer: "To disconnect clients from an access point"
+          },
+          {
+            id: 7,
+            question: "Which Linux wireless stack is commonly used for interacting with Wi-Fi devices?",
+            options: [
+              "Netfilter",
+              "mac80211",
+              "iptables",
+              "wireless-tools"
+            ],
+            correctAnswer: "mac80211"
+          },
+          {
+            id: 8,
+            question: "Which Bettercap module is used for wireless attacks?",
+            options: [
+              "wifi",
+              "ble",
+              "hid",
+              "ethernet"
+            ],
+            correctAnswer: "wifi"
+          },
+          {
+            id: 9,
+            question: "What does a beacon frame contain in Wi-Fi communication?",
+            options: [
+              "MAC addresses of all connected devices",
+              "The SSID and capabilities of an access point",
+              "Encryption keys used for authentication",
+              "The IP addresses of connected devices"
+            ],
+            correctAnswer: "The SSID and capabilities of an access point"
+          },
+          {
+            id: 10,
+            question: "Which of the following commands in Bettercap starts a rogue access point?",
+            options: [
+              "wifi.recon",
+              "wifi.ap",
+              "wifi.show",
+              "wifi.deauth"
+            ],
+            correctAnswer: "wifi.ap"
           }
         ]
       }
+      
     },
     {
       id: "module3",
@@ -1326,20 +1663,120 @@ These features can significantly improve the packet analysis process, especially
         },
       ],
       quiz: {
-        questions: [
+        "questions": [
           {
-            id: 1,
-            question: "What is the purpose of the MITRE ATT&CK framework?",
-            options: [
-              "To model adversary behavior",
-              "To design firewalls",
-              "To develop software",
-              "To manage networks"
+            "id": 1,
+            "question": "What is the primary goal of cracking authentication hashes like PMKID and handshakes?",
+            "options": [
+              "To identify the encryption type used",
+              "To obtain the plaintext password",
+              "To intercept communication",
+              "To modify network traffic"
             ],
-            correctAnswer: "To model adversary behavior"
+            "correctAnswer": "To obtain the plaintext password"
+          },
+          {
+            "id": 2,
+            "question": "Which tool is most commonly used for cracking Wi-Fi handshakes?",
+            "options": [
+              "Wireshark",
+              "John the Ripper",
+              "Aircrack-ng",
+              "Metasploit"
+            ],
+            "correctAnswer": "Aircrack-ng"
+          },
+          {
+            "id": 3,
+            "question": "What is the PMKID attack primarily used for?",
+            "options": [
+              "Exploiting weak Wi-Fi configurations",
+              "Cracking WPA2 pre-shared keys",
+              "Bypassing WPA Enterprise authentication",
+              "Capturing WPS PINs"
+            ],
+            "correctAnswer": "Cracking WPA2 pre-shared keys"
+          },
+          {
+            "id": 4,
+            "question": "Which Aircrack-ng tool is used for capturing WPA handshakes?",
+            "options": [
+              "airmon-ng",
+              "airodump-ng",
+              "aircrack-ng",
+              "airbase-ng"
+            ],
+            "correctAnswer": "airodump-ng"
+          },
+          {
+            "id": 5,
+            "question": "Which of the following is a vulnerability in WPS (Wi-Fi Protected Setup) networks?",
+            "options": [
+              "Weak PSK passwords",
+              "Easily guessed PINs",
+              "Unencrypted management frames",
+              "Excessive signal interference"
+            ],
+            "correctAnswer": "Easily guessed PINs"
+          },
+          {
+            "id": 6,
+            "question": "Which attack method is used to exploit weak WPS PINs?",
+            "options": [
+              "Brute-force attack",
+              "Dictionary attack",
+              "Rainbow table attack",
+              "Social engineering"
+            ],
+            "correctAnswer": "Brute-force attack"
+          },
+          {
+            "id": 7,
+            "question": "How does WPA Enterprise authentication differ from WPA Personal?",
+            "options": [
+              "WPA Enterprise requires a RADIUS server",
+              "WPA Personal is more secure than WPA Enterprise",
+              "WPA Enterprise uses a simpler password method",
+              "WPA Personal does not require encryption"
+            ],
+            "correctAnswer": "WPA Enterprise requires a RADIUS server"
+          },
+          {
+            "id": 8,
+            "question": "What is a common method for bypassing WPA Enterprise authentication?",
+            "options": [
+              "Cracking the PMKID hash",
+              "Capturing the 802.1X authentication credentials",
+              "Injecting rogue access points",
+              "Exploiting WPS vulnerabilities"
+            ],
+            "correctAnswer": "Capturing the 802.1X authentication credentials"
+          },
+          {
+            "id": 9,
+            "question": "What technique is used to bypass restricted Wi-Fi networks that require captive portal login?",
+            "options": [
+              "ARP spoofing",
+              "DNS spoofing",
+              "Session hijacking",
+              "Cross-site scripting (XSS)"
+            ],
+            "correctAnswer": "DNS spoofing"
+          },
+          {
+            "id": 10,
+            "question": "What is a rogue access point used for in Wi-Fi penetration testing?",
+            "options": [
+              "Increasing Wi-Fi signal strength",
+              "Stealing credentials via fake networks",
+              "Improving network security",
+              "Monitoring network traffic"
+            ],
+            "correctAnswer": "Stealing credentials via fake networks"
           }
         ]
       }
+      
     },
     {
       id: "module4",
@@ -1374,20 +1811,120 @@ These features can significantly improve the packet analysis process, especially
         
       ],
       quiz: {
-        questions: [
+        "questions": [
           {
-            id: 1,
-            question: "What does the Pyramid of Pain illustrate?",
-            options: [
-              "The difficulty in eliminating certain threat indicators",
-              "A network topology",
-              "A layered firewall design",
-              "An encryption algorithm"
+            "id": 1,
+            "question": "What is a primary defensive strategy to mitigate rogue access points?",
+            "options": [
+              "Deploying IDS/IPS systems",
+              "Using strong WPA3 encryption",
+              "Implementing MAC address filtering",
+              "Disabling SSID broadcast"
             ],
-            correctAnswer: "The difficulty in eliminating certain threat indicators"
+            "correctAnswer": "Using strong WPA3 encryption"
+          },
+          {
+            "id": 2,
+            "question": "Which of the following best practices helps prevent deauthentication attacks on Wi-Fi networks?",
+            "options": [
+              "Use WPA2 or WPA3 with strong passphrases",
+              "Disable MAC address filtering",
+              "Enable SSID broadcast",
+              "Allow open Wi-Fi networks"
+            ],
+            "correctAnswer": "Use WPA2 or WPA3 with strong passphrases"
+          },
+          {
+            "id": 3,
+            "question": "What is the purpose of a wireless intrusion detection system (WIDS)?",
+            "options": [
+              "To enhance signal strength",
+              "To monitor and detect unauthorized wireless access",
+              "To block malicious traffic from the network",
+              "To optimize Wi-Fi coverage"
+            ],
+            "correctAnswer": "To monitor and detect unauthorized wireless access"
+          },
+          {
+            "id": 4,
+            "question": "Which wireless encryption method is considered the most secure for protecting network traffic?",
+            "options": [
+              "WEP",
+              "WPA",
+              "WPA2",
+              "WPA3"
+            ],
+            "correctAnswer": "WPA3"
+          },
+          {
+            "id": 5,
+            "question": "What is a key component of securing wireless networks against man-in-the-middle (MITM) attacks?",
+            "options": [
+              "Using weak passwords",
+              "Enabling strong encryption methods like WPA2 or WPA3",
+              "Disabling WPA2 and using WEP",
+              "Allowing open networks for guest access"
+            ],
+            "correctAnswer": "Enabling strong encryption methods like WPA2 or WPA3"
+          },
+          {
+            "id": 6,
+            "question": "How can you mitigate the risks of an Evil Twin attack?",
+            "options": [
+              "Use HTTPS for sensitive communications",
+              "Allow open access on the network",
+              "Disable all encryption methods",
+              "Use public DNS servers"
+            ],
+            "correctAnswer": "Use HTTPS for sensitive communications"
+          },
+          {
+            "id": 7,
+            "question": "What is one way to prevent wireless network sniffing by attackers?",
+            "options": [
+              "Disabling encryption",
+              "Using WPA2 or WPA3 with strong passwords",
+              "Allowing open SSIDs",
+              "Using outdated encryption methods"
+            ],
+            "correctAnswer": "Using WPA2 or WPA3 with strong passwords"
+          },
+          {
+            "id": 8,
+            "question": "What action can help secure a Wi-Fi network against dictionary attacks?",
+            "options": [
+              "Disabling SSID broadcast",
+              "Using strong, complex passphrases",
+              "Allowing WPS setup",
+              "Enabling open Wi-Fi access"
+            ],
+            "correctAnswer": "Using strong, complex passphrases"
+          },
+          {
+            "id": 9,
+            "question": "What is an effective method to reduce the risk of a brute-force attack on a wireless network?",
+            "options": [
+              "Allowing weak passwords",
+              "Implementing account lockouts after failed attempts",
+              "Disabling network encryption",
+              "Using short passwords"
+            ],
+            "correctAnswer": "Implementing account lockouts after failed attempts"
+          },
+          {
+            "id": 10,
+            "question": "Which of the following is a recommended best practice for securing public Wi-Fi networks?",
+            "options": [
+              "Disabling encryption",
+              "Using a VPN for encrypted communication",
+              "Allowing open access for everyone",
+              "Allowing unlimited bandwidth"
+            ],
+            "correctAnswer": "Using a VPN for encrypted communication"
           }
         ]
       }
+      
     },
     
   ];
