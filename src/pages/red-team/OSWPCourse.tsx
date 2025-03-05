@@ -4,10 +4,6 @@ import { Link } from 'react-router-dom';
 import Navigation from "../../components/Navigation";
 
 
-// Image component for consistent styling
-const ImageBlock = ({ src, alt }) => (
-  <img src={src} alt={alt} style={{ maxWidth: "100%", height: "auto" }} className="my-4" />
-);
 
 function OSWPCourse() {
   // New course structure based on your syllabus.
@@ -1798,11 +1794,9 @@ If only the portable OpenCL (pocl) version is available, Hashcat will run extrem
               <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ hashcat -m 2500 output.hccapx /usr/share/john/password.lst </code> <br></br>
               Output:
 
-              <ImageBlock
-                key="img1"
-                src="/public/Learning Paths/redteam/hashcat-output.png"
-                alt="hashcat-output.png"
-              />,
+              <img src="/public/Learning Paths/readteam/hashcat-output.png"  alt="OSWP Introduction" style={{ width: '100%', height: 'auto', borderRadius: '10px', marginBottom: '10px' }} 
+    />
+            
 
               
             </p>
