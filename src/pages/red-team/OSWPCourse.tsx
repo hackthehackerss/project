@@ -1934,8 +1934,66 @@ Before attacking wireless networks, it's essential to understand the key tools w
               <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ sudo airmon-ng --debug</code> <br></br>
               These options help diagnose compatibility issues with Wi-Fi adapters and drivers, ensuring smooth operation of Aircrack-ng tools.
 
+              <h3 className="text-xl font-bold">Sniffing with Airodump-ng</h3><br></br>
+              Once the wireless interface is in monitor mode, we can start capturing packets with airodump-ng. To focus on a specific channel, use the -c option, as shown below: <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">sudo airodump-ng wlan0mon -c 2   </code> <br></br>
+              This command initiates packet capture on channel 2. <br></br>
+              <h3 className="text-xl font-bold">Understanding Airodump-ng Output</h3><br></br>
+              Airodump-ng provides detailed information about detected access points (APs) and connected stations. The output is split into two sections:
+              <ul>
+                <li>Top Section: Displays AP details, including encryption type, SSID, and signal strength.                </li>
+                <li>Bottom Section: Lists active stations, showing their MAC addresses, connection status, and data transmission rates.                </li>
+                <li>Key Fields in the AP Section                </li>
+                <li><img src="/Learning Paths/readteam/03.png" alt="Airmon-ng" className="my-4 w-full max-w-md mx-auto"/> </li>
+                <li>Key Fields in the Station Section                </li>
+                <li><img src="/Learning Paths/readteam/04.png" alt="Airmon-ng" className="my-4 w-full max-w-md mx-auto"/> </li>
+
+              </ul>
+
+              <ul>
+              Interpreting the Data
+                <li>Receive Quality (RXQ): If RXQ drops below 90% while beacons are still captured, it may indicate that we are too far from a client device.                </li>
+                <li>Lost Packets: High loss rates can result from interference, distance, or hardware limitations.                </li>
+                <li>Channel Overlapping: Some packets from adjacent channels may appear due to overlapping frequencies.                </li>
+                <li>To improve packet capture:Move closer to the AP, Use a high-gain antenna,  Change the wireless channel if interference is an issue.                </li>
+
+              </ul>
+
+              <h3 className="text-xl font-bold">Precision Sniffing </h3><br></br>
+              In environments with multiple APs, we can focus on a specific target using its BSSID and channel:
+
+              <code className="bg-gray-800 text-white p-2 rounded">sudo airodump-ng -c 3 --bssid 34:08:04:09:3D:38 -w capture wlan0mon              </code> <br></br>
+
+              <ul>
+                <li>-c 3 locks onto channel 3.                </li>
+                <li>--bssid filters for a specific AP.                </li>
+                <li>-w capture saves output to a file for later analysis.                </li>
+                <br></br> Filtering by BSSID reduces clutter, making it easier to analyze relevant packets.
+
+              </ul>
+
+
+
               </p>
               
+              <h3 className="text-xl font-bold"> Airodump-ng Output Files </h3><br></br>
+              <p className="p-5">
+              When using the -w option, Airodump-ng generates multiple file formats: <br></br>
+              <ul>
+                <li>PCAP (.cap) – Standard format for packet analysis in Wireshark.                </li>
+                <li>CSV (.csv) – Log of captured APs and stations.                </li>
+
+                <li>Kismet CSV (.kismet.csv) – Compatible with Kismet tools.                </li>
+
+                <li>Kismet NetXML (.kismet.netxml) – XML-based data format.                </li>
+
+              </ul>
+              <br></br>
+              These files allow further analysis, decryption attempts (if applicable), and correlation with other attack vectors.
+
+
+              </p>
+
 
             </>
           )
