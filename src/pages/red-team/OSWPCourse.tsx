@@ -3,6 +3,12 @@ import { Book, ArrowLeft, ChevronDown, ChevronRight, Check } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import Navigation from "../../components/Navigation";
 
+
+// Image component for consistent styling
+const ImageBlock = ({ src, alt }) => (
+  <img src={src} alt={alt} style={{ maxWidth: "100%", height: "auto" }} className="my-4" />
+);
+
 function OSWPCourse() {
   // New course structure based on your syllabus.
   // Each module contains sections (with title and summary) and a quiz.
@@ -1248,12 +1254,12 @@ These features can significantly improve the packet analysis process, especially
 
               Kismet is a versatile wireless capture tool capable of detecting and analyzing multiple wireless technologies, including Wi-Fi, Bluetooth, and nRF signals. Additionally, it can utilize Software Defined Radio (SDR) to capture signals such as ADS-B, Automatic Meter Reading (AMR), and various frequencies like 433MHz. This document will focus on Kismet's Wi-Fi capabilities. <br></br>
 
-              Kismet captures raw wireless frames and decodes them to identify access points and devices on a network. When used with a GPS device, it can include estimated geolocation data for discovered devices, providing insights into their approximate locations relative to access points. The user interface offers multiple views for analyzing wireless networks, enhancing understanding when combined with other network tools.<br></br>
+              Kismet captures raw wireless frames and decodes them to identify access points and devices on a network. When used with a GPS device, it can include estimated geolocation data for discovered devices, providing insights into their approximate locations relative to access points. The user interface offers multiple views for analyzing wireless networks, enhancing understanding when combined with other network tools.<br></br> <br></br>
 
               <h3 className="text-xl font-bold">Installation</h3> <br></br>
               To install Kismet on Kali Linux, use the following command: <br></br>
               <code className="bg-gray-800 text-white p-2 rounded">sudo apt install kismet</code> <br></br>
-              After installation, Kismet is ready for configuration.
+              After installation, Kismet is ready for configuration. <br></br>
               <h3 className="text-xl font-bold">Configuration Files</h3> <br></br>
               Kismet's configuration files are stored in the /etc/kismet/ directory. These files control different aspects of the tool:
               <ul>
@@ -1617,7 +1623,191 @@ Additionally, the web interface requires setting a username and password by modi
           title: "Cracking Authentication Hashes – PMKID, Handshakes, and Offline Cracking",
           summary: (
             <>
-              <p className="p-5"></p>
+
+              <h3 className="text-xl font-bold">Cracking Authentication Hashes              </h3>
+            <p className="p-5">Wi-Fi Protected Access (WPA, WPA2, and WPA3) supports two authentication methods: Pre-Shared Keys (PSK) and Enterprise. This guide focuses on cracking WPA and WPA2 networks that use pre-shared keys. <br></br>
+
+            WPA, WPA2, and WPA3 rely on hash functions, which are one-way functions that map a passphrase to a fixed-size bit string. This process is irreversible; we can't derive the original passphrase from the hash. Cracking the hash requires capturing a handshake and making educated guesses at the passphrase. If a guessed passphrase, when hashed, matches the handshake data, the correct passphrase has been found. <br></br>
+            Passphrases can be between 8 and 63 characters long. While knowing the exact length would help, WPA/WPA2/WPA3 prevent easy determination of this. One approach is generating a dictionary file with all possible permutations, but this is computationally expensive. Even with powerful hardware, cracking a passphrase can take anywhere from hours to decades, depending on its complexity.
+            <br></br>
+            Since WPA and WPA2 share the same authentication methodology, the same cracking techniques apply to both. WPA3, however, uses Simultaneous Authentication of Equals (SAE), which is resistant to offline attacks and will not be covered here.
+            
+            </p>
+
+            <h3 className="text-xl font-bold">Aircrack-ng Suite </h3>
+            <p className="p-5"> 
+            To begin cracking WPA, we first need to capture a WPA 4-way handshake between the access point (AP) and a client. The handshake contains the necessary data to attempt passphrase cracking. <br></br>
+
+              After enabling monitor mode on our wireless interface, we use airodump-ng to identify the target AP's channel and BSSID: <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">sudo airodump-ng wlan0mon              </code> <br></br>
+              From the output, we note the target AP's channel, BSSID, and connected clients. Next, we refine our capture:
+
+              <code className="bg-gray-800 text-white p-2 rounded">sudo airodump-ng -c 'channel' -w wpa --essid 'ESSID' --bssid 'BSSID' wlan0mon
+              </code> <br></br>
+              With the capture running, we force a client to disconnect using aireplay-ng, prompting it to reconnect and triggering a new handshake capture: <br></br>
+
+              <code className="bg-gray-800 text-white p-2 rounded">sudo aireplay-ng -0 1 -a 'BSSID' -c 'Client MAC' wlan0mon
+
+              </code> <br></br>
+              Once the client reconnects, airodump-ng should indicate a successful WPA handshake capture. If the handshake is not captured, possible reasons include:
+
+              <ul>
+                <li>The signal is too weak or too strong.                </li>
+                <li>Some wireless drivers ignore directed deauthentication; try omitting the -c parameter.                </li>
+                <li>If 802.11w is enabled, deauthentication frames may be ignored.                </li>
+                <li>The target device did not reconnect or moved out of range.                </li>
+              </ul>
+            </p>
+
+            <h3 className="text-xl font-bold">Cracking the Handshake            </h3>
+            <p className="p-5"> 
+            Once we have captured the handshake, we use aircrack-ng to attempt to crack the passphrase using a wordlist:
+<br></br>
+
+
+              <code className="bg-gray-800 text-white p-2 rounded">sudo aircrack-ng -w /usr/share/john/password.lst -e 'ESSID' -b 'BSSID' wpa-01.cap              </code> <br></br>
+              If the passphrase is in the wordlist, aircrack-ng will successfully reveal it. Otherwise, alternative methods such as rule-based attacks, hybrid attacks, or GPU-based cracking tools may be necessary.
+
+            </p>
+
+
+            <h3 className="text-xl font-bold">  Using Aircrack-ng with Crunch   </h3>
+            <p className="p-5"> 
+            Crunch is a user-friendly password generator that integrates seamlessly with aircrack-ng. By providing a pattern, character set, or word list, Crunch generates all possible password combinations.
+
+<br></br>
+
+<h3 className="text-xl font-bold"> Generating a Wordlist </h3> <br></br>
+Crunch requires specifying two parameters: the minimum and maximum password length. Since WPA/WPA2 passphrases range from 8 to 63 characters, let's generate a wordlist for 8-9 character passwords: <br></br>
+
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ crunch 8 9 </code> <br></br>
+              The output shows the generated wordlist requires 51 TB of storage, which is impractical. To refine the wordlist, we can restrict the character set: <br></br>
+              
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ crunch 8 9 abc123 </code> <br></br>
+              This significantly reduces the wordlist size to 110 MB, making it more manageable.<br></br>
+              <h3 className="text-xl font-bold"> Using Patterns</h3> <br></br>
+
+              <ul>
+              Crunch allows pattern-based wordlist generation with the -t option:
+                <li>@ represents lowercase letters</li>
+                <li>, represents uppercase letters</li>
+                <li>% represents numbers</li>
+                <li>^ represents symbols</li>
+              </ul>
+
+              <br></br>
+              For example, to generate passwords starting with "password" followed by three digits:
+              <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ crunch 11 11 -t password%%%</code> <br></br>
+              Alternatively, specifying a numeric character set achieves the same result: <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ crunch 11 11 0123456789 -t password@@@</code> <br></br>
+
+
+            </p>
+
+
+            <h3 className="text-xl font-bold">  Generating Unique Words   </h3><br></br>
+            <p className="p-5"> 
+            The -p option generates unique words from a set of characters or full words. For instance:
+
+<br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ crunch 1 1 -p abcde12345 </code> <br></br>
+              To create a wordlist from multiple words:
+
+<br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ crunch 1 1 -p dog cat bird </code> <br></br>
+              Crunch also allows combining -t and -p for enhanced flexibility. For example, generating a wordlist where predefined words are followed by two digits: <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ crunch 5 5 -t ddd%% -p dog cat bird </code> <br></br>
+
+            </p>
+
+
+
+            <h3 className="text-xl font-bold">  Piping Crunch Output to Aircrack-ng   </h3><br></br>
+            <p className="p-5"> 
+            Instead of saving large wordlists, we can pipe Crunch’s output directly into aircrack-ng:
+
+<br></br>
+
+
+              <code className="bg-gray-800 text-white p-2 rounded"> </code> kali@kali:~$ crunch 11 11 -t password%%% | aircrack-ng -e wifu crunch-01.cap -w -<br></br>
+              If the passphrase exists in the generated wordlist, aircrack-ng will identify the correct key.
+              <br></br>
+              <h3 className="text-xl font-bold"> Exercises </h3>
+              <ul>
+                <li>1. Configure an AP with WPA/WPA2-PSK encryption and set a passphrase of "password" followed by three digits.</li>
+                <li>2. Put the wireless card into monitor mode and start capturing traffic with airodump-ng.</li>
+                <li>3. Deauthenticate the client and ensure the WPA 4-way handshake is captured.</li>
+                <li>4. Use Crunch with aircrack-ng to crack the WPA passphrase.</li>
+
+                By refining character sets and using pattern-based generation, Crunch efficiently creates targeted wordlists, optimizing the password-cracking process.
+              </ul>
+            </p>
+
+
+
+            <h3 className="text-xl font-bold"> Hashcat    </h3><br></br>
+            <p className="p-5"> 
+            Hashcat is a powerful password-cracking tool designed to leverage GPUs for enhanced performance. While CPUs can run Hashcat, GPUs significantly accelerate the process. <br></br>
+
+For example, a modern Intel i7 CPU achieves around 20,000 passphrases per second, whereas an NVIDIA RTX 2080 Super GPU reaches approximately 650,000 passphrases per second—making it 32 times faster for only twice the cost of the CPU. High-end cloud-based GPUs, like the NVIDIA Tesla V100, can exceed 850,000 passphrases per second. <br></br>
+
+Earlier versions of Hashcat were closed source, with separate versions for NVIDIA (using CUDA) and OpenCL. Now, Hashcat is open source and supports OpenCL across various hardware types, including CPUs, GPUs, and FPGAs.
+              
+            </p>
+
+
+
+            <h3 className="text-xl font-bold"> OpenCL for GPUs            </h3><br></br>
+            <p className="p-5"> 
+            Using OpenCL, Hashcat can harness the power of GPUs for cracking passwords. However, only certain GPUs from AMD, NVIDIA, and Intel support OpenCL on specific platforms. While some ARM-based Mali GPUs are technically compatible, OpenCL support is often disabled.
+
+<ul>
+GPU Cracking Considerations:
+  <li>Requires direct GPU access and works best on bare-metal installations.  </li>
+  <li>Virtualized environments (e.g., VirtualBox, VMware Workstation) typically do not support OpenCL.  </li>
+  <li>Some Type-1 hypervisors (Citrix, VMware ESXi, Proxmox) allow GPU passthrough, but these are not suited for desktop use.  </li>
+  <li>Cloud-based GPU cracking is an alternative but incurs hourly costs.  </li>
+
+
+</ul>
+
+<br></br>
+
+After installing and configuring OpenCL for Hashcat (either locally or in the cloud), you can begin cracking passwords efficiently.
+              
+            </p>
+
+
+            <h3 className="text-xl font-bold"> Device Properties in Hashcat            </h3><br></br>
+            <p className="p-5"> 
+            Running the hashcat -I command displays the system’s OpenCL devices and ensures OpenCL is set up correctly.
+<br></br>
+
+If only the portable OpenCL (pocl) version is available, Hashcat will run extremely slowly. In such cases, aircrack-ng is a better alternative. However, the Intel OpenCL version performs comparably to aircrack-ng and can be used effectively.
+            
+            </p>
+
+
+            <h3 className="text-xl font-bold"> Passphrase Cracking with Hashcat    </h3>
+            <p className="p-5"> 
+            Using the WPA hash mode, we will crack the file generated by cap2hccapx with the default John the Ripper (JtR) wordlist.
+
+<br></br>
+
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ hashcat -m 2500 output.hccapx /usr/share/john/password.lst </code> <br></br>
+              Output:
+
+              <ImageBlock
+                key="img1"
+                src="/public/Learning Paths/redteam/hashcat-output.png"
+                alt="hashcat-output.png"
+              />,
+
+              
+            </p>
+
+
             </>
           )
         },
