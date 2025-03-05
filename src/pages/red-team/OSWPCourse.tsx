@@ -407,7 +407,7 @@ sections: [
   {
     title: "Manual Network Connections & Wireless Adapter Configuration",
     summary: (
-      <div style={{ textAlign: 'center' }}>
+      <div style={{ textAlign: 'left' }}>
         <p className="p-5">
           When conducting wireless penetration testing, it's often necessary to disable network managers, as they can interfere with the tools being used. However, there are instances when we still need internet access or even need to share it. Although network managers can typically handle this, we will explore how to manually configure the setup, as network managers are disabled during testing. It's important to use a separate network interface from the one employed for penetration testing.
         </p>
@@ -1726,7 +1726,7 @@ Crunch requires specifying two parameters: the minimum and maximum password leng
 <br></br>
 
 
-              <code className="bg-gray-800 text-white p-2 rounded"> </code> kali@kali:~$ crunch 11 11 -t password%%% | aircrack-ng -e wifu crunch-01.cap -w -<br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ crunch 11 11 -t password%%% | aircrack-ng -e wifu crunch-01.cap -w - </code> <br></br>
               If the passphrase exists in the generated wordlist, aircrack-ng will identify the correct key.
               <br></br>
               <h3 className="text-xl font-bold"> Exercises </h3>
@@ -1792,13 +1792,76 @@ If only the portable OpenCL (pocl) version is available, Hashcat will run extrem
 <br></br>
 
               <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ hashcat -m 2500 output.hccapx /usr/share/john/password.lst </code> <br></br>
-              Output:
+             
 
-              <img src="/public/Learning Paths/readteam/hashcat-output.png"  alt="OSWP Introduction" style={{ width: '100%', height: 'auto', borderRadius: '10px', marginBottom: '10px' }} 
-    />
-            
 
-              
+    
+          <ul> Cracked Data:
+            <li>Hash of nonce and BSSID: 2bce49121ecaccecf724cda86ea8c322</li>
+            <li>BSSID: 340804093d38</li>
+            <li>Client MAC address: 00184d1da81f</li>
+            <li>ESSID: wifu</li>
+            <li>Passphrase: password</li>
+            </ul> 
+            <br></br>
+            Hashcat automatically creates a session while running, which can be interrupted using 'q' or 'Ctrl+C'. To restore a session, run:
+            <br></br>
+
+<code className="bg-gray-800 text-white p-2 rounded">hashcat --session hashcat --restore </code> <br></br>
+A potfile containing the cracked passphrase is stored by default at ~/.hashcat/hashcat.potfile. To specify a different path, use: <br></br>
+
+             <code className="bg-gray-800 text-white p-2 rounded">--potfile-path 'path' </code> <br></br>
+             <h3 className="text-xl font-bold"> Exercises </h3>
+              <ul>
+                <li>1. Configure your access point (AP) with WPA/WPA2 PSK encryption using a passphrase from /usr/share/john/password.lst.</li>
+                <li>2. Place your wireless card into monitor mode and start an airodump-ng capture.</li>
+                <li>3. Deauthenticate the victim client and capture the WPA 4-way handshake.</li>
+                <li>4. Convert the 4-way handshake to HCCAPx format.</li>
+                <li>5. Crack the WPA passphrase using Hashcat.</li>
+
+              </ul>
+
+
+            </p>
+
+
+            <h3 className="text-xl font-bold"> Airolib-ng </h3><br></br>
+
+            <p className="p-5">
+            Airolib-ng is a tool for managing ESSID and password lists, computing Pairwise Master Keys (PMKs), and using them for WPA/WPA2 PSK cracking. It uses SQLite3 for storage. <br></br>
+
+Since PMK calculation is slow, precomputing PMKs for specific ESSID-passphrase combinations can significantly speed up WPA/WPA2 handshake cracking.  <br></br>
+
+
+<h3 className="text-xl font-bold"> Airolib-ng </h3><br></br>
+<ul>
+                <li>First, create a file containing the ESSID of the target AP:</li>
+                <li>kali@kali:~$ echo wifu -o essid.txt</li>
+                <li>Import the ESSID file into an airolib-ng database:</li>
+                <li>kali@kali:~$ airolib-ng wifu.sqlite --import essid essid.txt</li>
+                <li>Verify the imported ESSID:</li>
+                <li>kali@kali:~$ airolib-ng wifu.sqlite --stats</li>
+                <li>Now, import a wordlist:</li>
+                <li>kali@kali:~$ airolib-ng wifu.sqlite --import passwd /usr/share/john/password.lst</li>
+                <li>Generate PMKs for the ESSID and passwords:</li>
+                <li>kali@kali:~$ airolib-ng wifu.sqlite --batch</li>
+                <li>Check the database status:</li>
+                <li>kali@kali:~$ airolib-ng wifu.sqlite --stats</li>
+                <li>Use the precomputed PMKs to speed up aircrack-ng:</li>
+                <li>kali@kali:~$ aircrack-ng -r wifu.sqlite wpa1-01.cap</li>
+              </ul> <br></br>
+
+
+              <h3 className="text-xl font-bold"> Exercises </h3> <br></br>
+              <ul>
+                <li>1. Configure your AP with WPA/WPA2 PSK encryption using a passphrase from /usr/share/john/password.lst.</li>
+                <li>2. Place your wireless card into monitor mode and start an airodump-ng capture.</li>
+                <li>3. Deauthenticate the victim client and capture the WPA 4-way handshake.</li>
+                <li>4. Create an airolib-ng database containing the AP’s ESSID and import the password list.</li>
+                <li>5. Generate PMKs using airolib-ng.</li>
+                <li>6. Use aircrack-ng with the database to recover the WPA passphrase.</li>
+              </ul>
+
             </p>
 
 
@@ -1809,7 +1872,71 @@ If only the portable OpenCL (pocl) version is available, Hashcat will run extrem
           title: "Aircrack-ng Essentials – Core Tools for Wi-Fi Penetration Testing",
           summary: (
             <>
-              <p className="p-5"></p>
+              <h3 className="text-xl font-bold"> Aircrack-ng Essentials </h3><br></br>
+              <p className="p-5">
+              Aircrack-ng is a powerful suite of tools for auditing Wi-Fi networks. It includes a packet sniffer, a network detector, a frame injection tool, and a tool to crack WEP keys and WPA-PSK passphrases. <br></br>
+
+Before attacking wireless networks, it's essential to understand the key tools within the Aircrack-ng suite. This section covers Airmon-ng for monitor mode management, Airodump-ng for capturing 802.11 frames, Aircrack-ng for cracking WEP and WPA keys, Airdecap-ng for decrypting capture files, and Airgraph-ng for visualizing network data.
+              </p>
+
+              <h3 className="text-xl font-bold"> Airmon-ng </h3><br></br>
+              <p className="p-5">
+              Airmon-ng is used to enable and disable monitor mode on wireless interfaces. Running it without parameters displays the current status and available wireless interfaces. <br></br>
+
+              <img
+                src="/Learning Paths/readteam/01.png"
+                alt="Airmon-ng"
+                className="my-4 w-full max-w-md mx-auto"
+              /> 
+              <br></br>
+              The output shows the PHY identifier, interface name, driver, and chipset. The "phy" identifier remains constant until a reboot or when plugging/unplugging a Wi-Fi adapter. 
+
+             
+              </p>
+
+
+              <h3 className="text-xl font-bold">Airmon-ng Check </h3><br></br>
+              <p className="p-5">
+              Some processes, like Network Manager, interfere with monitor mode by changing channels or switching back to managed mode. Airmon-ng can identify and terminate these processes. <br></br>
+
+              <img
+                src="/Learning Paths/readteam/02.png"
+                alt="Airmon-ng"
+                className="my-4 w-full max-w-md mx-auto"
+              /> 
+              <br></br>
+              To stop interfering processes: <br></br>
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ sudo airmon-ng check kill </code> <br></br>
+              If internet access is needed after enabling monitor mode, it must be manually configured using tools like dhclient or wpa_supplicant on another interface.
+
+
+
+              </p>
+
+              <h3 className="text-xl font-bold">Airmon-ng Start </h3><br></br>
+              <p className="p-5">
+
+              <ul>
+                <li>To enable monitor mode on wlan0:</li>
+                <li><code className="bg-gray-800 text-white p-2 rounded"> kali@kali:~$ sudo airmon-ng start wlan0</code></li>
+                <li>This creates a new monitor mode interface, typically named wlan0mon. To specify a channel:</li>
+                <li><code className="bg-gray-800 text-white p-2 rounded"> kali@kali:~$ sudo airmon-ng start wlan0 3</code></li>
+                <li>To verify the monitor mode interface's channel and frequency:</li>
+                <li><code className="bg-gray-800 text-white p-2 rounded"> kali@kali:~$ sudo iw dev wlan0mon info</code></li>
+                <li>Alternatively, iwconfig can be used, though it is deprecated.</li>
+                <li><code className="bg-gray-800 text-white p-2 rounded"> kali@kali:~$ sudo iwconfig wlan0mon</code></li>
+              </ul>
+
+              <h3 className="text-xl font-bold">Airmon-ng Verbose and Debug Options </h3><br></br>
+              The --verbose option provides detailed system and interface information, useful for troubleshooting:
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ sudo airmon-ng --verbose</code> <br></br>
+              The --debug option offers additional details derived from system commands:
+              <code className="bg-gray-800 text-white p-2 rounded">kali@kali:~$ sudo airmon-ng --debug</code> <br></br>
+              These options help diagnose compatibility issues with Wi-Fi adapters and drivers, ensuring smooth operation of Aircrack-ng tools.
+
+              </p>
+              
+
             </>
           )
         },
