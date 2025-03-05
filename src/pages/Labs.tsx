@@ -232,7 +232,7 @@ const CTFLabsPage = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterDifficulty, setFilterDifficulty] = useState("all");
-  const navigate = useNavigate(); // Added for redirection
+  const navigate = useNavigate();
 
   const labs = [
     {
@@ -241,7 +241,7 @@ const CTFLabsPage = () => {
       difficulty: "easy",
       description: "Exploit common web vulnerabilities like SQL Injection, XSS, and CSRF to capture the flag.",
       image: "/Main/logo2.jpg",
-      link: "/labs/sqllab", // Added link for redirection
+      link: "/labs/sqllab",
     },
     {
       id: 2,
@@ -266,7 +266,7 @@ const CTFLabsPage = () => {
   });
 
   // Typing Effect
-  useEffect(() => {
+ useEffect(() => {
     const typed = new Typed("#tagline", {
       strings: [
         "Put Your Red Team Skills to the Test!",
@@ -280,12 +280,10 @@ const CTFLabsPage = () => {
     return () => typed.destroy();
   }, []);
 
-  // Scroll to top on page load
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page when the component mounts
+    window.scrollTo(0, 0);
   }, []);
 
-  // Smooth scroll to Labs section
   const scrollToLabs = () => {
     const labsSection = document.getElementById("labs");
     if (labsSection) {
@@ -295,7 +293,6 @@ const CTFLabsPage = () => {
 
   return (
     <div className={`min-h-screen ${darkMode ? "bg-background text-white" : "bg-gray-100 text-black"} font-sans`}>
-      {/* Navigation Bar */}
       <Navigation darkMode={darkMode} onToggleDarkMode={() => setDarkMode(!darkMode)} />
 
       {/* Hero Section */}
@@ -345,57 +342,32 @@ const CTFLabsPage = () => {
             <option value="hard">Hard</option>
           </select>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredLabs.map((lab) => (
-            <div
-              key={lab.id}
-              className={`${darkMode ? "bg-primary-dark/30 border-primary-blue/20" : "bg-white border-gray-200"} rounded-lg border hover:border-primary-blue transition-all transform hover:-translate-y-2 relative overflow-hidden group`}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-              <div className="p-6 relative">
-                <img
-                  src={lab.image}
-                  alt={lab.title}
-                  className="w-64 h-64 mx-auto mb-4 object-cover rounded-lg"
-                />
-                <h2 className="text-xl font-semibold mb-3">{lab.title}</h2>
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-600"} mb-4`}>
-                  {lab.description}
-                </p>
-                <div className="flex items-center mb-4">
-                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Difficulty:</span>
-                  <div className="w-24 h-2 bg-gray-700 rounded-full ml-2">
-                    <div
-                      className={`h-2 ${
-                        lab.difficulty === "easy"
-                          ? "bg-green-500"
-                          : lab.difficulty === "medium"
-                          ? "bg-yellow-500"
-                          : "bg-red-500"
-                      } rounded-full`}
-                      style={{
-                        width:
-                          lab.difficulty === "easy"
-                            ? "40%"
-                            : lab.difficulty === "medium"
-                            ? "60%"
-                            : "80%",
-                      }}
-                    ></div>
+        <div className="wrapper">
+          <div className="cols">
+            {filteredLabs.map((lab) => (
+              <div key={lab.id} className="col" onTouchStart={() => document.querySelector(`.col-${lab.id}`).classList.toggle('hover')}>
+                <div className="container">
+                  <div className="front" style={{ backgroundImage: `url(${lab.image})` }}>
+                    <div className="inner">
+                      <p>{lab.title}</p>
+                      <span>{lab.difficulty.charAt(0).toUpperCase() + lab.difficulty.slice(1)}</span>
+                    </div>
                   </div>
-                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} ml-2`}>
-                    {lab.difficulty.charAt(0).toUpperCase() + lab.difficulty.slice(1)}
-                  </span>
+                  <div className="back">
+                    <div className="inner">
+                      <p>{lab.description}</p>
+                      <button
+                        onClick={() => lab.link && navigate(lab.link)}
+                        className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all"
+                      >
+                        Start Lab
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <button
-                  onClick={() => lab.link && navigate(lab.link)} // Added redirection
-                  className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 text-center transition-all"
-                >
-                  Start Lab
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
