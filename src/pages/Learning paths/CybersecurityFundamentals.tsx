@@ -1016,12 +1016,12 @@ const course: Module[] = [
     }
   },
   {
-    id: "module4",
-    title: "Windows Fundamentals",
-    sections: [
+    "id": "module4",
+    "title": "Windows Fundamentals",
+    "sections": [
       {
-        title: "Introduction to Windows",
-        summary: (
+        "title": "Introduction to Windows",
+        "summary": (
           <>
             <p><strong>Overview of Windows Operating System</strong></p>
             <p>
@@ -1051,8 +1051,8 @@ const course: Module[] = [
         )
       },
       {
-        title: "Windows File Systems",
-        summary: (
+        "title": "Windows File Systems",
+        "summary": (
           <>
             <p><strong>Understanding File Systems and Their Importance</strong></p>
             <p>
@@ -1074,12 +1074,15 @@ const course: Module[] = [
             <p>
               Advanced techniques include modifying ACLs via the command line with tools like <code>icacls</code> and understanding how journaling aids recovery. Regular backups, disk health monitoring, and the use of NTFS for critical drives are best practices to maintain system performance and security.
             </p>
+            <p><strong>Command Examples:</strong></p>
+            <pre>{`icacls "C:\\ExampleFolder" /grant JohnDoe:(R)`}</pre>
+            <pre>{`chkdsk C: /F`}</pre>
           </>
         )
       },
       {
-        title: "Windows Directory Structure",
-        summary: (
+        "title": "Windows Directory Structure",
+        "summary": (
           <>
             <p><strong>The Hierarchical Nature of Windows Directories</strong></p>
             <p>
@@ -1115,12 +1118,20 @@ const course: Module[] = [
             <p>
               A logical directory structure, consistent naming conventions, and regular maintenance help ensure that files are easy to locate and secure. Regular audits of folder permissions and periodic cleanup can prevent clutter and enhance system performance.
             </p>
+            <p><strong>Command Examples:</strong></p>
+            <pre>{`cd C:\\Users\\JohnDoe\\Documents`}</pre>
+            <pre>{`dir /A`}</pre>
+            <pre>{`mkdir C:\\Users\\JohnDoe\\NewFolder`}</pre>
+            <pre>{`copy C:\\source\\file.txt C:\\destination\\`}</pre>
+            <pre>{`move C:\\source\\file.txt C:\\destination\\`}</pre>
+            <pre>{`del C:\\Users\\JohnDoe\\Documents\\oldfile.txt`}</pre>
+            <pre>{`attrib C:\\Users\\JohnDoe\\Documents\\secret.txt`}</pre>
           </>
         )
       },
       {
-        title: "Command Line Basics",
-        summary: (
+        "title": "Command Line Basics",
+        "summary": (
           <>
             <p><strong>Introduction to the Command Line</strong></p>
             <p>
@@ -1159,12 +1170,16 @@ const course: Module[] = [
             <p>
               Exercises include automating backup tasks with batch scripts and generating system reports. Always comment your scripts and test commands in a safe environment to prevent unintended changes.
             </p>
+            <p><strong>Command Examples:</strong></p>
+            <pre>{`ping www.google.com`}</pre>
+            <pre>{`chkdsk C: /F`}</pre>
+            <pre>{`taskkill /IM notepad.exe /F`}</pre>
           </>
         )
       },
       {
-        title: "Windows PowerShell",
-        summary: (
+        "title": "Windows PowerShell",
+        "summary": (
           <>
             <p><strong>Introduction to PowerShell</strong></p>
             <p>
@@ -1194,12 +1209,16 @@ const course: Module[] = [
             <p>
               Use proper error handling, add ample comments, and consider script signing for security. Mastering PowerShell equips IT professionals with a powerful tool for system administration and cybersecurity.
             </p>
+            <p><strong>Command Examples:</strong></p>
+            <pre>{`Get-ChildItem C:\\Users\\JohnDoe\\Documents`}</pre>
+            <pre>{`Set-Location C:\\Users\\JohnDoe\\Documents`}</pre>
+            <pre>{`Get-Process | Format-Table -Property Name, CPU, Id`}</pre>
           </>
         )
       },
       {
-        title: "User Accounts and Permissions",
-        summary: (
+        "title": "User Accounts and Permissions",
+        "summary": (
           <>
             <p><strong>Understanding User Accounts in Windows</strong></p>
             <p>
@@ -1221,12 +1240,16 @@ const course: Module[] = [
             <p>
               Regular audits, strong authentication measures, and role-based access control are essential. Exercises include creating new user accounts via PowerShell and adjusting folder permissions using both the GUI and command-line tools.
             </p>
+            <p><strong>Command Examples:</strong></p>
+            <pre>{`net user NewUser P@ssw0rd /add`}</pre>
+            <pre>{`New-LocalUser -Name "NewUser" -Password (ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force)`}</pre>
+            <pre>{`icacls "C:\\Projects" /grant Alice:(R,W)`}</pre>
           </>
         )
       },
       {
-        title: "Security Features in Windows",
-        summary: (
+        "title": "Security Features in Windows",
+        "summary": (
           <>
             <p><strong>Overview of Windows Security Features</strong></p>
             <p>
@@ -1252,17 +1275,17 @@ const course: Module[] = [
         )
       }
     ],
-    quiz: {
-      questions: [
+    "quiz": {
+      "questions": [
         {
-          id: 1,
-          question: "Placeholder: Which Windows feature helps manage user permissions?",
-          options: ["User Account Control", "Windows Update", "Task Manager", "File Explorer"],
-          correctAnswer: "User Account Control"
+          "id": 1,
+          "question": "Placeholder: Which Windows feature helps manage user permissions?",
+          "options": ["User Account Control", "Windows Update", "Task Manager", "File Explorer"],
+          "correctAnswer": "User Account Control"
         }
       ]
     }
-
+ 
   
   },
   {
