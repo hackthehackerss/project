@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { PlusCircle } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import { useAuth } from '../contexts/AuthContext';
+import Card from '../components/Card';
 
 function Challenges() {
   const { user } = useAuth();
@@ -291,63 +292,11 @@ function Challenges() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayedChallenges.length > 0 ? (
             displayedChallenges.map((challenge) => (
-              <div
+              <Card
                 key={challenge.id}
+                challenge={challenge}
                 onClick={() => handleChallengeClick(challenge.link)}
-                className="tilt relative rounded-lg p-6 border group overflow-hidden h-64 cursor-pointer"
-                style={{
-                  backgroundImage: `url(${challenge.backgroundImage})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              >
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/70 group-hover:bg-black/60 transition-colors"></div>
-
-                {/* Content */}
-                <div className="relative z-10">
-                  <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-primary-blue transition-colors">
-                    {challenge.title || 'Coming Soon'}
-                  </h3>
-                  <p className="text-gray-200 mb-4 group-hover:text-gray-100 transition-colors">
-                    {challenge.description || 'Stay tuned for new challenges!'}
-                  </p>
-                  {/* Difficulty and Category Tags */}
-                  <div className="mt-2 flex gap-2">
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      challenge.difficulty === 'Easy'
-                        ? 'bg-green-500/20 text-green-500'
-                        : challenge.difficulty === 'Medium'
-                        ? 'bg-yellow-500/20 text-yellow-500'
-                        : challenge.difficulty === 'Hard'
-                        ? 'bg-red-500/20 text-red-500'
-                        : ''
-                    }`}>
-                      {challenge.difficulty}
-                    </span>
-                    <span className="text-xs bg-blue-500/20 text-blue-500 px-2 py-1 rounded-full">
-                      {challenge.category}
-                    </span>
-                  </div>
-                  {/* Points and Questions */}
-                  {challenge.questions > 0 && (
-                    <div className="flex justify-between text-sm mt-4">
-                      <span className="text-primary-blue group-hover:text-primary-red transition-colors">
-                        {challenge.questions} Questions
-                      </span>
-                      <span className="text-primary-red group-hover:text-primary-blue transition-colors">
-                        {challenge.points} Points
-                      </span>
-                    </div>
-                  )}
-                  {/* Progress Bar */}
-                  {challenge.questions > 0 && (
-                    <div className="mt-4 h-2 bg-gray-700 rounded-full overflow-hidden">
-                      <div className="h-full bg-primary-blue" style={{ width: '30%' }}></div>
-                    </div>
-                  )}
-                </div>
-              </div>
+              />
             ))
           ) : (
             <div className="text-center py-12 col-span-full">
