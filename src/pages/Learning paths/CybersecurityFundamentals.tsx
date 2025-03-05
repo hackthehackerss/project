@@ -1023,26 +1023,29 @@ const course: Module[] = [
         title: "Introduction to Windows",
         summary: (
           <>
-            <p><strong>Overview and History</strong></p>
+            <p><strong>Overview of Windows Operating System</strong></p>
             <p>
-              Windows is one of the most widely used operating systems in the world, powering millions of personal computers, enterprise systems, and specialized devices. Developed by Microsoft, Windows has evolved from its early days as a graphical interface for MS-DOS into a sophisticated, feature-rich platform that underpins modern computing. From Windows 1.0 in the mid-1980s to the modern iterations like Windows 10 and Windows 11, the operating system has continuously adapted to meet the growing demands of users and enterprises alike.
+              Windows is one of the most widely used operating systems in the world, known for its intuitive graphical interface and versatility. Developed by Microsoft, it began as a graphical shell for MS-DOS in the mid-1980s and has evolved into a sophisticated, feature-rich platform powering millions of personal computers and enterprise systems. Modern versions such as Windows 10 and Windows 11 blend legacy support with contemporary features like touch, cloud integration, and enhanced security.
             </p>
+            <p><strong>Windows Versions and Their Evolution</strong></p>
             <p>
-              The evolution of Windows is marked by major milestones such as the introduction of the Start Menu, taskbar, and a robust networking infrastructure. Each new version has built upon the previous one by enhancing security, user experience, and performance. Today, Windows is not only recognized for its ease of use and powerful graphical interface but also for its extensive support for command-line tools and scripting environments that are essential for advanced system management and cybersecurity.
+              The evolution of Windows is marked by key milestones. Early releases (Windows 1.x to 3.x) introduced basic multitasking and windowed applications, while Windows 95/98/ME brought the Start Menu, taskbar, and plug-and-play support. The NT line—culminating in Windows XP—offered a robust, enterprise-ready environment. More recent versions (Vista, 7, 8, 10, and 11) have focused on improved security, enhanced user interfaces, and seamless integration with modern hardware.
             </p>
-            <p><strong>Architecture and Key Features</strong></p>
+            <p><strong>The Windows User Interface</strong></p>
             <p>
-              At its core, Windows is built on a modular architecture that includes the kernel, system libraries, drivers, and user interface components. This design allows for high flexibility and scalability while maintaining stability and security. The operating system uses a layered approach to manage hardware resources, process scheduling, memory management, and input/output operations, ensuring that applications and services run efficiently.
+              The Windows desktop is organized around several key components: the desktop itself, the Start Menu, Taskbar, and File Explorer. These elements work together to provide quick access to applications, system settings, and files. Users can easily switch between applications, manage windows, and customize their workspace.
             </p>
+            <p><strong>Installing and Setting Up Windows</strong></p>
             <p>
-              Windows incorporates a variety of security mechanisms such as User Account Control (UAC), Windows Defender, BitLocker encryption, and built-in firewall settings. These features are designed to protect the system from malware, unauthorized access, and other cyber threats. Additionally, Windows supports virtualization, remote desktop management, and a suite of administration tools that are indispensable for IT professionals.
+              Installing Windows involves ensuring hardware meets the minimum system requirements, creating bootable media using tools like the Windows Media Creation Tool, and following a guided setup process. Post-installation, users configure drivers, install essential software, and set up security features such as Windows Update and Windows Defender.
             </p>
-            <p><strong>Relevance in the Cybersecurity Landscape</strong></p>
+            <p><strong>Practical Example: Installing Windows 10</strong></p>
             <p>
-              Given its ubiquity, Windows is often a primary target for cyberattacks. Understanding its architecture and operational nuances is critical for cybersecurity professionals tasked with protecting sensitive information and ensuring system integrity. From malware analysis to penetration testing and incident response, in-depth knowledge of Windows is essential for diagnosing vulnerabilities and implementing effective security measures.
+              For instance, to install Windows 10, you would download the Media Creation Tool, create a bootable USB drive, boot from the USB, follow the on-screen prompts for a clean installation, and configure a local or Microsoft account. This step-by-step process ensures that your system is optimized from the start.
             </p>
+            <p><strong>The Windows Ecosystem and Recap</strong></p>
             <p>
-              In this course, we will explore not only the fundamentals of Windows but also the tools and best practices necessary to secure Windows environments. This foundation will prepare you for advanced topics in cybersecurity, where you will apply these principles to real-world scenarios.
+              Beyond the installation, Windows supports a wide ecosystem of applications, hardware integration, networking capabilities, and robust security measures. Mastery of these fundamentals prepares you for advanced topics in system administration and cybersecurity.
             </p>
           </>
         )
@@ -1051,46 +1054,25 @@ const course: Module[] = [
         title: "Windows File Systems",
         summary: (
           <>
-            <p><strong>Understanding Windows File Systems</strong></p>
+            <p><strong>Understanding File Systems and Their Importance</strong></p>
             <p>
-              Windows supports a variety of file systems, each designed to address specific needs for data storage, performance, and security. The most prominent file system in modern Windows environments is NTFS (New Technology File System), which provides advanced features such as file-level security, journaling, compression, and encryption. In addition to NTFS, legacy systems and external storage devices may use FAT, FAT32, or exFAT.
+              A file system is the underlying structure that organizes data on a disk. Windows supports several file systems such as FAT32, NTFS, and exFAT—each with distinct features and limitations. NTFS, the default for modern Windows, provides advanced functionality including file-level security, journaling, encryption, compression, and disk quotas.
             </p>
-            <p><strong>NTFS: The Modern Standard</strong></p>
+            <p><strong>NTFS – A Closer Look</strong></p>
             <p>
-              NTFS is the default file system for Windows due to its robustness and feature set. Key features include:
+              NTFS’s key features include detailed permissions via Access Control Lists (ACLs), encryption using the Encrypting File System (EFS), file compression, and journaling to maintain data integrity during system crashes. These features make NTFS ideal for both system drives and personal data storage.
             </p>
-            <ul>
-              <li><strong>Security Permissions:</strong> NTFS allows granular control over file and folder permissions using Access Control Lists (ACLs), ensuring that only authorized users can access or modify data.</li>
-              <li><strong>Journaling:</strong> This feature helps protect data integrity by keeping a log of changes, which is vital for recovery in the event of a system failure or power outage.</li>
-              <li><strong>File Compression and Encryption:</strong> NTFS supports both compression and the Encrypting File System (EFS) to save disk space and protect sensitive data.</li>
-              <li><strong>Disk Quotas:</strong> Administrators can set limits on disk usage, helping to manage storage resources effectively.</li>
-            </ul>
-            <p><strong>FAT, FAT32, and exFAT</strong></p>
+            <p><strong>FAT32 and exFAT in Practice</strong></p>
             <p>
-              While NTFS is preferred for internal drives, FAT and FAT32 remain in use for removable media due to their compatibility across different operating systems. exFAT, an evolution of FAT32, is optimized for flash drives and large external storage devices.
+              Although NTFS is predominant, FAT32 is still used for removable media due to its broad compatibility, despite its 4GB file size limit. exFAT improves on FAT32 for flash storage and external drives, supporting larger files while maintaining compatibility across different platforms.
             </p>
+            <p><strong>Managing Storage and File Attributes</strong></p>
             <p>
-              Each file system has its strengths and limitations. For example, FAT32 is simple and widely supported but cannot handle files larger than 4GB, whereas NTFS offers extensive security features but may not be supported by non-Windows operating systems.
+              Windows includes a Disk Management utility to partition, format, and monitor drives. File attributes such as read-only, hidden, and system flags help in managing files effectively. Administrators can also set disk quotas and use tools like CHKDSK to ensure data integrity.
             </p>
-            <p><strong>File Metadata and Its Role in Security</strong></p>
+            <p><strong>Advanced Features and Best Practices</strong></p>
             <p>
-              Beyond storing data, Windows file systems maintain metadata that includes information such as file creation dates, last modified dates, and file permissions. This metadata is crucial for forensic analysis and auditing, as it provides insight into file activity and potential security breaches.
-            </p>
-            <p>
-              Administrators often use tools like the Windows File Explorer or command-line utilities to inspect file metadata, helping to identify unauthorized changes or data corruption. Advanced users can also leverage PowerShell scripts to automate metadata extraction for compliance reporting and security audits.
-            </p>
-            <p><strong>Best Practices in File System Management</strong></p>
-            <p>
-              Proper management of file systems is essential for maintaining data integrity and system performance. Key practices include:
-            </p>
-            <ul>
-              <li><strong>Regular Audits:</strong> Periodically review file permissions and metadata to detect anomalies.</li>
-              <li><strong>Data Backup and Recovery:</strong> Implement backup solutions that leverage NTFS features like shadow copies to ensure rapid recovery after a failure.</li>
-              <li><strong>Encryption:</strong> Utilize EFS to protect sensitive files, especially on systems that store confidential or critical information.</li>
-              <li><strong>Disk Cleanup:</strong> Regularly remove unnecessary files and defragment the disk to improve performance.</li>
-            </ul>
-            <p>
-              This comprehensive understanding of Windows file systems is a cornerstone for securing data and ensuring that system integrity is maintained in both enterprise and personal computing environments.
+              Advanced techniques include modifying ACLs via the command line with tools like <code>icacls</code> and understanding how journaling aids recovery. Regular backups, disk health monitoring, and the use of NTFS for critical drives are best practices to maintain system performance and security.
             </p>
           </>
         )
@@ -1099,38 +1081,39 @@ const course: Module[] = [
         title: "Windows Directory Structure",
         summary: (
           <>
-            <p><strong>Understanding the Hierarchical Structure</strong></p>
+            <p><strong>The Hierarchical Nature of Windows Directories</strong></p>
             <p>
-              The Windows directory structure is designed as a hierarchical tree that organizes files and folders in a logical manner. At the root of the structure lies the system drive (commonly C:\), which branches out into various folders such as Windows, Program Files, and Users. Each of these directories serves a specific purpose in the overall operation of the system.
+              Windows organizes its files and folders in a hierarchical structure starting from the root directory (commonly <code>C:\</code>). This logical tree structure makes it easier to navigate, manage, and secure data.
             </p>
-            <p><strong>Key Directories Explained</strong></p>
+            <p><strong>Key System Folders and Their Functions</strong></p>
             <ul>
               <li>
-                <strong>C:\Windows:</strong> This directory contains the operating system files, libraries, and drivers essential for system functionality. Subdirectories like <code>System32</code> hold critical executables and dynamic link libraries (DLLs) that are vital for hardware interaction.
+                <strong>C:\:</strong> The root directory containing all files and folders.
               </li>
               <li>
-                <strong>C:\Program Files and C:\Program Files (x86):</strong> These folders are used for storing installed applications. The division between 32-bit and 64-bit programs ensures compatibility and optimal performance.
+                <strong>C:\Windows:</strong> Houses the core operating system files, libraries, and drivers.
               </li>
               <li>
-                <strong>C:\Users:</strong> Every user account on the system has a dedicated folder under this directory. It stores personal files, application data, and user-specific settings.
+                <strong>C:\Program Files</strong> and <strong>C:\Program Files (x86):</strong> Directories where installed applications reside.
               </li>
               <li>
-                <strong>Legacy Directories:</strong> Older systems often used <code>C:\Documents and Settings</code> to store user profiles. Knowledge of these directories is useful for managing legacy systems and data migrations.
+                <strong>C:\Users:</strong> Contains user profiles and personal data.
+              </li>
+              <li>
+                <strong>C:\Temp:</strong> Temporary file storage for system and application use.
               </li>
             </ul>
-            <p><strong>System Environment Variables</strong></p>
+            <p><strong>Navigation Methods</strong></p>
             <p>
-              Windows utilizes environment variables (such as <code>%SystemRoot%</code> and <code>%USERPROFILE%</code>) to abstract the actual paths of key directories. These variables simplify the scripting and automation processes by providing dynamic references to frequently used paths.
+              Users can navigate the directory structure using File Explorer for a graphical view or through the Command Prompt and PowerShell with commands like <code>cd</code>, <code>dir</code>, and <code>tree</code>. Both methods are essential for troubleshooting and automation.
             </p>
-            <p><strong>Security and Permissions in the Directory Structure</strong></p>
+            <p><strong>Managing Files and Folders</strong></p>
             <p>
-              The directory structure is not only about organization—it’s also about security. Each folder and file is governed by permissions that determine who can read, modify, or execute them. For example, system directories like <code>C:\Windows</code> are typically restricted to prevent unauthorized modifications.
+              Creating, moving, and deleting files can be done via drag-and-drop in File Explorer or with command-line utilities like <code>mkdir</code>, <code>copy</code>, <code>move</code>, and <code>del</code>. Advanced users also manipulate file attributes using the <code>attrib</code> command.
             </p>
+            <p><strong>Best Practices in Directory Organization</strong></p>
             <p>
-              Best practices in directory management include regular audits of folder permissions, enforcing the principle of least privilege, and employing Group Policy settings to maintain consistent security policies across all users.
-            </p>
-            <p>
-              Understanding the Windows directory structure is fundamental for troubleshooting, system optimization, and effective security management. It allows administrators and cybersecurity professionals to quickly navigate the file system, locate critical files, and identify potential vulnerabilities.
+              A logical directory structure, consistent naming conventions, and regular maintenance help ensure that files are easy to locate and secure. Regular audits of folder permissions and periodic cleanup can prevent clutter and enhance system performance.
             </p>
           </>
         )
@@ -1141,73 +1124,40 @@ const course: Module[] = [
           <>
             <p><strong>Introduction to the Command Line</strong></p>
             <p>
-              The Windows Command Prompt is a powerful tool that provides a text-based interface for executing commands. While many users rely on the graphical interface, the command line offers greater flexibility, speed, and control over system operations—making it indispensable for automation, troubleshooting, and cybersecurity.
+              The Windows Command Prompt (cmd.exe) and PowerShell offer powerful, text-based interfaces for executing commands and automating tasks. Despite Windows’ modern graphical interface, the command line remains indispensable for advanced troubleshooting and system administration.
             </p>
-            <p><strong>Navigation and File Management</strong></p>
+            <p><strong>Basic Command-Line Operations</strong></p>
             <p>
-              Here are some fundamental commands along with practical examples:
-            </p>
-            <ul>
-              <li>
-                <strong>cd</strong>: Changes the current directory.
-                <br /><code>{'cd C:\\Users\\JohnDoe\\Documents'}</code> – Navigates to the Documents folder.
-              </li>
-              <li>
-                <strong>dir</strong>: Lists files and directories.
-                <br /><code>{'dir /a'}</code> – Lists all files including hidden ones.
-              </li>
-              <li>
-                <strong>mkdir</strong>: Creates a new directory.
-                <br /><code>{'mkdir NewProject'}</code> – Creates a folder named NewProject.
-              </li>
-              <li>
-                <strong>copy</strong>: Copies files from one location to another.
-                <br /><code>{'copy file1.txt D:\\Backup\\file1.txt'}</code> – Copies a file to a backup folder.
-              </li>
-              <li>
-                <strong>del</strong>: Deletes specified files.
-                <br /><code>{'del /F /Q file2.txt'}</code> – Forces deletion of a file without prompt.
-              </li>
-            </ul>
-            <p><strong>Advanced Command Line Techniques</strong></p>
-            <p>
-              The command line supports chaining commands and using redirection operators to combine multiple tasks. For example:
+              Fundamental commands include:
             </p>
             <ul>
               <li>
-                <strong>Pipes:</strong> Use the pipe symbol (<code>|</code>) to pass the output of one command as input to another.
-                <br /><code>{'dir | find "Project"'}</code> – Filters the directory listing to show only items containing “Project.”
+                <strong>cd</strong> – Change the current directory (e.g., <code>cd C:\Users\JohnDoe\Documents</code>).
               </li>
               <li>
-                <strong>Redirection:</strong> Redirect output to a file using the <code>&gt;</code> operator.
-                <br /><code>{'ipconfig > networkinfo.txt'}</code> – Saves the output of ipconfig to a text file.
+                <strong>dir</strong> – List directory contents (<code>dir /a</code> shows all files, including hidden ones).
               </li>
               <li>
-                <strong>Chaining Commands:</strong> Use the ampersand (<code>&amp;</code>) to run multiple commands in sequence.
-                <br /><code>{'cd C:\\Logs &amp; dir > loglist.txt'}</code> – Changes directory and then lists files into a file.
+                <strong>mkdir</strong> – Create a new directory (e.g., <code>mkdir NewFolder</code>).
+              </li>
+              <li>
+                <strong>copy</strong> and <strong>move</strong> – Copy and move files between directories.
+              </li>
+              <li>
+                <strong>del</strong> – Delete files (<code>del /F /Q file.txt</code> to force deletion without prompt).
               </li>
             </ul>
-            <p><strong>Real-World Scenarios</strong></p>
+            <p><strong>Writing and Running Batch Scripts</strong></p>
             <p>
-              In a cybersecurity context, the command line is often used to quickly inspect system configurations, monitor network settings, and run diagnostic scripts. For example, an analyst might use:
+              Batch scripts (.bat files) automate repetitive tasks. For example, a simple script can display a welcome message, list directory contents, and pause for user input. Advanced scripts use variables, conditionals, and loops to handle more complex tasks.
             </p>
-            <ul>
-              <li>
-                <strong>netstat -an</strong>: To display active network connections and open ports.
-              </li>
-              <li>
-                <strong>systeminfo</strong>: To retrieve detailed information about the operating system and hardware configuration.
-              </li>
-              <li>
-                <strong>tasklist</strong>: To view currently running processes and identify suspicious activities.
-              </li>
-              <li>
-                <strong>Get-Process</strong>: Retrieves information about running processes.
-                <br /><code>{'Get-Process | Where-Object { $_.CPU -gt 50 }'}</code> – Filters processes using more than 50 CPU seconds.
-              </li>
-            </ul>
+            <p><strong>Troubleshooting with the Command Line</strong></p>
             <p>
-              Mastery of the command line not only increases efficiency but also provides deeper insight into system behavior, which is critical when diagnosing security issues or automating routine administrative tasks.
+              The command line is also used for troubleshooting—commands like <code>ping</code> for network diagnostics, <code>chkdsk</code> for disk integrity checks, and <code>taskkill</code> to terminate unresponsive processes are indispensable tools for system administrators.
+            </p>
+            <p><strong>Practical Exercises and Best Practices</strong></p>
+            <p>
+              Exercises include automating backup tasks with batch scripts and generating system reports. Always comment your scripts and test commands in a safe environment to prevent unintended changes.
             </p>
           </>
         )
@@ -1218,70 +1168,31 @@ const course: Module[] = [
           <>
             <p><strong>Introduction to PowerShell</strong></p>
             <p>
-              Windows PowerShell is a task automation and configuration management framework that provides a powerful command-line shell and scripting language built on .NET. Unlike the traditional Command Prompt, PowerShell is object-oriented, allowing users to work with rich data types and automate complex tasks with ease.
+              Windows PowerShell is a robust automation and configuration management framework built on the .NET platform. Unlike the traditional Command Prompt, PowerShell is object-oriented and allows administrators to work with complex data types, making it ideal for automation, reporting, and advanced system management.
             </p>
-            <p><strong>Core Cmdlets and Their Usage</strong></p>
+            <p><strong>Getting Started and Core Cmdlets</strong></p>
             <p>
-              PowerShell comes with an extensive library of cmdlets. Here are some common examples:
+              Launch PowerShell from the Start Menu or via the Run dialog. Common cmdlets include <code>Get-ChildItem</code> (to list directory contents), <code>Set-Location</code> (to change directories), and <code>Get-Process</code> (to view running processes). The verb–noun naming convention makes it easy to understand each command’s purpose.
             </p>
-            <ul>
-              <li>
-                <strong>Get-Help</strong>: Provides detailed documentation for cmdlets.
-                <br /><code>{'Get-Help Get-Process -Full'}</code> – Displays comprehensive help for the Get-Process cmdlet.
-              </li>
-              <li>
-                <strong>Get-Command</strong>: Lists all available cmdlets.
-                <br /><code>{'Get-Command *service*'}</code> – Finds all commands related to services.
-              </li>
-              <li>
-                <strong>Get-Process</strong>: Retrieves information about running processes.
-                <br /><code>{'Get-Process | Where-Object { $_.CPU -gt 50 }'}</code> – Filters processes using more than 50 CPU seconds.
-              </li>
-              <li>
-                <strong>Stop-Process</strong>: Terminates a process.
-                <br /><code>{'Stop-Process -Name notepad'}</code> – Closes all instances of Notepad.
-              </li>
-            </ul>
             <p><strong>Working with Objects and Pipelines</strong></p>
             <p>
-              One of the key strengths of PowerShell is its ability to pass objects between cmdlets via the pipeline. For example, to list services that are not running:
+              PowerShell pipelines pass objects (rather than plain text) between cmdlets. For example, you can filter processes by CPU usage with:
             </p>
-            <pre>{`Get-Service | Where-Object { $_.Status -ne "Running" }`}</pre>
+            <pre>{`Get-Process | Where-Object { $_.CPU -gt 10 }`}</pre>
             <p>
-              You can then further format the output:
+              Output can be formatted with <code>Format-Table</code> or <code>Format-List</code> for clarity.
             </p>
-            <pre>{`Get-Service | Where-Object { $_.Status -ne "Running" } | Format-Table -AutoSize`}</pre>
-            <p><strong>Scripting Examples</strong></p>
+            <p><strong>Scripting in PowerShell</strong></p>
             <p>
-              PowerShell’s scripting capabilities allow you to automate administrative tasks. Consider the following script that checks disk space and sends an alert if free space is below a threshold:
+              PowerShell scripts, saved with the .ps1 extension, automate complex tasks. Scripts can include variables, loops, conditionals, functions, and error handling via Try/Catch blocks. Sample scripts demonstrate tasks like system monitoring, bulk file renaming, and automated user account management.
             </p>
-            <pre>{`$drives = Get-PSDrive -PSProvider FileSystem
-  foreach ($drive in $drives) {
-      if ($drive.Free -lt 10GB) {
-          Write-Output "Drive $($drive.Name) has low free space: $([math]::round($drive.Free / 1GB,2)) GB remaining."
-      }
-  }`}</pre>
+            <p><strong>Real-World Use Cases and Advanced Features</strong></p>
             <p>
-              Another example involves automating user account management. The following script disables inactive user accounts in Active Directory:
+              Examples include monitoring disk space and sending alerts if free space is low, or automating the disabling of inactive Active Directory accounts. PowerShell’s integration with REST APIs using <code>Invoke-RestMethod</code> further extends its capabilities.
             </p>
-            <pre>{`Import-Module ActiveDirectory
-  $inactiveUsers = Get-ADUser -Filter {LastLogonDate -lt (Get-Date).AddDays(-90)}
-  foreach ($user in $inactiveUsers) {
-      Disable-ADAccount -Identity $user.SamAccountName
-      Write-Output "Disabled account for $($user.SamAccountName)"
-  }`}</pre>
-            <p><strong>Advanced Features</strong></p>
+            <p><strong>Debugging, Best Practices, and Recap</strong></p>
             <p>
-              PowerShell also supports advanced functions, error handling with Try/Catch blocks, and integration with REST APIs. For instance, you can use Invoke-RestMethod to query web services:
-            </p>
-            <pre>{`try {
-      $response = Invoke-RestMethod -Uri "https://api.example.com/data" -Method Get
-      $response.data | Format-Table
-  } catch {
-      Write-Error "Failed to retrieve data: $_"
-  }`}</pre>
-            <p>
-              These examples demonstrate how PowerShell can be leveraged to automate and secure Windows environments. Its flexibility and power make it an essential tool for modern IT professionals and cybersecurity experts.
+              Use proper error handling, add ample comments, and consider script signing for security. Mastering PowerShell equips IT professionals with a powerful tool for system administration and cybersecurity.
             </p>
           </>
         )
@@ -1290,56 +1201,25 @@ const course: Module[] = [
         title: "User Accounts and Permissions",
         summary: (
           <>
-            <p><strong>Managing User Accounts in Windows</strong></p>
+            <p><strong>Understanding User Accounts in Windows</strong></p>
             <p>
-              Windows supports both local and domain-based user accounts. Effective user account management is critical to maintaining a secure environment by ensuring that each user has only the access necessary to perform their tasks.
+              Windows employs a user-based security model with various account types—Administrators, Standard Users, Guest Accounts, and Service Accounts. Each type has distinct privileges designed to balance usability with security.
             </p>
-            <p><strong>Types of User Accounts</strong></p>
-            <ul>
-              <li>
-                <strong>Standard Users:</strong> Limited privileges to reduce the risk of system modifications.
-              </li>
-              <li>
-                <strong>Administrators:</strong> Elevated privileges for system configuration and management.
-              </li>
-              <li>
-                <strong>Guest Accounts:</strong> Temporary access with minimal permissions.
-              </li>
-              <li>
-                <strong>Service Accounts:</strong> Dedicated accounts for running background services and applications.
-              </li>
-            </ul>
+            <p><strong>Creating and Managing User Accounts</strong></p>
+            <p>
+              User accounts can be managed via the Control Panel, Settings, or command-line tools. For example, the <code>net user</code> command creates accounts from the Command Prompt, while PowerShell’s <code>New-LocalUser</code> cmdlet provides a more flexible, scriptable approach.
+            </p>
             <p><strong>Access Control and Permissions</strong></p>
             <p>
-              Windows uses Access Control Lists (ACLs) to manage permissions for files, folders, and other system resources. Each ACL defines which users or groups have access and what level of access they are granted (read, write, execute, etc.). Following the principle of least privilege is essential to minimize the attack surface.
-            </p>
-            <p>
-              For example, system directories like <code>C:\Windows</code> are typically locked down to prevent unauthorized modifications, while user directories under <code>C:\Users</code> are managed with individualized permissions.
+              NTFS permissions and Access Control Lists (ACLs) govern file and folder access. Tools like <code>icacls</code> allow administrators to modify these permissions, ensuring that only authorized users can read, write, or execute sensitive data.
             </p>
             <p><strong>Active Directory and Group Policy</strong></p>
             <p>
-              In enterprise environments, Active Directory (AD) is the cornerstone of user account management. AD allows for centralized control of user accounts, groups, and policies. Group Policy can enforce password complexity, account lockout policies, and other security settings across the organization.
+              In enterprise environments, Active Directory centralizes user management. Group Policy enables administrators to enforce password complexity, account lockout policies, and other security settings across all systems.
             </p>
+            <p><strong>Best Practices and Practical Exercises</strong></p>
             <p>
-              Scripts and administrative tools can be used to automate routine tasks such as onboarding new employees or disabling inactive accounts. This ensures that user privileges remain aligned with job roles and security policies.
-            </p>
-            <p><strong>Best Practices for User Security</strong></p>
-            <ul>
-              <li>
-                <strong>Regular Auditing:</strong> Monitor and review user account activity and permissions.
-              </li>
-              <li>
-                <strong>Strong Authentication:</strong> Implement strong passwords, multi-factor authentication, and account lockout policies.
-              </li>
-              <li>
-                <strong>Role-Based Access Control:</strong> Assign permissions based on job responsibilities to reduce the risk of over-privileged accounts.
-              </li>
-              <li>
-                <strong>User Education:</strong> Train users to recognize social engineering attacks and maintain secure password practices.
-              </li>
-            </ul>
-            <p>
-              A well-managed user account system is a critical component of a secure IT environment. Proper configuration, monitoring, and regular audits help ensure that only authorized users can access sensitive data and system resources.
+              Regular audits, strong authentication measures, and role-based access control are essential. Exercises include creating new user accounts via PowerShell and adjusting folder permissions using both the GUI and command-line tools.
             </p>
           </>
         )
@@ -1350,51 +1230,23 @@ const course: Module[] = [
           <>
             <p><strong>Overview of Windows Security Features</strong></p>
             <p>
-              Windows comes equipped with a suite of built-in security features designed to protect against malware, unauthorized access, and other cyber threats. These features form the backbone of Windows security and are essential for maintaining the integrity and confidentiality of system data.
+              Windows incorporates a comprehensive suite of security features designed to protect against malware, unauthorized access, and other cyber threats. This includes integrated antivirus, firewall, encryption, and robust authentication mechanisms.
             </p>
-            <p><strong>Antivirus and Anti-Malware</strong></p>
+            <p><strong>Built-In Security Tools</strong></p>
             <p>
-              <strong>Windows Defender</strong> is the integrated antivirus solution that continuously monitors system activity for malicious behavior. It is regularly updated to detect and neutralize the latest threats, and its cloud-delivered protection further enhances its responsiveness.
+              Windows Defender provides real-time antivirus protection, while the Windows Firewall controls inbound and outbound network traffic. BitLocker and the Encrypting File System (EFS) offer full-disk and file-level encryption respectively, ensuring data remains secure even if a device is lost or stolen.
             </p>
-            <p><strong>Firewall and Network Protection</strong></p>
+            <p><strong>Auditing, Logging, and Incident Response</strong></p>
             <p>
-              The Windows Firewall helps control incoming and outgoing network traffic. By setting rules and policies, administrators can block unauthorized access and reduce the risk of external attacks. Advanced configurations allow integration with Group Policy for enterprise-wide enforcement.
+              The Windows Event Viewer and audit policies track system activity and security events. Regular log reviews help detect suspicious behavior and support forensic investigations in the event of a breach.
             </p>
-            <p><strong>Data Encryption and Protection</strong></p>
+            <p><strong>Common Security Threats and Mitigation Strategies</strong></p>
             <p>
-              <strong>BitLocker</strong> provides full-disk encryption, ensuring that sensitive data remains protected even if a device is lost or stolen. In addition, the Encrypting File System (EFS) allows for file-level encryption, enabling users to secure specific files and folders.
+              Best practices include keeping systems updated, educating users about phishing and social engineering, and applying the principle of least privilege to minimize potential risks. Regular security audits and robust backup procedures are key components of a secure environment.
             </p>
-            <p><strong>Authentication and Access Controls</strong></p>
+            <p><strong>Practical Exercises and Best Practices</strong></p>
             <p>
-              Windows includes multiple layers of authentication and access control mechanisms. Features such as <strong>Windows Hello</strong> offer biometric authentication options, while User Account Control (UAC) prompts for elevated permissions when necessary. Advanced security tools like Credential Guard and Device Guard further protect against unauthorized code execution and credential theft.
-            </p>
-            <p><strong>System Integrity and Updates</strong></p>
-            <p>
-              Secure Boot ensures that only trusted software is loaded during the startup process. Coupled with regular updates from Windows Update, these features work together to close vulnerabilities and improve overall system resilience.
-            </p>
-            <p><strong>Monitoring and Logging</strong></p>
-            <p>
-              Tools such as the Event Viewer and Audit Policies help administrators monitor system activities, track security events, and conduct forensic investigations when needed. Regular log reviews can be instrumental in detecting unusual activity and preventing potential security breaches.
-            </p>
-            <p>
-              <strong>Best Practices for Leveraging Windows Security:</strong>
-            </p>
-            <ul>
-              <li>
-                <strong>Enable and configure built-in security tools:</strong> Ensure that Windows Defender, BitLocker, and the Firewall are active and properly configured.
-              </li>
-              <li>
-                <strong>Regularly update systems:</strong> Apply patches and updates promptly to protect against known vulnerabilities.
-              </li>
-              <li>
-                <strong>Conduct security audits:</strong> Regularly review logs, monitor user activity, and audit permissions to identify and mitigate potential risks.
-              </li>
-              <li>
-                <strong>User Awareness Training:</strong> Educate users on security best practices, phishing awareness, and safe computing habits.
-              </li>
-            </ul>
-            <p>
-              By integrating these robust security features, Windows provides a multi-layered defense strategy that is essential for protecting sensitive data and maintaining system integrity in an ever-evolving threat landscape.
+              Exercises include configuring firewall rules, enabling BitLocker on non-critical drives, and using the Event Viewer to monitor for unusual activity. Adopting these measures helps maintain system integrity and data confidentiality.
             </p>
           </>
         )
@@ -1410,6 +1262,8 @@ const course: Module[] = [
         }
       ]
     }
+
+  
   },
   {
     id: "module5",
