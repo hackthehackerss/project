@@ -1,207 +1,64 @@
-@import url(https://fonts.googleapis.com/css?family=Fjalla+One);
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Home, AlertTriangle, ArrowLeft, Search } from 'lucide-react';
+import Navigation from '../components/Navigation';
 
-$black:  #000;
-$white:  rgb(255, 254, 226);
-$l-grey: rgb(141, 142, 126);
-$grey:   rgb(100, 100, 100);
-$d-grey: rgb(51, 51, 51);
-$yellow: rgb(255, 171, 43);
-$time: 9s;
+function NotFound() {
+  const [darkMode] = React.useState(true);
 
-$c-width: 36vmin;
-$c-height: 90vmin;
+  return (
+    <div className="min-h-screen bg-background text-white">
+      <Navigation darkMode={darkMode} onToggleDarkMode={() => {}} />
 
-@mixin animation($name) {
-    @-webkit-keyframes #{$name} {@content;}
-    @-moz-keyframes #{$name} {@content;}
-    @-o-keyframes #{$name} {@content;}
-    @keyframes #{$name} {@content;}
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="flex flex-col items-center justify-center min-h-[calc(100vh-16rem)]">
+          <div className="bg-primary-dark/30 rounded-lg p-8 border border-primary-blue/20 max-w-lg w-full text-center relative overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-blue via-primary-red to-primary-blue"></div>
+            
+            <div className="relative">
+              <AlertTriangle className="w-24 h-24 text-primary-red mx-auto mb-6 animate-bounce" />
+              
+              <h1 className="text-6xl font-bold mb-4">404</h1>
+              <h2 className="text-2xl font-semibold mb-6 text-gray-400">Page Not Found</h2>
+              
+              <p className="text-gray-400 mb-8">
+                The page you're looking for doesn't exist or has been moved.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <Link
+                  to="/"
+                  className="flex items-center space-x-2 bg-primary-blue text-background px-6 py-3 rounded-lg hover:bg-secondary-blue transition-all duration-300 w-full sm:w-auto justify-center"
+                >
+                  <Home className="w-5 h-5" />
+                  <span>Go Home</span>
+                </Link>
+
+                <Link
+                  to="/search"
+                  className="flex items-center space-x-2 border border-primary-blue text-primary-blue px-6 py-3 rounded-lg hover:bg-primary-blue/10 transition-all duration-300 w-full sm:w-auto justify-center"
+                >
+                  <Search className="w-5 h-5" />
+                  <span>Search Site</span>
+                </Link>
+              </div>
+
+              <div className="mt-8 pt-8 border-t border-primary-blue/20">
+                <Link
+                  to="/"
+                  className="inline-flex items-center text-primary-blue hover:text-secondary-blue transition-colors"
+                >
+                  <ArrowLeft className="w-5 h-5 mr-2" />
+                  Back to Homepage
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-@mixin animation-use($name) {
-    -webkit-animation: $name $time infinite linear;
-    -moz-animation: $name $time infinite linear;
-    -o-animation: $name $time infinite linear;
-    animation: $name $time infinite linear;
-}
-
-@mixin rotate($val) {
-    -webkit-transform: rotate($val);
-    -ms-transform: rotate($val);
-    transform: rotate($val);
-}
-
-@include animation(rotate) {
-    25% {
-        @include rotate(-28deg);
-    }
-    75% {
-        @include rotate(28deg);
-    }
-}
-
-@mixin message($val) {
-    @include animation(msg_ + $val) {
-        0%, 25%, 75.001%, 100% {
-            @if ($val == 'first') {
-                opacity: 1;
-            } @else {
-                opacity: 0;
-            }
-        }
-    
-        25.001%, 75% {
-            @if ($val == 'first') {
-                opacity: 0;
-            } @else {
-                opacity: 1;
-            }
-        }
-    }
-}
-
-@include message('first');
-@include message('second');
-
-body {
-    margin: 0;
-    overflow: hidden;
-    background: $black;
-}
-html, body, .not-found-page {
-  background: $black !important;
-}
-
-/* Wrapper for the NotFound page content */
-.not-found-page {
-  position: relative;
-  min-height: 100vh;
-
-  /* Optional: if your Navigation should sit above the animation */
-  > *:first-child {
-    position: relative;
-    z-index: 10;
-  }
-
-  .not-found-content {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    /* Center the animated content (the containers below) */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: $c-width;
-    height: .866 * $c-height;
-    margin-left: -($c-width / 2);
-    margin-top: -(.433 * $c-height);
-    
-    &:first-child {
-        transform-origin: 50% 100%;
-        @include animation-use(rotate);
-    }
-    
-    &:last-of-type {
-        pointer-events: none;
-    }
-    
-    #switch {
-        display: none;
-        
-        &:checked ~ .ellipse,
-        &:checked ~ .ray {
-            opacity: 0;
-        }
-    }
-    
-    .ellipse {
-        position: relative;
-        width: $c-width;
-        height: .75 * $c-width;
-        background: $white;
-        border-radius: 50%;
-        z-index: 1;
-    }
-    
-    .ray {
-        position: relative;
-        border-top: .4 * $c-height solid $l-grey;
-        border-left: .13 * $c-height solid transparent;
-        border-right: .13 * $c-height solid transparent;
-        margin-top: -(.14 * $c-height);
-    }
-    
-    .head {
-        position: relative;
-        width: .4 * $c-width;
-        height: .02 * $c-height;
-        margin-left: .3 * $c-width;
-        background: $yellow;
-    }
-    
-    .neck {
-        position: relative;
-        width: .205 * $c-width;
-        margin-left: .3 * $c-width;
-        border-top: .12 * $c-width solid $d-grey;
-        border-left: .1 * $c-width solid transparent;
-        border-right: .1 * $c-width solid transparent;
-    }
-    
-    .body {
-        position: relative;
-        width: .203 * $c-width;
-        margin-left: .4 * $c-width;
-        height: .24 * $c-height;
-        background: $grey;
-    }
-    
-    label {
-        position: absolute;
-        top: .04 * $c-height;
-        left: .073 * $c-width;
-        width: .04 * $c-width;
-        height: .04 * $c-height;
-        border: .012 * $c-width solid $d-grey;
-        background: $yellow;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-  }
-  
-  .msg {
-      position: absolute;
-      width: $c-width;
-      margin-left: -($c-width / 2);
-      left: 50%;
-      text-align: center;
-      font-family: 'Fjalla One', sans-serif;
-      color: $black;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      z-index: 2;
-      
-      &.msg_1 {
-          top: .07 * $c-height;
-          font-size: 12vmin;
-          @include animation-use(msg_first);
-      }
-      
-      &.msg_2 {
-          top: .12 * $c-height;
-          font-size: 4.2vmin;
-          @include animation-use(msg_second);
-      }
-  }
-}
+export default NotFound;
