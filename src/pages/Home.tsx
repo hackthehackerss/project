@@ -273,7 +273,8 @@ function Home() {
     </a>
 
     <style>
-      :root {
+                }
+                root {
         --card-height: 300px;
         --card-width: calc(var(--card-height) / 1.5);
       }
