@@ -252,146 +252,128 @@ function Home() {
         </div>
 
         {/* Main Image with 3D Tilt, Floating, Rotation & Glowing Frame */}
-        <Link
-  to="/learning-paths"
-  className="mb-16 reveal transition-transform duration-300 relative w-3/4 md:w-2/3 lg:w-1/2"
->
-  <div className="animate-float">
-    <div
-      className={`absolute inset-0 border-4 ${
-        darkMode ? "border-primary-blue" : "border-black"
-      } rounded-lg z-0 animate-glow-blue-red`}
-    ></div>
-    <div
-      className={`relative z-10 p-2 border-4 ${
-        darkMode ? "border-primary-blue/30" : "border-black/30"
-      } rounded-lg overflow-hidden`}
-    >
       <a href="" alt="Mythrill" target="_blank">
-  <div class="card">
-    <div class="wrapper">
-      <img src="public/index_card/read-box.jpg" class="cover-image" />
-    </div>
-    <img src="https://ggayane.github.io/css-experiments/cards/dark_rider-title.png" class="title" />
-    <img src="public/index_card/1.jpg" class="character" />
-  </div>
-</a>
+      <div class="card">
+        <div class="wrapper">
+          <img src="public/index_card/read-box.jpg" class="cover-image" />
+        </div>
+        <img src="https://ggayane.github.io/css-experiments/cards/dark_rider-title.png" class="title" />
+        <img src="public/index_card/1.jpg" class="character" />
+      </div>
+    </a>
 
-<a href="" alt="Mythrill" target="_blank">
-  <div class="card">
-    <div class="wrapper">
-    <img src="public/index_card/blue-box.jpg" class="cover-image" />
-    </div>
-    <img src="https://ggayane.github.io/css-experiments/cards/force_mage-title.png" class="title" />
-    <img src="public/index_card/2.jpg" class="character" />
-  </div>
-</a>
+    <a href="" alt="Mythrill" target="_blank">
+      <div class="card">
+        <div class="wrapper">
+          <img src="public/index_card/blue-box.jpg" class="cover-image" />
+        </div>
+        <img src="https://ggayane.github.io/css-experiments/cards/force_mage-title.png" class="title" />
+        <img src="public/index_card/2.jpg" class="character" />
+      </div>
+    </a>
 
-<style>
-  :root {
-  --card-height: 300px;
-  --card-width: calc(var(--card-height) / 1.5);
-}
-* {
-  box-sizing: border-box;
-}
+    <style>
+      :root {
+        --card-height: 300px;
+        --card-width: calc(var(--card-height) / 1.5);
+      }
+      * {
+        box-sizing: border-box;
+      }
 
-.card {
-  width: var(--card-width);
-  height: var(--card-height);
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding: 0 36px;
-  perspective: 2500px;
-  margin: 0 50px;
-}
+      .card {
+        width: var(--card-width);
+        height: var(--card-height);
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        padding: 0 36px;
+        perspective: 2500px;
+        margin: 0 50px;
+      }
 
-.cover-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+      .cover-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
 
-.wrapper {
-  transition: all 0.5s;
-  position: absolute;
-  width: 100%;
-  z-index: -1;
-}
+      .wrapper {
+        transition: all 0.5s;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+      }
 
-.card:hover .wrapper {
-  transform: perspective(900px) translateY(-5%) rotateX(25deg) translateZ(0);
-  box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-  -webkit-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-}
+      .card:hover .wrapper {
+        transform: perspective(900px) translateY(-5%) rotateX(25deg) translateZ(0);
+        box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+        -webkit-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
+      }
 
-.wrapper::before,
-.wrapper::after {
-  content: "";
-  opacity: 0;
-  width: 100%;
-  height: 80px;
-  transition: all 0.5s;
-  position: absolute;
-  left: 0;
-}
-.wrapper::before {
-  top: 0;
-  height: 100%;
-  background-image: linear-gradient(
-    to top,
-    transparent 46%,
-    rgba(12, 13, 19, 0.5) 68%,
-    rgba(12, 13, 19) 97%
-  );
-}
-.wrapper::after {
-  bottom: 0;
-  opacity: 1;
-  background-image: linear-gradient(
-    to bottom,
-    transparent 46%,
-    rgba(12, 13, 19, 0.5) 68%,
-    rgba(12, 13, 19) 97%
-  );
-}
+      .wrapper::before,
+      .wrapper::after {
+        content: "";
+        opacity: 0;
+        width: 100%;
+        height: 80px;
+        transition: all 0.5s;
+        position: absolute;
+        left: 0;
+      }
+      .wrapper::before {
+        top: 0;
+        height: 100%;
+        background-image: linear-gradient(
+          to top,
+          transparent 46%,
+          rgba(12, 13, 19, 0.5) 68%,
+          rgba(12, 13, 19) 97%
+        );
+      }
+      .wrapper::after {
+        bottom: 0;
+        opacity: 1;
+        background-image: linear-gradient(
+          to bottom,
+          transparent 46%,
+          rgba(12, 13, 19, 0.5) 68%,
+          rgba(12, 13, 19) 97%
+        );
+      }
 
-.card:hover .wrapper::before,
-.wrapper::after {
-  opacity: 1;
-}
+      .card:hover .wrapper::before,
+      .wrapper::after {
+        opacity: 1;
+      }
 
-.card:hover .wrapper::after {
-  height: 120px;
-}
-.title {
-  width: 100%;
-  transition: transform 0.5s;
-}
-.card:hover .title {
-  transform: translate3d(0%, -50px, 100px);
-}
+      .card:hover .wrapper::after {
+        height: 120px;
+      }
+      .title {
+        width: 100%;
+        transition: transform 0.5s;
+      }
+      .card:hover .title {
+        transform: translate3d(0%, -50px, 100px);
+      }
 
-.character {
-  width: 100%;
-  opacity: 0;
-  transition: all 0.5s;
-  position: absolute;
-  z-index: -1;
-}
+      .character {
+        width: 100%;
+        opacity: 0;
+        transition: all 0.5s;
+        position: absolute;
+        z-index: -1;
+      }
 
-.card:hover .character {
-  opacity: 1;
-  transform: translate3d(0%, -30%, 100px);
-}
+      .card:hover .character {
+        opacity: 1;
+        transform: translate3d(0%, -30%, 100px);
+      }
 
-</style>
-    </div>
-  </div>
-</Link>
+    </style>
       </div>
 
       {/* Get Hands-On Experience Section */}
