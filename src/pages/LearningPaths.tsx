@@ -186,7 +186,7 @@ function LearningPaths() {
       icon: Network,
       difficulty: "Beginner",
       access: "Free",
-      image: "/Learning Paths/pentestbasic.jpeg",
+      image: "/Learning Paths/tor.jpeg",
       progress: 0,
       modules: [
         {
@@ -250,7 +250,7 @@ function LearningPaths() {
       icon: Sword,
       difficulty: "Advanced",
       access: "Pro",
-      image: "/Learning Paths/oscp.jpeg",
+      image: "/Learning Paths/oswp.jpeg",
       progress: 0,
       modules: [
         {
